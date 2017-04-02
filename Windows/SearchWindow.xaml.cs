@@ -25,11 +25,6 @@ namespace TranslatorApk.Windows
     /// </summary>
     public sealed partial class SearchWindow : INotifyPropertyChanged
     {
-        public enum FileTypes
-        {
-            Xml, Smali
-        }
-
         public class FoundItem
         {
             public string FileName { get; }
