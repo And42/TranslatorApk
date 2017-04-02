@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.WebServices
 {

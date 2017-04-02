@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Windows;
 
 namespace TranslatorApk

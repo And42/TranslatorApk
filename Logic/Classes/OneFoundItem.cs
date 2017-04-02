@@ -1,4 +1,5 @@
 ﻿using AndroidTranslator;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.Classes
 {

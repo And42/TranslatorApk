@@ -10,15 +10,11 @@ using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 
-namespace TranslatorApk.Logic
+namespace TranslatorApk.Logic.OrganisationItems
 {
     public class GlobalVariables : INotifyPropertyChanged
     {
         public static GlobalVariables Instance { get; } = new GlobalVariables();
-
-        public static readonly Dictionary<string, string> SessionDictionary = new Dictionary<string, string>();
-
-        public const string LogLine = "------------------------------";
 
         static GlobalVariables()
         {
@@ -28,16 +24,18 @@ namespace TranslatorApk.Logic
             PathToExe = Assembly.GetExecutingAssembly().Location;
 #endif
 
-            PathToStartFolder = Path.GetDirectoryName(PathToExe);
-            PathToAdminScripter = PathToStartFolder + "\\AdminScripter.exe";
-            PathToFiles = PathToStartFolder + "\\Files";
-            PathToPlugins = PathToFiles + "\\Plugins";
-            PathToResources = PathToFiles + "\\Resources";
-            PathToApktoolVersions = PathToResources + "\\apktools";
-            PathToLogs = PathToStartFolder + "\\Logs";
+            PathToStartFolder       = Path.GetDirectoryName(PathToExe);
+            PathToFiles             = PathToStartFolder + "\\Files";
+            PathToResources         = PathToFiles + "\\Resources";
+
+            PathToApktoolVersions   = PathToResources + "\\apktools";
+            PathToAdminScripter     = PathToStartFolder + "\\AdminScripter.exe";
+            PathToPlugins           = PathToFiles + "\\Plugins"; 
+            PathToLogs              = PathToStartFolder + "\\Logs";
+
             EditableFileExtenstions = new[] { ".xml", ".smali" };
-            ProgramVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Portable = File.Exists(PathToStartFolder + "\\isportable");
+            ProgramVersion          = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Portable                = File.Exists(PathToStartFolder + "\\isportable");
 
             ThemesMap.Add("Light", Resources.Localizations.Resources.Theme_Light);
             ThemesMap.Add("Dark", Resources.Localizations.Resources.Theme_Dark);
@@ -47,7 +45,12 @@ namespace TranslatorApk.Logic
                 : new ObservableCollection<CheckableString>();
         }
 
-#region Readonly properties
+        #region Readonly properties
+
+        /// <summary>
+        /// Словарь переводов сессии
+        /// </summary>
+        public static readonly Dictionary<string, string> SessionDictionary = new Dictionary<string, string>();
 
         /// <summary>
         /// Путь к exe файлу
@@ -123,16 +126,18 @@ namespace TranslatorApk.Logic
         /// </summary>
         public static OneTranslationService CurrentTranslationService { get; set; }
 
-#region Consts
+        #region Consts
 
         /// <summary>
         /// Агент Mozilla для WebClient
         /// </summary>
         public const string MozillaAgent = "Mozilla/4.0 (compatible; MSIE 6.0b; Windows NT 5.1)";
 
-#endregion
+        public const string LogLine = "------------------------------";
 
-#region Properties with INotifyPropertyChanged
+        #endregion
+
+        #region Properties with INotifyPropertyChanged
 
         /// <summary>
         /// Папка текущего проекта
@@ -204,7 +209,7 @@ namespace TranslatorApk.Logic
 
 #endregion
 
-#region Settings
+        #region Settings
 
         /// <summary>
         /// Settings.Default.FoldersOfLanguages as list
@@ -216,9 +221,9 @@ namespace TranslatorApk.Logic
         /// </summary>
         public static List<string> Settings_NamesOfFolderLanguages { get; set; } = Resources.Localizations.Resources.NamesOfFolderLanguages.Split('|').ToList();
 
-#endregion
+        #endregion
 
-#region PropertyChanged
+        #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -228,6 +233,6 @@ namespace TranslatorApk.Logic
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-#endregion
+        #endregion
     }
 }

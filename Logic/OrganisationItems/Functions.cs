@@ -28,7 +28,6 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Windows;
@@ -38,9 +37,9 @@ using UsefulFunctionsLib;
 
 using LocRes = TranslatorApk.Resources.Localizations.Resources;
 using Settings = TranslatorApk.Properties.Settings;
-using SetInc = TranslatorApk.Logic.SettingsIncapsuler;
+using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
-namespace TranslatorApk.Logic
+namespace TranslatorApk.Logic.OrganisationItems
 {
     public static class Functions
     {

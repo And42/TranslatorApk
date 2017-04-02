@@ -3,7 +3,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
+
+using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
@@ -15,15 +17,15 @@ namespace TranslatorApk.Windows
         /// <summary>
         /// Возвращает версию программы
         /// </summary>
-        public string Version => GlobalVariables.ProgramVersion;
+        public string Version { get; } = GlobalVariables.ProgramVersion;
 
         /// <summary>
         /// Иконка программы
         /// </summary>
-        public ImageSource ImgSrc => new BitmapImage(new Uri("pack://application:,,,/TranslatorApk;component/TranslatorApk.ico"));
+        public ImageSource ImgSrc { get; } = new BitmapImage(new Uri("pack://application:,,,/TranslatorApk;component/TranslatorApk.ico"));
 
         /// <summary>
-        /// Создаёт класс окна информации
+        /// Создаёт новый экземпляр окна информации
         /// </summary>
         public AboutProgramWindow()
         {
@@ -33,7 +35,7 @@ namespace TranslatorApk.Windows
         private void WebMoneyClick(object sender, MouseButtonEventArgs e)
         {
             Clipboard.SetText("R897735207346");
-            MessBox.ShowDial(TranslatorApk.Resources.Localizations.Resources.AccountNumberIsCopied);
+            MessBox.ShowDial(Res.AccountNumberIsCopied);
         }
     }
 }

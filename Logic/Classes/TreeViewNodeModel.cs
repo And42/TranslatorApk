@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Interfaces;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.Classes
 {

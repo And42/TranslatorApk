@@ -12,7 +12,6 @@ using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.ScrollAxis;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;

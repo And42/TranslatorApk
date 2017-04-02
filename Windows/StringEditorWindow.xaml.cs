@@ -7,6 +7,8 @@ using TranslatorApk.Annotations;
 using TranslatorApk.Logic;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.OrganisationItems;
+
 using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows

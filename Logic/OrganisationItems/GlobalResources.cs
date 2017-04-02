@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
 
-namespace TranslatorApk.Logic
+namespace TranslatorApk.Logic.OrganisationItems
 {
     public static class GlobalResources
     {

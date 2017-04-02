@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
-        xmlns:logic="clr-namespace:TranslatorApk.Logic"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-     
-        Topmost="{Binding TopMost, Source={x:Static logic:GlobalVariables.Instance}, Mode=OneWay}"
+        xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
         mc:Ignorable="d" Style="{StaticResource WindowStyle}"
         Title="{x:Static localization:Resources.Plugins}" 
         MinHeight="300" MinWidth="300" Width="830" Height="500" WindowStartupLocation="CenterScreen"

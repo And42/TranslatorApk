@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -10,7 +9,7 @@ using Microsoft.Win32;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
-
+using TranslatorApk.Logic.OrganisationItems;
 using Res = TranslatorApk.Resources.Localizations.Resources;
 
 using static TranslatorApk.Resources.Localizations.Resources;

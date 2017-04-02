@@ -187,9 +187,7 @@
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
     <Compile Include="Logic\EventManagerLogic\ManualEvent.cs" />
-    <Compile Include="Logic\EventModuler.cs" />
-    <Compile Include="Logic\Events\ActivateEditorWindowEvent.cs" />
-    <Compile Include="Logic\Events\CloseEditorSearchWindowEvent.cs" />
+    <Compile Include="Logic\OrganisationItems\EventModuler.cs" />
     <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToStringAndSelectEvent.cs" />
@@ -198,7 +196,7 @@
     <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\ServiceLocator.cs" />
     <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
-    <Compile Include="Logic\SettingsIncapsuler.cs" />
+    <Compile Include="Logic\OrganisationItems\SettingsIncapsuler.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
@@ -221,7 +219,7 @@
     <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
     <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
-    <Compile Include="Logic\Functions.cs" />
+    <Compile Include="Logic\OrganisationItems\Functions.cs" />
     <Compile Include="Logic\WebJsonResponses\GoogleTranslateResponse.cs" />
     <Compile Include="Logic\Classes\Options.cs" />
     <Compile Include="Logic\Classes\Setting.cs" />
@@ -233,8 +231,8 @@
     <Compile Include="Logic\WebServices\YandexDetectService.cs" />
     <Compile Include="Logic\WebServices\YandexTranslateService.cs" />
     <Compile Include="Logic\WebJsonResponses\YandexTranslateResponse.cs" />
-    <Compile Include="Logic\GlobalResources.cs" />
-    <Compile Include="Logic\GlobalVariables.cs" />
+    <Compile Include="Logic\OrganisationItems\GlobalResources.cs" />
+    <Compile Include="Logic\OrganisationItems\GlobalVariables.cs" />
     <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
     <Compile Include="Logic\Converters\OptionsToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\InstallTextConverter.cs" />

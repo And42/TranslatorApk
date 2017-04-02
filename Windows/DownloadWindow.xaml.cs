@@ -3,7 +3,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
+
+using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
@@ -24,10 +26,13 @@ namespace TranslatorApk.Windows
             try
             {
                 var webClient = new WebClient();
+
                 webClient.DownloadProgressChanged += client_DownloadProgressChanged;
                 webClient.DownloadFileCompleted += client_DownloadFileCompleted;
                 webClient.Headers.Add("user-agent", GlobalVariables.MozillaAgent);
+
                 var address = new Uri("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_download");
+
                 webClient.DownloadFileAsync(address, "NewVersion.update");
             }
             catch (Exception)
@@ -48,7 +53,7 @@ namespace TranslatorApk.Windows
             }
             catch (Exception)
             {
-                MessBox.ShowDial(TranslatorApk.Resources.Localizations.Resources.CantUpdateProgram, TranslatorApk.Resources.Localizations.Resources.ErrorLower);
+                MessBox.ShowDial(Res.CantUpdateProgram, Res.ErrorLower);
                 Close();
             }
         }
@@ -58,7 +63,7 @@ namespace TranslatorApk.Windows
             ProcessBar.Value = e.ProgressPercentage;
         }
 
-        private void DownloadCS_Load(object sender, EventArgs e)
+        private void DownloadWindow_Load(object sender, EventArgs e)
         {
             UpdateApplication();
         }

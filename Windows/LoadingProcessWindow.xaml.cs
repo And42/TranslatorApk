@@ -6,7 +6,7 @@ using TranslatorApk.Annotations;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Threading;
-using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Windows
 {

@@ -9,10 +9,10 @@ using System.Windows;
 using System.Windows.Input;
 using AndroidTranslator;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 

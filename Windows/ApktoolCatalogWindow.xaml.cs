@@ -10,8 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using HtmlAgilityPack;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
 using StringResources = TranslatorApk.Resources.Localizations.Resources;

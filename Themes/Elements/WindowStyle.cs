@@ -119,29 +119,10 @@ namespace TranslatorApk.Themes.Elements
         #region P/Invoke
 
         const int WM_SYSCOMMAND = 0x112;
-        const int SC_SIZE = 0xF000;
         const int SC_KEYMENU = 0xF100;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-        void DragSize(IntPtr handle, SizingAction sizingAction)
-        {
-            SendMessage(handle, WM_SYSCOMMAND, (IntPtr)(SC_SIZE + sizingAction), IntPtr.Zero);
-            SendMessage(handle, 514, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        private enum SizingAction
-        {
-            North = 3,
-            South = 6,
-            East = 2,
-            West = 1,
-            NorthEast = 5,
-            NorthWest = 4,
-            SouthEast = 8,
-            SouthWest = 7
-        }
 
         #endregion
 

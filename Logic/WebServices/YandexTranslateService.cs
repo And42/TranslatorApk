@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using TranslatorApk.Logic.OrganisationItems;
 
 // ReSharper disable CollectionNeverUpdated.Local
 // ReSharper disable ClassNeverInstantiated.Local

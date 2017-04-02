@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using Newtonsoft.Json;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -87,7 +86,7 @@ namespace TranslatorApk.Logic.WebServices
             string result;
             try
             {
-                result = YandexTranslateService.Translate(text, targetLanguage).ToString();
+                result = YandexTranslateService.Translate(text, targetLanguage);
             }
             catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
             return result;

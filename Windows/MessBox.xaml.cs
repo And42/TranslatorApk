@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
 using StringResources = TranslatorApk.Resources.Localizations.Resources;

@@ -7,8 +7,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
+using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
+
 using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows

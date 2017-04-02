@@ -15,7 +15,6 @@ using AndroidLibs;
 using AndroidTranslator;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
@@ -35,7 +34,7 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Point = System.Drawing.Point;
 using Settings = TranslatorApk.Properties.Settings;
 using MButtons = TranslatorApk.Windows.MessBox.MessageButtons;
-using SetInc = TranslatorApk.Logic.SettingsIncapsuler;
+using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
 namespace TranslatorApk.Windows
 {

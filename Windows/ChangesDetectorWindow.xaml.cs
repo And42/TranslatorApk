@@ -12,9 +12,10 @@ using AndroidLibs;
 using AndroidTranslator;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
+
 using MessageBox = System.Windows.Forms.MessageBox;
 using Strings = TranslatorApk.Resources.Localizations.Resources;
 
