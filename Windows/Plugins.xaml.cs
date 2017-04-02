@@ -128,8 +128,8 @@ namespace TranslatorApk.Windows
 
         private async void Plugins_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Dictionary<string, string> existingPlugins = Directory.Exists(GlobalVariables.PathToPlugins) ?
-                Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll").ToDictionary(Path.GetFileNameWithoutExtension, it => it)
+            Dictionary<string, string> existingPlugins = Directory.Exists(GlobalVariables.PathToPlugins) 
+                ? Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll").ToDictionary(Path.GetFileNameWithoutExtension, it => it)
                 : new Dictionary<string, string>();
 
             string plugs;
@@ -154,12 +154,12 @@ namespace TranslatorApk.Windows
                     : null;
 
                 v.Installed = version != null 
-                ? v.LatestVersion == null 
-                    ? InstallOptionsEnum.ToUninstall 
-                    : (Functions.CompareVersions(v.LatestVersion, version) == 1 
-                        ? InstallOptionsEnum.ToUpdate
-                        : InstallOptionsEnum.ToUninstall) 
-                : InstallOptionsEnum.ToInstall;
+                    ? v.LatestVersion == null 
+                        ? InstallOptionsEnum.ToUninstall 
+                        : (Functions.CompareVersions(v.LatestVersion, version) == 1 
+                            ? InstallOptionsEnum.ToUpdate
+                            : InstallOptionsEnum.ToUninstall) 
+                    : InstallOptionsEnum.ToInstall;
                 v.Version = version ?? "";
             });
 
@@ -239,60 +239,6 @@ namespace TranslatorApk.Windows
                     InstallPlugin(item);
                     break;
             }
-
-            //return;
-
-            //if (item.Installed == InstallOptionsEnum.ToUninstall)
-            //{
-            //    string dllName = $"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll";
-            //    string dirName = $"{GlobalVariables.PathToPlugins}\\{item.DllName}";
-
-            //    try
-            //    {
-            //        File.Delete(dllName);
-            //        Directory.Delete(dirName, true);
-            //    }
-            //    catch (UnauthorizedAccessException)
-            //    {
-            //        Process process;
-            //        if (!Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, $"\"delete file|{dllName}\" \"delete folder|{dirName}\"", out process))
-            //            return;
-
-            //        process.WaitForExit();
-            //    }
-                
-            //    Functions.UnloadPlugin(item.DllName);
-            //    item.Installed = false;
-            //    item.Version = "";
-            //    return;
-            //}
-
-            //string zipPath = $"{GlobalVariables.PathToPlugins}\\{item.Title}.zip";
-            //string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
-
-            //if (Functions.CheckRights())
-
-            //{
-            //    Process.Start(GlobalVariables.PathToAdminScripter, arguments)?.WaitForExit();
-
-            //    string dllPath = $"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll";
-
-            //    item.Installed = true;
-            //    item.Version = Functions.GetDllVersion(dllPath);
-
-            //    Functions.LoadPlugin(dllPath);
-            //}
-            //else
-            //{
-            //    Process process;
-            //    if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out process))
-            //    {
-            //        process.WaitForExit();
-
-            //        item.Installed = true;
-            //        Functions.LoadPlugin($"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll");
-            //    }
-            //}
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
