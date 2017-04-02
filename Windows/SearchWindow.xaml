@@ -7,7 +7,8 @@
         Title="{x:Static localization:Resources.Search}" Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         Loaded="SearchWindow_OnLoaded"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" 
+        IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}"
         FontSize="14" Style="{DynamicResource WindowStyle}">
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -40,19 +41,38 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-                <Label.Content>
+            <TextBlock VerticalAlignment="Center">
+                <TextBlock.Text>
                     <Binding StringFormat="{}{0}:" Source="{x:Static localization:Resources.Text}"/>
-                </Label.Content>
-            </Label>
-            <ComboBox x:Name="SearchBox" KeyUp="SearchBox_OnKeyUp" TabIndex="0" IsTextSearchEnabled="False" MaxDropDownHeight="300" SelectedIndex="{Binding SearchBoxIndex}" Text="{Binding TextToSearch}" ItemsSource="{Binding SearchAdds}" Margin="5, 0, 5, 0" Grid.Column="1" Grid.Row="1" IsEditable="True"/>
-            <Button TabIndex="1" Padding="5,3,5,3" Grid.Row="1" Grid.Column="2" Click="FindFiles" IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}" Content="{x:Static localization:Resources.Find}"/>
+                </TextBlock.Text>
+            </TextBlock>
+            <ComboBox 
+                x:Name="SearchBox"
+                Grid.Column="1"
+                TabIndex="0" 
+                Margin="5,0" 
+                IsEditable="True"
+                MaxDropDownHeight="300" 
+                KeyUp="SearchBox_OnKeyUp" 
+                IsTextSearchEnabled="False" 
+                Text="{Binding TextToSearch}" 
+                ItemsSource="{Binding SearchAdds}"
+                SelectedIndex="{Binding SearchBoxIndex}" />
+            <Button 
+                Grid.Column="2"
+                TabIndex="1" 
+                Click="FindFilesClick" 
+                Padding="5,3,5,3"
+                Content="{x:Static localization:Resources.Find}"/>
         </Grid>
 
         <ListView x:Name="FilesView" Grid.Row="2" ItemsSource="{Binding Files}" MouseDoubleClick="ListView_MouseDoubleClick" KeyUp="FilesView_OnKeyUp">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Height="29" Margin="5,6,5,0" FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Text="{Binding}"/>
+                    <TextBlock 
+                        Height="29" Margin="5,6,5,0" 
+                        Text="{Binding FileName}"
+                        FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

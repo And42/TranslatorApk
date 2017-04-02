@@ -125,7 +125,7 @@ namespace TranslatorApk.Windows
 
             while (!created) Thread.Sleep(100);
 
-#if !DEBUG
+//#if !DEBUG
             var th = new Thread(() =>
             {
                 try
@@ -143,15 +143,15 @@ namespace TranslatorApk.Windows
             };
             th.SetApartmentState(ApartmentState.STA);
             th.Start();
-#else
-            threadActions(cancellationToken);
-#endif
+//#else
+            //threadActions(cancellationToken);
+//#endif
 
             Task.Factory.StartNew(() =>
             {
-#if !DEBUG
+//#if !DEBUG
                 th.Join();
-#endif
+//#endif
                 Dispatcher thr = Dispatcher.FromThread(loadingWindowTh);
 
                 if (thr != null && loadingWindowTh.IsAlive && !thr.HasShutdownStarted)

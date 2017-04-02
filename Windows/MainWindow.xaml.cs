@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Shell;
@@ -45,15 +44,18 @@ namespace TranslatorApk.Windows
     /// </summary>
     public partial class MainWindow : INotifyPropertyChanged
     {
-        #region Variables
-
-        private static string[] Arguments;
+        #region Поля
 
         public static MainWindow Instance { get; private set; }
 
+        private static string[] Arguments;
+
+        private readonly Timer fileImagePreviewTimer = new Timer { Interval = 500 };
+        private PreviewWindow fileImagePreviewWindow;
+
         #endregion
 
-        #region Properties
+        #region Свойства
 
         public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel(null); 
 
@@ -80,8 +82,6 @@ namespace TranslatorApk.Windows
 
         public Apktools apk;
 
-        private static readonly Logger androidLogger = new Logger(GlobalVariables.PathToLogs, false);
-
         public Setting<bool>[] MainWindowSettings { get; }
 
         public string LogBoxText
@@ -97,6 +97,8 @@ namespace TranslatorApk.Windows
                 OnPropertyChanged(nameof(LogBoxText));
             }
         }
+
+        private static readonly Logger androidLogger = new Logger(GlobalVariables.PathToLogs, false);
 
         private readonly StringBuilder logTextBuilder = new StringBuilder();
 
@@ -140,7 +142,7 @@ namespace TranslatorApk.Windows
             TaskbarItemInfo = new TaskbarItemInfo();
         }
 
-        #region Buttons
+        #region Кнопки
 
         /// <summary>
         /// Обрабатывает нажатие на кнопку "Выбрать файл"
@@ -290,7 +292,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region Menu buttons
+        #region Кнопки меню
 
         private void OpenPluginsWindowClick(object sender, RoutedEventArgs e)
         {
@@ -324,7 +326,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region Global ContextMenu functions
+        #region Кнопки общего контекстного меню
 
         private void RefreshClick(object sender, RoutedEventArgs e)
         {
@@ -351,7 +353,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region File ContextMenu functions
+        #region Кнопки контекстного меню файла
 
         private void OpenClick(object sender, RoutedEventArgs e)
         {
@@ -403,7 +405,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region Folder ContextMenu functions
+        #region Кнопки контекстного меню папки
 
         private void OpenInExplorerClick(object sender, RoutedEventArgs e)
         {
@@ -438,7 +440,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region Window events
+        #region События окна
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -482,6 +484,12 @@ namespace TranslatorApk.Windows
         {
             androidLogger.Stop();
             SetInc.MainWindowSize = new Point((int)Width, (int)Height);
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.F)
+                SearchClick();
         }
 
         #endregion
@@ -552,8 +560,8 @@ namespace TranslatorApk.Windows
 
             if (files.Count > 0)
             {
-                ManualEventManager.GetEvent<EditFilesEvent>()
-                    .Publish(new EditFilesEvent(files, false));
+                ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                    .Publish(new AddEditableFilesEvent(files, false));
 
                 string fileName = files[0].FileName;
 
@@ -618,8 +626,8 @@ namespace TranslatorApk.Windows
 
                     WindowManager.ActivateWindow<EditorWindow>();
 
-                    ManualEventManager.GetEvent<EditFilesEvent>()
-                        .Publish(new EditFilesEvent(res));
+                    ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                        .Publish(new AddEditableFilesEvent(res));
                 }
             );
         }
@@ -659,8 +667,8 @@ namespace TranslatorApk.Windows
 
                     WindowManager.ActivateWindow<EditorWindow>();
 
-                    ManualEventManager.GetEvent<EditFilesEvent>()
-                        .Publish(new EditFilesEvent(res));
+                    ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                        .Publish(new AddEditableFilesEvent(res));
                 }
             );
         }
@@ -681,6 +689,66 @@ namespace TranslatorApk.Windows
             }
         }
 
+        private void TreeViewItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (!SettingsIncapsuler.ShowPreviews)
+                return;
+
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.HasPreview)
+            {
+                fileImagePreviewWindow = new PreviewWindow(node.Image);
+                fileImagePreviewTimer.Start();
+            }
+        }
+
+        private void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!SettingsIncapsuler.ShowPreviews)
+                return;
+
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.HasPreview)
+            {
+                fileImagePreviewTimer.Stop();
+                try
+                {
+                    fileImagePreviewWindow?.Close();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                fileImagePreviewWindow = null;
+            }
+        }
+
+        private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!SettingsIncapsuler.ShowPreviews)
+                return;
+
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.HasPreview)
+            {
+                fileImagePreviewTimer.Stop();
+                fileImagePreviewTimer.Start();
+
+                try
+                {
+                    fileImagePreviewWindow.Close();
+                    fileImagePreviewWindow = new PreviewWindow(node.Image);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -694,9 +762,6 @@ namespace TranslatorApk.Windows
                     Header = action.Item.GetActionTitle(),
                     DataContext = action
                 };
-
-                // ReSharper disable once IsExpressionAlwaysTrue
-                Debug.Assert(action is PluginPart<IAdditionalAction>, "action.Value is PluginPart<IAdditionalAction>");
 
                 item.Click += PluginItem_Click;
 
@@ -762,6 +827,7 @@ namespace TranslatorApk.Windows
         private void LoadSettings()
         {
             Point size = Settings.Default.MainWindowSize;
+
             if (!size.IsEmpty)
             {
                 Width = size.X;
@@ -889,8 +955,8 @@ namespace TranslatorApk.Windows
 
             WindowManager.ActivateWindow<EditorWindow>();
 
-            ManualEventManager.GetEvent<EditFilesEvent>()
-                .Publish(new EditFilesEvent(file));
+            ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                .Publish(new AddEditableFilesEvent(file));
         }
         
         private void Expand(TreeViewNodeModel item, bool expand = true)
@@ -943,74 +1009,5 @@ namespace TranslatorApk.Windows
         }
 
         #endregion
-
-        private readonly Timer fileImagePreviewTimer = new Timer { Interval = 500 };
-        private PreviewWindow fileImagePreviewWindow;
-
-        private void TreeViewItem_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (!SettingsIncapsuler.ShowPreviews)
-                return;
-
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
-
-            if (node.Options.HasPreview)
-            {
-                fileImagePreviewWindow = new PreviewWindow(node.Image);                
-                fileImagePreviewTimer.Start();
-            }
-        }
-
-        private void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!SettingsIncapsuler.ShowPreviews)
-                return;
-
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
-
-            if (node.Options.HasPreview)
-            {
-                fileImagePreviewTimer.Stop();
-                try
-                {
-                    fileImagePreviewWindow?.Close();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-                fileImagePreviewWindow = null;
-            }
-        }
-
-        private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!SettingsIncapsuler.ShowPreviews)
-                return;
-
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
-
-            if (node.Options.HasPreview)
-            {
-                fileImagePreviewTimer.Stop();
-                fileImagePreviewTimer.Start();
-
-                try
-                {
-                    fileImagePreviewWindow.Close();
-                    fileImagePreviewWindow = new PreviewWindow(node.Image);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
-        }
-
-        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.F)
-                SearchClick();
-        }
     }
 }

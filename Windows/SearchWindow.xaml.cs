@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
@@ -9,7 +11,9 @@ using AndroidTranslator;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
-
+using TranslatorApk.Logic.EventManagerLogic;
+using TranslatorApk.Logic.Events;
+using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -21,19 +25,40 @@ namespace TranslatorApk.Windows
     /// </summary>
     public sealed partial class SearchWindow : INotifyPropertyChanged
     {
-        public ObservableCollection<string> Files
+        public enum FileTypes
         {
-            get { return _files; }
-            private set
+            Xml, Smali
+        }
+
+        public class FoundItem
+        {
+            public string FileName { get; }
+            public string Text { get; }
+
+            public FoundItem(string fileName, string text)
             {
-                if (_files == value) return;
-                _files = value;
-                OnPropertyChanged(nameof(Files));
+                FileName = fileName;
+                Text = text;
             }
         }
-        private ObservableCollection<string> _files = new ObservableCollection<string>();
 
-        public bool Working { get; set; }
+        public ObservableRangeCollection<FoundItem> Files { get; } = new ObservableRangeCollection<FoundItem>();
+        public ObservableCollection<string> SearchAdds { get; }
+
+        public Setting<bool> OnlyFullWords { get; }
+        public Setting<bool> MatchCase { get; }
+
+        public bool Working
+        {
+            get { return _working; }
+            set
+            {
+                if (_working == value) return;
+                _working = value;
+                OnPropertyChanged(nameof(Working));
+            }
+        }
+        private bool _working;
 
         public string TextToSearch
         {
@@ -63,22 +88,22 @@ namespace TranslatorApk.Windows
         }
         private int _searchBoxIndex;
 
-        public Setting<bool> OnlyFullWords { get; set; }
-        public Setting<bool> MatchCase { get; set; }
-
-        public ObservableCollection<string> SearchAdds { get; }
-
         public SearchWindow()
         {
-            SearchAdds = new ObservableCollection<string>(Properties.Settings.Default.FullSearchAdds?.Cast<string>() ?? new string[0]);
-            OnlyFullWords = new Setting<bool>("OnlyFullWords", Res.OnlyFullWords);
-            MatchCase = new Setting<bool>("MatchCase", Res.MatchCase);
+            SearchAdds      = new ObservableCollection<string>(Settings.Default.FullSearchAdds?.Cast<string>() ?? new string[0]);
+            OnlyFullWords   = new Setting<bool>(nameof(Settings.Default.OnlyFullWords), Res.OnlyFullWords);
+            MatchCase       = new Setting<bool>(nameof(Settings.Default.MatchCase), Res.MatchCase);
 
             InitializeComponent();
             SearchBoxIndex = -1;
         }
 
-        private void FindFiles(object sender, RoutedEventArgs e)
+        private void SearchWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FindFilesClick(object sender, RoutedEventArgs e)
         {
             if (GlobalVariables.CurrentProjectFolder == null)
             {
@@ -90,6 +115,8 @@ namespace TranslatorApk.Windows
 
             Files.Clear();
             AddToSearchAdds(TextToSearch);
+
+            var filesToAdd = new List<FoundItem>();
 
             LoadingProcessWindow.ShowWindow(() => Working = true, cts =>
             {
@@ -124,9 +151,11 @@ namespace TranslatorApk.Windows
                         return;
                     }
 
-                    if (file.Details?.Any(str => CheckRules(str.OldText, TextToSearch)) == true)
+                    OneString found = file.Details?.FirstOrDefault(str => CheckRules(str.OldText, TextToSearch));
+
+                    if (found != null)
                     {
-                        Dispatcher.InvokeAction(() => Files.Add(GetFormattedName(file.FileName)));
+                        filesToAdd.Add(new FoundItem(GetFormattedName(file.FileName), found.OldText));
                     }
 
                     LoadingProcessWindow.Instance.ProcessValue++;
@@ -135,67 +164,29 @@ namespace TranslatorApk.Windows
             {
                 Working = false;
 
-                if (Files.Count == 0)
+                if (filesToAdd.Count == 0)
                 {
                     MessBox.ShowDial(Res.TextNotFound);
                 }
-            });
-        }
-
-        private void AddToSearchAdds(string text)
-        {
-            Dispatcher.InvokeAction(() =>
-            {
-                SearchAdds.Remove(text);
-                SearchAdds.Insert(0, text);
-                SearchBoxIndex = 0;
-
-                if (Properties.Settings.Default.FullSearchAdds == null)
-                    Properties.Settings.Default.FullSearchAdds = new StringCollection();
-                Properties.Settings.Default.FullSearchAdds.Remove(text);
-                Properties.Settings.Default.FullSearchAdds.Insert(0, text);
-                if (SearchAdds.Count > 20)
+                else
                 {
-                    SearchAdds.RemoveAt(20);
-                    Properties.Settings.Default.FullSearchAdds.RemoveAt(20);
+                    Dispatcher.InvokeAction(() => Files.AddRange(filesToAdd));
                 }
-
-                Properties.Settings.Default.Save();
             });
         }
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             LoadSelected();
-        }
-
-        private void LoadSelected()
-        {
-            if (FilesView.SelectedIndex > -1)
-                Functions.LoadFile($"{GlobalVariables.CurrentProjectFolder}\\{Files[FilesView.SelectedIndex].Substring(4)}");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        } 
 
         private void SearchBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                FindFiles(null, null);
+                FindFilesClick(null, null);
             }
-        }
-
-        private void SearchWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            SearchBox.Focus();
         }
 
         private void FilesView_OnKeyUp(object sender, KeyEventArgs e)
@@ -205,6 +196,52 @@ namespace TranslatorApk.Windows
                 e.Handled = true;
                 LoadSelected();
             }
+        }
+
+        private void AddToSearchAdds(string text)
+        {
+            SearchAdds.Remove(text);
+            SearchAdds.Insert(0, text);
+            SearchBoxIndex = 0;
+
+            if (Settings.Default.FullSearchAdds == null)
+                Settings.Default.FullSearchAdds = new StringCollection();
+
+            var adds = Settings.Default.FullSearchAdds;
+
+            adds.Remove(text);
+            adds.Insert(0, text);
+
+            if (SearchAdds.Count > 20)
+            {
+                SearchAdds.RemoveAt(20);
+                adds.RemoveAt(20);
+            }
+
+            Settings.Default.Save();
+        }
+
+        private void LoadSelected()
+        {
+            if (FilesView.SelectedIndex > -1)
+            {
+                var selectedFile = (FoundItem)FilesView.SelectedItem;
+
+                Functions.LoadFile($"{GlobalVariables.CurrentProjectFolder}\\{selectedFile.FileName.Substring(4)}");
+
+                ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
+                    .Publish(new EditorScrollToStringAndSelectEvent(
+                        f => true, str => selectedFile.Text.Equals(str.OldText, StringComparison.Ordinal)));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

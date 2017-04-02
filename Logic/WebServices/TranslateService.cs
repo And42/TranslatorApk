@@ -164,24 +164,7 @@ namespace TranslatorApk.Logic.WebServices
         {
             string link =
                 "http://" + $"translation.babylon.com/translate/babylon.php?v=1.0&q={HttpUtility.UrlEncode(text)}&langpair={sourceLanguage}|{targetLanguage}&callback=callbackFn&context=babylon";
-            return DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
-        }
-
-        /// <summary>
-        /// Загружает страницу в виде текста по ссылке
-        /// </summary>
-        /// <param name="link">Ссылка</param>
-        /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static string DownloadString(string link, int timeout = 50000)
-        {
-            var client = (HttpWebRequest)WebRequest.Create(link);
-            
-            client.UserAgent = GlobalVariables.MozillaAgent;
-            client.Timeout = client.ReadWriteTimeout = timeout;
-
-            Stream stream = client.GetResponse().GetResponseStream();
-            var strread = new StreamReader(stream);
-            return strread.ReadToEnd();
+            return Functions.DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         /// <summary>

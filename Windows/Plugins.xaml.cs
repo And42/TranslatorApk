@@ -172,7 +172,6 @@ namespace TranslatorApk.Windows
             string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
 
             if (Functions.CheckRights())
-
             {
                 Process.Start(GlobalVariables.PathToAdminScripter, arguments)?.WaitForExit();
 
@@ -183,17 +182,13 @@ namespace TranslatorApk.Windows
 
                 Functions.LoadPlugin(dllPath);
             }
-            else
+            else if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
             {
-                Process process;
-                if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out process))
-                {
-                    process.WaitForExit();
+                process.WaitForExit();
 
-                    item.Installed = InstallOptionsEnum.ToUninstall;
-                    item.Version = item.LatestVersion;
-                    Functions.LoadPlugin($"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll");
-                }
+                item.Installed = InstallOptionsEnum.ToUninstall;
+                item.Version = item.LatestVersion;
+                Functions.LoadPlugin($"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll");
             }
         }
 
@@ -211,8 +206,9 @@ namespace TranslatorApk.Windows
             }
             catch (UnauthorizedAccessException)
             {
-                Process process;
-                if (!Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, $"\"delete file|{dllName}\" \"delete folder|{dirName}\"", out process))
+                string command = $"\"delete file|{dllName}\" \"delete folder|{dirName}\"";
+
+                if (!Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, command, out var process))
                     return;
 
                 process.WaitForExit();

@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -113,6 +112,19 @@ namespace TranslatorApk.Windows
         }
         private DictionaryFile _saveDictionary;
 
+        public int LangsBoxItemIndex
+        {
+            get
+            {
+                return TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.TargetLanguage);
+            }
+            set
+            {
+                SettingsIncapsuler.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
+                OnPropertyChanged(nameof(LangsBoxItemIndex));
+            }
+        }
+
         public EditorWindow()
         {
             SubscribeToEvents();
@@ -131,19 +143,40 @@ namespace TranslatorApk.Windows
                 SaveDictionary = new DictionaryFile(settingsTargetDict);
         }
 
-        private void TranslateWithSessionDict(EditableFile file)
-        {
-            if (file == null || file is DictionaryFile)
-                return;
+        #region События окна
 
-            foreach (var str in file.Details)
-            {
-                string found;
-                if (str.NewText.NE() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out found))
-                    str.NewText = found;
-            }
+        private void EditorWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TranslateWithSessionDict();
         }
 
+        private void EditorWindow_OnActivated(object sender, EventArgs e)
+        {
+            EditorGrid.Focus();
+        }
+
+        private void EditorWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (!CheckIfNeedToSave())
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            instance = null;
+
+            UnsubscribeFromEvents();
+
+            WindowManager.CloseWindow<EditorSearchWindow>();
+        }
+
+        #endregion
+
+        #region Глобальные события
+
+        /// <summary>
+        /// Подписывает текущий экземпляр на глобальные события редактора
+        /// </summary>
         private void SubscribeToEvents()
         {
             ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
@@ -155,11 +188,9 @@ namespace TranslatorApk.Windows
             ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                 .Subscribe(OnTranslateText);
 
-            ManualEventManager.GetEvent<EditFilesEvent>()
-                .Subscribe(OnEditFiles);
+            ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                .Subscribe(OnAddEditableFiles);
         }
-
-        #region Global events
 
         private void OnScrollToFileAndSelectString(EditorScrollToStringAndSelectEvent parameter)
         {
@@ -187,8 +218,43 @@ namespace TranslatorApk.Windows
             }
         }
 
-        #endregion
+        private void OnAddEditableFiles(AddEditableFilesEvent addEditableFilesEvent)
+        {
+            if (addEditableFilesEvent.Files == null)
+                return;
 
+            var union = StringFiles.Join(addEditableFilesEvent.Files, f => f.FileName, f => f.FileName, (f, s) => f, StringComparer.Ordinal).ToList();
+
+            if (addEditableFilesEvent.ClearExisting)
+                StringFiles.Clear();
+
+            IEnumerable<EditableFile> toAdd;
+
+            if (union.Count > 0)
+            {
+                toAdd =
+                    addEditableFilesEvent.Files.Except(union,
+                        new ComparisonWrapper<EditableFile>(
+                            (f, s) => string.Compare(f.FileName, s.FileName, StringComparison.Ordinal),
+                            f => f.FileName.GetHashCode()));
+            }
+            else
+            {
+                toAdd = addEditableFilesEvent.Files;
+            }
+
+            if (addEditableFilesEvent.ClearExisting && union.Count > 0)
+                toAdd = union.UnionWOEqCheck(toAdd);
+
+            if (addEditableFilesEvent.Files.Count > 0)
+                StringFiles.AddRange(toAdd);
+
+            TranslateWithSessionDict();
+        }
+
+        /// <summary>
+        /// Отписывает текущий экземпляр от глобальных событий редактора
+        /// </summary>
         private void UnsubscribeFromEvents()
         {
             ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
@@ -200,167 +266,17 @@ namespace TranslatorApk.Windows
             ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                 .Unsubscribe(OnTranslateText);
 
-            ManualEventManager.GetEvent<EditFilesEvent>()
-                .Unsubscribe(OnEditFiles);
+            ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                .Unsubscribe(OnAddEditableFiles);
         }
 
-        public void TranslateWithSessionDict()
+        #endregion
+
+        #region События кнопок
+
+        public void TranslateAllFilesClicked(object sender, RoutedEventArgs e)
         {
-            if (!SettingsIncapsuler.SessionAutoTranslate)
-                return;
-
-            StringFiles.ForEach(TranslateWithSessionDict);
-        }
-
-        public int LangsBoxItemIndex
-        {
-            get
-            {
-                return TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.TargetLanguage);
-            }
-            set
-            {
-                SettingsIncapsuler.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
-                OnPropertyChanged(nameof(LangsBoxItemIndex));
-            }
-        }
-
-        public void TranslateSelected()
-        {
-            List<OneString> rows = null;
-
-            var it = GetSelectedString();
-
-            if (it == null)
-            {
-                var file = GetSelectedFile();
-
-                if (file != null)
-                    rows = new List<OneString>(file.Details);
-            }
-            else
-            {
-                rows = new List<OneString> {it};
-            }
-
-            if (rows == null)
-                return;
-
-            string errorMessage = null;
-            var translated = new ConcurrentQueue<KeyValuePair<OneString, string>>();
-
-            LoadingProcessWindow.ShowWindow(Disable, token =>
-            {
-                int cantTranslate = 0;
-
-                int max = Math.Min(4, rows.Count);
-
-                Parallel.ForEach(rows, str =>
-                {
-                    if (token.IsCancellationRequested)
-                        return;
-
-                    try
-                    {
-                        LoadingProcessWindow.Instance.ProcessValue++;
-                        translated.Enqueue(new KeyValuePair<OneString, string>(str, TranslateTextWithSettings(str.OldText)));
-
-                        cantTranslate = 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (++cantTranslate >= max)
-                        {
-                            token.Cancel();
-                            errorMessage = ex.Message;
-                        }
-                    }
-                });
-            }, () =>
-            {
-                foreach (var str in translated)
-                    str.Key.NewText = str.Value;
-
-                if (errorMessage != null)
-                    MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
-
-                Enable();
-                EditorGrid.Focus();
-            }, progressMax: rows.Count);
-        }
-
-        public void TranslateAllFiles(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                new WebClient().DownloadString("http://www.ya.ru");
-            }
-            catch (Exception)
-            {
-                MessBox.ShowDial(Res.NoInternetCantTranslate, Res.ErrorLower);
-                return;
-            }
-
-            string errorMessage = null;
-            var toTranslate = new ConcurrentQueue<KeyValuePair<OneString, string>>();
-
-            LoadingProcessWindow.ShowWindow(() =>
-            {
-                Disable();
-                MainWindow.Disable();
-            },
-                token =>
-                {
-                    int max = StringFiles.Sum(file => file.Details.Count);
-                    LoadingProcessWindow.Instance.ProcessMax = max;
-                    var cantTranslate = 0;
-                    var list = StringFiles.SelectMany(file => file.Details);
-
-                    max = Math.Min(max, 4);
-
-                    Parallel.ForEach(list, str =>
-                    {
-                        if (token.IsCancellationRequested) return;
-                        if (!string.IsNullOrEmpty(str.NewText))
-                        {
-                            LoadingProcessWindow.Instance.ProcessValue++;
-                            return;
-                        }
-                        try
-                        {
-                            LoadingProcessWindow.Instance.ProcessValue++;
-
-                            string translated = GlobalVariables.CurrentTranslationService.Translate(str.OldText,
-                                SettingsIncapsuler.TargetLanguage);
-
-                            toTranslate.Enqueue(new KeyValuePair<OneString, string>(str, translated));
-
-                            //Dispatcher.InvokeAction(() => str.NewText = translated);
-                            
-                            cantTranslate = 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Interlocked.Add(ref cantTranslate, 1);
-                            if (!token.IsCancellationRequested && cantTranslate >= max)
-                            {
-                                token.Cancel();
-                                errorMessage = ex.Message;
-                            }
-                        }
-                    });
-                }, () =>
-                {
-                    foreach (var vals in toTranslate)
-                        vals.Key.NewText = vals.Value;
-
-                    if (errorMessage != null)
-                        MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
-
-                    Enable();
-                    MainWindow.Enable();
-                    EditorGrid.Focus();
-                });
+            TranslateAllFiles();
         }
 
         public void SaveClicked(object sender, RoutedEventArgs e)
@@ -368,41 +284,14 @@ namespace TranslatorApk.Windows
             Save();
         }
 
-        private void Save(Action onFinished = null)
+        private void SaveAndCloseClicked(object sender, RoutedEventArgs e)
         {
-            LoadingProcessWindow.ShowWindow(Disable, SavingProcess, () =>
-            {
-                Enable();
-                onFinished?.Invoke();
-            }, 
-            Visibility.Collapsed, StringFiles.Count);
+            Save(Close);
         }
 
-        private void SavingProcess(CancellationTokenSource cts)
-        {
-            bool saveToDict = SaveToDict && SaveDictionary != null;
-            DictionaryFile dict = SaveDictionary;
+        #endregion
 
-            foreach (var file in StringFiles)
-            {
-                LoadingProcessWindow.Instance.ProcessValue++;
-
-                if (file.IsChanged)
-                {
-                    if (saveToDict)
-                    {
-                        dict.AddChangedStringsFromFile(file);
-                    }
-
-                    file.SaveChanges();
-                }
-            }
-
-            if (saveToDict)
-            {
-                dict.SaveChanges();
-            }
-        }
+        #region События элементов меню
 
         private void ShowSearchClick(object sender, RoutedEventArgs e)
         {
@@ -491,6 +380,47 @@ namespace TranslatorApk.Windows
             }, Visibility.Collapsed);
         }
 
+        private void CurrentDictionariesDragEnter(object sender, DragEventArgs e)
+        {
+            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.All : DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        private void CurrentDictionariesDragDrop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+
+            if (files == null)
+                return;
+
+            foreach (var file in files)
+            {
+                DictionaryFile dictFile;
+
+                if (TryFunc(() => new DictionaryFile(file), out dictFile))
+                    GlobalVariables.SourceDictionaries.Add(new CheckableString(file, true));
+                else
+                    MessBox.ShowDial(file + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
+            }
+        }
+
+        private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            CheckableString item = (sender as Grid)?.DataContext as CheckableString;
+
+            if (item != null)
+                GlobalVariables.SourceDictionaries.Remove(item);
+
+            e.Handled = true;
+        }
+
+        private void RemoveSourceDict_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         private void ChooseSaveDictionaryClick(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
@@ -525,36 +455,10 @@ namespace TranslatorApk.Windows
 #endif
         }
 
-        private void RemoveCurrentSaveDict(object sender, RoutedEventArgs e)
+        private void RemoveCurrentSaveDictClick(object sender, RoutedEventArgs e)
         {
             SaveDictionary = null;
             SaveToDict = false;
-        }
-
-        private void CurrentDictDragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.All : DragDropEffects.None;
-            e.Handled = true;
-        }
-
-        private void CurrentDictDragDrop(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-
-            if (files == null)
-                return;
-
-            foreach (var file in files)
-            {
-                DictionaryFile dictFile;
-
-                if (TryFunc(() => new DictionaryFile(file), out dictFile))
-                    GlobalVariables.SourceDictionaries.Add(new CheckableString(file, true));
-                else
-                    MessBox.ShowDial(file + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
-            }
         }
 
         private void SaveDictDragOver(object sender, DragEventArgs e)
@@ -582,70 +486,96 @@ namespace TranslatorApk.Windows
             }
         }
 
-        public static void Enable()
-        {
-            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = true);
-        }
+        #endregion
 
-        public static void Disable()
-        {
-            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = false);
-        }
+        #region Контекстное меню
 
-        private void EditorWindow_OnClosing(object sender, CancelEventArgs e)
+        private void GridContextMenuOpened(object sender, RoutedEventArgs e)
         {
-            if (!CheckIfNeedToSave())
+            MenuItem createItem(string header, RoutedEventHandler clicked)
             {
-                e.Cancel = true;
-                return;
+                var item = new MenuItem { Header = header };
+                item.Click += clicked;
+                return item;
             }
 
-            instance = null;
+            var menu = sender.As<ContextMenu>();
 
-            UnsubscribeFromEvents();
+            // ReSharper disable once PossibleNullReferenceException
+            menu.Items.Clear();
 
-            WindowManager.CloseWindow<EditorSearchWindow>();
-        }
+            menu.Items.Add(createItem(Res.Expand, Expand_Click));
+            menu.Items.Add(createItem(Res.Collapse, Collapse_Click));
 
-        private bool CheckIfNeedToSave()
-        {
-            if (StringFiles?.Any(f => f.IsChanged) == true)
+            EditableFile selectedFile = GetSelectedFile();
+
+            if (selectedFile != null)
             {
-                string result = MessBox.ShowDial(Res.ApplyTheChanges, "", MessBox.MessageButtons.Yes,
-                    MessBox.MessageButtons.No, MessBox.MessageButtons.Cancel);
-
-                if (result == MessBox.MessageButtons.Yes)
+                var items = new Dictionary<string, RoutedEventHandler>
                 {
-                    Save();
-                }
-                else if (result == MessBox.MessageButtons.Cancel)
-                {
-                    return false;
-                }
+                    { Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName)},
+                    { Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName) },
+                    { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName)) },
+                    { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName)) },
+                    { Res.Delete, (o, args) => StringFiles.Remove(selectedFile) }
+            };
+
+                items.ForEach(it => menu.Items.Add(createItem(it.Key, it.Value)));
             }
 
-            return true;
-        }
+            RowColumnIndex rowColumn;
+            OneString selectedString = GetSelectedString(out rowColumn);
 
-        private void SfDataGrid_OnCellDoubleTapped(object sender, GridCellDoubleTappedEventArgs args)
-        {
-            switch (args.Record)
+            if (selectedString != null)
             {
-                case OneString str:
-                    new StringEditorWindow(str).ShowDialog();
-                    break;
-                case EditableFile file:
-                    GetSelectedFile(out var rowIndex);
+                menu.Items.Add(createItem(Res.Copy, (o, args) =>
+                {
+                    switch (rowColumn.ColumnIndex)
+                    {
+                        case 1:
+                            Clipboard.SetText(selectedString.Name ?? "");
+                            break;
+                        case 2:
+                            Clipboard.SetText(selectedString.OldText ?? "");
+                            break;
+                        case 3:
+                            Clipboard.SetText(selectedString.NewText ?? "");
+                            break;
+                    }
+                }));
 
-                    if (GetFileSelectedEntry().IsExpanded)
-                        EditorGrid.CollapseDetailsViewAt(rowIndex);
-                    else
-                        EditorGrid.ExpandDetailsViewAt(rowIndex);
-                    break;
+                if (rowColumn.ColumnIndex == 2 && !selectedString.IsOldTextReadOnly)
+                {
+                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
+                    {
+                        string text = Clipboard.GetText();
+
+                        if (!text.NE())
+                            selectedString.OldText = text;
+                    }));
+                }
+
+                if (rowColumn.ColumnIndex == 3 && !selectedString.IsNewTextReadOnly)
+                {
+                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
+                    {
+                        string text = Clipboard.GetText();
+
+                        if (!text.NE())
+                        {
+                            selectedString.NewText = text;
+
+                            if (!(selectedString is OneDictionaryString))
+                            {
+                                AddToSessionDict(selectedString.OldText, selectedString.NewText);
+
+                                TranslateWithSessionDictIfNeeded(selectedString.OldText, selectedString.NewText);
+                            }
+                        }
+                    }));
+                }
             }
         }
-
-        #region Context menu handlers
 
         private void Expand_Click(object sender, RoutedEventArgs e)
         {
@@ -659,7 +589,7 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        #region Grid events and connected staff
+        #region События EditorGrid и связанные с этим вещи
 
         private void InitGridEvents()
         {
@@ -769,7 +699,7 @@ namespace TranslatorApk.Windows
                                     {
                                         AddToSessionDict(str.OldText, str.NewText);
 
-                                        TranslateSessionIfNeeded(str.OldText, str.NewText);
+                                        TranslateWithSessionDictIfNeeded(str.OldText, str.NewText);
                                     }
                                 }
                             }
@@ -944,6 +874,54 @@ namespace TranslatorApk.Windows
             }
         }
 
+        private bool EditorGrid_OnKeyDown(KeyEventArgs e)
+        {
+            Func<Key[][], bool> keysDown = keys => keys.All(ks => ks.Any(e.KeyboardDevice.IsKeyDown));
+
+            foreach (var ev in EditorGridKeyEvents)
+            {
+                if (e.Key == ev.Item1 && keysDown(ev.Item2))
+                {
+                    ev.Item3();
+                    e.Handled = true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void EditorGrid_OnTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (SettingsIncapsuler.AlternativeEditingKeys)
+            {
+                OneString current = GetSelectedString();
+
+                if (current == null)
+                    return;
+
+                new StringEditorWindow(current, true, e.Text).ShowDialog();
+            }
+        }
+
+        private void SfDataGrid_OnCellDoubleTapped(object sender, GridCellDoubleTappedEventArgs args)
+        {
+            switch (args.Record)
+            {
+                case OneString str:
+                    new StringEditorWindow(str).ShowDialog();
+                    break;
+                case EditableFile file:
+                    GetSelectedFile(out var rowIndex);
+
+                    if (GetFileSelectedEntry().IsExpanded)
+                        EditorGrid.CollapseDetailsViewAt(rowIndex);
+                    else
+                        EditorGrid.ExpandDetailsViewAt(rowIndex);
+                    break;
+            }
+        }
+
         #endregion
 
         #region GetSelections
@@ -995,188 +973,250 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        private bool EditorGrid_OnKeyDown(KeyEventArgs e)
+        /// <summary>
+        /// Переводит все файлы в редакторе с помоью онлайн переводчика
+        /// </summary>
+        private void TranslateAllFiles()
         {
-            Func<Key[][], bool> keysDown = keys => keys.All(ks => ks.Any(e.KeyboardDevice.IsKeyDown));
-
-            foreach (var ev in EditorGridKeyEvents)
+            if (!TryAction(() => DownloadString("http://www.ya.ru")))
             {
-                if (e.Key == ev.Item1 && keysDown(ev.Item2))
+                MessBox.ShowDial(Res.NoInternetCantTranslate, Res.ErrorLower);
+                return;
+            }
+
+            string errorMessage = null;
+            var toTranslate = new ConcurrentQueue<KeyValuePair<OneString, string>>();
+
+            void StartActions()
+            {
+                Disable();
+                MainWindow.Disable();
+            }
+
+            void ThreadActions(CancellationTokenSource token)
+            {
+                int max = StringFiles.Sum(file => file.Details.Count);
+                LoadingProcessWindow.Instance.ProcessMax = max;
+                var cantTranslate = 0;
+                var list = StringFiles.SelectMany(file => file.Details);
+
+                max = Math.Min(max, 4);
+
+                Parallel.ForEach(list, str =>
                 {
-                    ev.Item3();
-                    e.Handled = true;
-                    return true;
+                    if (token.IsCancellationRequested) return;
+                    if (!string.IsNullOrEmpty(str.NewText))
+                    {
+                        LoadingProcessWindow.Instance.ProcessValue++;
+                        return;
+                    }
+                    try
+                    {
+                        LoadingProcessWindow.Instance.ProcessValue++;
+
+                        string translated = GlobalVariables.CurrentTranslationService.Translate(str.OldText,
+                            SettingsIncapsuler.TargetLanguage);
+
+                        toTranslate.Enqueue(new KeyValuePair<OneString, string>(str, translated));
+
+                        cantTranslate = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Interlocked.Add(ref cantTranslate, 1);
+                        if (!token.IsCancellationRequested && cantTranslate >= max)
+                        {
+                            token.Cancel();
+                            errorMessage = ex.Message;
+                        }
+                    }
+                });
+            }
+
+            void FinishActions()
+            {
+                foreach (var vals in toTranslate)
+                    vals.Key.NewText = vals.Value;
+
+                if (errorMessage != null)
+                    MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
+
+                Enable();
+                MainWindow.Enable();
+                EditorGrid.Focus();
+            }
+
+            LoadingProcessWindow.ShowWindow(StartActions, ThreadActions, FinishActions);
+        }
+
+        /// <summary>
+        /// Применяет изменения в файлах
+        /// </summary>
+        /// <param name="onFinished">Действие после обработки</param>
+        private void Save(Action onFinished = null)
+        {
+            void SavingProcess(CancellationTokenSource cts)
+            {
+                bool saveToDict = SaveToDict && SaveDictionary != null;
+                DictionaryFile dict = SaveDictionary;
+
+                foreach (var file in StringFiles)
+                {
+                    LoadingProcessWindow.Instance.ProcessValue++;
+
+                    if (file.IsChanged)
+                    {
+                        if (saveToDict)
+                        {
+                            dict.AddChangedStringsFromFile(file);
+                        }
+
+                        file.SaveChanges();
+                    }
+                }
+
+                if (saveToDict)
+                {
+                    dict.SaveChanges();
                 }
             }
 
-            return false;
-        }
-
-        private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            CheckableString item = (sender as Grid)?.DataContext as CheckableString;
-
-            if (item != null)
-                GlobalVariables.SourceDictionaries.Remove(item);
-
-            e.Handled = true;
-        }
-
-        private void RemoveSourceDict_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        private void EditorWindow_OnActivated(object sender, EventArgs e)
-        {
-            EditorGrid.Focus();
-        }
-
-        private void EditorGrid_OnTextInput(object sender, TextCompositionEventArgs e)
-        {
-            if (SettingsIncapsuler.AlternativeEditingKeys)
+            LoadingProcessWindow.ShowWindow(Disable, SavingProcess, () =>
             {
-                OneString current = GetSelectedString();
+                Enable();
+                onFinished?.Invoke();
+            },
+            Visibility.Collapsed, StringFiles.Count);
+        }
 
-                if (current == null)
+        /// <summary>
+        /// Переводит все строки с помощью словаря сессии, если соответствующая настройка активна
+        /// </summary>
+        private void TranslateWithSessionDict()
+        {
+            void TranslateWithSessionDict(EditableFile file)
+            {
+                if (file == null || file is DictionaryFile)
                     return;
 
-                new StringEditorWindow(current, true, e.Text).ShowDialog();
+                foreach (var str in file.Details)
+                {
+                    string found;
+                    if (str.NewText.NE() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out found))
+                        str.NewText = found;
+                }
             }
-        }
 
-        private void SaveAndCloseClicked(object sender, RoutedEventArgs e)
-        {
-            Save(Close);
-        }
-
-        private void EditorWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            TranslateWithSessionDict();
-        }
-
-        private void OnEditFiles(EditFilesEvent editFilesEvent)
-        {
-            if (editFilesEvent.Files == null)
+            if (!SettingsIncapsuler.SessionAutoTranslate)
                 return;
 
-            var union = StringFiles.Join(editFilesEvent.Files, f => f.FileName, f => f.FileName, (f, s) => f, StringComparer.Ordinal).ToList();
+            StringFiles.ForEach(TranslateWithSessionDict);
+        }
 
-            if (editFilesEvent.ClearExisting)
-                StringFiles.Clear();
+        /// <summary>
+        /// Переводит выбранные строки с помощью онлайн переводчика
+        /// </summary>
+        private void TranslateSelected()
+        {
+            List<OneString> rows = null;
 
-            IEnumerable<EditableFile> toAdd;
+            var it = GetSelectedString();
 
-            if (union.Count > 0)
+            if (it == null)
             {
-                toAdd =
-                    editFilesEvent.Files.Except(union,
-                        new ComparisonWrapper<EditableFile>(
-                            (f, s) => string.Compare(f.FileName, s.FileName, StringComparison.Ordinal), 
-                            f => f.FileName.GetHashCode()));
+                var file = GetSelectedFile();
+
+                if (file != null)
+                {
+                    rows = new List<OneString>(file.Details);
+                }
             }
             else
             {
-                toAdd = editFilesEvent.Files;
+                rows = new List<OneString> { it };
             }
 
-            if (editFilesEvent.ClearExisting && union.Count > 0)
-                toAdd = union.UnionWOEqCheck(toAdd);
+            if (rows == null)
+                return;
 
-            if (editFilesEvent.Files.Count > 0)
-                StringFiles.AddRange(toAdd);
+            string errorMessage = null;
+            var translated = new ConcurrentQueue<KeyValuePair<OneString, string>>();
 
-            TranslateWithSessionDict();
-        }
-
-        private void GridContextMenuOpened(object sender, RoutedEventArgs e)
-        {
-            MenuItem createItem(string header, RoutedEventHandler clicked)
+            void ThreadActions(CancellationTokenSource token)
             {
-                var item = new MenuItem { Header = header };
-                item.Click += clicked;
-                return item;
-            }
+                int cantTranslate = 0;
 
-            var menu = sender.As<ContextMenu>();
+                int max = Math.Min(4, rows.Count);
 
-            // ReSharper disable once PossibleNullReferenceException
-            menu.Items.Clear();
-
-            menu.Items.Add(createItem(Res.Expand, Expand_Click));
-            menu.Items.Add(createItem(Res.Collapse, Collapse_Click));
-
-            EditableFile selectedFile = GetSelectedFile();
-
-            if (selectedFile != null)
-            {
-                var items = new Dictionary<string, RoutedEventHandler>
+                Parallel.ForEach(rows, str =>
                 {
-                    { Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName)},
-                    { Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName) },
-                    { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName)) },
-                    { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName)) },
-                    { Res.Delete, (o, args) => StringFiles.Remove(selectedFile) }
-            };
+                    if (token.IsCancellationRequested)
+                        return;
 
-                items.ForEach(it => menu.Items.Add(createItem(it.Key, it.Value)));
-            }
-
-            RowColumnIndex rowColumn;
-            OneString selectedString = GetSelectedString(out rowColumn);
-
-            if (selectedString != null)
-            {
-                menu.Items.Add(createItem(Res.Copy, (o, args) =>
-                {
-                    switch (rowColumn.ColumnIndex)
+                    try
                     {
-                        case 1:
-                            Clipboard.SetText(selectedString.Name ?? "");
-                            break;
-                        case 2:
-                            Clipboard.SetText(selectedString.OldText ?? "");
-                            break;
-                        case 3:
-                            Clipboard.SetText(selectedString.NewText ?? "");
-                            break;
+                        LoadingProcessWindow.Instance.ProcessValue++;
+                        translated.Enqueue(new KeyValuePair<OneString, string>(str, TranslateTextWithSettings(str.OldText)));
+
+                        cantTranslate = 0;
                     }
-                }));
-
-                if (rowColumn.ColumnIndex == 2 && !selectedString.IsOldTextReadOnly)
-                {
-                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
+                    catch (Exception ex)
                     {
-                        string text = Clipboard.GetText();
-
-                        if (!text.NE())
-                            selectedString.OldText = text;
-                    }));
-                }
-
-                if (rowColumn.ColumnIndex == 3 && !selectedString.IsNewTextReadOnly)
-                {
-                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
-                    {
-                        string text = Clipboard.GetText();
-
-                        if (!text.NE())
+                        if (++cantTranslate >= max)
                         {
-                            selectedString.NewText = text;
-
-                            if (!(selectedString is OneDictionaryString))
-                            {
-                                AddToSessionDict(selectedString.OldText, selectedString.NewText);
-
-                                TranslateSessionIfNeeded(selectedString.OldText, selectedString.NewText);
-                            }
+                            token.Cancel();
+                            errorMessage = ex.Message;
                         }
-                    }));
-                }
+                    }
+                });
             }
+
+            void FinishActions()
+            {
+                foreach (var str in translated)
+                    str.Key.NewText = str.Value;
+
+                if (errorMessage != null)
+                    MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
+
+                Enable();
+                EditorGrid.Focus();
+            }
+
+            LoadingProcessWindow.ShowWindow(Disable, ThreadActions, FinishActions, progressMax: rows.Count);
         }
 
-        private void TranslateSessionIfNeeded(string oldText, string newText)
+        private static void Enable()
+        {
+            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = true);
+        }
+
+        private static void Disable()
+        {
+            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = false);
+        }
+
+        private bool CheckIfNeedToSave()
+        {
+            if (StringFiles?.Any(f => f.IsChanged) == true)
+            {
+                string result = MessBox.ShowDial(Res.ApplyTheChanges, "", MessBox.MessageButtons.Yes,
+                    MessBox.MessageButtons.No, MessBox.MessageButtons.Cancel);
+
+                if (result == MessBox.MessageButtons.Yes)
+                {
+                    Save();
+                }
+                else if (result == MessBox.MessageButtons.Cancel)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void TranslateWithSessionDictIfNeeded(string oldText, string newText)
         {
             if (SettingsIncapsuler.SessionAutoTranslate)
             {

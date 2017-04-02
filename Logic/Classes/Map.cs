@@ -6,15 +6,15 @@ namespace TranslatorApk.Logic.Classes
     public class Map<T1, T2> : IEnumerable<KeyValuePair<T1, T2>>
     {
         private readonly Dictionary<T1, T2> _forward = new Dictionary<T1, T2>();
-        private readonly Dictionary<T2, T1> _reverse = new Dictionary<T2, T1>();
+        private readonly Dictionary<T2, T1> _backward = new Dictionary<T2, T1>();
 
         public Map()
         {
             Forward = new Indexer<T1, T2>(_forward);
-            Reverse = new Indexer<T2, T1>(_reverse);
+            Backward = new Indexer<T2, T1>(_backward);
         }
 
-        public class Indexer<T3, T4>
+        public class Indexer<T3, T4> : IEnumerable<KeyValuePair<T3, T4>>
         {
             private readonly Dictionary<T3, T4> _dictionary;
 
@@ -28,20 +28,30 @@ namespace TranslatorApk.Logic.Classes
                 get { return _dictionary[index]; }
                 set { _dictionary[index] = value; }
             }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public IEnumerator<KeyValuePair<T3, T4>> GetEnumerator()
+            {
+                return _dictionary.GetEnumerator();
+            }
         }
 
         public void Add(T1 t1, T2 t2)
         {
             _forward.Add(t1, t2);
-            _reverse.Add(t2, t1);
+            _backward.Add(t2, t1);
         }
 
         public Indexer<T1, T2> Forward { get; private set; }
-        public Indexer<T2, T1> Reverse { get; private set; }
+        public Indexer<T2, T1> Backward { get; private set; }
 
         public bool ContainsKey(T1 key) => _forward.ContainsKey(key);
 
-        public bool ContainsValue(T2 value) => _reverse.ContainsKey(value);
+        public bool ContainsValue(T2 value) => _backward.ContainsKey(value);
 
         public void RemoveKey(T1 key)
         {
@@ -49,16 +59,16 @@ namespace TranslatorApk.Logic.Classes
             if (_forward.TryGetValue(key, out value))
             {
                 _forward.Remove(key);
-                _reverse.Remove(value);
+                _backward.Remove(value);
             }
         }
 
         public void RemoveValue(T2 value)
         {
             T1 key;
-            if (_reverse.TryGetValue(value, out key))
+            if (_backward.TryGetValue(value, out key))
             {
-                _reverse.Remove(value);
+                _backward.Remove(value);
                 _forward.Remove(key);
             }
         }
@@ -70,7 +80,7 @@ namespace TranslatorApk.Logic.Classes
 
         public bool TryGetKey(T2 value, out T1 key)
         {
-            return _reverse.TryGetValue(value, out key);
+            return _backward.TryGetValue(value, out key);
         }
 
         public IEnumerator<KeyValuePair<T1, T2>> GetEnumerator()

@@ -190,7 +190,7 @@
     <Compile Include="Logic\EventModuler.cs" />
     <Compile Include="Logic\Events\ActivateEditorWindowEvent.cs" />
     <Compile Include="Logic\Events\CloseEditorSearchWindowEvent.cs" />
-    <Compile Include="Logic\Events\EditFilesEvent.cs" />
+    <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToStringAndSelectEvent.cs" />
     <Compile Include="Logic\Events\EditorWindowTranslateTextEvent.cs" />

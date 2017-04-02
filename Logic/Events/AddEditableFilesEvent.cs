@@ -3,17 +3,17 @@ using AndroidTranslator;
 
 namespace TranslatorApk.Logic.Events
 {
-    public class EditFilesEvent
+    public class AddEditableFilesEvent
     {
         public IList<EditableFile> Files { get; }
         public bool ClearExisting { get; }
 
-        public EditFilesEvent(IList<EditableFile> files, bool clearExisting = true)
+        public AddEditableFilesEvent(IList<EditableFile> files, bool clearExisting = true)
         {
             Files = files;
             ClearExisting = clearExisting;
         }
 
-        public EditFilesEvent(EditableFile file, bool clearExisting = true): this(new [] {file}, clearExisting) { }
+        public AddEditableFilesEvent(EditableFile file, bool clearExisting = true): this(new [] {file}, clearExisting) { }
     }
 }

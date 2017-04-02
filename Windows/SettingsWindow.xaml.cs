@@ -153,7 +153,7 @@ namespace TranslatorApk.Windows
             string changed = e.AddedItems.Count > 0 ? e.AddedItems[0].As<string>() : null;
 
             if (changed != null)
-                Functions.ChangeTheme(GlobalVariables.ThemesMap.Reverse[changed]);
+                Functions.ChangeTheme(GlobalVariables.ThemesMap.Backward[changed]);
         }
 
         private void LoadApktools()

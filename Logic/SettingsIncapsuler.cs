@@ -4,6 +4,9 @@ using TranslatorApk.Properties;
 
 namespace TranslatorApk.Logic
 {
+    /// <summary>
+    /// Класс для работы с файлом настроек. Поддерживает кэширование. Крайне рекомендуется использовать его для управления настройками.
+    /// </summary>
     public static class SettingsIncapsuler
     {
         public static string TargetLanguage

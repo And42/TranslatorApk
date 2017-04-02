@@ -12,8 +12,10 @@ namespace TranslatorApk.Logic.Classes
         public ActionHost(object innerClass)
         {
             Type type = innerClass.GetType();
+
             title = ExecRefl<string>(type, innerClass, "GetActionTitle");
             Guid = ExecRefl<Guid>(type, innerClass, "get_Guid");
+
             process =
                 CreateDelegate<Action<string, string, string, string, string, string, string, string, string>>
                     (innerClass, "Process");
