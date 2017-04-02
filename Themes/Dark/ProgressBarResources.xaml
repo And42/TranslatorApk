@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="ProgressBar_Border" Color="#7EB4EA"/>
+    <SolidColorBrush x:Key="ProgressBar_IndeterminateIndicator" Color="#04CD00"/>
+    <SolidColorBrush x:Key="ProgressBar_Indicator" Color="#04CD00"/>
+
+</ResourceDictionary>

@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <SolidColorBrush x:Key="RadioButton_CheckMarkFill"              Color="Black"/>
+    <SolidColorBrush x:Key="RadioButton_BorderNormalFill"           Color="White"/>
+    <SolidColorBrush x:Key="RadioButton_BorderNormalStroke"         Color="#737373"/>
+    <SolidColorBrush x:Key="RadioButton_BorderOverFill"             Color="#F3F9FF"/>
+    <SolidColorBrush x:Key="RadioButton_BorderOverStroke"           Color="#379BFF"/>
+    <SolidColorBrush x:Key="RadioButton_BorderPressedFill"          Color="#D9ECFF"/>
+    <SolidColorBrush x:Key="RadioButton_BorderPressedStroke"        Color="#037EDE"/>
+    <SolidColorBrush x:Key="RadioButton_BorderDisabledFill"         Color="#F0F0F0"/>
+    <SolidColorBrush x:Key="RadioButton_BorderDisabledStroke"       Color="#40000000"/>
+    <SolidColorBrush x:Key="RadioButton_BorderDisabledForeground"   Color="#80000000"/>
+    
+</ResourceDictionary>

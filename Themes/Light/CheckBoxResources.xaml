@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="CheckBox_CheckMarkNormal"           Color="Black"/>
+    <SolidColorBrush x:Key="CheckBox_BorderNormal"              Color="#737373"/>
+    <SolidColorBrush x:Key="CheckBox_BackgroundNormal"          Color="#F9F9F9"/>
+    <SolidColorBrush x:Key="CheckBox_BorderOver"                Color="#7EB4EA"/>
+    <SolidColorBrush x:Key="CheckBox_CheckMarkOver"             Color="#8A000000"/>
+    <SolidColorBrush x:Key="CheckBox_BorderPressed"             Color="#037EDE"/>
+    <SolidColorBrush x:Key="CheckBox_BackgroundPressed"         Color="#D9ECFF"/>
+    <SolidColorBrush x:Key="CheckBox_BorderDisabled"            Color="#5A000000"/>
+    <SolidColorBrush x:Key="CheckBox_BackgroundDisabled"        Color="#EDEDED"/>
+    <SolidColorBrush x:Key="CheckBox_CheckMarkDisabled"         Color="#7A000000"/>
+    
+</ResourceDictionary>

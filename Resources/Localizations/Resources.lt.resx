@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>Apie programą</value>
+  </data>
+  <data name="AllSmali" xml:space="preserve">
+    <value>Visi .smali</value>
+  </data>
+  <data name="AllXml" xml:space="preserve">
+    <value>Visi .xml</value>
+  </data>
+  <data name="AndroidApps" xml:space="preserve">
+    <value>Android programėlės</value>
+  </data>
+  <data name="BuildProject" xml:space="preserve">
+    <value>Surinkti projektą</value>
+  </data>
+  <data name="CantTranslate" xml:space="preserve">
+    <value>Vertimo klaida!</value>
+  </data>
+  <data name="ChooseCellOrRow" xml:space="preserve">
+    <value>Pasirinkite langelį arba eilutę!</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Pasirinkti failą</value>
+  </data>
+  <data name="ChooseFolder" xml:space="preserve">
+    <value>Pasirinkti aplanką</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Suskleisti</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Patvirtinimas</value>
+  </data>
+  <data name="CurrentDictionary" xml:space="preserve">
+    <value>Einamasis žodynas</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Naikinti</value>
+  </data>
+  <data name="Dictionary" xml:space="preserve">
+    <value>Žodynas</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Redaktorius</value>
+  </data>
+  <data name="EmptySmali" xml:space="preserve">
+    <value>Tušti smali</value>
+  </data>
+  <data name="EmptyXml" xml:space="preserve">
+    <value>Tušti xml</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Klaida</value>
+  </data>
+  <data name="ErrorUpper" xml:space="preserve">
+    <value>KLAIDA</value>
+  </data>
+  <data name="ErrorWhileCompiling" xml:space="preserve">
+    <value>Kompiliavimo klaida!</value>
+  </data>
+  <data name="ErrorWhileSigning" xml:space="preserve">
+    <value>Parašo klaida!</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Išskleisti</value>
+  </data>
+  <data name="FileIsSituatedIn" xml:space="preserve">
+    <value>Failas randasi</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Failo pavadinimas</value>
+  </data>
+  <data name="FilesWithErrors" xml:space="preserve">
+    <value>Failai su klaidomis</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Rasti</value>
+  </data>
+  <data name="FindAll" xml:space="preserve">
+    <value>Rasti visus</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Ieškoti toliau</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Gatava</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>iš</value>
+  </data>
+  <data name="ImageExtensions" xml:space="preserve">
+    <value>Paveikslėlių plėtiniai</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Paveikslėliai</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Kalba:</value>
+  </data>
+  <data name="LanguageOfApp" xml:space="preserve">
+    <value>Programos kalba:</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Įskaitant registrą</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Pavadinimas</value>
+  </data>
+  <data name="NewText" xml:space="preserve">
+    <value>Naujas tekstas</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NoInternetCantTranslate" xml:space="preserve">
+    <value>Nėra interneto ryšio! Negalimas internetinis vertimas</value>
+  </data>
+  <data name="OldText" xml:space="preserve">
+    <value>Senas tekstas</value>
+  </data>
+  <data name="OnlineTranslator" xml:space="preserve">
+    <value>Internetinis vertėjas:</value>
+  </data>
+  <data name="OnlyFullWords" xml:space="preserve">
+    <value>Tik pilnus žodžius</value>
+  </data>
+  <data name="OnlyXml" xml:space="preserve">
+    <value>Tik xml</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Atidaryti</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Nustatymai</value>
+  </data>
+  <data name="OtherExtensions" xml:space="preserve">
+    <value>Kitų failų plėtiniai</value>
+  </data>
+  <data name="OtherFiles" xml:space="preserve">
+    <value>Kiti failai</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Pakeisti</value>
+  </data>
+  <data name="RestartProgramToApplyLanguage" xml:space="preserve">
+    <value>Pakartotinai paleisti programą kalbos pakeitimui?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Išsaugoti</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Paieška</value>
+  </data>
+  <data name="SearchEditorClosed" xml:space="preserve">
+    <value>Redaktoriaus langas buvo uždarytas. Paieška neveiks</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Paieškos nustatymai</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nustatymai</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Pasirašyti</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stabdyti</value>
+  </data>
+  <data name="StringsTranslated" xml:space="preserve">
+    <value>Išversta eilučių:</value>
+  </data>
+  <data name="TargetLanguage" xml:space="preserve">
+    <value>Išversti į</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Tekstas</value>
+  </data>
+  <data name="TextNotFound" xml:space="preserve">
+    <value>Užduotas tekstas nerastas</value>
+  </data>
+  <data name="TranslateAll" xml:space="preserve">
+    <value>Išversti viską</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Naudoti</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versija</value>
+  </data>
+  <data name="WaitingOperation" xml:space="preserve">
+    <value>Laukiama operacijos pabaigos...</value>
+  </data>
+  <data name="XmlRulesEditor" xml:space="preserve">
+    <value>Taisyklė redaktorius xml</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Taip</value>
+  </data>
+  <data name="YouNeedToChooseDictionary" xml:space="preserve">
+    <value>Būtina pasirinkti žodyną!</value>
+  </data>
+  <data name="DictionaryFiles" xml:space="preserve">
+    <value>Žodyno failai</value>
+  </data>
+  <data name="DictionariesFolder" xml:space="preserve">
+    <value>Aplankas su žodynai</value>
+  </data>
+  <data name="DictionaryFolder" xml:space="preserve">
+    <value>Žodyno aplanką</value>
+  </data>
+  <data name="NamesOfFolderLanguages" xml:space="preserve">
+    <value>Inglese (UK)|Arabo|Afrikaans|Bielorusso|Bulgaro|Bosniaco|Ungherese|Vietnamese|Olandese|Greco|Danese|Zulu|Ebraico|Indonesiano|Spagnolo|Italiano|Catalano|Cinese|Cinese (Semplificato)|Cinese (Tradizionale)|Latvian|lituano|Malese|Tedesco|norvegese|persiano|Polacco|Portoghese|Rumeno|Russo|serbo|slovacco|sloveno|Swahili|Tagalog|Thai|Turkish|Ukrainian|finlandese|Francese|Hindi|Ceco|svedese|Estone|Giapponese</value>
+  </data>
+  <data name="ResultFolder" xml:space="preserve">
+    <value>Rezultatas aplanką</value>
+  </data>
+  <data name="SourceFolder" xml:space="preserve">
+    <value>Šaltinio katalogą</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Pradėti</value>
+  </data>
+  <data name="TranslatedFolder" xml:space="preserve">
+    <value>Aplankas su vertimais</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Pridėti kalbą</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>Atidaryti naudojant</value>
+  </data>
+  <data name="ReplaceUnicodeSequences" xml:space="preserve">
+    <value>Pakeisti Unicode sekas</value>
+  </data>
+  <data name="ChangesDetector" xml:space="preserve">
+    <value>Pokyčių detektorius</value>
+  </data>
+  <data name="ApiKeyIsEmpty" xml:space="preserve">
+    <value>API raktas yra tuščias</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>API raktas:</value>
+  </data>
+  <data name="LoadWithTextStrings" xml:space="preserve">
+    <value>Įkelti su teksto eilutes</value>
+  </data>
+  <data name="OnlyResources" xml:space="preserve">
+    <value>Tik ištekliai</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Rodyti viešbutį "Explorer"</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Pridėti</value>
+  </data>
+  <data name="NewLanguage" xml:space="preserve">
+    <value>Naujos kalbos:</value>
+  </data>
+  <data name="CantUpdateProgram" xml:space="preserve">
+    <value>Negalima naujinti programa</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Atnaujinimas</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>Naujoji versija yra prieinama. Atnaujinti?</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Tamsiai</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Šviesos</value>
+  </data>
+  <data name="ApktoolVersion" xml:space="preserve">
+    <value>Apktool kalba:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema:</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>XML failus</value>
+  </data>
+  <data name="AccountNumberIsCopied" xml:space="preserve">
+    <value>Sąskaitos numeris kopijuojamas į mainų sritį</value>
+  </data>
+  <data name="LanguageIsNotSelected" xml:space="preserve">
+    <value>Kalba yra pažymėtas!</value>
+  </data>
+  <data name="AllDone" xml:space="preserve">
+    <value>Baigta!</value>
+  </data>
+  <data name="ApplyTheChanges" xml:space="preserve">
+    <value>Taikyti pakeitimus?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Atšaukti</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation" xml:space="preserve">
+    <value>Vienas failas Vertimas</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation_ToolTip" xml:space="preserve">
+    <value>Vienas failas Vertimas su žodynu</value>
+  </data>
+  <data name="FileDeleteConfirmation" xml:space="preserve">
+    <value>Tikrai norite panaikinti šį failą</value>
+  </data>
+  <data name="FolderDeleteConfirmation" xml:space="preserve">
+    <value>Tikrai norite panaikinti aplanką</value>
+  </data>
+  <data name="SelectAFolder" xml:space="preserve">
+    <value>Pasirinkite aplanką:</value>
+  </data>
+  <data name="TheFileIsCorrupted" xml:space="preserve">
+    <value>Failas yra pažeistas!</value>
+  </data>
+  <data name="SearchWindow_FolderIsNotSelected" xml:space="preserve">
+    <value>Pasirinkite aplanką, į kurį ieškoti!</value>
+  </data>
+  <data name="JavaNotFoundError" xml:space="preserve">
+    <value>Java nerasta! Prašome, jį atsisiųsti iš oficialios svetainės arba naudoti Nešiojami programos versija</value>
+  </data>
+  <data name="OnlineTranslationsLongLanguages" xml:space="preserve">
+    <value>Albanese|English|Arabo|Armenian|Azerbaijan|Afrikaans|Basco|Bielorusso|Bulgaro|Bosniaco|Welsh|Vietnamita|Ungherese|Haitian (Creolo)|Galiziano|Dutch|Greco|Georgiano|Danese|Yiddish|Indonesiano|Irish|Italiano|Islandese|Spagnolo|Kazako|Catalano|Kirghizistan|Cinese|Coreano|Latin|Lettone|Lituano|Malagasy|Malay|Maltese|Macedone|Mongolo|German|Norwegian|Persiano|Polacco|Portoghese|Romanian|Russo|Serbo|Slovacco|Sloveno|Swahili|Tajik|Thai|Tagalog|Tatar|Turco|Uzbek|Ucraino|Finlandese|Francese|Croato|Ceco|Svedese|Estone|Giapponese</value>
+  </data>
+  <data name="OpenInExplorer" xml:space="preserve">
+    <value>Atidaryti naudojant "Explorer"</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Rodyti peržiūrą:</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Katalogas</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Įdiegti</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Įdiegta</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Aprašymas</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Pavadinimas</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="ApktoolNotFound" xml:space="preserve">
+    <value>Apktool nerastas! Atsisiųskite apktool į "Files\Resources\apktools"</value>
+  </data>
+  <data name="EmptyFolders" xml:space="preserve">
+    <value>Tuščių aplankus</value>
+  </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>Ant visų langų:</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Dydis</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Pašalinti</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesCreation" xml:space="preserve">
+    <value>Daug failų kūrimas</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesTranslation" xml:space="preserve">
+    <value>Daug failų Vertimas</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileCreation" xml:space="preserve">
+    <value>Viena failų kūrimas</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Naujausia versija</value>
+  </data>
+  <data name="AlternativeEditingKeys" xml:space="preserve">
+    <value>Kitus redagavimo klavišus:</value>
+  </data>
+  <data name="SessionAutoTranslation" xml:space="preserve">
+    <value>Automatinis vertimas su sesijos žodynu:</value>
+  </data>
+  <data name="SaveAndExit" xml:space="preserve">
+    <value>Išsaugoti ir išeiti</value>
+  </data>
+</root>

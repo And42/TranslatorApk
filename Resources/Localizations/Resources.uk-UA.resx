@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>Про програму</value>
+  </data>
+  <data name="AllSmali" xml:space="preserve">
+    <value>Всі .smali</value>
+  </data>
+  <data name="AllXml" xml:space="preserve">
+    <value>Всі .xml</value>
+  </data>
+  <data name="AndroidApps" xml:space="preserve">
+    <value>Андроїд додатки</value>
+  </data>
+  <data name="BuildProject" xml:space="preserve">
+    <value>Зібрати проект</value>
+  </data>
+  <data name="CantTranslate" xml:space="preserve">
+    <value>Сталася помилка під час перекладу!</value>
+  </data>
+  <data name="ChooseCellOrRow" xml:space="preserve">
+    <value>Виберіть клітинку або рядок!</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Вибрати файл</value>
+  </data>
+  <data name="ChooseFolder" xml:space="preserve">
+    <value>Вибрати теку</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Згорнути</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Підтвердження</value>
+  </data>
+  <data name="CurrentDictionary" xml:space="preserve">
+    <value>Поточний словник</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Dictionary" xml:space="preserve">
+    <value>Словник</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Редактор</value>
+  </data>
+  <data name="EmptySmali" xml:space="preserve">
+    <value>Порожні smali</value>
+  </data>
+  <data name="EmptyXml" xml:space="preserve">
+    <value>Порожні xml</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="ErrorUpper" xml:space="preserve">
+    <value>ПОМИЛКА</value>
+  </data>
+  <data name="ErrorWhileCompiling" xml:space="preserve">
+    <value>Помилка під час компіляції!</value>
+  </data>
+  <data name="ErrorWhileSigning" xml:space="preserve">
+    <value>Помилка під час підписання!</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Розгорнути</value>
+  </data>
+  <data name="FileIsSituatedIn" xml:space="preserve">
+    <value>Файл знаходиться в</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Назва файлу</value>
+  </data>
+  <data name="FilesWithErrors" xml:space="preserve">
+    <value>Файли з помилками</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Знайти</value>
+  </data>
+  <data name="FindAll" xml:space="preserve">
+    <value>Знайти всі</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Шукати далі</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>з</value>
+  </data>
+  <data name="ImageExtensions" xml:space="preserve">
+    <value>Розширення зображень:</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Мова: </value>
+  </data>
+  <data name="LanguageOfApp" xml:space="preserve">
+    <value>Мова програми:</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Враховувати регістр</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="NewText" xml:space="preserve">
+    <value>Новий текст</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="NoInternetCantTranslate" xml:space="preserve">
+    <value>Відсутній зв'язок з інтернетом! Онлайн переклад недоступний</value>
+  </data>
+  <data name="OldText" xml:space="preserve">
+    <value>Старий текст</value>
+  </data>
+  <data name="OnlineTranslator" xml:space="preserve">
+    <value>Онлайн перекладач:</value>
+  </data>
+  <data name="OnlyFullWords" xml:space="preserve">
+    <value>Лише слова повністю</value>
+  </data>
+  <data name="OnlyXml" xml:space="preserve">
+    <value>Лише xml</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Відкрити</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Параметри</value>
+  </data>
+  <data name="OtherExtensions" xml:space="preserve">
+    <value>Інші розширення:</value>
+  </data>
+  <data name="OtherFiles" xml:space="preserve">
+    <value>Інші файли</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Оновити</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Замінити</value>
+  </data>
+  <data name="RestartProgramToApplyLanguage" xml:space="preserve">
+    <value>Перезапустити програму для зміни мови?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="SearchEditorClosed" xml:space="preserve">
+    <value>Вікно редактора було закрито. Пошук працювати не буде</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Параметри пошуку</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Підписати</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Зупинити</value>
+  </data>
+  <data name="StringsTranslated" xml:space="preserve">
+    <value>Переведено рядків:</value>
+  </data>
+  <data name="TargetLanguage" xml:space="preserve">
+    <value>Цільова мова</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="TextNotFound" xml:space="preserve">
+    <value>Текст не знайдено</value>
+  </data>
+  <data name="TranslateAll" xml:space="preserve">
+    <value>Перекласти все</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Використовувати</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версія</value>
+  </data>
+  <data name="WaitingOperation" xml:space="preserve">
+    <value>Очікування завершення операції...</value>
+  </data>
+  <data name="XmlRulesEditor" xml:space="preserve">
+    <value>Редактор правил xml</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="YouNeedToChooseDictionary" xml:space="preserve">
+    <value>Необхідно вибрати словник!</value>
+  </data>
+  <data name="DictionaryFiles" xml:space="preserve">
+    <value>Файли словників</value>
+  </data>
+  <data name="DictionariesFolder" xml:space="preserve">
+    <value>Папка зі словниками</value>
+  </data>
+  <data name="DictionaryFolder" xml:space="preserve">
+    <value>Тека словника</value>
+  </data>
+  <data name="NamesOfFolderLanguages" xml:space="preserve">
+    <value>Англійська (Великобританія)|Арабська|Африкаанс|Білоруська|Болгарська|Боснійська|Угорська|В'єтнамська|Голландська|Грецька|Данська|Зулу|Іврит|Індонезійська|Іспанська|Італійська|Каталонська|Китайський|Китайська (спрощена)|Китайська (традиційна)|Латвійська|Литовська|Малайська|Німецька|Норвезька|Перська|Польська|Португальська|Румунська|Російська|Сербська|Словацька|Словенська|Суахілі|Тагальська|Тайська|Турецька|Українська|Фінська|Французька|Хінді|Чеська|Шведська|Естонська|Японська</value>
+  </data>
+  <data name="ResultFolder" xml:space="preserve">
+    <value>Тека з результатом</value>
+  </data>
+  <data name="SourceFolder" xml:space="preserve">
+    <value>Вихідна папка</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Почати</value>
+  </data>
+  <data name="TranslatedFolder" xml:space="preserve">
+    <value>Папка з перекладами</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Додати мову</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>Відкрити за допомогою</value>
+  </data>
+  <data name="ReplaceUnicodeSequences" xml:space="preserve">
+    <value>Замінити послідовності Юнікода</value>
+  </data>
+  <data name="ChangesDetector" xml:space="preserve">
+    <value>Виявлення змін</value>
+  </data>
+  <data name="ApiKeyIsEmpty" xml:space="preserve">
+    <value>Ключ Api порожній</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Ключ API:</value>
+  </data>
+  <data name="LoadWithTextStrings" xml:space="preserve">
+    <value>Завантажити із текстовими рядками</value>
+  </data>
+  <data name="OnlyResources" xml:space="preserve">
+    <value>Лише ресурси</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Показати у провіднику</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="NewLanguage" xml:space="preserve">
+    <value>Нова мова:</value>
+  </data>
+  <data name="CantUpdateProgram" xml:space="preserve">
+    <value>Не вдалося оновити програму</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Оновлення</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>Доступна нова версія. Оновити?</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Темна</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Світла</value>
+  </data>
+  <data name="ApktoolVersion" xml:space="preserve">
+    <value>Версія apktool:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема:</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>Файли xml</value>
+  </data>
+  <data name="AccountNumberIsCopied" xml:space="preserve">
+    <value>Номер рахунку скопійовано до буферу обміну</value>
+  </data>
+  <data name="LanguageIsNotSelected" xml:space="preserve">
+    <value>Мову не обрано!</value>
+  </data>
+  <data name="AllDone" xml:space="preserve">
+    <value>Виконано!</value>
+  </data>
+  <data name="ApplyTheChanges" xml:space="preserve">
+    <value>Застосувати зміни?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation" xml:space="preserve">
+    <value>Переклад одного</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation_ToolTip" xml:space="preserve">
+    <value>Переклад файлу на основі словника</value>
+  </data>
+  <data name="FileDeleteConfirmation" xml:space="preserve">
+    <value>Ви дійсно хочете видалити цей файл</value>
+  </data>
+  <data name="FolderDeleteConfirmation" xml:space="preserve">
+    <value>Ви дійсно хочете вилучити цю теку</value>
+  </data>
+  <data name="SelectAFolder" xml:space="preserve">
+    <value>Виберіть теку:</value>
+  </data>
+  <data name="TheFileIsCorrupted" xml:space="preserve">
+    <value>Файл пошкоджено!</value>
+  </data>
+  <data name="SearchWindow_FolderIsNotSelected" xml:space="preserve">
+    <value>Необхідно вибрати теку перед пошуком!</value>
+  </data>
+  <data name="JavaNotFoundError" xml:space="preserve">
+    <value>Java не знайдено! Будь ласка, завантажити його з офіційного сайту або використовуйте портативну версію програми</value>
+  </data>
+  <data name="OnlineTranslationsLongLanguages" xml:space="preserve">
+    <value>Албанська|Англійська|Арабська|Вірменська|Азербайджанська|Африкаанс|Басков|Білоруська|Болгарська|Боснійська|Валлійська|Вєтнамська|Угорська|Гаїтянська (Креольська)|Галісійська|Голландська|Грецька|Грузинська|Датська|Ідиш|Індонезійська|Ірландська|Італійська|Ісландська|Іспанська|Казахська|Каталонська|Киргизька|Китайська|Корейська|Латинська|Латвійська|Литовська|Малагасійська|Малайська|Мальтійська|Македонська|Монгольська|Німецька|Норвезька|Перська|Польська|Португальська|Румунська|Російська|Сербська|Словацька|Словенська|Суахілі|Таджицька|Тайська|Тагальська|Татарська|Турецька|Узбецька|Українська|Фінська|Французька|Хорватська|Чеська|Шведська|Естонська|Японська</value>
+  </data>
+  <data name="OpenInExplorer" xml:space="preserve">
+    <value>Відкрити у провіднику</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Показувати попередній перегляд:</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Встановити</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Встановлено</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Плагіни</value>
+  </data>
+  <data name="ApktoolNotFound" xml:space="preserve">
+    <value>Apktool не знайдено! Будь ласка, завантажити apktool для "Files\Resources\apktools"</value>
+  </data>
+  <data name="EmptyFolders" xml:space="preserve">
+    <value>Порожні теки</value>
+  </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>Поверх всіх вікон:</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Розмір</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesCreation" xml:space="preserve">
+    <value>Створення багатьох</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesTranslation" xml:space="preserve">
+    <value>Переклад багатьох</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileCreation" xml:space="preserve">
+    <value>Створення одного</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Остання версія</value>
+  </data>
+  <data name="AlternativeEditingKeys" xml:space="preserve">
+    <value>Альтернативні редагування клавіші:</value>
+  </data>
+  <data name="SessionAutoTranslation" xml:space="preserve">
+    <value>Автоматичний переклад з сесії словник:</value>
+  </data>
+  <data name="SaveAndExit" xml:space="preserve">
+    <value>Зберегти зміни та вийти</value>
+  </data>
+</root>

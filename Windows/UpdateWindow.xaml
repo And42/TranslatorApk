@@ -1,0 +1,27 @@
+﻿<Window x:Class="TranslatorApk.Windows.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:logic="clr-namespace:TranslatorApk.Logic"
+        Topmost="{Binding TopMost, Source={x:Static logic:GlobalVariables.Instance}, Mode=OneWay}"
+        mc:Ignorable="d" FontSize="14" Style="{DynamicResource WindowStyle}"
+        Height="400" Width="450" WindowStartupLocation="CenterScreen"
+        MaxWidth="10000" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.ColumnSpan="2" Margin="0,10,0,10" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Static localization:Resources.UpdateNewVersion}"/>
+        <TextBox x:Name="ChangesBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,5" TextWrapping="Wrap"/>
+        <Button Grid.Column="0" Grid.Row="2" Padding="5" Margin="0,0,3,0" Content="{x:Static localization:Resources.Yes}" Click="YesClick"/>
+        <Button Grid.Column="1" Grid.Row="2" Padding="5" Margin="3,0,0,0" Content="{x:Static localization:Resources.No}" Click="NoClick"/>
+    </Grid>
+</Window>

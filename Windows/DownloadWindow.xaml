@@ -1,0 +1,12 @@
+﻿<Window x:Class="TranslatorApk.Windows.DownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:logic="clr-namespace:TranslatorApk.Logic"
+        Topmost="{Binding TopMost, Source={x:Static logic:GlobalVariables.Instance}, Mode=OneWay}"
+        Title="Загрузка..." Height="57" Width="370" Loaded="DownloadCS_Load" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowStyle}"
+        MaxHeight="10000" MaxWidth="10000" Closing="Window_Closing">
+    <Grid>
+        <ProgressBar x:Name="ProcessBar" Margin="15, 10"/>    
+    </Grid>
+</Window>

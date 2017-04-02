@@ -1,0 +1,549 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AllSmali" xml:space="preserve">
+    <value>All .smali</value>
+  </data>
+  <data name="AllXml" xml:space="preserve">
+    <value>All .xml</value>
+  </data>
+  <data name="AndroidApps" xml:space="preserve">
+    <value>Android apps</value>
+  </data>
+  <data name="BuildProject" xml:space="preserve">
+    <value>Build project</value>
+  </data>
+  <data name="CantTranslate" xml:space="preserve">
+    <value>Error was occurred while translating!</value>
+  </data>
+  <data name="ChooseCellOrRow" xml:space="preserve">
+    <value>Choose cell or row!</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Choose file</value>
+  </data>
+  <data name="ChooseFolder" xml:space="preserve">
+    <value>Choose folder</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="CurrentDictionary" xml:space="preserve">
+    <value>Current dictionary</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Dictionary" xml:space="preserve">
+    <value>Dictionary</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="EmptySmali" xml:space="preserve">
+    <value>Empty smali</value>
+  </data>
+  <data name="EmptyXml" xml:space="preserve">
+    <value>Empty xml</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorUpper" xml:space="preserve">
+    <value>ERROR</value>
+  </data>
+  <data name="ErrorWhileCompiling" xml:space="preserve">
+    <value>Error while compiling!</value>
+  </data>
+  <data name="ErrorWhileSigning" xml:space="preserve">
+    <value>Error while signing!</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="FileIsSituatedIn" xml:space="preserve">
+    <value>File is situated in</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="FilesWithErrors" xml:space="preserve">
+    <value>Files with errors</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FindAll" xml:space="preserve">
+    <value>Find all</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Find next</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="ImageExtensions" xml:space="preserve">
+    <value>Visible file extensions:</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language: </value>
+  </data>
+  <data name="LanguageOfApp" xml:space="preserve">
+    <value>Language of app:</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Match case</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewText" xml:space="preserve">
+    <value>New text</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoInternetCantTranslate" xml:space="preserve">
+    <value>Error while connecting to the internet! Online translation is disabled</value>
+  </data>
+  <data name="OldText" xml:space="preserve">
+    <value>Old text</value>
+  </data>
+  <data name="OnlineTranslator" xml:space="preserve">
+    <value>Online translator:</value>
+  </data>
+  <data name="OnlyFullWords" xml:space="preserve">
+    <value>Match whole word only</value>
+  </data>
+  <data name="OnlyXml" xml:space="preserve">
+    <value>Only xml</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="OtherExtensions" xml:space="preserve">
+    <value>Other extensions:</value>
+  </data>
+  <data name="OtherFiles" xml:space="preserve">
+    <value>Other files</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="RestartProgramToApplyLanguage" xml:space="preserve">
+    <value>Restart program to apply language setting?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchEditorClosed" xml:space="preserve">
+    <value>Editor window was closed. Search will not work</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Search options</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Sign</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StringsTranslated" xml:space="preserve">
+    <value>Strings translated:</value>
+  </data>
+  <data name="TargetLanguage" xml:space="preserve">
+    <value>Target language</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TextNotFound" xml:space="preserve">
+    <value>Text is not found</value>
+  </data>
+  <data name="TheFollowingFilesHaveBeenAlreadyAdded" xml:space="preserve">
+    <value>The following files have been already added</value>
+  </data>
+  <data name="TranslateAll" xml:space="preserve">
+    <value>Translate all</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Use</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="WaitingOperation" xml:space="preserve">
+    <value>Waiting for completion of the operation...</value>
+  </data>
+  <data name="XmlRulesEditor" xml:space="preserve">
+    <value>XmlRulesEditor</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="YouNeedToChooseDictionary" xml:space="preserve">
+    <value>You need to choose dictionary!</value>
+  </data>
+  <data name="DictionaryFiles" xml:space="preserve">
+    <value>Dictionary files</value>
+  </data>
+  <data name="DictionariesFolder" xml:space="preserve">
+    <value>Folder with dictionaries</value>
+  </data>
+  <data name="DictionaryFolder" xml:space="preserve">
+    <value>Dictionary's folder</value>
+  </data>
+  <data name="NamesOfFolderLanguages" xml:space="preserve">
+    <value>English (UK)|Arabic|Afrikaans|Belarusian|Bulgarian|Bosnian|Hungarian|Vietnamese|Dutch|Greek|Danish|Zulu|Hebrew|Indonesian|Spanish|Italian|Catalan|Chinese|Chinese (Simplified)|Chinese (Traditional)|Latvian|Lithuanian|Malay|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Swahili|Tagalog|Thai|Turkish|Ukrainian|Finnish|French|Hindi|Czech|Swedish|Estonian|Japanese</value>
+  </data>
+  <data name="ResultFolder" xml:space="preserve">
+    <value>Result folder</value>
+  </data>
+  <data name="SourceFolder" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="TranslatedFolder" xml:space="preserve">
+    <value>Folder with translations</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Add language</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>Open with</value>
+  </data>
+  <data name="ReplaceUnicodeSequences" xml:space="preserve">
+    <value>Replace Unicode sequences</value>
+  </data>
+  <data name="ChangesDetector" xml:space="preserve">
+    <value>Changes detector</value>
+  </data>
+  <data name="ApiKeyIsEmpty" xml:space="preserve">
+    <value>Api key is empty</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Api key:</value>
+  </data>
+  <data name="LoadWithTextStrings" xml:space="preserve">
+    <value>Load with text strings</value>
+  </data>
+  <data name="OnlyResources" xml:space="preserve">
+    <value>Only resources</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Show in explorer</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="NewLanguage" xml:space="preserve">
+    <value>New language:</value>
+  </data>
+  <data name="CantUpdateProgram" xml:space="preserve">
+    <value>Can't update program</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>New version is available. Update?</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="ApktoolVersion" xml:space="preserve">
+    <value>Apktool version:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>Xml files</value>
+  </data>
+  <data name="AccountNumberIsCopied" xml:space="preserve">
+    <value>Account number is copied to the clipboard</value>
+  </data>
+  <data name="LanguageIsNotSelected" xml:space="preserve">
+    <value>Language is not selected!</value>
+  </data>
+  <data name="AllDone" xml:space="preserve">
+    <value>All done!</value>
+  </data>
+  <data name="ApplyTheChanges" xml:space="preserve">
+    <value>Apply the changes?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation" xml:space="preserve">
+    <value>One file translation</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation_ToolTip" xml:space="preserve">
+    <value>One file translation with dictionary</value>
+  </data>
+  <data name="FileDeleteConfirmation" xml:space="preserve">
+    <value>Are you really want to delete the file</value>
+  </data>
+  <data name="FolderDeleteConfirmation" xml:space="preserve">
+    <value>Are you really want to delete the folder</value>
+  </data>
+  <data name="SelectAFolder" xml:space="preserve">
+    <value>Select a folder:</value>
+  </data>
+  <data name="TheFileIsCorrupted" xml:space="preserve">
+    <value>The file is corrupted!</value>
+  </data>
+  <data name="SearchWindow_FolderIsNotSelected" xml:space="preserve">
+    <value>You must select a folder to search!</value>
+  </data>
+  <data name="JavaNotFoundError" xml:space="preserve">
+    <value>Java wasn't found! Please, download it from official site or use portable version of program</value>
+  </data>
+  <data name="OnlineTranslationsLongLanguages" xml:space="preserve">
+    <value>Albanian|English|Arabic|Armenian|Azerbaijan|Afrikaans|Basque|Belarusian|Bulgarian|Bosnian|Welsh|Vietnamese|Hungarian|Haitian(Creole)|Galician|Dutch|Greek|Georgian|Danish|Yiddish|Indonesian|Irish|Italian|Icelandic|Spanish|Kazakh|Catalan|Kyrgyz|Chinese|Korean|Latin|Latvian|Lithuanian|Malagasy|Malay|Maltese|Macedonian|Mongolian|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovakian|Slovenian|Swahili|Tajik|Thai|Tagalog|Tatar|Turkish|Uzbek|Ukrainian|Finish|French|Croatian|Czech|Swedish|Estonian|Japanese</value>
+  </data>
+  <data name="OpenInExplorer" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Show preview:</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="ApktoolNotFound" xml:space="preserve">
+    <value>Apktool is not found! Please, download apktool to "Files\Resources\apktools"</value>
+  </data>
+  <data name="EmptyFolders" xml:space="preserve">
+    <value>Empty folders</value>
+  </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>On top of all windows:</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesCreation" xml:space="preserve">
+    <value>Many files creation</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesTranslation" xml:space="preserve">
+    <value>Many files translation</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileCreation" xml:space="preserve">
+    <value>One file creation</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Latest version</value>
+  </data>
+  <data name="AlternativeEditingKeys" xml:space="preserve">
+    <value>Alternative editing keys:</value>
+  </data>
+  <data name="SessionAutoTranslation" xml:space="preserve">
+    <value>Auto translation with session dictionary:</value>
+  </data>
+  <data name="SaveAndExit" xml:space="preserve">
+    <value>Save and exit</value>
+  </data>
+  <data name="CanNotRecievePluginsList" xml:space="preserve">
+    <value>Can not recieve plugins list. Please, check your internet connection.</value>
+  </data>
+  <data name="CanNotRecieveApktoolsList" xml:space="preserve">
+    <value>Can not recieve apktools list. Please, check your internet connection.</value>
+  </data>
+  <data name="DirectoryPathToClipboard" xml:space="preserve">
+    <value>Directory path (to clipboard)</value>
+  </data>
+  <data name="FileNameToClipboard" xml:space="preserve">
+    <value>File name (to clipboard)</value>
+  </data>
+  <data name="FullFilePathToClipboard" xml:space="preserve">
+    <value>Full file path (to clipboard)</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Show notifications:</value>
+  </data>
+  <data name="CompilationFinished" xml:space="preserve">
+    <value>Compilation finished</value>
+  </data>
+  <data name="DecompilationFinished" xml:space="preserve">
+    <value>Decompilation finished</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="AlternateRowsInEditor" xml:space="preserve">
+    <value>Alternate rows in editor</value>
+  </data>
+</root>

@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="ru" original="TRANSLATORAPK/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6796.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="TRANSLATORAPK/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="FoldersOfLanguages" translate="yes" xml:space="preserve">
+          <source>values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</source>
+          <target state="final">values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</target>
+        </trans-unit>
+        <trans-unit id="MainWindowTitle" translate="yes" xml:space="preserve">
+          <source>TranslatorApk</source>
+          <target state="final">TranslatorApk</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslationsShortLanguages" translate="yes" xml:space="preserve">
+          <source>sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</source>
+          <target state="final">sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="ru" original="TRANSLATORAPK/RESOURCES/LOCALIZATIONS/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6796.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="TRANSLATORAPK/RESOURCES/LOCALIZATIONS/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="AboutProgram" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">О программе</target>
+        </trans-unit>
+        <trans-unit id="AllSmali" translate="yes" xml:space="preserve">
+          <source>All .smali</source>
+          <target state="translated">Все .smali</target>
+        </trans-unit>
+        <trans-unit id="AllXml" translate="yes" xml:space="preserve">
+          <source>All .xml</source>
+          <target state="translated">Все .xml</target>
+        </trans-unit>
+        <trans-unit id="AndroidApps" translate="yes" xml:space="preserve">
+          <source>Android apps</source>
+          <target state="translated">Андроид приложения</target>
+        </trans-unit>
+        <trans-unit id="BuildProject" translate="yes" xml:space="preserve">
+          <source>Build project</source>
+          <target state="translated">Собрать проект</target>
+        </trans-unit>
+        <trans-unit id="CantTranslate" translate="yes" xml:space="preserve">
+          <source>Error was occurred while translating!</source>
+          <target state="translated">Ошибка при переводе!</target>
+        </trans-unit>
+        <trans-unit id="ChooseCellOrRow" translate="yes" xml:space="preserve">
+          <source>Choose cell or row!</source>
+          <target state="translated">Выберите ячейку или строку!</target>
+        </trans-unit>
+        <trans-unit id="ChooseFile" translate="yes" xml:space="preserve">
+          <source>Choose file</source>
+          <target state="translated">Выбрать файл</target>
+        </trans-unit>
+        <trans-unit id="ChooseFolder" translate="yes" xml:space="preserve">
+          <source>Choose folder</source>
+          <target state="translated">Выбрать папку</target>
+        </trans-unit>
+        <trans-unit id="Collapse" translate="yes" xml:space="preserve">
+          <source>Collapse</source>
+          <target state="translated">Свернуть</target>
+        </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="translated">Подтверждение</target>
+        </trans-unit>
+        <trans-unit id="CurrentDictionary" translate="yes" xml:space="preserve">
+          <source>Current dictionary</source>
+          <target state="translated">Текущий словарь</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Удалить</target>
+        </trans-unit>
+        <trans-unit id="Dictionary" translate="yes" xml:space="preserve">
+          <source>Dictionary</source>
+          <target state="translated">Словарь</target>
+        </trans-unit>
+        <trans-unit id="Editor" translate="yes" xml:space="preserve">
+          <source>Editor</source>
+          <target state="translated">Редактор</target>
+        </trans-unit>
+        <trans-unit id="EmptySmali" translate="yes" xml:space="preserve">
+          <source>Empty smali</source>
+          <target state="translated">Пустые smali</target>
+        </trans-unit>
+        <trans-unit id="EmptyXml" translate="yes" xml:space="preserve">
+          <source>Empty xml</source>
+          <target state="translated">Пустые xml</target>
+        </trans-unit>
+        <trans-unit id="ErrorLower" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated">Ошибка</target>
+        </trans-unit>
+        <trans-unit id="ErrorUpper" translate="yes" xml:space="preserve">
+          <source>ERROR</source>
+          <target state="translated">ОШИБКА</target>
+        </trans-unit>
+        <trans-unit id="ErrorWhileCompiling" translate="yes" xml:space="preserve">
+          <source>Error while compiling!</source>
+          <target state="translated">Ошибка при компиляции!</target>
+        </trans-unit>
+        <trans-unit id="ErrorWhileSigning" translate="yes" xml:space="preserve">
+          <source>Error while signing!</source>
+          <target state="translated">Ошибка при подписи!</target>
+        </trans-unit>
+        <trans-unit id="Expand" translate="yes" xml:space="preserve">
+          <source>Expand</source>
+          <target state="translated">Развернуть</target>
+        </trans-unit>
+        <trans-unit id="FileIsSituatedIn" translate="yes" xml:space="preserve">
+          <source>File is situated in</source>
+          <target state="translated">Файл находится в</target>
+        </trans-unit>
+        <trans-unit id="Filename" translate="yes" xml:space="preserve">
+          <source>Filename</source>
+          <target state="translated">Название файла</target>
+        </trans-unit>
+        <trans-unit id="FilesWithErrors" translate="yes" xml:space="preserve">
+          <source>Files with errors</source>
+          <target state="translated">Файлы с ошибками</target>
+        </trans-unit>
+        <trans-unit id="Find" translate="yes" xml:space="preserve">
+          <source>Find</source>
+          <target state="translated">Найти</target>
+        </trans-unit>
+        <trans-unit id="FindAll" translate="yes" xml:space="preserve">
+          <source>Find all</source>
+          <target state="translated">Найти все</target>
+        </trans-unit>
+        <trans-unit id="FindNext" translate="yes" xml:space="preserve">
+          <source>Find next</source>
+          <target state="translated">Искать далее</target>
+        </trans-unit>
+        <trans-unit id="Finished" translate="yes" xml:space="preserve">
+          <source>Finished</source>
+          <target state="translated">Готово</target>
+        </trans-unit>
+        <trans-unit id="From" translate="yes" xml:space="preserve">
+          <source>from</source>
+          <target state="translated">из</target>
+        </trans-unit>
+        <trans-unit id="ImageExtensions" translate="yes" xml:space="preserve">
+          <source>Visible file extensions:</source>
+          <target state="translated">Расширения изображений:</target>
+        </trans-unit>
+        <trans-unit id="Images" translate="yes" xml:space="preserve">
+          <source>Images</source>
+          <target state="translated">Изображения</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>Language: </source>
+          <target state="translated">Язык: </target>
+        </trans-unit>
+        <trans-unit id="LanguageOfApp" translate="yes" xml:space="preserve">
+          <source>Language of app:</source>
+          <target state="translated">Язык приложения:</target>
+        </trans-unit>
+        <trans-unit id="MatchCase" translate="yes" xml:space="preserve">
+          <source>Match case</source>
+          <target state="translated">Учитывать регистр</target>
+        </trans-unit>
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated">Название</target>
+        </trans-unit>
+        <trans-unit id="NewText" translate="yes" xml:space="preserve">
+          <source>New text</source>
+          <target state="translated">Новый текст</target>
+        </trans-unit>
+        <trans-unit id="No" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">Нет</target>
+        </trans-unit>
+        <trans-unit id="NoInternetCantTranslate" translate="yes" xml:space="preserve">
+          <source>Error while connecting to the internet! Online translation is disabled</source>
+          <target state="translated">Отсутствует интернет соединение! Онлайн перевод недоступен</target>
+        </trans-unit>
+        <trans-unit id="OldText" translate="yes" xml:space="preserve">
+          <source>Old text</source>
+          <target state="translated">Старый текст</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslator" translate="yes" xml:space="preserve">
+          <source>Online translator:</source>
+          <target state="translated">Онлайн переводчик:</target>
+        </trans-unit>
+        <trans-unit id="OnlyFullWords" translate="yes" xml:space="preserve">
+          <source>Match whole word only</source>
+          <target state="translated">Только целые слова</target>
+        </trans-unit>
+        <trans-unit id="OnlyXml" translate="yes" xml:space="preserve">
+          <source>Only xml</source>
+          <target state="translated">Только xml</target>
+        </trans-unit>
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="translated">Открыть</target>
+        </trans-unit>
+        <trans-unit id="Options" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target state="translated">Опции</target>
+        </trans-unit>
+        <trans-unit id="OtherExtensions" translate="yes" xml:space="preserve">
+          <source>Other extensions:</source>
+          <target state="translated">Расширения других файлов:</target>
+        </trans-unit>
+        <trans-unit id="OtherFiles" translate="yes" xml:space="preserve">
+          <source>Other files</source>
+          <target state="translated">Другие файлы</target>
+        </trans-unit>
+        <trans-unit id="Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">Обновить</target>
+        </trans-unit>
+        <trans-unit id="Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="translated">Заменить</target>
+        </trans-unit>
+        <trans-unit id="RestartProgramToApplyLanguage" translate="yes" xml:space="preserve">
+          <source>Restart program to apply language setting?</source>
+          <target state="translated">Перезапустить программу для смены языка?</target>
+        </trans-unit>
+        <trans-unit id="Save" translate="yes" xml:space="preserve">
+          <source>Save</source>
+          <target state="translated">Сохранить</target>
+        </trans-unit>
+        <trans-unit id="Search" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">Поиск</target>
+        </trans-unit>
+        <trans-unit id="SearchEditorClosed" translate="yes" xml:space="preserve">
+          <source>Editor window was closed. Search will not work</source>
+          <target state="translated">Окно редактора было закрыто. Поиск работать не будет</target>
+        </trans-unit>
+        <trans-unit id="SearchOptions" translate="yes" xml:space="preserve">
+          <source>Search options</source>
+          <target state="translated">Опции поиска</target>
+        </trans-unit>
+        <trans-unit id="Settings" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">Настройки</target>
+        </trans-unit>
+        <trans-unit id="Sign" translate="yes" xml:space="preserve">
+          <source>Sign</source>
+          <target state="translated">Подписать</target>
+        </trans-unit>
+        <trans-unit id="Stop" translate="yes" xml:space="preserve">
+          <source>Stop</source>
+          <target state="translated">Остановить</target>
+        </trans-unit>
+        <trans-unit id="StringsTranslated" translate="yes" xml:space="preserve">
+          <source>Strings translated:</source>
+          <target state="translated">Переведено строк:</target>
+        </trans-unit>
+        <trans-unit id="TargetLanguage" translate="yes" xml:space="preserve">
+          <source>Target language</source>
+          <target state="translated">Целевой язык</target>
+        </trans-unit>
+        <trans-unit id="Text" translate="yes" xml:space="preserve">
+          <source>Text</source>
+          <target state="translated">Текст</target>
+        </trans-unit>
+        <trans-unit id="TextNotFound" translate="yes" xml:space="preserve">
+          <source>Text is not found</source>
+          <target state="translated">Заданный текст не найден</target>
+        </trans-unit>
+        <trans-unit id="TranslateAll" translate="yes" xml:space="preserve">
+          <source>Translate all</source>
+          <target state="translated">Перевести всё</target>
+        </trans-unit>
+        <trans-unit id="Use" translate="yes" xml:space="preserve">
+          <source>Use</source>
+          <target state="translated">Использовать</target>
+        </trans-unit>
+        <trans-unit id="Version" translate="yes" xml:space="preserve">
+          <source>Version</source>
+          <target state="translated">Версия</target>
+        </trans-unit>
+        <trans-unit id="WaitingOperation" translate="yes" xml:space="preserve">
+          <source>Waiting for completion of the operation...</source>
+          <target state="translated">Ожидание завершения операции...</target>
+        </trans-unit>
+        <trans-unit id="XmlRulesEditor" translate="yes" xml:space="preserve">
+          <source>XmlRulesEditor</source>
+          <target state="translated">Редактор правил xml</target>
+        </trans-unit>
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">Да</target>
+        </trans-unit>
+        <trans-unit id="YouNeedToChooseDictionary" translate="yes" xml:space="preserve">
+          <source>You need to choose dictionary!</source>
+          <target state="translated">Необходимо выбрать словарь!</target>
+        </trans-unit>
+        <trans-unit id="DictionaryFiles" translate="yes" xml:space="preserve">
+          <source>Dictionary files</source>
+          <target state="translated">Файлы словарей</target>
+        </trans-unit>
+        <trans-unit id="DictionariesFolder" translate="yes" xml:space="preserve">
+          <source>Folder with dictionaries</source>
+          <target state="translated">Папки с словарями</target>
+        </trans-unit>
+        <trans-unit id="DictionaryFolder" translate="yes" xml:space="preserve">
+          <source>Dictionary's folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Папка словаря</target>
+        </trans-unit>
+        <trans-unit id="NamesOfFolderLanguages" translate="yes" xml:space="preserve">
+          <source>English (UK)|Arabic|Afrikaans|Belarusian|Bulgarian|Bosnian|Hungarian|Vietnamese|Dutch|Greek|Danish|Zulu|Hebrew|Indonesian|Spanish|Italian|Catalan|Chinese|Chinese (Simplified)|Chinese (Traditional)|Latvian|Lithuanian|Malay|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Swahili|Tagalog|Thai|Turkish|Ukrainian|Finnish|French|Hindi|Czech|Swedish|Estonian|Japanese</source>
+          <target state="translated">Английский (Великобритания)|Арабский|Африкаанс|Белорусский|Болгарский|Боснийский|Венгерский|Вьетнамский|Голландский|Греческий|Датский|Зулу|Иврит|Индонезийский|Испанский|Итальянский|Каталанский|Китайский|Китайский (Упрощённый)|Китайский (Традиционный)|Латышский|Литовский|Малайский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Словенский|Суахили|Тагальский|Тайский|Турецкий|Украинский|Финский|Французский|Хинди|Чешский|Шведский|Эстонский|Японский</target>
+        </trans-unit>
+        <trans-unit id="ResultFolder" translate="yes" xml:space="preserve">
+          <source>Result folder</source>
+          <target state="translated">Папка с результатом</target>
+        </trans-unit>
+        <trans-unit id="SourceFolder" translate="yes" xml:space="preserve">
+          <source>Source folder</source>
+          <target state="translated">Исходная папка</target>
+        </trans-unit>
+        <trans-unit id="Start" translate="yes" xml:space="preserve">
+          <source>Start</source>
+          <target state="translated">Начать</target>
+        </trans-unit>
+        <trans-unit id="TranslatedFolder" translate="yes" xml:space="preserve">
+          <source>Folder with translations</source>
+          <target state="translated" state-qualifier="mt-suggestion">Папка с переводами</target>
+        </trans-unit>
+        <trans-unit id="AddLanguage" translate="yes" xml:space="preserve">
+          <source>Add language</source>
+          <target state="translated" state-qualifier="mt-suggestion">Добавить язык</target>
+        </trans-unit>
+        <trans-unit id="OpenWith" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="translated" state-qualifier="mt-suggestion">Открыть с помощью</target>
+        </trans-unit>
+        <trans-unit id="ReplaceUnicodeSequences" translate="yes" xml:space="preserve">
+          <source>Replace Unicode sequences</source>
+          <target state="translated">Заменять последовательности Юникода</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetector" translate="yes" xml:space="preserve">
+          <source>Changes detector</source>
+          <target state="translated">Обнаружение изменений</target>
+        </trans-unit>
+        <trans-unit id="ApiKeyIsEmpty" translate="yes" xml:space="preserve">
+          <source>Api key is empty</source>
+          <target state="translated">Ключ Api пуст</target>
+        </trans-unit>
+        <trans-unit id="ApiKey" translate="yes" xml:space="preserve">
+          <source>Api key:</source>
+          <target state="translated">Ключ api:</target>
+        </trans-unit>
+        <trans-unit id="LoadWithTextStrings" translate="yes" xml:space="preserve">
+          <source>Load with text strings</source>
+          <target state="translated">Загрузить с текстовыми строками</target>
+        </trans-unit>
+        <trans-unit id="OnlyResources" translate="yes" xml:space="preserve">
+          <source>Only resources</source>
+          <target state="translated" state-qualifier="mt-suggestion">Только ресурсы</target>
+        </trans-unit>
+        <trans-unit id="ShowInExplorer" translate="yes" xml:space="preserve">
+          <source>Show in explorer</source>
+          <target state="translated" state-qualifier="mt-suggestion">Показать в проводнике</target>
+        </trans-unit>
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="translated">Добавить</target>
+        </trans-unit>
+        <trans-unit id="NewLanguage" translate="yes" xml:space="preserve">
+          <source>New language:</source>
+          <target state="translated">Новый язык:</target>
+        </trans-unit>
+        <trans-unit id="CantUpdateProgram" translate="yes" xml:space="preserve">
+          <source>Can't update program</source>
+          <target state="translated" state-qualifier="mt-suggestion">Не удается обновить программу</target>
+        </trans-unit>
+        <trans-unit id="Update" translate="yes" xml:space="preserve">
+          <source>Update</source>
+          <target state="translated">Обновить</target>
+        </trans-unit>
+        <trans-unit id="UpdateNewVersion" translate="yes" xml:space="preserve">
+          <source>New version is available. Update?</source>
+          <target state="translated" state-qualifier="mt-suggestion">Доступна новая версия. Обновить?</target>
+        </trans-unit>
+        <trans-unit id="Theme_Dark" translate="yes" xml:space="preserve">
+          <source>Dark</source>
+          <target state="translated">Темная</target>
+        </trans-unit>
+        <trans-unit id="Theme_Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="translated">Светлая</target>
+        </trans-unit>
+        <trans-unit id="ApktoolVersion" translate="yes" xml:space="preserve">
+          <source>Apktool version:</source>
+          <target state="translated">Версия apktool:</target>
+        </trans-unit>
+        <trans-unit id="Theme" translate="yes" xml:space="preserve">
+          <source>Theme:</source>
+          <target state="translated">Тема:</target>
+        </trans-unit>
+        <trans-unit id="XmlFiles" translate="yes" xml:space="preserve">
+          <source>Xml files</source>
+          <target state="translated">Файлы xml</target>
+        </trans-unit>
+        <trans-unit id="AccountNumberIsCopied" translate="yes" xml:space="preserve">
+          <source>Account number is copied to the clipboard</source>
+          <target state="translated">Номер счёта скопирован в буфер обмена</target>
+        </trans-unit>
+        <trans-unit id="LanguageIsNotSelected" translate="yes" xml:space="preserve">
+          <source>Language is not selected!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Язык не выбран!</target>
+        </trans-unit>
+        <trans-unit id="AllDone" translate="yes" xml:space="preserve">
+          <source>All done!</source>
+          <target state="translated">Готово!</target>
+        </trans-unit>
+        <trans-unit id="ApplyTheChanges" translate="yes" xml:space="preserve">
+          <source>Apply the changes?</source>
+          <target state="translated" state-qualifier="mt-suggestion">Применить изменения?</target>
+        </trans-unit>
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated" state-qualifier="mt-suggestion">Отмена</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileTranslation" translate="yes" xml:space="preserve">
+          <source>One file translation</source>
+          <target state="translated">Перевод одного</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileTranslation_ToolTip" translate="yes" xml:space="preserve">
+          <source>One file translation with dictionary</source>
+          <target state="translated">Перевод файла на основе словаря</target>
+        </trans-unit>
+        <trans-unit id="FileDeleteConfirmation" translate="yes" xml:space="preserve">
+          <source>Are you really want to delete the file</source>
+          <target state="translated">Вы действительно хотите удалить этот файл</target>
+        </trans-unit>
+        <trans-unit id="FolderDeleteConfirmation" translate="yes" xml:space="preserve">
+          <source>Are you really want to delete the folder</source>
+          <target state="translated">Вы действительно хотите удалить эту папку</target>
+        </trans-unit>
+        <trans-unit id="SelectAFolder" translate="yes" xml:space="preserve">
+          <source>Select a folder:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Выберите папку:</target>
+        </trans-unit>
+        <trans-unit id="TheFileIsCorrupted" translate="yes" xml:space="preserve">
+          <source>The file is corrupted!</source>
+          <target state="translated">Файл повреждён!</target>
+        </trans-unit>
+        <trans-unit id="SearchWindow_FolderIsNotSelected" translate="yes" xml:space="preserve">
+          <source>You must select a folder to search!</source>
+          <target state="translated">Необходимо выбрать папку перед поиском!</target>
+        </trans-unit>
+        <trans-unit id="JavaNotFoundError" translate="yes" xml:space="preserve">
+          <source>Java wasn't found! Please, download it from official site or use portable version of program</source>
+          <target state="translated">Java не найдена! Пожалуйста, загрузите её с официального сайта или используйте портативную версию программы</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslationsLongLanguages" translate="yes" xml:space="preserve">
+          <source>Albanian|English|Arabic|Armenian|Azerbaijan|Afrikaans|Basque|Belarusian|Bulgarian|Bosnian|Welsh|Vietnamese|Hungarian|Haitian(Creole)|Galician|Dutch|Greek|Georgian|Danish|Yiddish|Indonesian|Irish|Italian|Icelandic|Spanish|Kazakh|Catalan|Kyrgyz|Chinese|Korean|Latin|Latvian|Lithuanian|Malagasy|Malay|Maltese|Macedonian|Mongolian|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovakian|Slovenian|Swahili|Tajik|Thai|Tagalog|Tatar|Turkish|Uzbek|Ukrainian|Finish|French|Croatian|Czech|Swedish|Estonian|Japanese</source>
+          <target state="translated">Албанский|Английский|Арабский|Армянский|Азербайджан|Африкаанс|Басков|Белорусский|Болгарский|Боснийский|Валлийский|Вьетнамский|Венгерский|Гаитянский (Креольский)|Галицкая|Голландский|Греческий|Грузинский|Датский|Идиш|Индонезийский|Ирландский|Итальянский|Исландский|Испанский|Казахский|Каталонский|Кыргызский|Китайский|Корейский|Латинский|Латвийский|Литовский|Малагасийский|Малайский|Мальтийский|Македонский|Монгольский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Словенский|Суахили|Таджикский|Тайский|Тагальский|Татарский|Турецкий|Узбекский|Украинский|Финский|Французский|Хорватский|Чешский|Шведский|Эстонский|Японский</target>
+        </trans-unit>
+        <trans-unit id="OpenInExplorer" translate="yes" xml:space="preserve">
+          <source>Open in explorer</source>
+          <target state="translated">Открыть в проводнике</target>
+        </trans-unit>
+        <trans-unit id="ShowPreview" translate="yes" xml:space="preserve">
+          <source>Show preview:</source>
+          <target state="translated">Показывать превью изображений:</target>
+        </trans-unit>
+        <trans-unit id="Catalog" translate="yes" xml:space="preserve">
+          <source>Catalog</source>
+          <target state="translated" state-qualifier="mt-suggestion">Каталог</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="translated">Установить</target>
+        </trans-unit>
+        <trans-unit id="Installed" translate="yes" xml:space="preserve">
+          <source>Installed</source>
+          <target state="translated">Установлено</target>
+        </trans-unit>
+        <trans-unit id="Description" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <target state="translated" state-qualifier="mt-suggestion">Описание</target>
+        </trans-unit>
+        <trans-unit id="Title" translate="yes" xml:space="preserve">
+          <source>Title</source>
+          <target state="translated" state-qualifier="mt-suggestion">Название</target>
+        </trans-unit>
+        <trans-unit id="Plugins" translate="yes" xml:space="preserve">
+          <source>Plugins</source>
+          <target state="translated">Плагины</target>
+        </trans-unit>
+        <trans-unit id="ApktoolNotFound" translate="yes" xml:space="preserve">
+          <source>Apktool is not found! Please, download apktool to "Files\Resources\apktools"</source>
+          <target state="translated">Apktool не найден! Пожалуйста, загрузите apktool в "Files\Resources\apktools"</target>
+        </trans-unit>
+        <trans-unit id="EmptyFolders" translate="yes" xml:space="preserve">
+          <source>Empty folders</source>
+          <target state="translated" state-qualifier="mt-suggestion">Пустые папки</target>
+        </trans-unit>
+        <trans-unit id="TopMost" translate="yes" xml:space="preserve">
+          <source>On top of all windows:</source>
+          <target state="translated">Поверх всех окон:</target>
+        </trans-unit>
+        <trans-unit id="Size" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated">Размер</target>
+        </trans-unit>
+        <trans-unit id="Uninstall" translate="yes" xml:space="preserve">
+          <source>Uninstall</source>
+          <target state="translated">Удалить</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_ManyFilesCreation" translate="yes" xml:space="preserve">
+          <source>Many files creation</source>
+          <target state="translated">Создание множества</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_ManyFilesTranslation" translate="yes" xml:space="preserve">
+          <source>Many files translation</source>
+          <target state="translated">Перевод множества</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileCreation" translate="yes" xml:space="preserve">
+          <source>One file creation</source>
+          <target state="translated">Создание одного</target>
+        </trans-unit>
+        <trans-unit id="LatestVersion" translate="yes" xml:space="preserve">
+          <source>Latest version</source>
+          <target state="translated">Последняя версия</target>
+        </trans-unit>
+        <trans-unit id="AlternativeEditingKeys" translate="yes" xml:space="preserve">
+          <source>Alternative editing keys:</source>
+          <target state="translated">Альтернативные клавиши редактирования:</target>
+        </trans-unit>
+        <trans-unit id="SessionAutoTranslation" translate="yes" xml:space="preserve">
+          <source>Auto translation with session dictionary:</source>
+          <target state="translated">Автоперевод по словарю сессии:</target>
+        </trans-unit>
+        <trans-unit id="SaveAndExit" translate="yes" xml:space="preserve">
+          <source>Save and exit</source>
+          <target state="translated" state-qualifier="mt-suggestion">Сохранить и выйти</target>
+        </trans-unit>
+        <trans-unit id="CanNotRecievePluginsList" translate="yes" xml:space="preserve">
+          <source>Can not recieve plugins list. Please, check your internet connection.</source>
+          <target state="translated">Не удается получить список плагинов. Пожалуйста, проверьте подключение к интернету.</target>
+        </trans-unit>
+        <trans-unit id="CanNotRecieveApktoolsList" translate="yes" xml:space="preserve">
+          <source>Can not recieve apktools list. Please, check your internet connection.</source>
+          <target state="translated">Не удается получить список версий apktools. Пожалуйста проверьте подключение к Интернету.</target>
+        </trans-unit>
+        <trans-unit id="DirectoryPathToClipboard" translate="yes" xml:space="preserve">
+          <source>Directory path (to clipboard)</source>
+          <target state="translated">Путь к директории файла (в буфер)</target>
+        </trans-unit>
+        <trans-unit id="FileNameToClipboard" translate="yes" xml:space="preserve">
+          <source>File name (to clipboard)</source>
+          <target state="translated">Имя файла (в буфер)</target>
+        </trans-unit>
+        <trans-unit id="FullFilePathToClipboard" translate="yes" xml:space="preserve">
+          <source>Full file path (to clipboard)</source>
+          <target state="translated">Полный путь к файлу (в буфер)</target>
+        </trans-unit>
+        <trans-unit id="Loading" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="translated">Загрузка...</target>
+        </trans-unit>
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="translated" state-qualifier="tm-suggestion">Копировать</target>
+        </trans-unit>
+        <trans-unit id="Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="translated" state-qualifier="tm-suggestion">Вставить</target>
+        </trans-unit>
+        <trans-unit id="ShowNotifications" translate="yes" xml:space="preserve">
+          <source>Show notifications:</source>
+          <target state="new">Show notifications:</target>
+        </trans-unit>
+        <trans-unit id="CompilationFinished" translate="yes" xml:space="preserve">
+          <source>Compilation finished</source>
+          <target state="new">Compilation finished</target>
+        </trans-unit>
+        <trans-unit id="DecompilationFinished" translate="yes" xml:space="preserve">
+          <source>Decompilation finished</source>
+          <target state="new">Decompilation finished</target>
+        </trans-unit>
+        <trans-unit id="TheFollowingFilesHaveBeenAlreadyAdded" translate="yes" xml:space="preserve">
+          <source>The following files have been already added</source>
+          <target state="new">The following files have been already added</target>
+        </trans-unit>
+        <trans-unit id="Information" translate="yes" xml:space="preserve">
+          <source>Information</source>
+          <target state="new">Information</target>
+        </trans-unit>
+        <trans-unit id="AlternateRowsInEditor" translate="yes" xml:space="preserve">
+          <source>Alternate rows in editor</source>
+          <target state="new">Alternate rows in editor</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>Über</value>
+  </data>
+  <data name="AllSmali" xml:space="preserve">
+    <value>Smali All.</value>
+  </data>
+  <data name="AllXml" xml:space="preserve">
+    <value>Alle Xml.</value>
+  </data>
+  <data name="AndroidApps" xml:space="preserve">
+    <value>Android apps</value>
+  </data>
+  <data name="BuildProject" xml:space="preserve">
+    <value>Projekt erstellen</value>
+  </data>
+  <data name="CantTranslate" xml:space="preserve">
+    <value>Der Fehler wurde beim Übersetzen!</value>
+  </data>
+  <data name="ChooseCellOrRow" xml:space="preserve">
+    <value>Wählen Sie die Zelle oder Zeile!</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Wählen Sie Datei</value>
+  </data>
+  <data name="ChooseFolder" xml:space="preserve">
+    <value>Wählen Sie Ordner</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Collapse-Methode</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Bestätigung</value>
+  </data>
+  <data name="CurrentDictionary" xml:space="preserve">
+    <value>Aktuellen Wörterbuch</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Dictionary" xml:space="preserve">
+    <value>Wörterbuch</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="EmptySmali" xml:space="preserve">
+    <value>Leere smali</value>
+  </data>
+  <data name="EmptyXml" xml:space="preserve">
+    <value>Leere xml</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="ErrorUpper" xml:space="preserve">
+    <value>FEHLER</value>
+  </data>
+  <data name="ErrorWhileCompiling" xml:space="preserve">
+    <value>Fehler beim Kompilieren!</value>
+  </data>
+  <data name="ErrorWhileSigning" xml:space="preserve">
+    <value>Fehler beim Signieren!</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Erweitern Sie</value>
+  </data>
+  <data name="FileIsSituatedIn" xml:space="preserve">
+    <value>Datei befindet sich im</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Dateiname</value>
+  </data>
+  <data name="FilesWithErrors" xml:space="preserve">
+    <value>Dateien mit Fehlern</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Finden</value>
+  </data>
+  <data name="FindAll" xml:space="preserve">
+    <value>Alle suchen</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Weitersuchen</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Das fertig</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>from-Klausel</value>
+  </data>
+  <data name="ImageExtensions" xml:space="preserve">
+    <value>Dateierweiterungen sichtbar:</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Bilder und Videos</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache: </value>
+  </data>
+  <data name="LanguageOfApp" xml:space="preserve">
+    <value>Sprache der app:</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Groß-/Kleinschreibung beachten</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewText" xml:space="preserve">
+    <value>Neuen text</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="NoInternetCantTranslate" xml:space="preserve">
+    <value>Fehler beim Verbinden mit dem Internet! Online-Übersetzung ist deaktiviert</value>
+  </data>
+  <data name="OldText" xml:space="preserve">
+    <value>Alt text</value>
+  </data>
+  <data name="OnlineTranslator" xml:space="preserve">
+    <value>Online-Übersetzer:</value>
+  </data>
+  <data name="OnlyFullWords" xml:space="preserve">
+    <value>Nur ganzes Wort suchen</value>
+  </data>
+  <data name="OnlyXml" xml:space="preserve">
+    <value>Nur xml</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Offene</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Optionen</value>
+  </data>
+  <data name="OtherExtensions" xml:space="preserve">
+    <value>Andere Erweiterungen:</value>
+  </data>
+  <data name="OtherFiles" xml:space="preserve">
+    <value>Andere Dateien</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Ersetzen</value>
+  </data>
+  <data name="RestartProgramToApplyLanguage" xml:space="preserve">
+    <value>Starten Sie Programm, um die Spracheinstellung zu gelten?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SearchEditorClosed" xml:space="preserve">
+    <value>Editor-Fenster wurde geschlossen. Suche funktioniert nicht</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Suchoptionen</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Zeichen</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StringsTranslated" xml:space="preserve">
+    <value>Die Texte sind übersetzt:</value>
+  </data>
+  <data name="TargetLanguage" xml:space="preserve">
+    <value>Zielsprache</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TextNotFound" xml:space="preserve">
+    <value>Der Text wurde nicht gefunden.</value>
+  </data>
+  <data name="TranslateAll" xml:space="preserve">
+    <value>Alles zu übersetzen</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Verwendung</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="WaitingOperation" xml:space="preserve">
+    <value>Abschluss des Vorgangs warten....</value>
+  </data>
+  <data name="XmlRulesEditor" xml:space="preserve">
+    <value>XmlRulesEditor</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="YouNeedToChooseDictionary" xml:space="preserve">
+    <value>Müssen Sie ein Wörterbuch auswählen!</value>
+  </data>
+  <data name="DictionaryFiles" xml:space="preserve">
+    <value>Wörterbuch-Dateien</value>
+  </data>
+  <data name="DictionariesFolder" xml:space="preserve">
+    <value>Ordner-Wörterbücher</value>
+  </data>
+  <data name="DictionaryFolder" xml:space="preserve">
+    <value>Wörterbuch Ordner</value>
+  </data>
+  <data name="NamesOfFolderLanguages" xml:space="preserve">
+    <value>Englisch (GB)|Arabisch|Afrikanisch|Belarussisch|Bulgarisch|Bosnisch|Ungarisch|Vietnamesisch|Holländisch|Griechisch|Dänisch|Zulu|Hebräisch|Indonesisch|Spanisch|Italienisch|Katalanisch|Chinesisch|Chinesisch (Vereinfacht)|Chinesisch (Traditionell)|Lettisch|Litauisch|Malaiisch|Deutsch|Norwegisch|Persisch|Polnisch|Portugiesisch|Rumänisch|Russisch|Serbisch|Slowakisch|Slowenisch|Suaheli|Tagalog|Thailändisch|Türkisch|Ukrainisch|Finnisch|Französisch|Hindi|Tschechisch|Schwedisch|Estnisch|Japanisch</value>
+  </data>
+  <data name="ResultFolder" xml:space="preserve">
+    <value>Ergebnisordner</value>
+  </data>
+  <data name="SourceFolder" xml:space="preserve">
+    <value>Quellordner</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Starten</value>
+  </data>
+  <data name="TranslatedFolder" xml:space="preserve">
+    <value>Ordner mit Übersetzungen</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Hinzufügen von Sprache</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>Öffnen mit</value>
+  </data>
+  <data name="ReplaceUnicodeSequences" xml:space="preserve">
+    <value>Unicode-Zeichenfolgen ersetzen</value>
+  </data>
+  <data name="ChangesDetector" xml:space="preserve">
+    <value>Änderungen Detektor</value>
+  </data>
+  <data name="ApiKeyIsEmpty" xml:space="preserve">
+    <value>API-Schlüssel ist leer</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Api key:</value>
+  </data>
+  <data name="LoadWithTextStrings" xml:space="preserve">
+    <value>Laden Sie mit Zeichenfolgen</value>
+  </data>
+  <data name="OnlyResources" xml:space="preserve">
+    <value>Nur Ressourcen</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Im Explorer anzeigen</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="NewLanguage" xml:space="preserve">
+    <value>Neue Sprache:</value>
+  </data>
+  <data name="CantUpdateProgram" xml:space="preserve">
+    <value>Programm kann nicht aktualisiert werden</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>Neue Version ist verfügbar. Aktualisieren?</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Dunkel</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Licht</value>
+  </data>
+  <data name="ApktoolVersion" xml:space="preserve">
+    <value>Apktool-Version:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thema:</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>XML-Dateien</value>
+  </data>
+  <data name="AccountNumberIsCopied" xml:space="preserve">
+    <value>Nummer wird in die Zwischenablage kopiert.</value>
+  </data>
+  <data name="LanguageIsNotSelected" xml:space="preserve">
+    <value>Sprache ist nicht aktiviert!</value>
+  </data>
+  <data name="AllDone" xml:space="preserve">
+    <value>Alles!</value>
+  </data>
+  <data name="ApplyTheChanges" xml:space="preserve">
+    <value>Übernehmen?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation" xml:space="preserve">
+    <value>Eine Übersetzung</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation_ToolTip" xml:space="preserve">
+    <value>Eine Übersetzung-Wörterbuch</value>
+  </data>
+  <data name="FileDeleteConfirmation" xml:space="preserve">
+    <value>Möchten Sie wirklich die Datei löschen</value>
+  </data>
+  <data name="FolderDeleteConfirmation" xml:space="preserve">
+    <value>Möchten Sie wirklich den Ordner löschen</value>
+  </data>
+  <data name="SelectAFolder" xml:space="preserve">
+    <value>Wählen Sie einen Ordner:</value>
+  </data>
+  <data name="TheFileIsCorrupted" xml:space="preserve">
+    <value>Die Datei ist beschädigt.</value>
+  </data>
+  <data name="SearchWindow_FolderIsNotSelected" xml:space="preserve">
+    <value>Sie müssen einen Ordner auswählen.</value>
+  </data>
+  <data name="JavaNotFoundError" xml:space="preserve">
+    <value>Java nicht gefunden! Bitte von der Website herunterladen oder portable Version der Anwendung verwenden</value>
+  </data>
+  <data name="OnlineTranslationsLongLanguages" xml:space="preserve">
+    <value>Albanisch|Englisch|Arabisch|Armenisch|Aserbaidschan|Afrikaans|Baskische|Belarusian|Bulgarisch|Bosnisch|Welsh|Vietnamesisch|Ungarisch|Haitian (Creole)|Galizisch|Niederländisch|Griechisch|Georgian|Dänisch|Yiddish|Indonesisch|Irish|Italienisch|Icelandic|Spanisch|Kasachisch|Katalanisch|Kirgisische|Chinese|Korean|Latin|Latvian|Lithuanian|Malagasy|Malay|Maltese|Mazedonisch|Mongolian|Deutsch|Norwegisch|Persian|Polnisch|Portugiesisch|Rumänisch|Russian|Serbisch|Slovakian|Slowenisch|Swahili|Tajik|Thai|Tagalog|Tatar|Turkish|Usbekischen|Ukrainisch|Finnisch|Französisch|Kroatisch|Tschechische|Schwedisch|Estonian|Japanisch</value>
+  </data>
+  <data name="OpenInExplorer" xml:space="preserve">
+    <value>Im Explorer öffnen</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Vorschau anzeigen:</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Installiert</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="ApktoolNotFound" xml:space="preserve">
+    <value>Apktool nicht gefunden. Bitte apktool zu "Files\Resources\apktools"</value>
+  </data>
+  <data name="EmptyFolders" xml:space="preserve">
+    <value>Leere Ordner</value>
+  </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>Auf alle Fenster:</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Deinstallieren</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesCreation" xml:space="preserve">
+    <value>Viele Dateien erstellen</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesTranslation" xml:space="preserve">
+    <value>Viele Dateien Übersetzung</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileCreation" xml:space="preserve">
+    <value>Erstellen einer Datei</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Neueste version</value>
+  </data>
+  <data name="AlternativeEditingKeys" xml:space="preserve">
+    <value>Alternative Schlüssel bearbeiten:</value>
+  </data>
+  <data name="SessionAutoTranslation" xml:space="preserve">
+    <value>Automatische Übersetzung Sitzungswörterbuch:</value>
+  </data>
+  <data name="SaveAndExit" xml:space="preserve">
+    <value>Speichern und beenden</value>
+  </data>
+</root>

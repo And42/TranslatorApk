@@ -1,0 +1,1019 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C6310201-A545-4CD7-9872-462D21CC0B59}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TranslatorApk</RootNamespace>
+    <AssemblyName>TranslatorApk</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <SupportedCultures>de;lt;ru;uk-UA;vi-VN</SupportedCultures>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7</LangVersion>
+    <DocumentationFile>
+    </DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;/F 10485760</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>TranslatorApk.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
+    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AndroidLibs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\Android\bin\Release\AndroidLibs.dll</HintPath>
+    </Reference>
+    <Reference Include="AndroidTranslator, Version=1.2.6190.821, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Windows.Shell, Version=3.0.50506.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\WPF.Shell.Integration.Library.2.0\lib\net30\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Data.WPF">
+      <HintPath>E:\FailiProgram\Syncfusion\14.3.0.49\precompiledassemblies\14.3.0.49\4.0\Syncfusion.Data.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfGrid.WPF">
+      <HintPath>E:\FailiProgram\Syncfusion\14.3.0.49\precompiledassemblies\14.3.0.49\4.0\Syncfusion.SfGrid.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.WPF">
+      <HintPath>E:\FailiProgram\Syncfusion\14.3.0.49\precompiledassemblies\14.3.0.49\4.0\Syncfusion.Shared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TranslatorApkPluginLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UsefulClasses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\UsefulClasses\bin\Release\UsefulClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="UsefulFunctionsLib">
+      <HintPath>..\..\..\Libs\UsefulFunctions\bin\Release\UsefulFunctionsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Logic\Classes\ActionHost.cs" />
+    <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
+    <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
+    <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
+    <Compile Include="Logic\EventManagerLogic\ManualEvent.cs" />
+    <Compile Include="Logic\EventModuler.cs" />
+    <Compile Include="Logic\Events\ActivateEditorWindowEvent.cs" />
+    <Compile Include="Logic\Events\CloseEditorSearchWindowEvent.cs" />
+    <Compile Include="Logic\Events\EditFilesEvent.cs" />
+    <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
+    <Compile Include="Logic\Events\EditorScrollToStringAndSelectEvent.cs" />
+    <Compile Include="Logic\Events\EditorWindowTranslateTextEvent.cs" />
+    <Compile Include="Logic\OrganisationItems\INotificationService.cs" />
+    <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
+    <Compile Include="Logic\OrganisationItems\ServiceLocator.cs" />
+    <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
+    <Compile Include="Logic\SettingsIncapsuler.cs" />
+    <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
+    <Compile Include="Logic\Classes\CheckableString.cs" />
+    <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
+    <Compile Include="Logic\Classes\ComparisonWrapper.cs" />
+    <Compile Include="Logic\Classes\GridSelectionControllerExt.cs" />
+    <Compile Include="Logic\Classes\InstallOptionsEnum.cs" />
+    <Compile Include="Logic\Classes\LogItem.cs" />
+    <Compile Include="Logic\Classes\Map.cs" />
+    <Compile Include="Logic\Classes\OneFoundItem.cs" />
+    <Compile Include="Logic\Classes\OneTranslationService.cs" />
+    <Compile Include="Logic\PluginItems\PluginHost.cs" />
+    <Compile Include="Logic\PluginItems\PluginPart.cs" />
+    <Compile Include="Logic\Classes\SerializableStringDictionary.cs" />
+    <Compile Include="Logic\Classes\TransServiceHost.cs" />
+    <Compile Include="Logic\Classes\TwoValsSerializable.cs" />
+    <Compile Include="Logic\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Logic\Converters\DoubleToMBSizeConverter.cs" />
+    <Compile Include="Logic\Converters\NullableToVisibilityConverter.cs" />
+    <Compile Include="Logic\Converters\PathModiferConverter.cs" />
+    <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
+    <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
+    <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
+    <Compile Include="Logic\Functions.cs" />
+    <Compile Include="Logic\WebJsonResponses\GoogleTranslateResponse.cs" />
+    <Compile Include="Logic\Classes\Options.cs" />
+    <Compile Include="Logic\Classes\Setting.cs" />
+    <Compile Include="Logic\WebServices\GoogleTranslateServiceSecond.cs" />
+    <Compile Include="Logic\WebServices\TranslateService.cs" />
+    <Compile Include="Logic\Classes\TreeViewNodeModel.cs" />
+    <Compile Include="Logic\WebJsonResponses\YandexDetectResponse.cs" />
+    <Compile Include="Logic\WebServices\GoogleTranslateService.cs" />
+    <Compile Include="Logic\WebServices\YandexDetectService.cs" />
+    <Compile Include="Logic\WebServices\YandexTranslateService.cs" />
+    <Compile Include="Logic\WebJsonResponses\YandexTranslateResponse.cs" />
+    <Compile Include="Logic\GlobalResources.cs" />
+    <Compile Include="Logic\GlobalVariables.cs" />
+    <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
+    <Compile Include="Logic\Converters\OptionsToVisibilityConverter.cs" />
+    <Compile Include="Logic\Converters\InstallTextConverter.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Themes\Elements\WindowStyle.cs" />
+    <Compile Include="Windows\AboutProgramWindow.xaml.cs">
+      <DependentUpon>AboutProgramWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddLanguageWindow.xaml.cs">
+      <DependentUpon>AddLanguageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ApktoolCatalogWindow.xaml.cs">
+      <DependentUpon>ApktoolCatalogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ChangesDetectorWindow.xaml.cs">
+      <DependentUpon>ChangesDetectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DownloadWindow.xaml.cs">
+      <DependentUpon>DownloadWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditorSearchWindow.xaml.cs">
+      <DependentUpon>EditorSearchWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoadingProcessWindow.xaml.cs">
+      <DependentUpon>LoadingProcessWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MessBox.xaml.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Logic\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Logic\Converters\StringToBoolConverter.cs" />
+    <Compile Include="Logic\Converters\StringToIntConverter.cs" />
+    <Compile Include="Resources\Localizations\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Plugins.xaml.cs">
+      <DependentUpon>Plugins.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SearchWindow.xaml.cs">
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\StringEditorWindow.xaml.cs">
+      <DependentUpon>StringEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdateWindow.xaml.cs" />
+    <Compile Include="Windows\XmlRulesWindow.xaml.cs">
+      <DependentUpon>XmlRulesWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\Dictionaries\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\ButtonResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\CheckBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\ComboBoxResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\ContextMenuResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\ListBoxResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\ListViewResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\SfDataGridResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\TabItemResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\TreeViewResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\MenuItemResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\MenuResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\PasswordBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\ProgressBarResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\RadioButtonResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\ScrollBarResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\SliderResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\TextBlockResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\TextBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark\ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\TabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ComboBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ContextMenuResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\ListBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ListViewResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\SfDataGridResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\TabItemResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\TreeViewResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\WindowResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\ButtonResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\MenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\MenuItemResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\MenuResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\PasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\PasswordBoxResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ProgressBarResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\RadioButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\CheckBoxResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\RadioButtonResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ScrollBarResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\SliderResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\TextBlockResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\TextBoxResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light\ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Elements\ThemeDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\WindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Elements\WindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\AboutProgramWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddLanguageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ApktoolCatalogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ChangesDetectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DownloadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditorSearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadingProcessWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MessBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Windows\EditorWindow.xaml.cs">
+      <DependentUpon>EditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Windows\Plugins.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StringEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\UpdateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\XmlRulesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\Resources.lt.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+    <EmbeddedResource Include="Properties\Resources.uk-UA.resx" />
+    <EmbeddedResource Include="Properties\Resources.vi-VN.resx" />
+    <EmbeddedResource Include="Resources\Localizations\Resources.de.resx" />
+    <EmbeddedResource Include="Resources\Localizations\Resources.lt.resx" />
+    <EmbeddedResource Include="Resources\Localizations\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localizations\Resources.ru.resx" />
+    <EmbeddedResource Include="Resources\Localizations\Resources.uk-UA.resx" />
+    <EmbeddedResource Include="Resources\Localizations\Resources.vi-VN.resx" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="TranslatorApk.ruleset" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TranslatorApk.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\arrow_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\folders.png" />
+    <Resource Include="Resources\Icons\folders_explorer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\change_language.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\folder_delete.png" />
+    <Resource Include="Resources\Icons\page_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\open_share.png" />
+    <Resource Include="Resources\Icons\open_source.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\card_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Flags\values-ad.png" />
+    <Resource Include="Resources\Flags\values-ae.png" />
+    <Resource Include="Resources\Flags\values-af.png" />
+    <Resource Include="Resources\Flags\values-ag.png" />
+    <Resource Include="Resources\Flags\values-ai.png" />
+    <Resource Include="Resources\Flags\values-al.png" />
+    <Resource Include="Resources\Flags\values-am.png" />
+    <Resource Include="Resources\Flags\values-an.png" />
+    <Resource Include="Resources\Flags\values-ao.png" />
+    <Resource Include="Resources\Flags\values-ar.png" />
+    <Resource Include="Resources\Flags\values-as.png" />
+    <Resource Include="Resources\Flags\values-at.png" />
+    <Resource Include="Resources\Flags\values-au.png" />
+    <Resource Include="Resources\Flags\values-aw.png" />
+    <Resource Include="Resources\Flags\values-az.png" />
+    <Resource Include="Resources\Flags\values-ba.png" />
+    <Resource Include="Resources\Flags\values-bb.png" />
+    <Resource Include="Resources\Flags\values-bd.png" />
+    <Resource Include="Resources\Flags\values-be.png" />
+    <Resource Include="Resources\Flags\values-bf.png" />
+    <Resource Include="Resources\Flags\values-bg.png" />
+    <Resource Include="Resources\Flags\values-bh.png" />
+    <Resource Include="Resources\Flags\values-bi.png" />
+    <Resource Include="Resources\Flags\values-bj.png" />
+    <Resource Include="Resources\Flags\values-bm.png" />
+    <Resource Include="Resources\Flags\values-bn.png" />
+    <Resource Include="Resources\Flags\values-bo.png" />
+    <Resource Include="Resources\Flags\values-br.png" />
+    <Resource Include="Resources\Flags\values-bs.png" />
+    <Resource Include="Resources\Flags\values-bt.png" />
+    <Resource Include="Resources\Flags\values-bw.png" />
+    <Resource Include="Resources\Flags\values-by.png" />
+    <Resource Include="Resources\Flags\values-bz.png" />
+    <Resource Include="Resources\Flags\values-ca.png" />
+    <Resource Include="Resources\Flags\values-cd.png" />
+    <Resource Include="Resources\Flags\values-cf.png" />
+    <Resource Include="Resources\Flags\values-cg.png" />
+    <Resource Include="Resources\Flags\values-ch.png" />
+    <Resource Include="Resources\Flags\values-ci.png" />
+    <Resource Include="Resources\Flags\values-ck.png" />
+    <Resource Include="Resources\Flags\values-cl.png" />
+    <Resource Include="Resources\Flags\values-cm.png" />
+    <Resource Include="Resources\Flags\values-zh.png" />
+    <Resource Include="Resources\Flags\values-co.png" />
+    <Resource Include="Resources\Flags\values-cr.png" />
+    <Resource Include="Resources\Flags\values-cu.png" />
+    <Resource Include="Resources\Flags\values-cv.png" />
+    <Resource Include="Resources\Flags\values-cy.png" />
+    <Resource Include="Resources\Flags\values-cs.png" />
+    <Resource Include="Resources\Flags\values-de.png" />
+    <Resource Include="Resources\Flags\values-dj.png" />
+    <Resource Include="Resources\Flags\values-da.png" />
+    <Resource Include="Resources\Flags\values-dm.png" />
+    <Resource Include="Resources\Flags\values-do.png" />
+    <Resource Include="Resources\Flags\values-dz.png" />
+    <Resource Include="Resources\Flags\values-ec.png" />
+    <Resource Include="Resources\Flags\values-ee.png" />
+    <Resource Include="Resources\Flags\values-eg.png" />
+    <Resource Include="Resources\Flags\values-er.png" />
+    <Resource Include="Resources\Flags\values-es.png" />
+    <Resource Include="Resources\Flags\values-et.png" />
+    <Resource Include="Resources\Flags\values-fi.png" />
+    <Resource Include="Resources\Flags\values-fj.png" />
+    <Resource Include="Resources\Flags\values-fk.png" />
+    <Resource Include="Resources\Flags\values-flag_scotland.png" />
+    <Resource Include="Resources\Flags\values-flag_wales.png" />
+    <Resource Include="Resources\Flags\values-fm.png" />
+    <Resource Include="Resources\Flags\values-fo.png" />
+    <Resource Include="Resources\Flags\values-fr.png" />
+    <Resource Include="Resources\Flags\values-ga.png" />
+    <Resource Include="Resources\Flags\values-gb.png" />
+    <Resource Include="Resources\Flags\values-gd.png" />
+    <Resource Include="Resources\Flags\values-ge.png" />
+    <Resource Include="Resources\Flags\values-gg.png" />
+    <Resource Include="Resources\Flags\values-gh.png" />
+    <Resource Include="Resources\Flags\values-gi.png" />
+    <Resource Include="Resources\Flags\values-gl.png" />
+    <Resource Include="Resources\Flags\values-gm.png" />
+    <Resource Include="Resources\Flags\values-gn.png" />
+    <Resource Include="Resources\Flags\values-gq.png" />
+    <Resource Include="Resources\Flags\values-el.png" />
+    <Resource Include="Resources\Flags\values-gs.png" />
+    <Resource Include="Resources\Flags\values-gt.png" />
+    <Resource Include="Resources\Flags\values-gu.png" />
+    <Resource Include="Resources\Flags\values-gw.png" />
+    <Resource Include="Resources\Flags\values-gy.png" />
+    <Resource Include="Resources\Flags\values-hk.png" />
+    <Resource Include="Resources\Flags\values-hn.png" />
+    <Resource Include="Resources\Flags\values-hr.png" />
+    <Resource Include="Resources\Flags\values-ht.png" />
+    <Resource Include="Resources\Flags\values-hu.png" />
+    <Resource Include="Resources\Flags\values-id.png" />
+    <Resource Include="Resources\Flags\values-ie.png" />
+    <Resource Include="Resources\Flags\values-il.png" />
+    <Resource Include="Resources\Flags\values-im.png" />
+    <Resource Include="Resources\Flags\values-in.png" />
+    <Resource Include="Resources\Flags\values-io.png" />
+    <Resource Include="Resources\Flags\values-iq.png" />
+    <Resource Include="Resources\Flags\values-ir.png" />
+    <Resource Include="Resources\Flags\values-is.png" />
+    <Resource Include="Resources\Flags\values-it.png" />
+    <Resource Include="Resources\Flags\values-jd.png" />
+    <Resource Include="Resources\Flags\values-je.png" />
+    <Resource Include="Resources\Flags\values-jm.png" />
+    <Resource Include="Resources\Flags\values-ja.png" />
+    <Resource Include="Resources\Flags\values-ke.png" />
+    <Resource Include="Resources\Flags\values-kg.png" />
+    <Resource Include="Resources\Flags\values-kh.png" />
+    <Resource Include="Resources\Flags\values-ki.png" />
+    <Resource Include="Resources\Flags\values-km.png" />
+    <Resource Include="Resources\Flags\values-kn.png" />
+    <Resource Include="Resources\Flags\values-kp.png" />
+    <Resource Include="Resources\Flags\values-kr.png" />
+    <Resource Include="Resources\Flags\values-kw.png" />
+    <Resource Include="Resources\Flags\values-ky.png" />
+    <Resource Include="Resources\Flags\values-kz.png" />
+    <Resource Include="Resources\Flags\values-la.png" />
+    <Resource Include="Resources\Flags\values-lb.png" />
+    <Resource Include="Resources\Flags\values-lc.png" />
+    <Resource Include="Resources\Flags\values-li.png" />
+    <Resource Include="Resources\Flags\values-lk.png" />
+    <Resource Include="Resources\Flags\values-lr.png" />
+    <Resource Include="Resources\Flags\values-ls.png" />
+    <Resource Include="Resources\Flags\values-lt.png" />
+    <Resource Include="Resources\Flags\values-lu.png" />
+    <Resource Include="Resources\Flags\values-lv.png" />
+    <Resource Include="Resources\Flags\values-ly.png" />
+    <Resource Include="Resources\Flags\values-ma.png" />
+    <Resource Include="Resources\Flags\values-mc.png" />
+    <Resource Include="Resources\Flags\values-md.png" />
+    <Resource Include="Resources\Flags\values-me.png" />
+    <Resource Include="Resources\Flags\values-mg.png" />
+    <Resource Include="Resources\Flags\values-mh.png" />
+    <Resource Include="Resources\Flags\values-mk.png" />
+    <Resource Include="Resources\Flags\values-ml.png" />
+    <Resource Include="Resources\Flags\values-mm.png" />
+    <Resource Include="Resources\Flags\values-mn.png" />
+    <Resource Include="Resources\Flags\values-mo.png" />
+    <Resource Include="Resources\Flags\values-mp.png" />
+    <Resource Include="Resources\Flags\values-mq.png" />
+    <Resource Include="Resources\Flags\values-ms.png" />
+    <Resource Include="Resources\Flags\values-mt.png" />
+    <Resource Include="Resources\Flags\values-mu.png" />
+    <Resource Include="Resources\Flags\values-mv.png" />
+    <Resource Include="Resources\Flags\values-mw.png" />
+    <Resource Include="Resources\Flags\values-mx.png" />
+    <Resource Include="Resources\Flags\values-my.png" />
+    <Resource Include="Resources\Flags\values-mz.png" />
+    <Resource Include="Resources\Flags\values-na.png" />
+    <Resource Include="Resources\Flags\values-ne.png" />
+    <Resource Include="Resources\Flags\values-nf.png" />
+    <Resource Include="Resources\Flags\values-ng.png" />
+    <Resource Include="Resources\Flags\values-ni.png" />
+    <Resource Include="Resources\Flags\values-nl.png" />
+    <Resource Include="Resources\Flags\values-nb.png" />
+    <Resource Include="Resources\Flags\values-np.png" />
+    <Resource Include="Resources\Flags\values-nr.png" />
+    <Resource Include="Resources\Flags\values-nu.png" />
+    <Resource Include="Resources\Flags\values-nz.png" />
+    <Resource Include="Resources\Flags\values-om.png" />
+    <Resource Include="Resources\Flags\values-pa.png" />
+    <Resource Include="Resources\Flags\values-pe.png" />
+    <Resource Include="Resources\Flags\values-pf.png" />
+    <Resource Include="Resources\Flags\values-pg.png" />
+    <Resource Include="Resources\Flags\values-ph.png" />
+    <Resource Include="Resources\Flags\values-pk.png" />
+    <Resource Include="Resources\Flags\values-pl.png" />
+    <Resource Include="Resources\Flags\values-pm.png" />
+    <Resource Include="Resources\Flags\values-pn.png" />
+    <Resource Include="Resources\Flags\values-pr.png" />
+    <Resource Include="Resources\Flags\values-pt.png" />
+    <Resource Include="Resources\Flags\values-pw.png" />
+    <Resource Include="Resources\Flags\values-py.png" />
+    <Resource Include="Resources\Flags\values-qa.png" />
+    <Resource Include="Resources\Flags\values-ro.png" />
+    <Resource Include="Resources\Flags\values-rs.png" />
+    <Resource Include="Resources\Flags\values-ru.png" />
+    <Resource Include="Resources\Flags\values-rw.png" />
+    <Resource Include="Resources\Flags\values-sa.png" />
+    <Resource Include="Resources\Flags\values-sb.png" />
+    <Resource Include="Resources\Flags\values-sc.png" />
+    <Resource Include="Resources\Flags\values-sd.png" />
+    <Resource Include="Resources\Flags\values-se.png" />
+    <Resource Include="Resources\Flags\values-sg.png" />
+    <Resource Include="Resources\Flags\values-sh.png" />
+    <Resource Include="Resources\Flags\values-si.png" />
+    <Resource Include="Resources\Flags\values-sk.png" />
+    <Resource Include="Resources\Flags\values-sl.png" />
+    <Resource Include="Resources\Flags\values-sm.png" />
+    <Resource Include="Resources\Flags\values-sn.png" />
+    <Resource Include="Resources\Flags\values-so.png" />
+    <Resource Include="Resources\Flags\values-sr.png" />
+    <Resource Include="Resources\Flags\values-st.png" />
+    <Resource Include="Resources\Flags\values-sv.png" />
+    <Resource Include="Resources\Flags\values-sy.png" />
+    <Resource Include="Resources\Flags\values-sz.png" />
+    <Resource Include="Resources\Flags\values-tc.png" />
+    <Resource Include="Resources\Flags\values-td.png" />
+    <Resource Include="Resources\Flags\values-tg.png" />
+    <Resource Include="Resources\Flags\values-th.png" />
+    <Resource Include="Resources\Flags\values-ti.png" />
+    <Resource Include="Resources\Flags\values-tj.png" />
+    <Resource Include="Resources\Flags\values-tl.png" />
+    <Resource Include="Resources\Flags\values-tm.png" />
+    <Resource Include="Resources\Flags\values-tn.png" />
+    <Resource Include="Resources\Flags\values-to.png" />
+    <Resource Include="Resources\Flags\values-tr.png" />
+    <Resource Include="Resources\Flags\values-tt.png" />
+    <Resource Include="Resources\Flags\values-tv.png" />
+    <Resource Include="Resources\Flags\values-tw.png" />
+    <Resource Include="Resources\Flags\values-tz.png" />
+    <Resource Include="Resources\Flags\values-uk.png" />
+    <Resource Include="Resources\Flags\values-ug.png" />
+    <Resource Include="Resources\Flags\values-en-rGB.png" />
+    <Resource Include="Resources\Flags\values-us.png" />
+    <Resource Include="Resources\Flags\values-uy.png" />
+    <Resource Include="Resources\Flags\values-uz.png" />
+    <Resource Include="Resources\Flags\values-va.png" />
+    <Resource Include="Resources\Flags\values-ve.png" />
+    <Resource Include="Resources\Flags\values-vg.png" />
+    <Resource Include="Resources\Flags\values-vg_2.png" />
+    <Resource Include="Resources\Flags\values-vi.png" />
+    <Resource Include="Resources\Flags\values-vs.png" />
+    <Resource Include="Resources\Flags\values-vu.png" />
+    <Resource Include="Resources\Flags\values-wf.png" />
+    <Resource Include="Resources\Flags\values-ws.png" />
+    <Resource Include="Resources\Flags\values-ye.png" />
+    <Resource Include="Resources\Flags\values-za.png" />
+    <Resource Include="Resources\Flags\values-zm.png" />
+    <Resource Include="Resources\Flags\values-zw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Flags\values-zh-rCN.png" />
+    <Resource Include="Resources\Flags\values-zh-rTW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\folder_vertical_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\unknown_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <XliffResource Include="MultilingualResources\TranslatorApk.de.xlf" />
+    <XliffResource Include="MultilingualResources\TranslatorApk.lt.xlf" />
+    <XliffResource Include="MultilingualResources\TranslatorApk.ru.xlf" />
+    <XliffResource Include="MultilingualResources\TranslatorApk.uk-UA.xlf" />
+    <XliffResource Include="MultilingualResources\TranslatorApk.vi-VN.xlf" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

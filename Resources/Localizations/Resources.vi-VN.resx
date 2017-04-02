@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>Về</value>
+  </data>
+  <data name="AllSmali" xml:space="preserve">
+    <value>Smali tất cả.</value>
+  </data>
+  <data name="AllXml" xml:space="preserve">
+    <value>Tất cả xml.</value>
+  </data>
+  <data name="AndroidApps" xml:space="preserve">
+    <value>Ứng dụng Android</value>
+  </data>
+  <data name="BuildProject" xml:space="preserve">
+    <value>Xây dựng dự án</value>
+  </data>
+  <data name="CantTranslate" xml:space="preserve">
+    <value>Xảy ra lỗi trong khi dịch!</value>
+  </data>
+  <data name="ChooseCellOrRow" xml:space="preserve">
+    <value>Chọn di động hoặc hàng!</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Chọn tập tin</value>
+  </data>
+  <data name="ChooseFolder" xml:space="preserve">
+    <value>Chọn thư mục</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Thu hẹp</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="CurrentDictionary" xml:space="preserve">
+    <value>Hiện tại từ điển</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Dictionary" xml:space="preserve">
+    <value>Từ điển</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Biên tập viên</value>
+  </data>
+  <data name="EmptySmali" xml:space="preserve">
+    <value>Rỗng smali</value>
+  </data>
+  <data name="EmptyXml" xml:space="preserve">
+    <value>Sản phẩm nào xml</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="ErrorUpper" xml:space="preserve">
+    <value>LỖI</value>
+  </data>
+  <data name="ErrorWhileCompiling" xml:space="preserve">
+    <value>Lỗi trong khi biên dịch!</value>
+  </data>
+  <data name="ErrorWhileSigning" xml:space="preserve">
+    <value>Lỗi khi đăng!</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Mở rộng</value>
+  </data>
+  <data name="FileIsSituatedIn" xml:space="preserve">
+    <value>Tập tin nằm ở</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Tên tập tin</value>
+  </data>
+  <data name="FilesWithErrors" xml:space="preserve">
+    <value>Các tập tin với lỗi</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Tìm thấy</value>
+  </data>
+  <data name="FindAll" xml:space="preserve">
+    <value>Tìm thấy tất cả</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Tìm tiếp</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Hoàn thành</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>từ khoản</value>
+  </data>
+  <data name="ImageExtensions" xml:space="preserve">
+    <value>Tập tin tiện ích mở rộng có thể nhìn thấy:</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Hình ảnh</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Ngôn ngữ: </value>
+  </data>
+  <data name="LanguageOfApp" xml:space="preserve">
+    <value>Ngôn ngữ của các ứng dụng:</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Trận đấu trường hợp</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="NewText" xml:space="preserve">
+    <value>Văn bản mới</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="NoInternetCantTranslate" xml:space="preserve">
+    <value>Lỗi trong khi kết nối internet! Dịch trực tuyến bị vô hiệu hóa</value>
+  </data>
+  <data name="OldText" xml:space="preserve">
+    <value>Plaintext</value>
+  </data>
+  <data name="OnlineTranslator" xml:space="preserve">
+    <value>Dịch trực tuyến:</value>
+  </data>
+  <data name="OnlyFullWords" xml:space="preserve">
+    <value>Phù hợp với toàn bộ từ duy nhất</value>
+  </data>
+  <data name="OnlyXml" xml:space="preserve">
+    <value>Chỉ xml</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Mở</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Tùy chọn</value>
+  </data>
+  <data name="OtherExtensions" xml:space="preserve">
+    <value>Phần mở rộng khác:</value>
+  </data>
+  <data name="OtherFiles" xml:space="preserve">
+    <value>Các tập tin</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Làm tươi</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Thay thế</value>
+  </data>
+  <data name="RestartProgramToApplyLanguage" xml:space="preserve">
+    <value>Khởi động lại chương trình để áp dụng cài đặt ngôn ngữ?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="SearchEditorClosed" xml:space="preserve">
+    <value>Biên tập viên cửa sổ đã đóng. Tìm kiếm sẽ không hoạt động</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Tùy chọn tìm kiếm</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Dấu hiệu</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Dừng</value>
+  </data>
+  <data name="StringsTranslated" xml:space="preserve">
+    <value>Chuỗi dịch xong:</value>
+  </data>
+  <data name="TargetLanguage" xml:space="preserve">
+    <value>Ngôn ngữ mục tiêu</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Văn bản</value>
+  </data>
+  <data name="TextNotFound" xml:space="preserve">
+    <value>Các văn bản không được tìm thấy</value>
+  </data>
+  <data name="TranslateAll" xml:space="preserve">
+    <value>Dịch tất cả</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Sử dụng</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="WaitingOperation" xml:space="preserve">
+    <value>Chờ đợi hoàn thành việc....</value>
+  </data>
+  <data name="XmlRulesEditor" xml:space="preserve">
+    <value>XmlRulesEditor</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="YouNeedToChooseDictionary" xml:space="preserve">
+    <value>Bạn cần phải chọn một từ điển!</value>
+  </data>
+  <data name="DictionaryFiles" xml:space="preserve">
+    <value>Từ điển tập tin</value>
+  </data>
+  <data name="DictionariesFolder" xml:space="preserve">
+    <value>Các thư mục với từ điển</value>
+  </data>
+  <data name="DictionaryFolder" xml:space="preserve">
+    <value>Từ điển của thư mục</value>
+  </data>
+  <data name="NamesOfFolderLanguages" xml:space="preserve">
+    <value>English (UK)|Arabic|Afrikaans|Belarus|Bulgaria|Bosnia|Hungary|Việt|Hà Lan|Hy Lạp|Đan Mạch|Zulu|Hebrew|Indonesia|Tây Ban Nha|Ý|Catalan|Trung Quốc|Trung Quốc (giản thể)|Tiếng Trung Quốc (truyền thống)|Latvia|Lithuania|Malay|Đức|Na Uy|Ba Tư|Ba Lan|Bồ Đào Nha|Romania|Nga|Serbia|Slovak|Slovenia|Swahili|Tagalog|Thai|Thổ Nhĩ Kỳ|Ukraina|Phần Lan|Pháp|Tiếng Hin-ddi|Cộng hòa Séc|Thụy Điển|Estonian|Nhật Bản</value>
+  </data>
+  <data name="ResultFolder" xml:space="preserve">
+    <value>Thư mục kết quả</value>
+  </data>
+  <data name="SourceFolder" xml:space="preserve">
+    <value>Thư mục nguồn</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="TranslatedFolder" xml:space="preserve">
+    <value>Các thư mục với bản dịch</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Thêm ngôn ngữ</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>Mở với</value>
+  </data>
+  <data name="ReplaceUnicodeSequences" xml:space="preserve">
+    <value>Thay thế trình tự Unicode</value>
+  </data>
+  <data name="ChangesDetector" xml:space="preserve">
+    <value>Thay đổi phát hiện</value>
+  </data>
+  <data name="ApiKeyIsEmpty" xml:space="preserve">
+    <value>Khóa API là sản phẩm nào</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Khóa API:</value>
+  </data>
+  <data name="LoadWithTextStrings" xml:space="preserve">
+    <value>Tải với các chuỗi ký tự</value>
+  </data>
+  <data name="OnlyResources" xml:space="preserve">
+    <value>Chỉ tài nguyên</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Hiển thị trong explorer</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="NewLanguage" xml:space="preserve">
+    <value>Ngôn ngữ mới:</value>
+  </data>
+  <data name="CantUpdateProgram" xml:space="preserve">
+    <value>Không thể cập nhật chương trình</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Cập Nhật</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>Phiên bản mới có sẵn. Cập Nhật?</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Tối</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Ánh sáng</value>
+  </data>
+  <data name="ApktoolVersion" xml:space="preserve">
+    <value>Phiên bản Apktool:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Chủ đề:</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>Tập tin XML</value>
+  </data>
+  <data name="AccountNumberIsCopied" xml:space="preserve">
+    <value>Số tài khoản được sao chép vào clipboard</value>
+  </data>
+  <data name="LanguageIsNotSelected" xml:space="preserve">
+    <value>Ngôn ngữ không được chọn!</value>
+  </data>
+  <data name="AllDone" xml:space="preserve">
+    <value>Tất cả được thực hiện!</value>
+  </data>
+  <data name="ApplyTheChanges" xml:space="preserve">
+    <value>Áp dụng những thay đổi?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Hủy bỏ</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation" xml:space="preserve">
+    <value>Một tập tin bản dịch</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileTranslation_ToolTip" xml:space="preserve">
+    <value>Một tập tin bản dịch với từ điển</value>
+  </data>
+  <data name="FileDeleteConfirmation" xml:space="preserve">
+    <value>Bạn thực sự muốn xóa các tập tin</value>
+  </data>
+  <data name="FolderDeleteConfirmation" xml:space="preserve">
+    <value>Bạn thực sự muốn xóa thư mục</value>
+  </data>
+  <data name="SelectAFolder" xml:space="preserve">
+    <value>Chọn một thư mục:</value>
+  </data>
+  <data name="TheFileIsCorrupted" xml:space="preserve">
+    <value>Các tập tin bị hỏng!</value>
+  </data>
+  <data name="SearchWindow_FolderIsNotSelected" xml:space="preserve">
+    <value>Bạn phải chọn một thư mục để tìm kiếm!</value>
+  </data>
+  <data name="JavaNotFoundError" xml:space="preserve">
+    <value>Java không tìm thấy! Xin vui lòng, tải nó từ trang web chính thức hoặc sử dụng các phiên bản di động của chương trình</value>
+  </data>
+  <data name="OnlineTranslationsLongLanguages" xml:space="preserve">
+    <value>Albanian|English|Arabic|Armenia|Azerbaijan|Afrikaans|Basque|Belarus|Bulgaria|Bosnia|Welsh|TiếngViệt|Hungary|Haiti (Creole)|Galician|HàLan|HyLạp|Gruzia|ĐanMạch|Yiddish|Indonesia|Irish|Ý|Iceland|TâyBanNha|Kazakhstan|Catalan|Kyrgyzstan|TrungQuốc|HànQuốc|Latin|latvian|Lithuania|Malagasy|Malay|Maltese|Macedonian|MôngCổ|Đức|NaUy|BaTư|BaLan|BồĐàoNha|Rumani|Nga|Serbia|Slovakia|Slovenia|Swahili|Tajik|TháiLan|Tagalog|Tatar|ThổNhĩKỳ|Uzbek|Ukraina|Phần Lan|Pháp|Croatia|CộnghòaSéc|ThụyĐiển|Estonian|NgườiNhậtBản</value>
+  </data>
+  <data name="OpenInExplorer" xml:space="preserve">
+    <value>Mở trong explorer</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Hiện xem trước:</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Danh mục</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Tiêu đề</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="ApktoolNotFound" xml:space="preserve">
+    <value>Apktool không được tìm thấy! Xin vui lòng, tải apktool để "Files\Resources\apktools"</value>
+  </data>
+  <data name="EmptyFolders" xml:space="preserve">
+    <value>Thư mục rỗng</value>
+  </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>On top of all windows:</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Kích thước</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Gỡ bỏ cài đặt</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesCreation" xml:space="preserve">
+    <value>Nhiều tác phẩm sáng tạo</value>
+  </data>
+  <data name="ChangesDetectorWindow_ManyFilesTranslation" xml:space="preserve">
+    <value>Nhiều tác phẩm dịch thuật</value>
+  </data>
+  <data name="ChangesDetectorWindow_OneFileCreation" xml:space="preserve">
+    <value>Tạo một tập tin</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Phiên bản mới nhất</value>
+  </data>
+  <data name="AlternativeEditingKeys" xml:space="preserve">
+    <value>Thay thế các phím chỉnh sửa:</value>
+  </data>
+  <data name="SessionAutoTranslation" xml:space="preserve">
+    <value>Tự động dịch thuật với phiên giao dịch từ điển:</value>
+  </data>
+  <data name="SaveAndExit" xml:space="preserve">
+    <value>Lưu và thoát ra</value>
+  </data>
+</root>

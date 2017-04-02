@@ -1,0 +1,46 @@
+﻿<Window x:Class="TranslatorApk.Windows.ApktoolCatalogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        Style="{StaticResource WindowStyle}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
+        mc:Ignorable="d" MinHeight="300" MinWidth="300" Width="450" Height="400" WindowStartupLocation="CenterScreen"
+        Title="Apktools"
+        
+        Loaded="ApktoolCatalogWindow_OnLoaded"
+        
+        elements:WindowThemeParameters.CanMinimize="False"
+        elements:WindowThemeParameters.IsResizable="False">
+    <Grid Margin="5">
+        <Grid.Resources>
+            <Style x:Key="GridHeaderStyle" TargetType="syncfusion:GridHeaderCellControl">
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <syncfusion:SfDataGrid HeaderStyle="{StaticResource GridHeaderStyle}" HeaderRowHeight="30" RowHeight="35" FontSize="15" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding ServerApktools}" ColumnSizer="AutoLastColumnFill" SelectionMode="None" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutoGenerateColumns="False" IsEnabled="{Binding ProgressBarVisibility, Converter={StaticResource VisibilityToBoolConverter}, ConverterParameter=True}">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn AllowResizing="False" MappingName="Version" HeaderText="{x:Static localization:Resources.Version}" Width="100" AllowSorting="False"/>
+                <syncfusion:GridTextColumn AllowResizing="False" MappingName="Size" HeaderText="{x:Static localization:Resources.Size}" Width="100" AllowSorting="False"/>
+                <syncfusion:GridTemplateColumn HeaderText=" " MappingName="Installed" AllowResizing="False" AllowSorting="False" HorizontalAlignment="Stretch">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button 
+                                Content="{Binding Installed, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
+                                Padding="5, 3" Margin="3"
+                                HorizontalAlignment="Stretch" Click="DownloadClick"/>
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                </syncfusion:GridTemplateColumn>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+        <ProgressBar Value="{Binding Progress}" Visibility="{Binding ProgressBarVisibility}" Margin="0,5,0,0" Grid.Row="1" Height="23" Maximum="{Binding ProgressMax}"/>
+    </Grid>
+</Window>

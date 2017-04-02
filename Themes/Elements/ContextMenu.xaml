@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style TargetType="ContextMenu">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border
+                        Margin="0,0,7,7"
+                        Background="{DynamicResource ContextMenu_BackgroundNormal}"
+                        BorderThickness="1"
+                        Padding="1"
+                        BorderBrush="{DynamicResource BorderNormalBrush}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="7" Color="{DynamicResource ContextMenu_Shadow}" Direction="-45"/>
+                        </Border.Effect>
+                        <StackPanel IsItemsHost="True"
+                            KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

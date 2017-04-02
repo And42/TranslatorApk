@@ -1,0 +1,47 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="TextBox">
+        <Setter Property="KeyboardNavigation.TabNavigation"     Value="None"/>
+        <Setter Property="TextOptions.TextFormattingMode"       Value="Display"/>
+        <Setter Property="OverridesDefaultStyle"            Value="True"/>
+        <Setter Property="SnapsToDevicePixels"          Value="True"/>
+        <Setter Property="FocusVisualStyle"         Value="{x:Null}"/>
+        <Setter Property="SelectionBrush"       Value="{DynamicResource TextBox_SelectionBrush}"/>
+        <Setter Property="Foreground"           Value="{DynamicResource TextBox_TextNormal}"/>
+        <Setter Property="CaretBrush"       Value="{DynamicResource TextBox_CaretBrush}"/>
+        <Setter Property="AllowDrop"        Value="true"/>
+        <Setter Property="MinHeight"        Value="20"/>
+        <Setter Property="MinWidth"         Value="120"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border 
+                        Name="Border"
+                        Padding="1,2,1,1"
+                        Background="{DynamicResource TextBox_BackgroundNormal}"
+                        BorderBrush="{DynamicResource TextBox_BorderNormal}"
+                        BorderThickness="1">
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush"  Value="{DynamicResource TextBox_BorderFocused}"/>
+                            <Setter TargetName="Border" Property="Background"   Value="{DynamicResource TextBox_BackgroundFocused}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush"  Value="{DynamicResource TextBox_BorderFocused}"/>
+                            <Setter TargetName="Border" Property="Background"   Value="{DynamicResource TextBox_BackgroundFocused}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="BorderBrush"  Value="{DynamicResource TextBox_BorderDisabled}"/>
+                            <Setter TargetName="Border" Property="Background"   Value="{DynamicResource TextBox_BackgroundDisabled}"/>
+                            <Setter                     Property="Foreground"   Value="{DynamicResource TextBox_TextDisabled}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

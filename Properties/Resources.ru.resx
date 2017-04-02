@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FoldersOfLanguages" xml:space="preserve">
+    <value>values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</value>
+  </data>
+  <data name="MainWindowTitle" xml:space="preserve">
+    <value>TranslatorApk</value>
+  </data>
+  <data name="OnlineTranslationsShortLanguages" xml:space="preserve">
+    <value>sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</value>
+  </data>
+</root>

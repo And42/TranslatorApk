@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <Color x:Key="HighlitedColor">#007ACC</Color>
+    <Color x:Key="ContainerBackgroundNormal">WhiteSmoke</Color>
+    <Color x:Key="ContainerBackgroundHighlited">#3F3F46</Color>
+    <Color x:Key="PopupBackgroundColor">#F1F1F1</Color>
+    <SolidColorBrush x:Key="PopupBackgroundBrush">#1B1B1C</SolidColorBrush>
+    <Color x:Key="WhiteColor">#F1F1F1</Color>
+    <Color x:Key="BorderNormalColor">#ACACAC</Color>
+
+    <SolidColorBrush x:Key="ElementInverted" Color="#333337"/>
+    <SolidColorBrush x:Key="BorderNormalBrush" Color="#ABADB3"/>
+    <SolidColorBrush x:Key="ContainerBackgroundNormalBrush" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ContainerBackgroundHighlitedBrush" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+    
+</ResourceDictionary>

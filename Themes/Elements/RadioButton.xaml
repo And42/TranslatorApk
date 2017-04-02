@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="RadioButton">
+        <Setter Property="OverridesDefaultStyle"  Value="true"/>
+        <Setter Property="SnapsToDevicePixels"    Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid Width="13" Height="13" >
+                                <Ellipse x:Name="Border"  
+                                    Stroke = "{DynamicResource RadioButton_BorderNormalStroke}" 
+                                    Fill   = "{DynamicResource RadioButton_BorderNormalFill}"
+                                    StrokeThickness="1"
+                                    />
+                                <Ellipse Width="5" Height="5" x:Name="CheckMark"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Fill="{DynamicResource RadioButton_CheckMarkFill}" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter 
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            RecognizesAccessKey="True"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Fill"         Value="{DynamicResource RadioButton_BorderOverFill}" />
+                            <Setter TargetName="Border" Property="Stroke"       Value="{DynamicResource RadioButton_BorderOverStroke}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Fill"         Value="{DynamicResource RadioButton_BorderPressedFill}" />
+                            <Setter TargetName="Border" Property="Stroke"       Value="{DynamicResource RadioButton_BorderPressedStroke}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Fill"         Value="{DynamicResource RadioButton_BorderDisabledFill}" />
+                            <Setter TargetName="Border" Property="Stroke"       Value="{DynamicResource RadioButton_BorderDisabledStroke}" />
+                            <Setter                     Property="Foreground"   Value="{DynamicResource RadioButton_BorderDisabledForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

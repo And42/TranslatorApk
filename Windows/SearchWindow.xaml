@@ -1,0 +1,60 @@
+﻿<Window x:Class="TranslatorApk.Windows.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:logic="clr-namespace:TranslatorApk.Logic"
+        Topmost="{Binding TopMost, Source={x:Static logic:GlobalVariables.Instance}, Mode=OneWay}"
+        Title="{x:Static localization:Resources.Search}" Height="500" Width="700"
+        WindowStartupLocation="CenterScreen"
+        Loaded="SearchWindow_OnLoaded"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}"
+        FontSize="14" Style="{DynamicResource WindowStyle}">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Menu HorizontalAlignment="Stretch"
+              FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
+            <MenuItem Header="{x:Static localization:Resources.SearchOptions}">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <CheckBox IsChecked="{Binding OnlyFullWords.Value}" Content="{x:Static localization:Resources.OnlyFullWords}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <CheckBox IsChecked="{Binding MatchCase.Value}" Content="{x:Static localization:Resources.MatchCase}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="0,5" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+                <Label.Content>
+                    <Binding StringFormat="{}{0}:" Source="{x:Static localization:Resources.Text}"/>
+                </Label.Content>
+            </Label>
+            <ComboBox x:Name="SearchBox" KeyUp="SearchBox_OnKeyUp" TabIndex="0" IsTextSearchEnabled="False" MaxDropDownHeight="300" SelectedIndex="{Binding SearchBoxIndex}" Text="{Binding TextToSearch}" ItemsSource="{Binding SearchAdds}" Margin="5, 0, 5, 0" Grid.Column="1" Grid.Row="1" IsEditable="True"/>
+            <Button TabIndex="1" Padding="5,3,5,3" Grid.Row="1" Grid.Column="2" Click="FindFiles" IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}" Content="{x:Static localization:Resources.Find}"/>
+        </Grid>
+
+        <ListView x:Name="FilesView" Grid.Row="2" ItemsSource="{Binding Files}" MouseDoubleClick="ListView_MouseDoubleClick" KeyUp="FilesView_OnKeyUp">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Height="29" Margin="5,6,5,0" FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Text="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>

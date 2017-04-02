@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="TextBox_BackgroundNormal"       Color="White"/>
+    <SolidColorBrush x:Key="TextBox_BackgroundFocused"      Color="White"/>
+    <SolidColorBrush x:Key="TextBox_BackgroundDisabled"     Color="#2AABADB3"/>
+    
+    <SolidColorBrush x:Key="TextBox_BorderNormal"           Color="#ABADB3"/>
+    <SolidColorBrush x:Key="TextBox_BorderFocused"          Color="#45B1FB"/>
+    <SolidColorBrush x:Key="TextBox_BorderDisabled"         Color="#9AABADB3"/>
+    
+    <SolidColorBrush x:Key="TextBox_TextNormal"             Color="Black"/>
+    <SolidColorBrush x:Key="TextBox_TextDisabled"           Color="#8A111111"/>
+
+    <SolidColorBrush x:Key="TextBox_SelectionBrush"         Color="#264F78"/>
+
+    <SolidColorBrush x:Key="TextBox_CaretBrush"             Color="Black"/>
+
+</ResourceDictionary>

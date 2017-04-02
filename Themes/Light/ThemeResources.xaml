@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+
+        <ResourceDictionary Source="SliderResources.xaml"/>
+        <ResourceDictionary Source="ButtonResources.xaml"/>
+        <ResourceDictionary Source="WindowResources.xaml"/>
+        <ResourceDictionary Source="RadioButtonResources.xaml"/>
+        <ResourceDictionary Source="CheckBoxResources.xaml"/>
+        <ResourceDictionary Source="ProgressBarResources.xaml"/>
+        <ResourceDictionary Source="ScrollBarResources.xaml"/>
+        <ResourceDictionary Source="TextBoxResources.xaml"/>
+        <ResourceDictionary Source="PasswordBoxResources.xaml"/>
+        <ResourceDictionary Source="MenuItemResources.xaml"/>
+        <ResourceDictionary Source="MenuResources.xaml"/>
+        <ResourceDictionary Source="TextBlockResources.xaml"/>
+        <ResourceDictionary Source="TreeViewResources.xaml"/>
+        <ResourceDictionary Source="ListBoxResources.xaml"/>
+        <ResourceDictionary Source="ListViewResources.xaml"/>
+        <ResourceDictionary Source="ComboBoxResources.xaml"/>
+        <ResourceDictionary Source="TabItemResources.xaml"/>
+        <ResourceDictionary Source="GridView.xaml"/>
+        <ResourceDictionary Source="ContextMenuResources.xaml"/>
+        <ResourceDictionary Source="SfDataGridResources.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

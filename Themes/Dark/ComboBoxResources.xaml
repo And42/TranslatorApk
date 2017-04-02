@@ -1,0 +1,60 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="ComboBox_Border">#434346</Color>
+    
+    <!-- Not editable -->
+    
+    <SolidColorBrush x:Key="ComboBox_TopBackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ComboBox_TopBackgroundOver" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+    <SolidColorBrush x:Key="ComboBox_TopBackgroundPressed" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+
+    <SolidColorBrush x:Key="ComboBox_TopBorderNormal" Color="{DynamicResource ComboBox_Border}"/>
+    <SolidColorBrush x:Key="ComboBox_TopBorderOver" Color="{DynamicResource ComboBox_Border}"/>
+    <SolidColorBrush x:Key="ComboBox_TopBorderPressed" Color="{DynamicResource ComboBox_Border}"/>
+
+    <SolidColorBrush x:Key="ComboBox_ToggleBackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ComboBox_ToggleBackgroundOver" Color="#1F1F20"/>
+    <SolidColorBrush x:Key="ComboBox_ToggleBackgroundPressed" Color="{DynamicResource HighlitedColor}"/>
+
+    <SolidColorBrush x:Key="ComboBox_SeparatorNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ComboBox_SeparatorOver" Color="{DynamicResource HighlitedColor}"/>
+    <SolidColorBrush x:Key="ComboBox_SeparatorPressed" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+
+    <SolidColorBrush x:Key="ComboBox_ToggleArrowNormal" Color="#999999"/>
+    <SolidColorBrush x:Key="ComboBox_ToggleArrowOver" Color="{DynamicResource HighlitedColor}"/>
+    <SolidColorBrush x:Key="ComboBox_ToggleArrowPressed" Color="{DynamicResource WhiteColor}"/>
+
+    <!-- Editable -->
+
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBackgroundOver" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBackgroundPressed" Color="{DynamicResource ContainerBackgroundHighlited}"/>
+                                     
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBorderNormal" Color="{DynamicResource ComboBox_Border}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBorderOver" Color="{DynamicResource HighlitedColor}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_TopBorderPressed" Color="{DynamicResource HighlitedColor}"/>
+                                     
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleBackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleBackgroundOver" Color="#1F1F20"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleBackgroundPressed" Color="{DynamicResource HighlitedColor}"/>
+                                     
+    <SolidColorBrush x:Key="ComboBox_Editable_SeparatorNormal" Color="Transparent"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_SeparatorOver" Color="{DynamicResource HighlitedColor}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_SeparatorPressed" Color="{DynamicResource HighlitedColor}"/>
+                                     
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleArrowNormal" Color="#999999"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleArrowOver" Color="{DynamicResource HighlitedColor}"/>
+    <SolidColorBrush x:Key="ComboBox_Editable_ToggleArrowPressed" Color="{DynamicResource WhiteColor}"/>
+    
+    <!-- Other -->
+    
+    <SolidColorBrush x:Key="ComboBox_PopupBackground" Color="{DynamicResource PopupBackgroundColor}"/>
+    <SolidColorBrush x:Key="ComboBox_PopupBorder"   Color="#333337"/>
+
+    <SolidColorBrush x:Key="ComboBox_ItemBackgroundNormal" Color="Transparent"/>
+    <SolidColorBrush x:Key="ComboBox_ItemBackgroundOver" Color="#333337"/>
+
+    <Color x:Key="ComboBox_Shadow">Black</Color>
+
+</ResourceDictionary>

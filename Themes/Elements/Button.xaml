@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource Button_BackgroundNormal}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Button_BorderNormal}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}" 
+                            CornerRadius="0"
+                            Name="border">
+                        <ContentPresenter Name="present"  HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button_BorderFocused}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button_BackgroundFocused}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button_BorderOver}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button_BackgroundOver}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button_BorderPressed}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button_BackgroundPressed}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="present" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button_BorderInactive}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button_BackgroundInactive}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

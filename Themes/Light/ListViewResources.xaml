@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="ListView_BackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ListView_BackgroundDisabled" Color="{DynamicResource ContainerBackgroundNormal}" Opacity="0.7"/>
+                                
+    <SolidColorBrush x:Key="ListView_BorderNormal" Color="{DynamicResource BorderNormalColor}"/>
+    <SolidColorBrush x:Key="ListView_BorderDisabled" Color="{DynamicResource BorderNormalColor}" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="ListView_Row_BackgroundNormal" Color="Transparent"/>
+    <SolidColorBrush x:Key="ListView_Row_BackgroundOver" Color="GreenYellow"/>
+    <SolidColorBrush x:Key="ListView_Row_BackgroundFocused" Color="GreenYellow"/>
+
+    <SolidColorBrush x:Key="ListView_Row_BorderNormal" Color="Transparent"/>
+    <SolidColorBrush x:Key="ListView_Row_BorderOver" Color="#585858"/>
+    <SolidColorBrush x:Key="ListView_Row_BorderFocused" Color="#585858"/>
+    
+</ResourceDictionary>

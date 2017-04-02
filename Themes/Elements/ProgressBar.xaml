@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="ProgressBar">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">              
+                    <Border 
+                        Padding="1"
+                        Name="PART_Track" 
+                        BorderBrush="{DynamicResource ProgressBar_Border}"
+                        BorderThickness="1" >
+                        <Grid ClipToBounds="True">
+                            <Border 
+                                x:Name="PART_GlowRect" 
+                                Background="{DynamicResource ProgressBar_IndeterminateIndicator}"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                                />
+                            <Border
+                                Name="PART_Indicator" 
+                                Background="{DynamicResource ProgressBar_Indicator}"
+                                BorderThickness="0" 
+                                HorizontalAlignment="Left">
+                            </Border>
+                            
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter TargetName="PART_Indicator" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_GlowRect" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="False">
+                            <Setter TargetName="PART_Indicator" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_GlowRect" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

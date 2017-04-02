@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="vi-VN" original="TRANSLATORAPK/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6796.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="TRANSLATORAPK/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="FoldersOfLanguages" translate="yes" xml:space="preserve">
+          <source>values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</source>
+          <target state="new">values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</target>
+        </trans-unit>
+        <trans-unit id="MainWindowTitle" translate="yes" xml:space="preserve">
+          <source>TranslatorApk</source>
+          <target state="new">TranslatorApk</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslationsShortLanguages" translate="yes" xml:space="preserve">
+          <source>sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</source>
+          <target state="new">sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="vi-VN" original="TRANSLATORAPK/RESOURCES/LOCALIZATIONS/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6796.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="TRANSLATORAPK/RESOURCES/LOCALIZATIONS/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="AboutProgram" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated" state-qualifier="mt-suggestion">Về</target>
+        </trans-unit>
+        <trans-unit id="AllSmali" translate="yes" xml:space="preserve">
+          <source>All .smali</source>
+          <target state="translated" state-qualifier="mt-suggestion">Smali tất cả.</target>
+        </trans-unit>
+        <trans-unit id="AllXml" translate="yes" xml:space="preserve">
+          <source>All .xml</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tất cả xml.</target>
+        </trans-unit>
+        <trans-unit id="AndroidApps" translate="yes" xml:space="preserve">
+          <source>Android apps</source>
+          <target state="translated" state-qualifier="mt-suggestion">Ứng dụng Android</target>
+        </trans-unit>
+        <trans-unit id="BuildProject" translate="yes" xml:space="preserve">
+          <source>Build project</source>
+          <target state="translated" state-qualifier="mt-suggestion">Xây dựng dự án</target>
+        </trans-unit>
+        <trans-unit id="CantTranslate" translate="yes" xml:space="preserve">
+          <source>Error was occurred while translating!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Xảy ra lỗi trong khi dịch!</target>
+        </trans-unit>
+        <trans-unit id="ChooseCellOrRow" translate="yes" xml:space="preserve">
+          <source>Choose cell or row!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chọn di động hoặc hàng!</target>
+        </trans-unit>
+        <trans-unit id="ChooseFile" translate="yes" xml:space="preserve">
+          <source>Choose file</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chọn tập tin</target>
+        </trans-unit>
+        <trans-unit id="ChooseFolder" translate="yes" xml:space="preserve">
+          <source>Choose folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chọn thư mục</target>
+        </trans-unit>
+        <trans-unit id="Collapse" translate="yes" xml:space="preserve">
+          <source>Collapse</source>
+          <target state="translated" state-qualifier="tm-suggestion">Thu hẹp</target>
+        </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="translated" state-qualifier="mt-suggestion">Xác nhận</target>
+        </trans-unit>
+        <trans-unit id="CurrentDictionary" translate="yes" xml:space="preserve">
+          <source>Current dictionary</source>
+          <target state="translated" state-qualifier="mt-suggestion">Hiện tại từ điển</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated" state-qualifier="tm-suggestion">Xóa</target>
+        </trans-unit>
+        <trans-unit id="Dictionary" translate="yes" xml:space="preserve">
+          <source>Dictionary</source>
+          <target state="translated" state-qualifier="mt-suggestion">Từ điển</target>
+        </trans-unit>
+        <trans-unit id="Editor" translate="yes" xml:space="preserve">
+          <source>Editor</source>
+          <target state="translated" state-qualifier="mt-suggestion">Biên tập viên</target>
+        </trans-unit>
+        <trans-unit id="EmptySmali" translate="yes" xml:space="preserve">
+          <source>Empty smali</source>
+          <target state="translated" state-qualifier="mt-suggestion">Rỗng smali</target>
+        </trans-unit>
+        <trans-unit id="EmptyXml" translate="yes" xml:space="preserve">
+          <source>Empty xml</source>
+          <target state="translated" state-qualifier="mt-suggestion">Sản phẩm nào xml</target>
+        </trans-unit>
+        <trans-unit id="ErrorLower" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated" state-qualifier="mt-suggestion">Lỗi</target>
+        </trans-unit>
+        <trans-unit id="ErrorUpper" translate="yes" xml:space="preserve">
+          <source>ERROR</source>
+          <target state="translated" state-qualifier="mt-suggestion">LỖI</target>
+        </trans-unit>
+        <trans-unit id="ErrorWhileCompiling" translate="yes" xml:space="preserve">
+          <source>Error while compiling!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Lỗi trong khi biên dịch!</target>
+        </trans-unit>
+        <trans-unit id="ErrorWhileSigning" translate="yes" xml:space="preserve">
+          <source>Error while signing!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Lỗi khi đăng!</target>
+        </trans-unit>
+        <trans-unit id="Expand" translate="yes" xml:space="preserve">
+          <source>Expand</source>
+          <target state="translated" state-qualifier="mt-suggestion">Mở rộng</target>
+        </trans-unit>
+        <trans-unit id="FileIsSituatedIn" translate="yes" xml:space="preserve">
+          <source>File is situated in</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tập tin nằm ở</target>
+        </trans-unit>
+        <trans-unit id="Filename" translate="yes" xml:space="preserve">
+          <source>Filename</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tên tập tin</target>
+        </trans-unit>
+        <trans-unit id="FilesWithErrors" translate="yes" xml:space="preserve">
+          <source>Files with errors</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các tập tin với lỗi</target>
+        </trans-unit>
+        <trans-unit id="Find" translate="yes" xml:space="preserve">
+          <source>Find</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tìm thấy</target>
+        </trans-unit>
+        <trans-unit id="FindAll" translate="yes" xml:space="preserve">
+          <source>Find all</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tìm thấy tất cả</target>
+        </trans-unit>
+        <trans-unit id="FindNext" translate="yes" xml:space="preserve">
+          <source>Find next</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tìm tiếp</target>
+        </trans-unit>
+        <trans-unit id="Finished" translate="yes" xml:space="preserve">
+          <source>Finished</source>
+          <target state="translated" state-qualifier="mt-suggestion">Hoàn thành</target>
+        </trans-unit>
+        <trans-unit id="From" translate="yes" xml:space="preserve">
+          <source>from</source>
+          <target state="translated" state-qualifier="mt-suggestion">từ khoản</target>
+        </trans-unit>
+        <trans-unit id="ImageExtensions" translate="yes" xml:space="preserve">
+          <source>Visible file extensions:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tập tin tiện ích mở rộng có thể nhìn thấy:</target>
+        </trans-unit>
+        <trans-unit id="Images" translate="yes" xml:space="preserve">
+          <source>Images</source>
+          <target state="translated" state-qualifier="mt-suggestion">Hình ảnh</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>Language: </source>
+          <target state="translated" state-qualifier="mt-suggestion">Ngôn ngữ: </target>
+        </trans-unit>
+        <trans-unit id="LanguageOfApp" translate="yes" xml:space="preserve">
+          <source>Language of app:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Ngôn ngữ của các ứng dụng:</target>
+        </trans-unit>
+        <trans-unit id="MatchCase" translate="yes" xml:space="preserve">
+          <source>Match case</source>
+          <target state="translated" state-qualifier="mt-suggestion">Trận đấu trường hợp</target>
+        </trans-unit>
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated" state-qualifier="tm-suggestion">Tên</target>
+        </trans-unit>
+        <trans-unit id="NewText" translate="yes" xml:space="preserve">
+          <source>New text</source>
+          <target state="translated" state-qualifier="mt-suggestion">Văn bản mới</target>
+        </trans-unit>
+        <trans-unit id="No" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated" state-qualifier="tm-suggestion">Không</target>
+        </trans-unit>
+        <trans-unit id="NoInternetCantTranslate" translate="yes" xml:space="preserve">
+          <source>Error while connecting to the internet! Online translation is disabled</source>
+          <target state="translated" state-qualifier="mt-suggestion">Lỗi trong khi kết nối internet! Dịch trực tuyến bị vô hiệu hóa</target>
+        </trans-unit>
+        <trans-unit id="OldText" translate="yes" xml:space="preserve">
+          <source>Old text</source>
+          <target state="translated" state-qualifier="mt-suggestion">Plaintext</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslator" translate="yes" xml:space="preserve">
+          <source>Online translator:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dịch trực tuyến:</target>
+        </trans-unit>
+        <trans-unit id="OnlyFullWords" translate="yes" xml:space="preserve">
+          <source>Match whole word only</source>
+          <target state="translated" state-qualifier="mt-suggestion">Phù hợp với toàn bộ từ duy nhất</target>
+        </trans-unit>
+        <trans-unit id="OnlyXml" translate="yes" xml:space="preserve">
+          <source>Only xml</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chỉ xml</target>
+        </trans-unit>
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="translated" state-qualifier="mt-suggestion">Mở</target>
+        </trans-unit>
+        <trans-unit id="Options" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tùy chọn</target>
+        </trans-unit>
+        <trans-unit id="OtherExtensions" translate="yes" xml:space="preserve">
+          <source>Other extensions:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Phần mở rộng khác:</target>
+        </trans-unit>
+        <trans-unit id="OtherFiles" translate="yes" xml:space="preserve">
+          <source>Other files</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các tập tin</target>
+        </trans-unit>
+        <trans-unit id="Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">Làm tươi</target>
+        </trans-unit>
+        <trans-unit id="Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thay thế</target>
+        </trans-unit>
+        <trans-unit id="RestartProgramToApplyLanguage" translate="yes" xml:space="preserve">
+          <source>Restart program to apply language setting?</source>
+          <target state="translated" state-qualifier="mt-suggestion">Khởi động lại chương trình để áp dụng cài đặt ngôn ngữ?</target>
+        </trans-unit>
+        <trans-unit id="Save" translate="yes" xml:space="preserve">
+          <source>Save</source>
+          <target state="translated" state-qualifier="tm-suggestion">Lưu</target>
+        </trans-unit>
+        <trans-unit id="Search" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated" state-qualifier="tm-suggestion">Tìm kiếm</target>
+        </trans-unit>
+        <trans-unit id="SearchEditorClosed" translate="yes" xml:space="preserve">
+          <source>Editor window was closed. Search will not work</source>
+          <target state="translated" state-qualifier="mt-suggestion">Biên tập viên cửa sổ đã đóng. Tìm kiếm sẽ không hoạt động</target>
+        </trans-unit>
+        <trans-unit id="SearchOptions" translate="yes" xml:space="preserve">
+          <source>Search options</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tùy chọn tìm kiếm</target>
+        </trans-unit>
+        <trans-unit id="Settings" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated" state-qualifier="mt-suggestion">Cài đặt</target>
+        </trans-unit>
+        <trans-unit id="Sign" translate="yes" xml:space="preserve">
+          <source>Sign</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dấu hiệu</target>
+        </trans-unit>
+        <trans-unit id="Stop" translate="yes" xml:space="preserve">
+          <source>Stop</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dừng</target>
+        </trans-unit>
+        <trans-unit id="StringsTranslated" translate="yes" xml:space="preserve">
+          <source>Strings translated:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chuỗi dịch xong:</target>
+        </trans-unit>
+        <trans-unit id="TargetLanguage" translate="yes" xml:space="preserve">
+          <source>Target language</source>
+          <target state="translated" state-qualifier="mt-suggestion">Ngôn ngữ mục tiêu</target>
+        </trans-unit>
+        <trans-unit id="Text" translate="yes" xml:space="preserve">
+          <source>Text</source>
+          <target state="translated" state-qualifier="tm-suggestion">Văn bản</target>
+        </trans-unit>
+        <trans-unit id="TextNotFound" translate="yes" xml:space="preserve">
+          <source>Text is not found</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các văn bản không được tìm thấy</target>
+        </trans-unit>
+        <trans-unit id="TranslateAll" translate="yes" xml:space="preserve">
+          <source>Translate all</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dịch tất cả</target>
+        </trans-unit>
+        <trans-unit id="Use" translate="yes" xml:space="preserve">
+          <source>Use</source>
+          <target state="translated" state-qualifier="mt-suggestion">Sử dụng</target>
+        </trans-unit>
+        <trans-unit id="Version" translate="yes" xml:space="preserve">
+          <source>Version</source>
+          <target state="translated" state-qualifier="tm-suggestion">Phiên bản</target>
+        </trans-unit>
+        <trans-unit id="WaitingOperation" translate="yes" xml:space="preserve">
+          <source>Waiting for completion of the operation...</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chờ đợi hoàn thành việc....</target>
+        </trans-unit>
+        <trans-unit id="XmlRulesEditor" translate="yes" xml:space="preserve">
+          <source>XmlRulesEditor</source>
+          <target state="translated" state-qualifier="mt-suggestion">XmlRulesEditor</target>
+        </trans-unit>
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated" state-qualifier="tm-suggestion">Có</target>
+        </trans-unit>
+        <trans-unit id="YouNeedToChooseDictionary" translate="yes" xml:space="preserve">
+          <source>You need to choose dictionary!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bạn cần phải chọn một từ điển!</target>
+        </trans-unit>
+        <trans-unit id="DictionaryFiles" translate="yes" xml:space="preserve">
+          <source>Dictionary files</source>
+          <target state="translated">Từ điển tập tin</target>
+        </trans-unit>
+        <trans-unit id="DictionariesFolder" translate="yes" xml:space="preserve">
+          <source>Folder with dictionaries</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các thư mục với từ điển</target>
+        </trans-unit>
+        <trans-unit id="DictionaryFolder" translate="yes" xml:space="preserve">
+          <source>Dictionary's folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Từ điển của thư mục</target>
+        </trans-unit>
+        <trans-unit id="NamesOfFolderLanguages" translate="yes" xml:space="preserve">
+          <source>English (UK)|Arabic|Afrikaans|Belarusian|Bulgarian|Bosnian|Hungarian|Vietnamese|Dutch|Greek|Danish|Zulu|Hebrew|Indonesian|Spanish|Italian|Catalan|Chinese|Chinese (Simplified)|Chinese (Traditional)|Latvian|Lithuanian|Malay|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Swahili|Tagalog|Thai|Turkish|Ukrainian|Finnish|French|Hindi|Czech|Swedish|Estonian|Japanese</source>
+          <target state="translated">English (UK)|Arabic|Afrikaans|Belarus|Bulgaria|Bosnia|Hungary|Việt|Hà Lan|Hy Lạp|Đan Mạch|Zulu|Hebrew|Indonesia|Tây Ban Nha|Ý|Catalan|Trung Quốc|Trung Quốc (giản thể)|Tiếng Trung Quốc (truyền thống)|Latvia|Lithuania|Malay|Đức|Na Uy|Ba Tư|Ba Lan|Bồ Đào Nha|Romania|Nga|Serbia|Slovak|Slovenia|Swahili|Tagalog|Thai|Thổ Nhĩ Kỳ|Ukraina|Phần Lan|Pháp|Tiếng Hin-ddi|Cộng hòa Séc|Thụy Điển|Estonian|Nhật Bản</target>
+        </trans-unit>
+        <trans-unit id="ResultFolder" translate="yes" xml:space="preserve">
+          <source>Result folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thư mục kết quả</target>
+        </trans-unit>
+        <trans-unit id="SourceFolder" translate="yes" xml:space="preserve">
+          <source>Source folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thư mục nguồn</target>
+        </trans-unit>
+        <trans-unit id="Start" translate="yes" xml:space="preserve">
+          <source>Start</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bắt đầu</target>
+        </trans-unit>
+        <trans-unit id="TranslatedFolder" translate="yes" xml:space="preserve">
+          <source>Folder with translations</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các thư mục với bản dịch</target>
+        </trans-unit>
+        <trans-unit id="AddLanguage" translate="yes" xml:space="preserve">
+          <source>Add language</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thêm ngôn ngữ</target>
+        </trans-unit>
+        <trans-unit id="OpenWith" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="translated" state-qualifier="mt-suggestion">Mở với</target>
+        </trans-unit>
+        <trans-unit id="ReplaceUnicodeSequences" translate="yes" xml:space="preserve">
+          <source>Replace Unicode sequences</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thay thế trình tự Unicode</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetector" translate="yes" xml:space="preserve">
+          <source>Changes detector</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thay đổi phát hiện</target>
+        </trans-unit>
+        <trans-unit id="ApiKeyIsEmpty" translate="yes" xml:space="preserve">
+          <source>Api key is empty</source>
+          <target state="translated" state-qualifier="mt-suggestion">Khóa API là sản phẩm nào</target>
+        </trans-unit>
+        <trans-unit id="ApiKey" translate="yes" xml:space="preserve">
+          <source>Api key:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Khóa API:</target>
+        </trans-unit>
+        <trans-unit id="LoadWithTextStrings" translate="yes" xml:space="preserve">
+          <source>Load with text strings</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tải với các chuỗi ký tự</target>
+        </trans-unit>
+        <trans-unit id="OnlyResources" translate="yes" xml:space="preserve">
+          <source>Only resources</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chỉ tài nguyên</target>
+        </trans-unit>
+        <trans-unit id="ShowInExplorer" translate="yes" xml:space="preserve">
+          <source>Show in explorer</source>
+          <target state="translated" state-qualifier="mt-suggestion">Hiển thị trong explorer</target>
+        </trans-unit>
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="translated">Thêm</target>
+        </trans-unit>
+        <trans-unit id="NewLanguage" translate="yes" xml:space="preserve">
+          <source>New language:</source>
+          <target state="translated">Ngôn ngữ mới:</target>
+        </trans-unit>
+        <trans-unit id="CantUpdateProgram" translate="yes" xml:space="preserve">
+          <source>Can't update program</source>
+          <target state="translated" state-qualifier="mt-suggestion">Không thể cập nhật chương trình</target>
+        </trans-unit>
+        <trans-unit id="Update" translate="yes" xml:space="preserve">
+          <source>Update</source>
+          <target state="translated" state-qualifier="mt-suggestion">Cập Nhật</target>
+        </trans-unit>
+        <trans-unit id="UpdateNewVersion" translate="yes" xml:space="preserve">
+          <source>New version is available. Update?</source>
+          <target state="translated" state-qualifier="mt-suggestion">Phiên bản mới có sẵn. Cập Nhật?</target>
+        </trans-unit>
+        <trans-unit id="Theme_Dark" translate="yes" xml:space="preserve">
+          <source>Dark</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tối</target>
+        </trans-unit>
+        <trans-unit id="Theme_Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="translated" state-qualifier="mt-suggestion">Ánh sáng</target>
+        </trans-unit>
+        <trans-unit id="ApktoolVersion" translate="yes" xml:space="preserve">
+          <source>Apktool version:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Phiên bản Apktool:</target>
+        </trans-unit>
+        <trans-unit id="Theme" translate="yes" xml:space="preserve">
+          <source>Theme:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chủ đề:</target>
+        </trans-unit>
+        <trans-unit id="XmlFiles" translate="yes" xml:space="preserve">
+          <source>Xml files</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tập tin XML</target>
+        </trans-unit>
+        <trans-unit id="AccountNumberIsCopied" translate="yes" xml:space="preserve">
+          <source>Account number is copied to the clipboard</source>
+          <target state="translated" state-qualifier="mt-suggestion">Số tài khoản được sao chép vào clipboard</target>
+        </trans-unit>
+        <trans-unit id="LanguageIsNotSelected" translate="yes" xml:space="preserve">
+          <source>Language is not selected!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Ngôn ngữ không được chọn!</target>
+        </trans-unit>
+        <trans-unit id="AllDone" translate="yes" xml:space="preserve">
+          <source>All done!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tất cả được thực hiện!</target>
+        </trans-unit>
+        <trans-unit id="ApplyTheChanges" translate="yes" xml:space="preserve">
+          <source>Apply the changes?</source>
+          <target state="translated" state-qualifier="mt-suggestion">Áp dụng những thay đổi?</target>
+        </trans-unit>
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated" state-qualifier="mt-suggestion">Hủy bỏ</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileTranslation" translate="yes" xml:space="preserve">
+          <source>One file translation</source>
+          <target state="translated" state-qualifier="mt-suggestion">Một tập tin bản dịch</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileTranslation_ToolTip" translate="yes" xml:space="preserve">
+          <source>One file translation with dictionary</source>
+          <target state="translated" state-qualifier="mt-suggestion">Một tập tin bản dịch với từ điển</target>
+        </trans-unit>
+        <trans-unit id="FileDeleteConfirmation" translate="yes" xml:space="preserve">
+          <source>Are you really want to delete the file</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bạn thực sự muốn xóa các tập tin</target>
+        </trans-unit>
+        <trans-unit id="FolderDeleteConfirmation" translate="yes" xml:space="preserve">
+          <source>Are you really want to delete the folder</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bạn thực sự muốn xóa thư mục</target>
+        </trans-unit>
+        <trans-unit id="SelectAFolder" translate="yes" xml:space="preserve">
+          <source>Select a folder:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Chọn một thư mục:</target>
+        </trans-unit>
+        <trans-unit id="TheFileIsCorrupted" translate="yes" xml:space="preserve">
+          <source>The file is corrupted!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Các tập tin bị hỏng!</target>
+        </trans-unit>
+        <trans-unit id="SearchWindow_FolderIsNotSelected" translate="yes" xml:space="preserve">
+          <source>You must select a folder to search!</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bạn phải chọn một thư mục để tìm kiếm!</target>
+        </trans-unit>
+        <trans-unit id="JavaNotFoundError" translate="yes" xml:space="preserve">
+          <source>Java wasn't found! Please, download it from official site or use portable version of program</source>
+          <target state="translated" state-qualifier="mt-suggestion">Java không tìm thấy! Xin vui lòng, tải nó từ trang web chính thức hoặc sử dụng các phiên bản di động của chương trình</target>
+        </trans-unit>
+        <trans-unit id="OnlineTranslationsLongLanguages" translate="yes" xml:space="preserve">
+          <source>Albanian|English|Arabic|Armenian|Azerbaijan|Afrikaans|Basque|Belarusian|Bulgarian|Bosnian|Welsh|Vietnamese|Hungarian|Haitian(Creole)|Galician|Dutch|Greek|Georgian|Danish|Yiddish|Indonesian|Irish|Italian|Icelandic|Spanish|Kazakh|Catalan|Kyrgyz|Chinese|Korean|Latin|Latvian|Lithuanian|Malagasy|Malay|Maltese|Macedonian|Mongolian|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovakian|Slovenian|Swahili|Tajik|Thai|Tagalog|Tatar|Turkish|Uzbek|Ukrainian|Finish|French|Croatian|Czech|Swedish|Estonian|Japanese</source>
+          <target state="translated">Albanian|English|Arabic|Armenia|Azerbaijan|Afrikaans|Basque|Belarus|Bulgaria|Bosnia|Welsh|TiếngViệt|Hungary|Haiti (Creole)|Galician|HàLan|HyLạp|Gruzia|ĐanMạch|Yiddish|Indonesia|Irish|Ý|Iceland|TâyBanNha|Kazakhstan|Catalan|Kyrgyzstan|TrungQuốc|HànQuốc|Latin|latvian|Lithuania|Malagasy|Malay|Maltese|Macedonian|MôngCổ|Đức|NaUy|BaTư|BaLan|BồĐàoNha|Rumani|Nga|Serbia|Slovakia|Slovenia|Swahili|Tajik|TháiLan|Tagalog|Tatar|ThổNhĩKỳ|Uzbek|Ukraina|Phần Lan|Pháp|Croatia|CộnghòaSéc|ThụyĐiển|Estonian|NgườiNhậtBản</target>
+        </trans-unit>
+        <trans-unit id="OpenInExplorer" translate="yes" xml:space="preserve">
+          <source>Open in explorer</source>
+          <target state="translated" state-qualifier="mt-suggestion">Mở trong explorer</target>
+        </trans-unit>
+        <trans-unit id="ShowPreview" translate="yes" xml:space="preserve">
+          <source>Show preview:</source>
+          <target state="translated">Hiện xem trước:</target>
+        </trans-unit>
+        <trans-unit id="Catalog" translate="yes" xml:space="preserve">
+          <source>Catalog</source>
+          <target state="translated" state-qualifier="mt-suggestion">Danh mục</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="translated" state-qualifier="mt-suggestion">Cài đặt</target>
+        </trans-unit>
+        <trans-unit id="Installed" translate="yes" xml:space="preserve">
+          <source>Installed</source>
+          <target state="translated" state-qualifier="mt-suggestion">Cài đặt</target>
+        </trans-unit>
+        <trans-unit id="Description" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <target state="translated" state-qualifier="mt-suggestion">Mô tả</target>
+        </trans-unit>
+        <trans-unit id="Title" translate="yes" xml:space="preserve">
+          <source>Title</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tiêu đề</target>
+        </trans-unit>
+        <trans-unit id="Plugins" translate="yes" xml:space="preserve">
+          <source>Plugins</source>
+          <target state="translated" state-qualifier="mt-suggestion">Plugins</target>
+        </trans-unit>
+        <trans-unit id="ApktoolNotFound" translate="yes" xml:space="preserve">
+          <source>Apktool is not found! Please, download apktool to "Files\Resources\apktools"</source>
+          <target state="translated" state-qualifier="mt-suggestion">Apktool không được tìm thấy! Xin vui lòng, tải apktool để "Files\Resources\apktools"</target>
+        </trans-unit>
+        <trans-unit id="EmptyFolders" translate="yes" xml:space="preserve">
+          <source>Empty folders</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thư mục rỗng</target>
+        </trans-unit>
+        <trans-unit id="TopMost" translate="yes" xml:space="preserve">
+          <source>On top of all windows:</source>
+          <target state="translated">On top of all windows:</target>
+        </trans-unit>
+        <trans-unit id="Size" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated" state-qualifier="mt-suggestion">Kích thước</target>
+        </trans-unit>
+        <trans-unit id="Uninstall" translate="yes" xml:space="preserve">
+          <source>Uninstall</source>
+          <target state="translated" state-qualifier="mt-suggestion">Gỡ bỏ cài đặt</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_ManyFilesCreation" translate="yes" xml:space="preserve">
+          <source>Many files creation</source>
+          <target state="translated" state-qualifier="mt-suggestion">Nhiều tác phẩm sáng tạo</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_ManyFilesTranslation" translate="yes" xml:space="preserve">
+          <source>Many files translation</source>
+          <target state="translated" state-qualifier="mt-suggestion">Nhiều tác phẩm dịch thuật</target>
+        </trans-unit>
+        <trans-unit id="ChangesDetectorWindow_OneFileCreation" translate="yes" xml:space="preserve">
+          <source>One file creation</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tạo một tập tin</target>
+        </trans-unit>
+        <trans-unit id="LatestVersion" translate="yes" xml:space="preserve">
+          <source>Latest version</source>
+          <target state="translated" state-qualifier="mt-suggestion">Phiên bản mới nhất</target>
+        </trans-unit>
+        <trans-unit id="AlternativeEditingKeys" translate="yes" xml:space="preserve">
+          <source>Alternative editing keys:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Thay thế các phím chỉnh sửa:</target>
+        </trans-unit>
+        <trans-unit id="SessionAutoTranslation" translate="yes" xml:space="preserve">
+          <source>Auto translation with session dictionary:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tự động dịch thuật với phiên giao dịch từ điển:</target>
+        </trans-unit>
+        <trans-unit id="SaveAndExit" translate="yes" xml:space="preserve">
+          <source>Save and exit</source>
+          <target state="translated" state-qualifier="mt-suggestion">Lưu và thoát ra</target>
+        </trans-unit>
+        <trans-unit id="CanNotRecievePluginsList" translate="yes" xml:space="preserve">
+          <source>Can not recieve plugins list. Please, check your internet connection.</source>
+          <target state="new">Can not recieve plugins list. Please, check your internet connection.</target>
+        </trans-unit>
+        <trans-unit id="CanNotRecieveApktoolsList" translate="yes" xml:space="preserve">
+          <source>Can not recieve apktools list. Please, check your internet connection.</source>
+          <target state="new">Can not recieve apktools list. Please, check your internet connection.</target>
+        </trans-unit>
+        <trans-unit id="DirectoryPathToClipboard" translate="yes" xml:space="preserve">
+          <source>Directory path (to clipboard)</source>
+          <target state="new">Directory path (to clipboard)</target>
+        </trans-unit>
+        <trans-unit id="FileNameToClipboard" translate="yes" xml:space="preserve">
+          <source>File name (to clipboard)</source>
+          <target state="new">File name (to clipboard)</target>
+        </trans-unit>
+        <trans-unit id="FullFilePathToClipboard" translate="yes" xml:space="preserve">
+          <source>Full file path (to clipboard)</source>
+          <target state="new">Full file path (to clipboard)</target>
+        </trans-unit>
+        <trans-unit id="Loading" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="new">Loading...</target>
+        </trans-unit>
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="ShowNotifications" translate="yes" xml:space="preserve">
+          <source>Show notifications:</source>
+          <target state="new">Show notifications:</target>
+        </trans-unit>
+        <trans-unit id="CompilationFinished" translate="yes" xml:space="preserve">
+          <source>Compilation finished</source>
+          <target state="new">Compilation finished</target>
+        </trans-unit>
+        <trans-unit id="DecompilationFinished" translate="yes" xml:space="preserve">
+          <source>Decompilation finished</source>
+          <target state="new">Decompilation finished</target>
+        </trans-unit>
+        <trans-unit id="TheFollowingFilesHaveBeenAlreadyAdded" translate="yes" xml:space="preserve">
+          <source>The following files have been already added</source>
+          <target state="new">The following files have been already added</target>
+        </trans-unit>
+        <trans-unit id="Information" translate="yes" xml:space="preserve">
+          <source>Information</source>
+          <target state="new">Information</target>
+        </trans-unit>
+        <trans-unit id="AlternateRowsInEditor" translate="yes" xml:space="preserve">
+          <source>Alternate rows in editor</source>
+          <target state="new">Alternate rows in editor</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
