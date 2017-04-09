@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using AndroidTranslator;
-using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.OrganisationItems;
@@ -16,29 +13,21 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для StringEditorWindow.xaml
     /// </summary>
-    public partial class StringEditorWindow : INotifyPropertyChanged
+    public partial class StringEditorWindow
     {
         public OneString Str { get; }
 
-        private readonly string backup;
-        private readonly bool scrollToEnd;
+        private readonly string _backup;
+        private readonly bool _scrollToEnd;
 
         public StringEditorWindow(OneString str, bool scrollToEnd = true, string prev = "")
         {
             Str = str;
-            backup = str.NewText;
+            _backup = str.NewText;
             str.NewText += prev;
-            this.scrollToEnd = scrollToEnd;
+            _scrollToEnd = scrollToEnd;
 
             InitializeComponent();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void StringEditorWindow_OnKeyDown(object sender, KeyEventArgs e)
@@ -47,7 +36,7 @@ namespace TranslatorApk.Windows
             {
                 case Key.Escape:
                     if (SettingsIncapsuler.AlternativeEditingKeys)
-                        Str.NewText = backup;
+                        Str.NewText = _backup;
 
                     e.Handled = true;
                     Close();  
@@ -70,7 +59,7 @@ namespace TranslatorApk.Windows
             {
                 NewTextBox.Focus();
 
-                if (scrollToEnd && Str.NewText != null)
+                if (_scrollToEnd && Str.NewText != null)
                     NewTextBox.CaretIndex = Str.NewText.Length;
             }
             else
@@ -79,7 +68,7 @@ namespace TranslatorApk.Windows
 
         private void StringEditorWindow_OnClosed(object sender, EventArgs e)
         {
-            if (Str.NewText != backup)
+            if (Str.NewText != _backup)
             {
                 Functions.AddToSessionDict(Str.OldText, Str.NewText);
 

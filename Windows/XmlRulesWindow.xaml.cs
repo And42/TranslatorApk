@@ -7,7 +7,6 @@ using System.Xml;
 using AndroidTranslator;
 using Microsoft.Win32;
 using TranslatorApk.Annotations;
-using TranslatorApk.Logic;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -26,19 +25,12 @@ namespace TranslatorApk.Windows
         public XmlRulesWindow()
         {
             Items = new ObservableCollection<CheckBoxSetting>();
+
             foreach (string item in SettingsIncapsuler.XmlRules)
                 Items.Add(new CheckBoxSetting(item, true));
+
             InitializeComponent();
         }    
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         private void ChooseFileClick(object sender, RoutedEventArgs e)
         {
@@ -56,6 +48,7 @@ namespace TranslatorApk.Windows
                 xdoc.Load(dialog.FileName);
                 var itms = new List<string>(Items.Select(item => item.Text));
                 itms = Functions.GetAllAttributes(xdoc.DocumentElement, itms);
+
                 for (int i = Items.Count; i < itms.Count; i++)
                     Items.Add(new CheckBoxSetting(itms[i]));
             }
@@ -70,6 +63,15 @@ namespace TranslatorApk.Windows
             XmlFile.XmlRules = items.ToList();
 
             MessBox.ShowDial(Finished);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

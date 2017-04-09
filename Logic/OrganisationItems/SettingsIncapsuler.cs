@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using TranslatorApk.Properties;
 
 namespace TranslatorApk.Logic.OrganisationItems
@@ -13,661 +15,663 @@ namespace TranslatorApk.Logic.OrganisationItems
         {
             get
             {
-                if (!isFieldLoadedTargetLanguage)
+                if (!_isFieldLoadedTargetLanguage)
                 {
-                    targetLaguage = Settings.Default.TargetLanguage;
-                    isFieldLoadedTargetLanguage = true;
+                    _targetLaguage = Settings.Default.TargetLanguage;
+                    _isFieldLoadedTargetLanguage = true;
                 }
 
-                return targetLaguage;
+                return _targetLaguage;
             }
             set
             {
-                targetLaguage = value;
+                _targetLaguage = value;
                 Settings.Default.TargetLanguage = value;
                 Settings.Default.Save();
             }
         }
-        private static string targetLaguage;
-        private static bool isFieldLoadedTargetLanguage;
+        private static string _targetLaguage;
+        private static bool _isFieldLoadedTargetLanguage;
 
         public static string TargetDictionary
         {
             get
             {
-                if (!isFieldLoadedTargetDictionary)
+                if (!_isFieldLoadedTargetDictionary)
                 {
-                    targetDictionary = Settings.Default.TargetDictionary;
-                    isFieldLoadedTargetDictionary = true;
+                    _targetDictionary = Settings.Default.TargetDictionary;
+                    _isFieldLoadedTargetDictionary = true;
                 }
 
-                return targetDictionary;
+                return _targetDictionary;
             }
             set
             {
-                targetDictionary = value;
+                _targetDictionary = value;
                 Settings.Default.TargetDictionary = value;
                 Settings.Default.Save();
             }
         }
-        private static string targetDictionary;
-        private static bool isFieldLoadedTargetDictionary;
+        private static string _targetDictionary;
+        private static bool _isFieldLoadedTargetDictionary;
 
         public static bool ShowPreviews
         {
             get
             {
-                if (!isFieldLoadedShowPreviews)
+                if (!_isFieldLoadedShowPreviews)
                 {
-                    showPreviews = Settings.Default.ShowPreviews;
-                    isFieldLoadedShowPreviews = true;
+                    _showPreviews = Settings.Default.ShowPreviews;
+                    _isFieldLoadedShowPreviews = true;
                 }
 
-                return showPreviews;
+                return _showPreviews;
             }
             set
             {
-                showPreviews = value;
+                _showPreviews = value;
                 Settings.Default.ShowPreviews = value;
                 Settings.Default.Save();
             }
         }
-        private static bool showPreviews;
-        private static bool isFieldLoadedShowPreviews;
+        private static bool _showPreviews;
+        private static bool _isFieldLoadedShowPreviews;
 
         public static bool AlternativeEditingKeys
         {
             get
             {
-                if (!isFieldLoadedAlternativeEditingKeys)
+                if (!_isFieldLoadedAlternativeEditingKeys)
                 {
-                    alternativeEditingKeys = Settings.Default.AlternativeEditingKeys;
-                    isFieldLoadedAlternativeEditingKeys = true;
+                    _alternativeEditingKeys = Settings.Default.AlternativeEditingKeys;
+                    _isFieldLoadedAlternativeEditingKeys = true;
                 }
 
-                return alternativeEditingKeys;
+                return _alternativeEditingKeys;
             }
             set
             {
-                alternativeEditingKeys = value;
+                _alternativeEditingKeys = value;
                 Settings.Default.AlternativeEditingKeys = value;
                 Settings.Default.Save();
             }
         }
-        private static bool alternativeEditingKeys;
-        private static bool isFieldLoadedAlternativeEditingKeys;
+        private static bool _alternativeEditingKeys;
+        private static bool _isFieldLoadedAlternativeEditingKeys;
 
         public static bool TopMost
         {
             get
             {
-                if (!isFieldLoadedTopMost)
+                if (!_isFieldLoadedTopMost)
                 {
-                    topMost = Settings.Default.TopMost;
-                    isFieldLoadedTopMost = true;
+                    _topMost = Settings.Default.TopMost;
+                    _isFieldLoadedTopMost = true;
                 }
 
-                return topMost;
+                return _topMost;
             }
             set
             {
-                topMost = value;
+                _topMost = value;
                 Settings.Default.TopMost = value;
                 Settings.Default.Save();
                 GlobalVariables.Instance.OnPropertyChanged(nameof(TopMost));
             }
         }
-        private static bool topMost;
-        private static bool isFieldLoadedTopMost;
+        private static bool _topMost;
+        private static bool _isFieldLoadedTopMost;
 
         public static string[] AvailToEditFiles
         {
             get
             {
-                if (!isFieldLoadedAvailToEditFiles)
+                if (!_isFieldLoadedAvailToEditFiles)
                 {
-                    availToEditFiles = Settings.Default.AvailToEditFiles;
-                    isFieldLoadedAvailToEditFiles = true;
+                    _availToEditFiles = Settings.Default.AvailToEditFiles;
+                    _isFieldLoadedAvailToEditFiles = true;
                 }
 
-                return availToEditFiles;
+                return _availToEditFiles;
             }
             set
             {
-                availToEditFiles = value;
+                _availToEditFiles = value;
                 Settings.Default.AvailToEditFiles = value;
                 Settings.Default.Save();
             }
         }
-        private static string[] availToEditFiles;
-        private static bool isFieldLoadedAvailToEditFiles;
+        private static string[] _availToEditFiles;
+        private static bool _isFieldLoadedAvailToEditFiles;
 
         public static string[] XmlRules
         {
             get
             {
-                if (!isFieldLoadedXmlRules)
+                if (!_isFieldLoadedXmlRules)
                 {
-                    xmlRules = Settings.Default.XmlRules;
-                    isFieldLoadedXmlRules = true;
+                    _xmlRules = Settings.Default.XmlRules;
+                    _isFieldLoadedXmlRules = true;
                 }
 
-                return xmlRules;
+                return _xmlRules;
             }
             set
             {
-                xmlRules = value;
+                _xmlRules = value;
                 Settings.Default.XmlRules = value;
                 Settings.Default.Save();
             }
         }
-        private static string[] xmlRules;
-        private static bool isFieldLoadedXmlRules;
+        private static string[] _xmlRules;
+        private static bool _isFieldLoadedXmlRules;
 
-        public static string[] ImageExtensions
+        public static HashSet<string> ImageExtensions
         {
             get
             {
-                if (!isFieldLoadedImageExtensions)
+                if (!_isFieldLoadedImageExtensions)
                 {
-                    imageExtensions = Settings.Default.ImageExtensions;
-                    isFieldLoadedImageExtensions = true;
+                    var val = Settings.Default.ImageExtensions;
+                    _imageExtensions = val != null ? new HashSet<string>(val.Distinct()) : null;
+                    _isFieldLoadedImageExtensions = true;
                 }
 
-                return imageExtensions;
+                return _imageExtensions;
             }
             set
             {
-                imageExtensions = value;
-                Settings.Default.ImageExtensions = value;
+                _imageExtensions = value;
+                Settings.Default.ImageExtensions = value.ToArray();
                 Settings.Default.Save();
             }
         }
-        private static string[] imageExtensions;
-        private static bool isFieldLoadedImageExtensions;
+        private static HashSet<string> _imageExtensions;
+        private static bool _isFieldLoadedImageExtensions;
 
-        public static string[] OtherExtensions
+        public static HashSet<string> OtherExtensions
         {
             get
             {
-                if (!isFieldLoadedOtherExtensions)
+                if (!_isFieldLoadedOtherExtensions)
                 {
-                    otherExtensions = Settings.Default.OtherExtensions;
-                    isFieldLoadedOtherExtensions = true;
+                    var val = Settings.Default.OtherExtensions;
+                    _otherExtensions = val != null ? new HashSet<string>(val) : null;
+                    _isFieldLoadedOtherExtensions = true;
                 }
 
-                return otherExtensions;
+                return _otherExtensions;
             }
             set
             {
-                otherExtensions = value;
-                Settings.Default.OtherExtensions = value;
+                _otherExtensions = value;
+                Settings.Default.OtherExtensions = value.ToArray();
                 Settings.Default.Save();
             }
         }
-        private static string[] otherExtensions;
-        private static bool isFieldLoadedOtherExtensions;
+        private static HashSet<string> _otherExtensions;
+        private static bool _isFieldLoadedOtherExtensions;
 
         public static bool SessionAutoTranslate
         {
             get
             {
-                if (!isFieldLoadedSessionAutoTranslate)
+                if (!_isFieldLoadedSessionAutoTranslate)
                 {
-                    sessionAutoTranslate = Settings.Default.SessionAutoTranslate;
-                    isFieldLoadedSessionAutoTranslate = true;
+                    _sessionAutoTranslate = Settings.Default.SessionAutoTranslate;
+                    _isFieldLoadedSessionAutoTranslate = true;
                 }
 
-                return sessionAutoTranslate;
+                return _sessionAutoTranslate;
             }
             set
             {
-                sessionAutoTranslate = value;
+                _sessionAutoTranslate = value;
                 Settings.Default.SessionAutoTranslate = value;
                 Settings.Default.Save();
             }
         }
-        private static bool sessionAutoTranslate;
-        private static bool isFieldLoadedSessionAutoTranslate;
+        private static bool _sessionAutoTranslate;
+        private static bool _isFieldLoadedSessionAutoTranslate;
 
         public static Guid OnlineTranslator
         {
             get
             {
-                if (!isFieldLoadedOnlineTranslator)
+                if (!_isFieldLoadedOnlineTranslator)
                 {
-                    onlineTranslator = Settings.Default.OnlineTranslator;
-                    isFieldLoadedOnlineTranslator = true;
+                    _onlineTranslator = Settings.Default.OnlineTranslator;
+                    _isFieldLoadedOnlineTranslator = true;
                 }
 
-                return onlineTranslator;
+                return _onlineTranslator;
             }
             set
             {
-                onlineTranslator = value;
+                _onlineTranslator = value;
                 Settings.Default.OnlineTranslator = value;
                 Settings.Default.Save();
             }
         }
-        private static Guid onlineTranslator;
-        private static bool isFieldLoadedOnlineTranslator;
+        private static Guid _onlineTranslator;
+        private static bool _isFieldLoadedOnlineTranslator;
 
         public static string LanguageOfApp
         {
             get
             {
-                if (!isFieldLoadedLanguageOfApp)
+                if (!_isFieldLoadedLanguageOfApp)
                 {
-                    languageOfApp = Settings.Default.LanguageOfApp;
-                    isFieldLoadedLanguageOfApp = true;
+                    _languageOfApp = Settings.Default.LanguageOfApp;
+                    _isFieldLoadedLanguageOfApp = true;
                 }
 
-                return languageOfApp;
+                return _languageOfApp;
             }
             set
             {
-                languageOfApp = value;
+                _languageOfApp = value;
                 Settings.Default.LanguageOfApp = value;
                 Settings.Default.Save();
             }
         }
-        private static string languageOfApp;
-        private static bool isFieldLoadedLanguageOfApp;
+        private static string _languageOfApp;
+        private static bool _isFieldLoadedLanguageOfApp;
 
         public static bool EmptyXml
         {
             get
             {
-                if (!isFieldLoadedEmptyXml)
+                if (!_isFieldLoadedEmptyXml)
                 {
-                    emptyXml = Settings.Default.EmptyXml;
-                    isFieldLoadedEmptyXml = true;
+                    _emptyXml = Settings.Default.EmptyXml;
+                    _isFieldLoadedEmptyXml = true;
                 }
 
-                return emptyXml;
+                return _emptyXml;
             }
             set
             {
-                emptyXml = value;
+                _emptyXml = value;
                 Settings.Default.EmptyXml = value;
                 Settings.Default.Save();
             }
         }
-        private static bool emptyXml;
-        private static bool isFieldLoadedEmptyXml;
+        private static bool _emptyXml;
+        private static bool _isFieldLoadedEmptyXml;
 
         public static bool EmptySmali
         {
             get
             {
-                if (!isFieldLoadedEmptySmali)
+                if (!_isFieldLoadedEmptySmali)
                 {
-                    emptySmali = Settings.Default.EmptySmali;
-                    isFieldLoadedEmptySmali = true;
+                    _emptySmali = Settings.Default.EmptySmali;
+                    _isFieldLoadedEmptySmali = true;
                 }
 
-                return emptySmali;
+                return _emptySmali;
             }
             set
             {
-                emptySmali = value;
+                _emptySmali = value;
                 Settings.Default.EmptySmali = value;
                 Settings.Default.Save();
             }
         }
-        private static bool emptySmali;
-        private static bool isFieldLoadedEmptySmali;
+        private static bool _emptySmali;
+        private static bool _isFieldLoadedEmptySmali;
 
         public static bool OtherFiles
         {
             get
             {
-                if (!isFieldLoadedOtherFiles)
+                if (!_isFieldLoadedOtherFiles)
                 {
-                    otherFiles = Settings.Default.OtherFiles;
-                    isFieldLoadedOtherFiles = true;
+                    _otherFiles = Settings.Default.OtherFiles;
+                    _isFieldLoadedOtherFiles = true;
                 }
 
-                return otherFiles;
+                return _otherFiles;
             }
             set
             {
-                otherFiles = value;
+                _otherFiles = value;
                 Settings.Default.OtherFiles = value;
                 Settings.Default.Save();
             }
         }
-        private static bool otherFiles;
-        private static bool isFieldLoadedOtherFiles;
+        private static bool _otherFiles;
+        private static bool _isFieldLoadedOtherFiles;
 
         public static bool OnlyXml
         {
             get
             {
-                if (!isFieldLoadedOnlyXml)
+                if (!_isFieldLoadedOnlyXml)
                 {
-                    onlyXml = Settings.Default.OnlyXml;
-                    isFieldLoadedOnlyXml = true;
+                    _onlyXml = Settings.Default.OnlyXml;
+                    _isFieldLoadedOnlyXml = true;
                 }
 
-                return onlyXml;
+                return _onlyXml;
             }
             set
             {
-                onlyXml = value;
+                _onlyXml = value;
                 Settings.Default.OnlyXml = value;
                 Settings.Default.Save();
             }
         }
-        private static bool onlyXml;
-        private static bool isFieldLoadedOnlyXml;
+        private static bool _onlyXml;
+        private static bool _isFieldLoadedOnlyXml;
 
         public static bool EmptyFolders
         {
             get
             {
-                if (!isFieldLoadedEmptyFolders)
+                if (!_isFieldLoadedEmptyFolders)
                 {
-                    emptyFolders = Settings.Default.EmptyFolders;
-                    isFieldLoadedEmptyFolders = true;
+                    _emptyFolders = Settings.Default.EmptyFolders;
+                    _isFieldLoadedEmptyFolders = true;
                 }
 
-                return emptyFolders;
+                return _emptyFolders;
             }
             set
             {
-                emptyFolders = value;
+                _emptyFolders = value;
                 Settings.Default.EmptyFolders = value;
                 Settings.Default.Save();
             }
         }
-        private static bool emptyFolders;
-        private static bool isFieldLoadedEmptyFolders;
+        private static bool _emptyFolders;
+        private static bool _isFieldLoadedEmptyFolders;
 
         public static bool Images
         {
             get
             {
-                if (!isFieldLoadedImages)
+                if (!_isFieldLoadedImages)
                 {
-                    images = Settings.Default.Images;
-                    isFieldLoadedImages = true;
+                    _images = Settings.Default.Images;
+                    _isFieldLoadedImages = true;
                 }
 
-                return images;
+                return _images;
             }
             set
             {
-                images = value;
+                _images = value;
                 Settings.Default.Images = value;
                 Settings.Default.Save();
             }
         }
-        private static bool images;
-        private static bool isFieldLoadedImages;
+        private static bool _images;
+        private static bool _isFieldLoadedImages;
 
         public static bool FilesWithErrors
         {
             get
             {
-                if (!isFieldLoadedFilesWithErrors)
+                if (!_isFieldLoadedFilesWithErrors)
                 {
-                    filesWithErrors = Settings.Default.FilesWithErrors;
-                    isFieldLoadedFilesWithErrors = true;
+                    _filesWithErrors = Settings.Default.FilesWithErrors;
+                    _isFieldLoadedFilesWithErrors = true;
                 }
 
-                return filesWithErrors;
+                return _filesWithErrors;
             }
             set
             {
-                filesWithErrors = value;
+                _filesWithErrors = value;
                 Settings.Default.FilesWithErrors = value;
                 Settings.Default.Save();
             }
         }
-        private static bool filesWithErrors;
-        private static bool isFieldLoadedFilesWithErrors;
+        private static bool _filesWithErrors;
+        private static bool _isFieldLoadedFilesWithErrors;
 
         public static bool OnlyResources
         {
             get
             {
-                if (!isFieldLoadedOnlyResources)
+                if (!_isFieldLoadedOnlyResources)
                 {
-                    onlyResources = Settings.Default.OnlyResources;
-                    isFieldLoadedOnlyResources = true;
+                    _onlyResources = Settings.Default.OnlyResources;
+                    _isFieldLoadedOnlyResources = true;
                 }
 
-                return onlyResources;
+                return _onlyResources;
             }
             set
             {
-                onlyResources = value;
+                _onlyResources = value;
                 Settings.Default.OnlyResources = value;
                 Settings.Default.Save();
             }
         }
-        private static bool onlyResources;
-        private static bool isFieldLoadedOnlyResources;
+        private static bool _onlyResources;
+        private static bool _isFieldLoadedOnlyResources;
 
         public static string Theme
         {
             get
             {
-                if (!isFieldLoadedTheme)
+                if (!_isFieldLoadedTheme)
                 {
-                    theme = Settings.Default.Theme;
-                    isFieldLoadedTheme = true;
+                    _theme = Settings.Default.Theme;
+                    _isFieldLoadedTheme = true;
                 }
 
-                return theme;
+                return _theme;
             }
             set
             {
-                theme = value;
+                _theme = value;
                 Settings.Default.Theme = value;
                 Settings.Default.Save();
             }
         }
-        private static string theme;
-        private static bool isFieldLoadedTheme;
+        private static string _theme;
+        private static bool _isFieldLoadedTheme;
 
         public static string ApktoolVersion
         {
             get
             {
-                if (!isFieldLoadedApktoolVersion)
+                if (!_isFieldLoadedApktoolVersion)
                 {
-                    apktoolVersion = Settings.Default.ApktoolVersion;
-                    isFieldLoadedApktoolVersion = true;
+                    _apktoolVersion = Settings.Default.ApktoolVersion;
+                    _isFieldLoadedApktoolVersion = true;
                 }
 
-                return apktoolVersion;
+                return _apktoolVersion;
             }
             set
             {
-                apktoolVersion = value;
+                _apktoolVersion = value;
                 Settings.Default.ApktoolVersion = value;
                 Settings.Default.Save();
             }
         }
-        private static string apktoolVersion;
-        private static bool isFieldLoadedApktoolVersion;
+        private static string _apktoolVersion;
+        private static bool _isFieldLoadedApktoolVersion;
 
-        public static bool EditorWindow_SaveToDict
+        public static bool EditorWindowSaveToDict
         {
             get
             {
-                if (!isFieldLoadedEditorWindow_SaveToDict)
+                if (!_isFieldLoadedEditorWindowSaveToDict)
                 {
-                    editorWindow_SaveToDict = Settings.Default.EditorWindow_SaveToDict;
-                    isFieldLoadedEditorWindow_SaveToDict = true;
+                    _editorWindowSaveToDict = Settings.Default.EditorWindow_SaveToDict;
+                    _isFieldLoadedEditorWindowSaveToDict = true;
                 }
 
-                return editorWindow_SaveToDict;
+                return _editorWindowSaveToDict;
             }
             set
             {
-                editorWindow_SaveToDict = value;
+                _editorWindowSaveToDict = value;
                 Settings.Default.EditorWindow_SaveToDict = value;
                 Settings.Default.Save();
             }
         }
-        private static bool editorWindow_SaveToDict;
-        private static bool isFieldLoadedEditorWindow_SaveToDict;
+        private static bool _editorWindowSaveToDict;
+        private static bool _isFieldLoadedEditorWindowSaveToDict;
 
         public static bool EditorWMaximized
         {
             get
             {
-                if (!isFieldLoadedEditorWMaximized)
+                if (!_isFieldLoadedEditorWMaximized)
                 {
-                    editorWMaximized = Settings.Default.EditorWMaximized;
-                    isFieldLoadedEditorWMaximized = true;
+                    _editorWMaximized = Settings.Default.EditorWMaximized;
+                    _isFieldLoadedEditorWMaximized = true;
                 }
 
-                return editorWMaximized;
+                return _editorWMaximized;
             }
             set
             {
-                editorWMaximized = value;
+                _editorWMaximized = value;
                 Settings.Default.EditorWMaximized = value;
                 Settings.Default.Save();
             }
         }
-        private static bool editorWMaximized;
-        private static bool isFieldLoadedEditorWMaximized;
+        private static bool _editorWMaximized;
+        private static bool _isFieldLoadedEditorWMaximized;
 
         public static bool MainWMaximized
         {
             get
             {
-                if (!isFieldLoadedMainWMaximized)
+                if (!_isFieldLoadedMainWMaximized)
                 {
-                    mainWMaximized = Settings.Default.MainWMaximized;
-                    isFieldLoadedMainWMaximized = true;
+                    _mainWMaximized = Settings.Default.MainWMaximized;
+                    _isFieldLoadedMainWMaximized = true;
                 }
 
-                return mainWMaximized;
+                return _mainWMaximized;
             }
             set
             {
-                mainWMaximized = value;
+                _mainWMaximized = value;
                 Settings.Default.MainWMaximized = value;
                 Settings.Default.Save();
             }
         }
-        private static bool mainWMaximized;
-        private static bool isFieldLoadedMainWMaximized;
+        private static bool _mainWMaximized;
+        private static bool _isFieldLoadedMainWMaximized;
 
         public static Point MainWindowSize
         {
             get
             {
-                if (!isFieldLoadedMainWindowSize)
+                if (!_isFieldLoadedMainWindowSize)
                 {
-                    mainWindowSize = Settings.Default.MainWindowSize;
-                    isFieldLoadedMainWindowSize = true;
+                    _mainWindowSize = Settings.Default.MainWindowSize;
+                    _isFieldLoadedMainWindowSize = true;
                 }
 
-                return mainWindowSize;
+                return _mainWindowSize;
             }
             set
             {
-                mainWindowSize = value;
+                _mainWindowSize = value;
                 Settings.Default.MainWindowSize = value;
                 Settings.Default.Save();
             }
         }
-        private static Point mainWindowSize;
-        private static bool isFieldLoadedMainWindowSize;
+        private static Point _mainWindowSize;
+        private static bool _isFieldLoadedMainWindowSize;
 
         public static bool EditorSOnlyFullWords
         {
             get
             {
-                if (!isFieldLoadedEditorSOnlyFullWords)
+                if (!_isFieldLoadedEditorSOnlyFullWords)
                 {
-                    editorSOnlyFullWords = Settings.Default.EditorSOnlyFullWords;
-                    isFieldLoadedEditorSOnlyFullWords = true;
+                    _editorSOnlyFullWords = Settings.Default.EditorSOnlyFullWords;
+                    _isFieldLoadedEditorSOnlyFullWords = true;
                 }
 
-                return editorSOnlyFullWords;
+                return _editorSOnlyFullWords;
             }
             set
             {
-                editorSOnlyFullWords = value;
+                _editorSOnlyFullWords = value;
                 Settings.Default.EditorSOnlyFullWords = value;
                 Settings.Default.Save();
             }
         }
-        private static bool editorSOnlyFullWords;
-        private static bool isFieldLoadedEditorSOnlyFullWords;
+        private static bool _editorSOnlyFullWords;
+        private static bool _isFieldLoadedEditorSOnlyFullWords;
 
         public static bool EditorSMatchCase
         {
             get
             {
-                if (!isFieldLoadedEditorSMatchCase)
+                if (!_isFieldLoadedEditorSMatchCase)
                 {
-                    editorSMatchCase = Settings.Default.EditorSMatchCase;
-                    isFieldLoadedEditorSMatchCase = true;
+                    _editorSMatchCase = Settings.Default.EditorSMatchCase;
+                    _isFieldLoadedEditorSMatchCase = true;
                 }
 
-                return editorSMatchCase;
+                return _editorSMatchCase;
             }
             set
             {
-                editorSMatchCase = value;
+                _editorSMatchCase = value;
                 Settings.Default.EditorSMatchCase = value;
                 Settings.Default.Save();
             }
         }
-        private static bool editorSMatchCase;
-        private static bool isFieldLoadedEditorSMatchCase;
+        private static bool _editorSMatchCase;
+        private static bool _isFieldLoadedEditorSMatchCase;
 
         public static bool ShowNotifications
         {
             get
             {
-                if (!isFieldLoadedShowNotifications)
+                if (!_isFieldLoadedShowNotifications)
                 {
-                    showNotifications = Settings.Default.ShowNotifications;
-                    isFieldLoadedShowNotifications = true;
+                    _showNotifications = Settings.Default.ShowNotifications;
+                    _isFieldLoadedShowNotifications = true;
                 }
 
-                return showNotifications;
+                return _showNotifications;
             }
             set
             {
-                showNotifications = value;
+                _showNotifications = value;
                 Settings.Default.ShowNotifications = value;
                 Settings.Default.Save();
             }
         }
-        private static bool showNotifications;
-        private static bool isFieldLoadedShowNotifications;
+        private static bool _showNotifications;
+        private static bool _isFieldLoadedShowNotifications;
 
         public static bool AlternatingRows
         {
             get
             {
-                if (!isFieldLoadedAlternatingRows)
+                if (!_isFieldLoadedAlternatingRows)
                 {
-                    alternatingRows = Settings.Default.AlternatingRows;
-                    isFieldLoadedAlternatingRows = true;
+                    _alternatingRows = Settings.Default.AlternatingRows;
+                    _isFieldLoadedAlternatingRows = true;
                 }
 
-                return alternatingRows;
+                return _alternatingRows;
             }
             set
             {
-                alternatingRows = value;
+                _alternatingRows = value;
                 Settings.Default.AlternatingRows = value;
                 Settings.Default.Save();
             }
         }
-        private static bool alternatingRows;
-        private static bool isFieldLoadedAlternatingRows;
+        private static bool _alternatingRows;
+        private static bool _isFieldLoadedAlternatingRows;
     }
 }

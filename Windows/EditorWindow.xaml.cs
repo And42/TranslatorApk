@@ -57,12 +57,12 @@ namespace TranslatorApk.Windows
         {
             get
             {
-                return SettingsIncapsuler.EditorWindow_SaveToDict;
+                return SettingsIncapsuler.EditorWindowSaveToDict;
             }
             set
             {
                 if (SaveDictionary == null && value) return;
-                SettingsIncapsuler.EditorWindow_SaveToDict = value;
+                SettingsIncapsuler.EditorWindowSaveToDict = value;
                 OnPropertyChanged(nameof(SaveToDict));
             }
         }

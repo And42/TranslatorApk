@@ -36,7 +36,7 @@ namespace TranslatorApk.Windows
 
         public int ProgressValue
         {
-            get { return _progressValue; }
+            get => _progressValue;
             set
             {
                 _progressValue = value;
@@ -48,7 +48,7 @@ namespace TranslatorApk.Windows
 
         public int ProgressMax
         {
-            get { return _progressMax; }
+            get => _progressMax;
             set
             {
                 _progressMax = value;
@@ -59,7 +59,7 @@ namespace TranslatorApk.Windows
 
         public bool ButtonsEnabled
         {
-            get { return _buttonsEnabled; }
+            get => _buttonsEnabled;
             set
             {
                 _buttonsEnabled = value;
@@ -70,7 +70,7 @@ namespace TranslatorApk.Windows
 
         public string Log
         {
-            get { return _log.ToString(); }
+            get => _log.ToString();
             set
             {
                 _log.Clear();
@@ -86,7 +86,7 @@ namespace TranslatorApk.Windows
 
         public string CreateFirstFolder
         {
-            get { return _createFirstFolder; }
+            get => _createFirstFolder;
             set
             {
                 _createFirstFolder = value;
@@ -97,7 +97,7 @@ namespace TranslatorApk.Windows
 
         public string CreateSecondFolder
         {
-            get { return _createSecondFolder; }
+            get => _createSecondFolder;
             set
             {
                 _createSecondFolder = value;
@@ -108,7 +108,7 @@ namespace TranslatorApk.Windows
 
         public string CreateResultFolder
         {
-            get { return _createResultFolder; }
+            get => _createResultFolder;
             set
             {
                 _createResultFolder = value;
@@ -123,7 +123,7 @@ namespace TranslatorApk.Windows
 
         public string TranslateFolder
         {
-            get { return _translateFolder; }
+            get => _translateFolder;
             set
             {
                 _translateFolder = value;
@@ -134,7 +134,7 @@ namespace TranslatorApk.Windows
 
         public string TranslateDictionaryFolder
         {
-            get { return _translateDictionaryFolder; }
+            get => _translateDictionaryFolder;
             set
             {
                 _translateDictionaryFolder = value;
@@ -149,7 +149,7 @@ namespace TranslatorApk.Windows
 
         public string CreateMoreFirstFolder
         {
-            get { return _createMoreFirstFolder; }
+            get => _createMoreFirstFolder;
             set
             {
                 _createMoreFirstFolder = value;
@@ -160,7 +160,7 @@ namespace TranslatorApk.Windows
 
         public string CreateMoreSecondFolder
         {
-            get { return _createMoreSecondFolder; }
+            get => _createMoreSecondFolder;
             set
             {
                 _createMoreSecondFolder = value;
@@ -171,7 +171,7 @@ namespace TranslatorApk.Windows
 
         public string CreateMoreResultFolder
         {
-            get { return _createMoreResultFolder; }
+            get => _createMoreResultFolder;
             set
             {
                 _createMoreResultFolder = value;
@@ -186,7 +186,7 @@ namespace TranslatorApk.Windows
 
         public string TranslateMoreFolder
         {
-            get { return _translateMoreFolder; }
+            get => _translateMoreFolder;
             set
             {
                 _translateMoreFolder = value;
@@ -197,7 +197,7 @@ namespace TranslatorApk.Windows
 
         public string TranslateMoreDictionaryFolder
         {
-            get { return _translateMoreDictionaryFolder; }
+            get => _translateMoreDictionaryFolder;
             set
             {
                 _translateMoreDictionaryFolder = value;

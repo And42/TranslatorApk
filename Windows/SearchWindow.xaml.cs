@@ -45,7 +45,7 @@ namespace TranslatorApk.Windows
 
         public bool Working
         {
-            get { return _working; }
+            get => _working;
             set
             {
                 if (_working == value) return;
@@ -57,10 +57,7 @@ namespace TranslatorApk.Windows
 
         public string TextToSearch
         {
-            get
-            {
-                return _textToSearch;
-            }
+            get => _textToSearch;
             set
             {
                 _textToSearch = value;
@@ -71,10 +68,7 @@ namespace TranslatorApk.Windows
 
         public int SearchBoxIndex
         {
-            get
-            {
-                return _searchBoxIndex;
-            }
+            get => _searchBoxIndex;
             set
             {
                 _searchBoxIndex = value;

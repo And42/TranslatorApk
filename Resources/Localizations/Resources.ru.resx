@@ -423,4 +423,22 @@
   <data name="Paste" xml:space="preserve">
     <value>Вставить</value>
   </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Показывать уведомления:</value>
+  </data>
+  <data name="CompilationFinished" xml:space="preserve">
+    <value>Сборка завершена</value>
+  </data>
+  <data name="DecompilationFinished" xml:space="preserve">
+    <value>Декомпиляция завершена</value>
+  </data>
+  <data name="TheFollowingFilesHaveBeenAlreadyAdded" xml:space="preserve">
+    <value>Следующие файлы уже добавлены</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="AlternateRowsInEditor" xml:space="preserve">
+    <value>Чередующиеся строки в редакторе</value>
+  </data>
 </root>

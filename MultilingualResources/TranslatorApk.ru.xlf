@@ -577,27 +577,27 @@
         </trans-unit>
         <trans-unit id="ShowNotifications" translate="yes" xml:space="preserve">
           <source>Show notifications:</source>
-          <target state="new">Show notifications:</target>
+          <target state="translated">Показывать уведомления:</target>
         </trans-unit>
         <trans-unit id="CompilationFinished" translate="yes" xml:space="preserve">
           <source>Compilation finished</source>
-          <target state="new">Compilation finished</target>
+          <target state="translated">Сборка завершена</target>
         </trans-unit>
         <trans-unit id="DecompilationFinished" translate="yes" xml:space="preserve">
           <source>Decompilation finished</source>
-          <target state="new">Decompilation finished</target>
+          <target state="translated">Декомпиляция завершена</target>
         </trans-unit>
         <trans-unit id="TheFollowingFilesHaveBeenAlreadyAdded" translate="yes" xml:space="preserve">
           <source>The following files have been already added</source>
-          <target state="new">The following files have been already added</target>
+          <target state="translated">Следующие файлы уже добавлены</target>
         </trans-unit>
         <trans-unit id="Information" translate="yes" xml:space="preserve">
           <source>Information</source>
-          <target state="new">Information</target>
+          <target state="translated">Информация</target>
         </trans-unit>
         <trans-unit id="AlternateRowsInEditor" translate="yes" xml:space="preserve">
           <source>Alternate rows in editor</source>
-          <target state="new">Alternate rows in editor</target>
+          <target state="translated" state-qualifier="mt-suggestion">Чередующиеся строки в редакторе</target>
         </trans-unit>
       </group>
     </body>

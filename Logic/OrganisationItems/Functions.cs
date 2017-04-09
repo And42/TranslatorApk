@@ -45,7 +45,7 @@ namespace TranslatorApk.Logic.OrganisationItems
     {
         //todo: Исправить ошибку от Aid5 (IconHandler.IconFromExtension(item.Options.Ext, IconSize.Large))
 
-        private static bool canLoadIcons = true;
+        private static bool _canLoadIcons = true;
 
         /// <summary>
         /// Загружает иконку для TreeViewItem
@@ -53,15 +53,18 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="item">Целевой объект</param>
         public static void LoadIconForItem(TreeViewNodeModel item)
         {
-            if (item.Options.IsImageLoaded) return;
+            if (item.Options.IsImageLoaded)
+                return;
 
             ImageSource icon;
 
             if (item.Options.IsFolder)
+            {
                 icon = GlobalResources.Icon_FolderVerticalOpen;
+            }
             else
             {
-                if (canLoadIcons)
+                if (_canLoadIcons)
                 {
                     try
                     {
@@ -70,13 +73,19 @@ namespace TranslatorApk.Logic.OrganisationItems
                     catch (RuntimeWrappedException)
                     {
                         icon = GlobalResources.Icon_UnknownFile;
-                        canLoadIcons = false;
+                        _canLoadIcons = false;
                     }
                 }
                 else
+                {
                     icon = GlobalResources.Icon_UnknownFile;
+                }
             }
-            if (icon != null) item.Image = icon;
+
+            if (icon != null)
+            {
+                item.Image = icon;
+            }
 
             item.Options.IsImageLoaded = true;
         }
@@ -87,7 +96,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="file">Объект для обработки</param>
         private static ImageSource LoadIconFromFile(Options file)
         {
-            if (SettingsIncapsuler.ImageExtensions.Any(e => e == file.Ext))
+            if (SettingsIncapsuler.ImageExtensions.Contains(file.Ext))
             {
                 try
                 {
@@ -114,13 +123,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         }
 
         /// <summary>
-        /// Проверяет текущий файл на соответствите настройкам
+        /// Проверяет текущий файл на соответствие настройкам
         /// </summary>
         /// <param name="file">Файл</param>
         /// <param name="extension">Расширение файла</param>
         private static bool CheckFileWithSettings(string file, string extension)
         {
-            if (SettingsIncapsuler.OnlyXml && extension != ".xml")
+            if (extension != ".xml" && SettingsIncapsuler.OnlyXml)
                 return false;
 
             if (extension == ".xml")
@@ -133,12 +142,12 @@ namespace TranslatorApk.Logic.OrganisationItems
                 if (!SettingsIncapsuler.EmptySmali && !SmaliFile.HasLines(file))
                     return false;
             }
-            else if (SettingsIncapsuler.ImageExtensions.Any(ext => ext == extension))
+            else if (SettingsIncapsuler.ImageExtensions.Contains(extension))
             {
                 if (!SettingsIncapsuler.Images)
                     return false;
             }
-            else if (SettingsIncapsuler.OtherExtensions.Any(ext => ext == extension))
+            else if (SettingsIncapsuler.OtherExtensions.Contains(extension))
             {
                 if (!SettingsIncapsuler.OtherFiles)
                     return false;
@@ -147,8 +156,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             return true;
         }
 
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts = null,
-            Action oneFileAdded = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
         {
             if (cts?.IsCancellationRequested == true)
                 return;
@@ -158,7 +166,8 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             foreach (var folder in folders)
             {
-                if (!CheckFilePath(folder)) continue;
+                if (!CheckFilePath(folder))
+                    continue;
 
                 var item = new TreeViewNodeModel(root)
                 {
@@ -168,14 +177,19 @@ namespace TranslatorApk.Logic.OrganisationItems
 
                 int index = GlobalVariables.Settings_FoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
 
+                if (File.Exists($"{GlobalVariables.PathToFlags}\\{item.Name}.png"))
+                {
+                    dispatcher.InvokeAction(() =>
+                    {
+                        item.Image = GetFlagImage(item.Name);
+                    });
+
+                    item.Options.IsImageLoaded = true;
+                }
+
                 if (index > -1)
                 {
                     string found = GlobalVariables.Settings_FoldersOfLanguages[index];
-
-                    dispatcher.InvokeAction(() =>
-                    {
-                        item.Image = GetFlagImage(found);
-                    });
 
                     string source = item.Name;
 
@@ -183,8 +197,6 @@ namespace TranslatorApk.Logic.OrganisationItems
 
                     if (found != source)
                         item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
-
-                    item.Options.IsImageLoaded = true;
                 }
 
                 dispatcher.InvokeAction(() => root.Children.Add(item));
@@ -221,7 +233,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="title">Язык</param>
         public static BitmapImage GetFlagImage(string title)
         {
-            return GetImageFromApp($"/Resources/Flags/{title}.png");
+            string file = $"{GlobalVariables.PathToFlags}\\{title}.png";
+
+            if (File.Exists(file))
+                return new BitmapImage(new Uri(file));
+
+            return null;
+            //return GetImageFromApp($"/Resources/Flags/{title}.png");
         }
 
         /// <summary>
@@ -331,15 +349,15 @@ namespace TranslatorApk.Logic.OrganisationItems
                 SetInc.AvailToEditFiles = new[] {".xml", ".smali"};
             }
 
-            if (SetInc.ImageExtensions == null || SetInc.ImageExtensions.Length == 0 ||
-                SetInc.ImageExtensions.Length == 1 && SetInc.ImageExtensions[0].NE())
+            if (SetInc.ImageExtensions == null || SetInc.ImageExtensions.Count == 0 ||
+                SetInc.ImageExtensions.Count == 1 && SetInc.ImageExtensions.First().NE())
             {
-                SetInc.ImageExtensions = new[] {".png", ".jpg", ".jpeg"};
+                SetInc.ImageExtensions = new HashSet<string> {".png", ".jpg", ".jpeg"};
             }
 
             if (SetInc.OtherExtensions == null)
             {
-                SetInc.OtherExtensions = new string[0];
+                SetInc.OtherExtensions = new HashSet<string>();
             }
 
             XmlFile.XmlRules = SetInc.XmlRules.ToList();
@@ -682,10 +700,10 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="second">Вторая версия</param>
         public static int CompareVersions(string first, string second)
         {
-            Func<string, List<int>> splitInts = str => str.Split('.').Select(Int32.Parse).ToList();
+            List<int> SplitInts(string str) => str.Split('.').Select(int.Parse).ToList();
 
-            var firstR = splitInts(first);
-            var secondR = splitInts(second);
+            var firstR = SplitInts(first);
+            var secondR = SplitInts(second);
 
             int maxLen = Math.Max(firstR.Count, secondR.Count);
 
@@ -951,14 +969,14 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Время ожидания ответа от сервера при загрузке данных по умолчанию
         /// </summary>
-        private const int defaultTimeout = 50000;
+        private const int DefaultTimeout = 50000;
 
         /// <summary>
         /// Загружает страницу в виде текста по ссылке
         /// </summary>
         /// <param name="link">Ссылка</param>
         /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static string DownloadString(string link, int timeout = defaultTimeout)
+        public static string DownloadString(string link, int timeout = DefaultTimeout)
         {
             var client = (HttpWebRequest)WebRequest.Create(link);
 
@@ -966,6 +984,9 @@ namespace TranslatorApk.Logic.OrganisationItems
             client.Timeout = client.ReadWriteTimeout = timeout;
 
             Stream stream = client.GetResponse().GetResponseStream();
+
+            if (stream == null)
+                return string.Empty;
 
             using (var strread = new StreamReader(stream))
                 return strread.ReadToEnd();
@@ -976,7 +997,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         /// <param name="link">Ссылка</param>
         /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static Task<string> DownloadStringAsync(string link, int timeout = defaultTimeout)
+        public static Task<string> DownloadStringAsync(string link, int timeout = DefaultTimeout)
         {
             return Task<string>.Factory.StartNew(() => DownloadString(link));
         }

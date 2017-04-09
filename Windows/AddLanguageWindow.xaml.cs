@@ -29,10 +29,10 @@ namespace TranslatorApk.Windows
         /// </summary>
         public ObservableCollection<Tuple<ImageSource, string>> TargetLanguages { get; set; } = new ObservableCollection<Tuple<ImageSource, string>>();
 
-        private readonly List<string> FolderLangs = GlobalVariables.Settings_FoldersOfLanguages;
-        private readonly List<string> FolderLocalizedLangs = GlobalVariables.Settings_NamesOfFolderLanguages;
+        private readonly List<string> _folderLangs = GlobalVariables.Settings_FoldersOfLanguages;
+        private readonly List<string> _folderLocalizedLangs = GlobalVariables.Settings_NamesOfFolderLanguages;
 
-        private readonly string folder;
+        private readonly string _folder;
 
         /// <summary>
         /// Создаёт окно добавления новых языков
@@ -45,25 +45,25 @@ namespace TranslatorApk.Windows
             if (folderOfProject == null)
                 return;
 
-            folder = folderOfProject + "\\res";
+            _folder = folderOfProject + "\\res";
 
-            var values = Directory.GetDirectories(folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
+            var values = Directory.GetDirectories(_folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
 
             foreach (var value in values)
             {
-                int index = FolderLangs.IndexOf(value);
+                int index = _folderLangs.IndexOf(value);
 
                 if (index > -1)
                 {
-                    SourceLanguages.Add(FolderLocalizedLangs[index]);
+                    SourceLanguages.Add(_folderLocalizedLangs[index]);
                 }
             }
 
-            foreach (var lang in FolderLocalizedLangs)
+            foreach (var lang in _folderLocalizedLangs)
             {
                 if (SourceLanguages.All(src => src != lang))
                 {
-                    string name = FolderLangs[FolderLocalizedLangs.IndexOf(lang)];
+                    string name = _folderLangs[_folderLocalizedLangs.IndexOf(lang)];
                     TargetLanguages.Add(new Tuple<ImageSource, string>(Functions.GetFlagImage(name), lang));
                 }
             }
@@ -79,8 +79,8 @@ namespace TranslatorApk.Windows
 
             string target = TargetBox.SelectedValue.As<Tuple<ImageSource, string>>().Item2;
 
-            var sourcedir = $"{folder}\\values";
-            var targetdir = $"{folder}\\{FolderLangs[FolderLocalizedLangs.IndexOf(target)]}";
+            var sourcedir = $"{_folder}\\values";
+            var targetdir = $"{_folder}\\{_folderLangs[_folderLocalizedLangs.IndexOf(target)]}";
 
             if (Directory.Exists(targetdir))
                 Directory.Delete(targetdir, true);
@@ -102,13 +102,11 @@ namespace TranslatorApk.Windows
             MessBox.ShowDial(Res.AllDone);
         }
 
-        #pragma warning disable CS1591 // Отсутствует комментарий XML для открытого видимого типа или члена
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
 
         protected virtual void OnPropertyChanged(string propertyName)
-        #pragma warning restore CS1591 // Отсутствует комментарий XML для открытого видимого типа или члена
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

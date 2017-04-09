@@ -31,7 +31,7 @@ namespace TranslatorApk.Windows
 
             public InstallOptionsEnum Installed
             {
-                get { return _installed; }
+                get => _installed;
                 set
                 {
                     if (value == _installed)
@@ -54,7 +54,7 @@ namespace TranslatorApk.Windows
 
         public int Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 if (_progress == value) return;
@@ -66,7 +66,7 @@ namespace TranslatorApk.Windows
 
         public int ProgressMax
         {
-            get { return _progressMax; }
+            get => _progressMax;
             set
             {
                 if (_progressMax == value) return;
@@ -78,7 +78,7 @@ namespace TranslatorApk.Windows
 
         public Visibility ProgressBarVisibility
         {
-            get { return _progressBarVisibility; }
+            get => _progressBarVisibility;
             set
             {
                 if (_progressBarVisibility == value) return;
@@ -88,8 +88,8 @@ namespace TranslatorApk.Windows
         }
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
-        private WebClient client;
-        private string downloadingApktoolPath;
+        private WebClient _client;
+        private string _downloadingApktoolPath;
 
         public ObservableCollection<DownloadableApktool> ServerApktools { get; } = new ObservableCollection<DownloadableApktool>();
 
@@ -102,19 +102,19 @@ namespace TranslatorApk.Windows
         {
             var apktool = sender.As<Button>().DataContext.As<DownloadableApktool>();
 
-            downloadingApktoolPath = $"{GlobalVariables.PathToApktoolVersions}\\apktool_{apktool.Version}.jar";
+            _downloadingApktoolPath = $"{GlobalVariables.PathToApktoolVersions}\\apktool_{apktool.Version}.jar";
 
             if (apktool.Installed == InstallOptionsEnum.ToUninstall)
             {
                 try
                 {
-                    File.Delete(downloadingApktoolPath);
+                    File.Delete(_downloadingApktoolPath);
                     apktool.Installed = InstallOptionsEnum.ToInstall;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                        $"\"delete file|{downloadingApktoolPath}\"", out Process process))
+                        $"\"delete file|{_downloadingApktoolPath}\"", out Process process))
                     {
                         process.WaitForExit();
                         apktool.Installed = InstallOptionsEnum.ToInstall;
@@ -127,7 +127,7 @@ namespace TranslatorApk.Windows
             if (!Functions.CheckRights())
             {
                 if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                    $"\"download|{apktool.Link}|{downloadingApktoolPath}\"", out Process process))
+                    $"\"download|{apktool.Link}|{_downloadingApktoolPath}\"", out Process process))
                 {
                     process.WaitForExit();
                     apktool.Installed = InstallOptionsEnum.ToUninstall;
@@ -136,20 +136,20 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            client = new WebClient();
+            _client = new WebClient();
 
             Progress = 0;
 
-            client.DownloadProgressChanged += (o, args) =>
+            _client.DownloadProgressChanged += (o, args) =>
             {
                 Progress = args.ProgressPercentage;
             };
 
-            client.DownloadFileCompleted += (o, args) =>
+            _client.DownloadFileCompleted += (o, args) =>
             {
                 if (args.Cancelled)
                 {
-                    File.Delete(downloadingApktoolPath);
+                    File.Delete(_downloadingApktoolPath);
                 }
                 else
                 {
@@ -161,15 +161,7 @@ namespace TranslatorApk.Windows
 
             ProgressBarVisibility = Visibility.Visible;
 
-            client.DownloadFileAsync(new Uri(apktool.Link), downloadingApktoolPath);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _client.DownloadFileAsync(new Uri(apktool.Link), _downloadingApktoolPath);
         }
 
         private async void ApktoolCatalogWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -217,6 +209,14 @@ namespace TranslatorApk.Windows
         private static string GetVersion(HtmlNode node)
         {
             return Path.GetFileNameWithoutExtension(node.SelectSingleNode("td[@class=\"name\"]/a").InnerText.Split('_')[1]);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

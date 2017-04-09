@@ -37,10 +37,7 @@ namespace TranslatorApk.Windows
         /// </summary>
         public bool OnlyFullWords
         {
-            get
-            {
-                return SettingsIncapsuler.EditorSOnlyFullWords;
-            }
+            get => SettingsIncapsuler.EditorSOnlyFullWords;
             set
             {
                 SettingsIncapsuler.EditorSOnlyFullWords = value;
@@ -53,10 +50,7 @@ namespace TranslatorApk.Windows
         /// </summary>
         public bool MatchCase
         {
-            get
-            {
-                return SettingsIncapsuler.EditorSMatchCase;
-            }
+            get => SettingsIncapsuler.EditorSMatchCase;
             set
             {
                 SettingsIncapsuler.EditorSMatchCase = value;
@@ -69,10 +63,7 @@ namespace TranslatorApk.Windows
         /// </summary>
         public string TextToSearch
         {
-            get
-            {
-                return _textToSearch;
-            }
+            get => _textToSearch;
             set
             {
                 _textToSearch = value;
@@ -241,7 +232,7 @@ namespace TranslatorApk.Windows
 
                 EditableFile currentFile = currentFileRow.Data.As<EditableFile>();
 
-                Func<EditableFile, OneString, bool> process = (file, instr) =>
+                bool Process(EditableFile file, OneString instr)
                 {
                     string oldText = MatchCase ? instr.OldText : instr.OldText.ToUpper();
 
@@ -251,11 +242,10 @@ namespace TranslatorApk.Windows
                     WindowManager.ActivateWindow<EditorWindow>();
 
                     ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
-                        .Publish(new EditorScrollToStringAndSelectEvent(
-                            f => f.FileName == file.FileName, str => str == instr));
+                        .Publish(new EditorScrollToStringAndSelectEvent(f => f.FileName == file.FileName, str => str == instr));
 
                     return true;
-                };
+                }
 
                 if (currentFileRow.IsExpanded)
                 {
@@ -265,7 +255,7 @@ namespace TranslatorApk.Windows
                     {
                         OneString currentString = childRecords[j].Data.As<OneString>();
 
-                        if (process(currentFile, currentString))
+                        if (Process(currentFile, currentString))
                             return;
                     }
                 }
@@ -273,12 +263,12 @@ namespace TranslatorApk.Windows
                 {
                     foreach (OneString currentString in currentFile.Details)
                     {
-                        if (process(currentFile, currentString))
+                        if (Process(currentFile, currentString))
                         {
                             SfDataGrid detailsGrid = editorGrid.GetDetailsViewGrid(i, "Details");
                             
                             foreach (RecordEntry record in detailsGrid.View.Records)
-                                if (process(currentFile, record.Data.As<OneString>()))
+                                if (Process(currentFile, record.Data.As<OneString>()))
                                     return;
                         }
                     }
@@ -312,18 +302,6 @@ namespace TranslatorApk.Windows
             });
         }
 
-        #pragma warning disable CS1591 // Отсутствует комментарий XML для открытого видимого типа или члена
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-
-        private void OnPropertyChanged(string propertyName)
-        #pragma warning restore CS1591 // Отсутствует комментарий XML для открытого видимого типа или члена
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void EditorSearchWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             SearchBox.Focus();
@@ -339,6 +317,16 @@ namespace TranslatorApk.Windows
             }
 
             return false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

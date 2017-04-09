@@ -26,10 +26,7 @@ namespace TranslatorApk.Windows
 
         public Visibility CancelVisibility
         {
-            get
-            {
-                return _cancelVisibility;
-            }
+            get => _cancelVisibility;
             set
             {
                 _cancelVisibility = value;
@@ -123,15 +120,6 @@ namespace TranslatorApk.Windows
             cancellationToken.Cancel();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public static void SetTaskBarState(TaskbarItemProgressState state)
         {
             Instance?.Dispatcher.InvokeAction(() => Instance.TaskbarItemInfo.ProgressState = state);
@@ -143,6 +131,15 @@ namespace TranslatorApk.Windows
             {
                 e.Cancel = true;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

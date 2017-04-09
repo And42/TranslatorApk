@@ -8,15 +8,15 @@
       <group id="TRANSLATORAPK/PROPERTIES/RESOURCES.RESX" datatype="resx">
         <trans-unit id="FoldersOfLanguages" translate="yes" xml:space="preserve">
           <source>values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</source>
-          <target state="new">values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</target>
+          <target state="final">values-en-rGB|values-ar|values-af|values-be|values-bg|values-hr|values-hu|values-vi|values-nl|values-el|values-da|values-zu|values-iw|values-in|values-es|values-it|values-ca|values-zh|values-zh-rCN|values-zh-rTW|values-lv|values-lt|values-ms|values-de|values-nb|values-fa|values-pl|values-pt|values-ro|values-ru|values-sr|values-sk|values-sl|values-sw|values-tl|values-th|values-tr|values-uk|values-fi|values-fr|values-hi|values-cs|values-sv|values-et|values-ja</target>
         </trans-unit>
         <trans-unit id="MainWindowTitle" translate="yes" xml:space="preserve">
           <source>TranslatorApk</source>
-          <target state="new">TranslatorApk</target>
+          <target state="final">TranslatorApk</target>
         </trans-unit>
         <trans-unit id="OnlineTranslationsShortLanguages" translate="yes" xml:space="preserve">
           <source>sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</source>
-          <target state="new">sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</target>
+          <target state="final">sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</target>
         </trans-unit>
       </group>
     </body>
@@ -545,59 +545,59 @@
         </trans-unit>
         <trans-unit id="CanNotRecievePluginsList" translate="yes" xml:space="preserve">
           <source>Can not recieve plugins list. Please, check your internet connection.</source>
-          <target state="new">Can not recieve plugins list. Please, check your internet connection.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Їх не можна отримати список плагінів. Будь ласка, Перевірте підключення до Інтернету.</target>
         </trans-unit>
         <trans-unit id="CanNotRecieveApktoolsList" translate="yes" xml:space="preserve">
           <source>Can not recieve apktools list. Please, check your internet connection.</source>
-          <target state="new">Can not recieve apktools list. Please, check your internet connection.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Їх не можна отримати apktools список. Будь ласка, Перевірте підключення до Інтернету.</target>
         </trans-unit>
         <trans-unit id="DirectoryPathToClipboard" translate="yes" xml:space="preserve">
           <source>Directory path (to clipboard)</source>
-          <target state="new">Directory path (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Реєстр шлях (до буфера обміну)</target>
         </trans-unit>
         <trans-unit id="FileNameToClipboard" translate="yes" xml:space="preserve">
           <source>File name (to clipboard)</source>
-          <target state="new">File name (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Ім'я файлу (у буфер обміну)</target>
         </trans-unit>
         <trans-unit id="FullFilePathToClipboard" translate="yes" xml:space="preserve">
           <source>Full file path (to clipboard)</source>
-          <target state="new">Full file path (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Повного шляху до файлу (у буфер обміну)</target>
         </trans-unit>
         <trans-unit id="Loading" translate="yes" xml:space="preserve">
           <source>Loading...</source>
-          <target state="new">Loading...</target>
+          <target state="translated" state-qualifier="tm-suggestion">Триває завантаження...</target>
         </trans-unit>
         <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="translated" state-qualifier="tm-suggestion">копіювання</target>
         </trans-unit>
         <trans-unit id="Paste" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="new">Paste</target>
+          <target state="translated" state-qualifier="tm-suggestion">Вставити</target>
         </trans-unit>
         <trans-unit id="ShowNotifications" translate="yes" xml:space="preserve">
           <source>Show notifications:</source>
-          <target state="new">Show notifications:</target>
+          <target state="translated" state-qualifier="mt-suggestion">Відображати сповіщення:</target>
         </trans-unit>
         <trans-unit id="CompilationFinished" translate="yes" xml:space="preserve">
           <source>Compilation finished</source>
-          <target state="new">Compilation finished</target>
+          <target state="translated" state-qualifier="mt-suggestion">Компіляція готової</target>
         </trans-unit>
         <trans-unit id="DecompilationFinished" translate="yes" xml:space="preserve">
           <source>Decompilation finished</source>
-          <target state="new">Decompilation finished</target>
+          <target state="translated" state-qualifier="mt-suggestion">Декомпіляції або розбору готової</target>
         </trans-unit>
         <trans-unit id="TheFollowingFilesHaveBeenAlreadyAdded" translate="yes" xml:space="preserve">
           <source>The following files have been already added</source>
-          <target state="new">The following files have been already added</target>
+          <target state="translated" state-qualifier="mt-suggestion">Такі файли будуть вже додані</target>
         </trans-unit>
         <trans-unit id="Information" translate="yes" xml:space="preserve">
           <source>Information</source>
-          <target state="new">Information</target>
+          <target state="translated" state-qualifier="tm-suggestion">Відомості</target>
         </trans-unit>
         <trans-unit id="AlternateRowsInEditor" translate="yes" xml:space="preserve">
           <source>Alternate rows in editor</source>
-          <target state="new">Alternate rows in editor</target>
+          <target state="translated" state-qualifier="mt-suggestion">Редактор рядків</target>
         </trans-unit>
       </group>
     </body>

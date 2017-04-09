@@ -2,22 +2,29 @@
 
 namespace TranslatorApk.Logic.EventManagerLogic
 {
+    /// <summary>
+    /// Обеспечивает взаимодействие с событиями приложения
+    /// </summary>
     public static class ManualEventManager
     {
-        private static readonly Dictionary<string, object> events = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> Events = new Dictionary<string, object>();
 
-        public static ManualEvent<EventType> GetEvent<EventType>()
+        /// <summary>
+        /// Возвращает доступный для взаимодействия объект события
+        /// </summary>
+        /// <typeparam name="TEventType">Тип события</typeparam>
+        public static PubSubEvent<TEventType> GetEvent<TEventType>()
         {
-            string typeName = typeof(EventType).FullName;
+            string typeName = typeof(TEventType).FullName;
 
-            if (events.TryGetValue(typeName, out object evnt))
+            if (Events.TryGetValue(typeName, out object evnt))
             {
-                return (ManualEvent<EventType>) evnt;
+                return (PubSubEvent<TEventType>) evnt;
             }
 
-            var manualEvent = new ManualEvent<EventType>();
+            var manualEvent = new PubSubEvent<TEventType>();
 
-            events.Add(typeName, manualEvent);
+            Events.Add(typeName, manualEvent);
 
             return manualEvent;
         }

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using TranslatorApk.Annotations;
 
 namespace TranslatorApk.Windows
 {
     /// <summary>
     /// Логика взаимодействия для PreviewWindow.xaml
     /// </summary>
-    public partial class PreviewWindow : INotifyPropertyChanged
+    public partial class PreviewWindow
     {
         public ImageSource Image { get; }
 
@@ -18,14 +16,6 @@ namespace TranslatorApk.Windows
         {
             Image = image;
             InitializeComponent();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void PreviewWindow_OnLoaded(object sender, RoutedEventArgs e)

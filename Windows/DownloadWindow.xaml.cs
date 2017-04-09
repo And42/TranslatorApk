@@ -46,7 +46,8 @@ namespace TranslatorApk.Windows
             if (_close) return;
             try
             {
-                if (File.Exists("NewVersion.exe")) File.Delete("NewVersion.exe");
+                File.Delete("NewVersion.exe");
+
                 File.Move("NewVersion.update", "NewVersion.exe");
                 Process.Start("NewVersion.exe");
                 Environment.Exit(0);

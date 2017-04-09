@@ -28,7 +28,7 @@ namespace TranslatorApk.Windows
 
         public int Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 if (_progress == value) return;
@@ -40,7 +40,7 @@ namespace TranslatorApk.Windows
 
         public int ProgressMax
         {
-            get { return _progressMax; }
+            get => _progressMax;
             set
             {
                 if (_progressMax == value) return;
@@ -52,7 +52,7 @@ namespace TranslatorApk.Windows
 
         public Visibility ProgressBarVisibility
         {
-            get { return _progressBarVisibility; }
+            get => _progressBarVisibility;
             set
             {
                 if (_progressBarVisibility == value) return;
@@ -81,7 +81,7 @@ namespace TranslatorApk.Windows
 
             public string Version
             {
-                get { return _version; }
+                get => _version;
                 set
                 {
                     if (_version == value) return;
@@ -93,7 +93,7 @@ namespace TranslatorApk.Windows
 
             public InstallOptionsEnum Installed
             {
-                get { return _installed; }
+                get => _installed;
                 set
                 {
                     if (value == _installed)

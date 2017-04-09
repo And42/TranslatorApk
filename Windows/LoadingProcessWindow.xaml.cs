@@ -17,10 +17,7 @@ namespace TranslatorApk.Windows
     {
         public int ProcessValue
         {
-            get
-            {
-                return _processValue;
-            }
+            get => _processValue;
             set
             {
                 _processValue = value;
@@ -32,10 +29,7 @@ namespace TranslatorApk.Windows
 
         public int ProcessMax
         {
-            get
-            {
-                return _processMax;
-            }
+            get => _processMax;
             set
             {
                 _processMax = value;
@@ -46,7 +40,7 @@ namespace TranslatorApk.Windows
 
         public bool IsIndeterminate
         {
-            get { return _isIndeterminate; }
+            get => _isIndeterminate;
             set
             {
                 if (_isIndeterminate == value) return;
@@ -58,7 +52,7 @@ namespace TranslatorApk.Windows
 
         public int TaskBarProgress
         {
-            get { return _taskBarProgress; }
+            get => _taskBarProgress;
             set
             {
                 if (_taskBarProgress == value)
@@ -71,10 +65,7 @@ namespace TranslatorApk.Windows
 
         public Visibility CancelVisibility
         {
-            get
-            {
-                return _cancelVisibility;
-            }
+            get => _cancelVisibility;
             set
             {
                 _cancelVisibility = value;
@@ -134,7 +125,7 @@ namespace TranslatorApk.Windows
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.Dispatcher.InvokeAction(() => { throw ex; });
+                    Application.Current.Dispatcher.InvokeAction(() => throw ex);
                 }
             })
             {
@@ -172,6 +163,14 @@ namespace TranslatorApk.Windows
             cancellationToken?.Cancel();
         }
 
+        private void LoadingProcessWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (!_canClose)
+            {
+                e.Cancel = true;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -179,14 +178,6 @@ namespace TranslatorApk.Windows
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void LoadingProcessWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            if (!_canClose)
-            {
-                e.Cancel = true;
-            }
         }
     }
 }

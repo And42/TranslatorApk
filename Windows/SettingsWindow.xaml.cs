@@ -23,10 +23,7 @@ namespace TranslatorApk.Windows
     {   
         public string OtherFileExts
         {
-            get
-            {
-                return _otherFileExts;
-            }
+            get => _otherFileExts;
             set
             {
                 _otherFileExts = value;
@@ -37,10 +34,7 @@ namespace TranslatorApk.Windows
 
         public string ImageFileExts
         {
-            get
-            {
-                return _imageFileExts;
-            }
+            get => _imageFileExts;
             set
             {
                 _imageFileExts = value;
@@ -51,15 +45,10 @@ namespace TranslatorApk.Windows
 
         public IEnumerable<string> YesNoItems => new[] { Res.Yes, Res.No };
 
-        public int LanguageOfAppIndex { 
-            get
-            {
-                return TranslateService.SupportedProgramLangs.IndexOf(SettingsIncapsuler.LanguageOfApp);
-            }
-            set
-            {
-                Functions.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
-            } 
+        public int LanguageOfAppIndex
+        { 
+            get => TranslateService.SupportedProgramLangs.IndexOf(SettingsIncapsuler.LanguageOfApp);
+            set => Functions.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
         }
 
         public ObservableCollection<string> ApktoolVersions { get; } = new ObservableCollection<string>(); 
@@ -68,7 +57,7 @@ namespace TranslatorApk.Windows
 
         public OneTranslationService OnlineTranslator
         {
-            get { return GlobalVariables.CurrentTranslationService; }
+            get => GlobalVariables.CurrentTranslationService;
             set
             {
                 GlobalVariables.CurrentTranslationService = value;
@@ -81,38 +70,38 @@ namespace TranslatorApk.Windows
 
         public int TopMostIndex
         {
-            get { return SettingsIncapsuler.TopMost ? 0 : 1; }
-            set { SettingsIncapsuler.TopMost = value == 0; }
+            get => SettingsIncapsuler.TopMost ? 0 : 1;
+            set => SettingsIncapsuler.TopMost = value == 0;
         }
 
         public int AlternativeEditingKeysIndex
         {
-            get { return SettingsIncapsuler.AlternativeEditingKeys ? 0 : 1; }
-            set { SettingsIncapsuler.AlternativeEditingKeys = value == 0; }
+            get => SettingsIncapsuler.AlternativeEditingKeys ? 0 : 1;
+            set => SettingsIncapsuler.AlternativeEditingKeys = value == 0;
         }
 
         public int SessionAutoTranslateIndex
         {
-            get { return SettingsIncapsuler.SessionAutoTranslate ? 0 : 1; }
-            set { SettingsIncapsuler.SessionAutoTranslate = value == 0; }
+            get => SettingsIncapsuler.SessionAutoTranslate ? 0 : 1;
+            set => SettingsIncapsuler.SessionAutoTranslate = value == 0;
         }
 
         public int ShowNotificationsIndex
         {
-            get { return SettingsIncapsuler.ShowNotifications ? 0 : 1; }
-            set { SettingsIncapsuler.ShowNotifications = value == 0; }
+            get => SettingsIncapsuler.ShowNotifications ? 0 : 1;
+            set => SettingsIncapsuler.ShowNotifications = value == 0;
         }
 
         public int ShowPreviewsIndex
         {
-            get { return SettingsIncapsuler.ShowPreviews ? 0 : 1; }
-            set { SettingsIncapsuler.ShowPreviews = value == 0; }
+            get => SettingsIncapsuler.ShowPreviews ? 0 : 1;
+            set => SettingsIncapsuler.ShowPreviews = value == 0;
         }
 
         public int AlternateRowsIndex
         {
-            get { return SettingsIncapsuler.AlternatingRows ? 0 : 1; }
-            set { SettingsIncapsuler.AlternatingRows = value == 0; }
+            get => SettingsIncapsuler.AlternatingRows ? 0 : 1;
+            set => SettingsIncapsuler.AlternatingRows = value == 0;
         }
 
         public SettingsWindow()
@@ -140,12 +129,12 @@ namespace TranslatorApk.Windows
 
         private void SaveOtherExts(object sender, RoutedEventArgs e)
         {
-            SettingsIncapsuler.OtherExtensions = OtherFileExts.SplitFR("|");
+            SettingsIncapsuler.OtherExtensions = new HashSet<string>(OtherFileExts.SplitFR("|").Distinct());
         }
 
         private void SaveImageExts(object sender, RoutedEventArgs e)
         {
-            SettingsIncapsuler.ImageExtensions = ImageFileExts.SplitFR("|");
+            SettingsIncapsuler.ImageExtensions = new HashSet<string>(ImageFileExts.SplitFR("|").Distinct());
         }
 
         private void ThemeChanged(object sender, SelectionChangedEventArgs e)

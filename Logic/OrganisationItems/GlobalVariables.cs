@@ -31,6 +31,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             PathToApktoolVersions   = PathToResources + "\\apktools";
             PathToAdminScripter     = PathToStartFolder + "\\AdminScripter.exe";
             PathToPlugins           = PathToFiles + "\\Plugins"; 
+            PathToFlags             = PathToResources + "\\Flags";
             PathToLogs              = PathToStartFolder + "\\Logs";
 
             EditableFileExtenstions = new[] { ".xml", ".smali" };
@@ -76,6 +77,11 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// StartFolder\Files\Resources
         /// </summary>
         public static readonly string PathToResources;
+
+        /// <summary>
+        /// StartFolder\Files\Resources\Flags
+        /// </summary>
+        public static readonly string PathToFlags;
 
         /// <summary>
         /// StartFolder\Files\Resources\apktools

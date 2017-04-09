@@ -545,59 +545,59 @@
         </trans-unit>
         <trans-unit id="CanNotRecievePluginsList" translate="yes" xml:space="preserve">
           <source>Can not recieve plugins list. Please, check your internet connection.</source>
-          <target state="new">Can not recieve plugins list. Please, check your internet connection.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Plugins-Liste kann nicht empfangen werden. Bitte überprüfen Sie Ihre Internetverbindung.</target>
         </trans-unit>
         <trans-unit id="CanNotRecieveApktoolsList" translate="yes" xml:space="preserve">
           <source>Can not recieve apktools list. Please, check your internet connection.</source>
-          <target state="new">Can not recieve apktools list. Please, check your internet connection.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Apktools Liste kann nicht empfangen werden. Bitte überprüfen Sie Ihre Internetverbindung.</target>
         </trans-unit>
         <trans-unit id="DirectoryPathToClipboard" translate="yes" xml:space="preserve">
           <source>Directory path (to clipboard)</source>
-          <target state="new">Directory path (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Verzeichnispfad (in Zwischenablage)</target>
         </trans-unit>
         <trans-unit id="FileNameToClipboard" translate="yes" xml:space="preserve">
           <source>File name (to clipboard)</source>
-          <target state="new">File name (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Dateiname (in Zwischenablage)</target>
         </trans-unit>
         <trans-unit id="FullFilePathToClipboard" translate="yes" xml:space="preserve">
           <source>Full file path (to clipboard)</source>
-          <target state="new">Full file path (to clipboard)</target>
+          <target state="translated" state-qualifier="mt-suggestion">Vollständigen Dateipfad (in Zwischenablage)</target>
         </trans-unit>
         <trans-unit id="Loading" translate="yes" xml:space="preserve">
           <source>Loading...</source>
-          <target state="new">Loading...</target>
+          <target state="translated" state-qualifier="tm-suggestion">Wird geladen...</target>
         </trans-unit>
         <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="translated" state-qualifier="tm-suggestion">Kopieren</target>
         </trans-unit>
         <trans-unit id="Paste" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="new">Paste</target>
+          <target state="translated" state-qualifier="tm-suggestion">Einfügen</target>
         </trans-unit>
         <trans-unit id="ShowNotifications" translate="yes" xml:space="preserve">
           <source>Show notifications:</source>
-          <target state="new">Show notifications:</target>
+          <target state="translated" state-qualifier="mt-suggestion">Benachrichtigungen anzeigen:</target>
         </trans-unit>
         <trans-unit id="CompilationFinished" translate="yes" xml:space="preserve">
           <source>Compilation finished</source>
-          <target state="new">Compilation finished</target>
+          <target state="translated" state-qualifier="mt-suggestion">Zusammenstellung fertig</target>
         </trans-unit>
         <trans-unit id="DecompilationFinished" translate="yes" xml:space="preserve">
           <source>Decompilation finished</source>
-          <target state="new">Decompilation finished</target>
+          <target state="translated" state-qualifier="mt-suggestion">Dekompilierung fertig</target>
         </trans-unit>
         <trans-unit id="TheFollowingFilesHaveBeenAlreadyAdded" translate="yes" xml:space="preserve">
           <source>The following files have been already added</source>
-          <target state="new">The following files have been already added</target>
+          <target state="translated" state-qualifier="mt-suggestion">Die folgenden Dateien wurden bereits hinzugefügt</target>
         </trans-unit>
         <trans-unit id="Information" translate="yes" xml:space="preserve">
           <source>Information</source>
-          <target state="new">Information</target>
+          <target state="translated" state-qualifier="tm-suggestion">Informationen</target>
         </trans-unit>
         <trans-unit id="AlternateRowsInEditor" translate="yes" xml:space="preserve">
           <source>Alternate rows in editor</source>
-          <target state="new">Alternate rows in editor</target>
+          <target state="translated" state-qualifier="mt-suggestion">Alternative Zeilen im editor</target>
         </trans-unit>
       </group>
     </body>
