@@ -16,12 +16,13 @@ namespace TranslatorApk
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.ToString());
-                MessBox.ShowDial("Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена");
+                MessageBox.Show("Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена");
             };
+
             DispatcherUnhandledException += (sender, args) =>
             {
                 Clipboard.SetText($"Message: {args.Exception.Message}\nStackTrace: {args.Exception.StackTrace}");
-                MessBox.ShowDial($"Обнаружена ошибка (\"{args.Exception.Message}\"), текст скопирован в буфер. Пожалуйста, отправьте её разработчику");
+                MessageBox.Show($"Обнаружена ошибка (\"{args.Exception.Message}\"), текст скопирован в буфер. Пожалуйста, отправьте её разработчику");
 #if !DEBUG
                 args.Handled = true;
 #endif

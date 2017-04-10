@@ -454,7 +454,11 @@ namespace TranslatorApk.Logic.OrganisationItems
                 return;
 
             if (!Directory.Exists(GlobalVariables.PathToPlugins))
+            {
+                LoadCurrentTranslationService();
+
                 return;
+            }
 
             var plugins = Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll", SearchOption.TopDirectoryOnly);
 
@@ -462,16 +466,22 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             _pluginsLoaded = true;
 
-            OneTranslationService found;
+            LoadCurrentTranslationService();
+        }
 
-            if (!TranslateService.OnlineTranslators.TryGetValue(SetInc.OnlineTranslator, out found))
+        /// <summary>
+        /// Устанавливает текущий сервис перевода, основываясь на настройках
+        /// </summary>
+        private static void LoadCurrentTranslationService()
+        {
+            if (TranslateService.OnlineTranslators.TryGetValue(SetInc.OnlineTranslator, out var found))
             {
-                SetInc.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
-                GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
+                GlobalVariables.CurrentTranslationService = found;
             }
             else
             {
-                GlobalVariables.CurrentTranslationService = found;
+                SetInc.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
+                GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
             }
         }
 
