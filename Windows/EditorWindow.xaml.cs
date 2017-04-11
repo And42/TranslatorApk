@@ -42,7 +42,7 @@ namespace TranslatorApk.Windows
     /// </summary>
     public partial class EditorWindow : INotifyPropertyChanged
     {
-        private static EditorWindow instance;
+        private static EditorWindow _instance;
 
         public static double EditorHeaderFontSize = 20;
         public static double EditorTextFontSize = 15;
@@ -55,10 +55,7 @@ namespace TranslatorApk.Windows
 
         public bool SaveToDict
         {
-            get
-            {
-                return SettingsIncapsuler.EditorWindowSaveToDict;
-            }
+            get => SettingsIncapsuler.EditorWindowSaveToDict;
             set
             {
                 if (SaveDictionary == null && value) return;
@@ -71,7 +68,7 @@ namespace TranslatorApk.Windows
         {
             get
             {
-                if (isMinimized)
+                if (_isMinimized)
                     return WindowState.Minimized;
 
                 return SettingsIncapsuler.EditorWMaximized ? WindowState.Maximized : WindowState.Normal;
@@ -81,27 +78,24 @@ namespace TranslatorApk.Windows
                 if (value != WindowState.Minimized)
                     SettingsIncapsuler.EditorWMaximized = value == WindowState.Maximized;
 
-                isMinimized = value == WindowState.Minimized;
+                _isMinimized = value == WindowState.Minimized;
 
                 OnPropertyChanged(nameof(EditorWindowState));
             }
         }
-        private bool isMinimized;
+        private bool _isMinimized;
 
         /// <summary>
         /// Список редактируемых файлов
         /// </summary>
         public ObservableRangeCollection<EditableFile> StringFiles { get; } = new ObservableRangeCollection<EditableFile>();
 
-        public static IList<EditableFile> StringFilesStatic => instance?.StringFiles;
-        public static SfDataGrid EditorGridStatic => instance?.EditorGrid;
+        public static IList<EditableFile> StringFilesStatic => _instance?.StringFiles;
+        public static SfDataGrid EditorGridStatic => _instance?.EditorGrid;
 
         public DictionaryFile SaveDictionary
         {
-            get
-            {
-                return _saveDictionary;
-            }
+            get => _saveDictionary;
             set
             {
                 _saveDictionary = value;
@@ -113,10 +107,7 @@ namespace TranslatorApk.Windows
 
         public int LangsBoxItemIndex
         {
-            get
-            {
-                return TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.TargetLanguage);
-            }
+            get => TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.TargetLanguage);
             set
             {
                 SettingsIncapsuler.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
@@ -134,7 +125,7 @@ namespace TranslatorApk.Windows
 
             EditorGrid.SelectionController = new GridSelectionControllerExt(EditorGrid, EditorGrid_OnKeyDown);
 
-            instance = this;
+            _instance = this;
 
             string settingsTargetDict = SettingsIncapsuler.TargetDictionary;
 
@@ -162,7 +153,7 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            instance = null;
+            _instance = null;
 
             UnsubscribeFromEvents();
 
@@ -313,15 +304,7 @@ namespace TranslatorApk.Windows
             if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            foreach (var file in dialog.FileNames)
-            {
-                DictionaryFile dictFile;
-
-                if (TryFunc(() => new DictionaryFile(file), out dictFile))
-                    GlobalVariables.SourceDictionaries.Add(new CheckableString(file, true));
-                else
-                    MessBox.ShowDial(file + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
-            }
+            dialog.FileNames.ForEach(AddSourceDictIfNotAdded);
         }
 
         private void UseDictionariesClick(object sender, RoutedEventArgs e)
@@ -365,7 +348,6 @@ namespace TranslatorApk.Windows
                         {
                             str.NewText = found;
                             trans++;
-                            break;
                         }
                     }
 
@@ -391,18 +373,20 @@ namespace TranslatorApk.Windows
 
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
 
-            if (files == null)
+            files?.ForEach(AddSourceDictIfNotAdded);
+        }
+
+        private void AddSourceDictIfNotAdded(string dictionaryFile)
+        {
+            if (GlobalVariables.SourceDictionaries.Any(dict => dict.Item1 == dictionaryFile))
                 return;
 
-            foreach (var file in files)
-            {
-                DictionaryFile dictFile;
+            DictionaryFile dictFile;
 
-                if (TryFunc(() => new DictionaryFile(file), out dictFile))
-                    GlobalVariables.SourceDictionaries.Add(new CheckableString(file, true));
-                else
-                    MessBox.ShowDial(file + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
-            }
+            if (TryFunc(() => new DictionaryFile(dictionaryFile), out dictFile))
+                GlobalVariables.SourceDictionaries.Add(new CheckableString(dictionaryFile, true));
+            else
+                MessBox.ShowDial(dictionaryFile + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
         }
 
         private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
@@ -491,7 +475,7 @@ namespace TranslatorApk.Windows
 
         private void GridContextMenuOpened(object sender, RoutedEventArgs e)
         {
-            MenuItem createItem(string header, RoutedEventHandler clicked)
+            MenuItem CreateItem(string header, RoutedEventHandler clicked)
             {
                 var item = new MenuItem { Header = header };
                 item.Click += clicked;
@@ -503,8 +487,8 @@ namespace TranslatorApk.Windows
             // ReSharper disable once PossibleNullReferenceException
             menu.Items.Clear();
 
-            menu.Items.Add(createItem(Res.Expand, Expand_Click));
-            menu.Items.Add(createItem(Res.Collapse, Collapse_Click));
+            menu.Items.Add(CreateItem(Res.Expand, Expand_Click));
+            menu.Items.Add(CreateItem(Res.Collapse, Collapse_Click));
 
             EditableFile selectedFile = GetSelectedFile();
 
@@ -514,12 +498,12 @@ namespace TranslatorApk.Windows
                 {
                     { Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName)},
                     { Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName) },
-                    { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName)) },
-                    { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName)) },
+                    { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty) },
+                    { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty) },
                     { Res.Delete, (o, args) => StringFiles.Remove(selectedFile) }
             };
 
-                items.ForEach(it => menu.Items.Add(createItem(it.Key, it.Value)));
+                items.ForEach(it => menu.Items.Add(CreateItem(it.Key, it.Value)));
             }
 
             RowColumnIndex rowColumn;
@@ -527,7 +511,7 @@ namespace TranslatorApk.Windows
 
             if (selectedString != null)
             {
-                menu.Items.Add(createItem(Res.Copy, (o, args) =>
+                menu.Items.Add(CreateItem(Res.Copy, (o, args) =>
                 {
                     switch (rowColumn.ColumnIndex)
                     {
@@ -545,7 +529,7 @@ namespace TranslatorApk.Windows
 
                 if (rowColumn.ColumnIndex == 2 && !selectedString.IsOldTextReadOnly)
                 {
-                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
+                    menu.Items.Add(CreateItem(Res.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
@@ -556,7 +540,7 @@ namespace TranslatorApk.Windows
 
                 if (rowColumn.ColumnIndex == 3 && !selectedString.IsNewTextReadOnly)
                 {
-                    menu.Items.Add(createItem(Res.Paste, (o, args) =>
+                    menu.Items.Add(CreateItem(Res.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
@@ -592,11 +576,11 @@ namespace TranslatorApk.Windows
 
         private void InitGridEvents()
         {
-            void collapseAll() => EditorGrid.CollapseAllDetailsView();
+            void CollapseAll() => EditorGrid.CollapseAllDetailsView();
 
-            void expandAll() => EditorGrid.ExpandAllDetailsView();
+            void ExpandAll() => EditorGrid.ExpandAllDetailsView();
 
-            void enterAction()
+            void EnterAction()
             {
                 var str = GetSelectedString();
 
@@ -620,17 +604,17 @@ namespace TranslatorApk.Windows
                             EditorGrid.ExpandDetailsViewAt(row);
                     }
                 }
-            };
+            }
 
-            void copyToNew()
+            void CopyToNew()
             {
                 var str = GetSelectedString();
 
                 if (str != null)
                     str.NewText = str.OldText;
-            };
+            }
 
-            void copyToClipboard()
+            void CopyToClipboard()
             {
                 RowColumnIndex position;
 
@@ -661,9 +645,9 @@ namespace TranslatorApk.Windows
                             break;
                     }
                 });
-            };
+            }
 
-            void pasteFromClipboard()
+            void PasteFromClipboard()
             {
                 RowColumnIndex position;
 
@@ -705,9 +689,9 @@ namespace TranslatorApk.Windows
                             break;
                     }
                 });
-            };
+            }
 
-            void moveToHead()
+            void MoveToHead()
             {
                 int? row = null;
 
@@ -721,9 +705,9 @@ namespace TranslatorApk.Windows
                     EditorGrid.ScrollInView(new RowColumnIndex(row.Value, 0));
                     EditorGrid.SelectCell(EditorGrid.GetRecordAtRowIndex(row.Value), EditorGrid.Columns[0]);
                 }
-            };
+            }
 
-            void moveToNext()
+            void MoveToNext()
             {
                 int? row = null;
 
@@ -739,9 +723,9 @@ namespace TranslatorApk.Windows
                     EditorGrid.SelectedIndex++;
                 }
 
-            };
+            }
 
-            void addEmpty()
+            void AddEmpty()
             {
                 if (StringFiles.Count == 0)
                     return;
@@ -754,9 +738,9 @@ namespace TranslatorApk.Windows
                     dict = StringFiles[0] as DictionaryFile;
 
                 dict?.Add("", "");
-            };
+            }
 
-            void removeRow()
+            void RemoveRow()
             {
                 var str = GetSelectedString() as OneDictionaryString;
 
@@ -776,47 +760,47 @@ namespace TranslatorApk.Windows
                 var dict = EditorGrid.CurrentItem as DictionaryFile;
 
                 dict?.Remove(str);
-            };
+            }
 
             // Свернуть всё
-            AddGridKeyEvent(Key.C, collapseAll, Ctrls, Shifts);
+            AddGridKeyEvent(Key.C, CollapseAll, Ctrls, Shifts);
 
             // Развернуть всё
-            AddGridKeyEvent(Key.E, expandAll, Ctrls, Shifts);
+            AddGridKeyEvent(Key.E, ExpandAll, Ctrls, Shifts);
 
             // Скопировать текущую ячейку в буфер
-            AddGridKeyEvent(Key.C, copyToClipboard, Ctrls);
+            AddGridKeyEvent(Key.C, CopyToClipboard, Ctrls);
 
             // Вставить текст из буфера
-            AddGridKeyEvent(Key.V, pasteFromClipboard, Ctrls);
+            AddGridKeyEvent(Key.V, PasteFromClipboard, Ctrls);
 
             // Обработать нажатие Enter (развернуть/свернуть строки файла / открыть окно редактора текущей строки)
-            AddGridKeyEvent(Key.Enter, enterAction);
+            AddGridKeyEvent(Key.Enter, EnterAction);
 
             // Скопировать старый текст в новый
-            AddGridKeyEvent(Key.Right, copyToNew, Ctrls, Shifts);
+            AddGridKeyEvent(Key.Right, CopyToNew, Ctrls, Shifts);
 
             // Перевести выбранную строку/файл
             AddGridKeyEvent(Key.Right, TranslateSelected, Ctrls);
 
             // Выделить файл, содержащий выделенную строку
-            AddGridKeyEvent(Key.Up, moveToHead, Ctrls, Shifts);
+            AddGridKeyEvent(Key.Up, MoveToHead, Ctrls, Shifts);
 
             // Перейти к следующему файлу
-            AddGridKeyEvent(Key.Down, moveToNext, Ctrls, Shifts);
+            AddGridKeyEvent(Key.Down, MoveToNext, Ctrls, Shifts);
 
             // Добавить пустую строку в словарь
-            AddGridKeyEvent(Key.A, addEmpty, Ctrls);
+            AddGridKeyEvent(Key.A, AddEmpty, Ctrls);
 
             // Удалить строку из словаря
-            AddGridKeyEvent(Key.Delete, removeRow);
+            AddGridKeyEvent(Key.Delete, RemoveRow);
         }
 
-        private readonly List<Tuple<Key, Key[][], Action>> EditorGridKeyEvents = new List<Tuple<Key, Key[][], Action>>();
+        private readonly List<Tuple<Key, Key[][], Action>> _editorGridKeyEvents = new List<Tuple<Key, Key[][], Action>>();
 
         private void AddGridKeyEvent(Key key, Action action, params Key[][] modifers)
         {
-            EditorGridKeyEvents.Add(new Tuple<Key, Key[][], Action>(key, modifers, action));
+            _editorGridKeyEvents.Add(new Tuple<Key, Key[][], Action>(key, modifers, action));
         }
 
         private static readonly Key[] Ctrls = { Key.LeftCtrl, Key.RightCtrl };
@@ -875,11 +859,11 @@ namespace TranslatorApk.Windows
 
         private bool EditorGrid_OnKeyDown(KeyEventArgs e)
         {
-            Func<Key[][], bool> keysDown = keys => keys.All(ks => ks.Any(e.KeyboardDevice.IsKeyDown));
+            bool KeysDown(Key[][] keys) => keys.All(ks => ks.Any(e.KeyboardDevice.IsKeyDown));
 
-            foreach (var ev in EditorGridKeyEvents)
+            foreach (var ev in _editorGridKeyEvents)
             {
-                if (e.Key == ev.Item1 && keysDown(ev.Item2))
+                if (e.Key == ev.Item1 && KeysDown(ev.Item2))
                 {
                     ev.Item3();
                     e.Handled = true;
@@ -910,7 +894,7 @@ namespace TranslatorApk.Windows
                 case OneString str:
                     new StringEditorWindow(str).ShowDialog();
                     break;
-                case EditableFile file:
+                case EditableFile _:
                     GetSelectedFile(out var rowIndex);
 
                     if (GetFileSelectedEntry().IsExpanded)
@@ -1187,12 +1171,12 @@ namespace TranslatorApk.Windows
 
         private static void Enable()
         {
-            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = true);
+            _instance?.Dispatcher.InvokeAction(() => _instance.IsEnabled = true);
         }
 
         private static void Disable()
         {
-            instance?.Dispatcher.InvokeAction(() => instance.IsEnabled = false);
+            _instance?.Dispatcher.InvokeAction(() => _instance.IsEnabled = false);
         }
 
         private bool CheckIfNeedToSave()

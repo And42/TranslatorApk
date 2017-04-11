@@ -12,7 +12,7 @@ namespace TranslatorApk.Logic.Classes
     {
         public T Item1
         {
-            get { return _item1; }
+            get => _item1;
             set
             {
                 if (_item1?.Equals(value) == true) return;
@@ -24,7 +24,7 @@ namespace TranslatorApk.Logic.Classes
 
         public K Item2
         {
-            get { return _item2; }
+            get => _item2;
             set
             {
                 if (_item2.Equals(value)) return;
@@ -34,10 +34,10 @@ namespace TranslatorApk.Logic.Classes
         }
         private K _item2;
 
-        private readonly Func<string, T> firstFromString;
-        private readonly Func<string, K> secondFromString;
-        private readonly Func<T, string> firstToString;
-        private readonly Func<K, string> secondToString;
+        private readonly Func<string, T> _firstFromString;
+        private readonly Func<string, K> _secondFromString;
+        private readonly Func<T, string> _firstToString;
+        private readonly Func<K, string> _secondToString;
 
         protected TwoValsSerializable() { }
 
@@ -49,10 +49,10 @@ namespace TranslatorApk.Logic.Classes
 
         protected TwoValsSerializable(T item1, K item2, Func<string, T> firstFromString, Func<string, K> secondFromString, Func<T, string> firstToString, Func<K, string> secondToString)
         {
-            this.firstFromString = firstFromString;
-            this.secondFromString = secondFromString;
-            this.firstToString = firstToString;
-            this.secondToString = secondToString;
+            _firstFromString = firstFromString;
+            _secondFromString = secondFromString;
+            _firstToString = firstToString;
+            _secondToString = secondToString;
 
             Item1 = item1;
             Item2 = item2;
@@ -68,15 +68,15 @@ namespace TranslatorApk.Logic.Classes
 
         public void ReadXml(XmlReader reader)
         {
-            Item1 = firstFromString(reader["Item1"]);
-            Item2 = secondFromString(reader["Item2"]);
+            Item1 = _firstFromString(reader["Item1"]);
+            Item2 = _secondFromString(reader["Item2"]);
             reader.Read();
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("Item1", firstToString(Item1));
-            writer.WriteAttributeString("Item2", secondToString(Item2));
+            writer.WriteAttributeString("Item1", _firstToString(Item1));
+            writer.WriteAttributeString("Item2", _secondToString(Item2));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

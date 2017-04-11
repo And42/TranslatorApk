@@ -8,7 +8,7 @@ namespace TranslatorApk.Logic.OrganisationItems
     /// </summary>
     public static class WindowManager
     {
-        private static readonly Dictionary<string, Window> windowsDict = new Dictionary<string, Window>();
+        private static readonly Dictionary<string, Window> WindowsDict = new Dictionary<string, Window>();
 
         /// <summary>
         /// Создаёт (если не создано раннее) и активирует окно
@@ -20,17 +20,17 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             Window window;
 
-            if (!windowsDict.TryGetValue(type, out window))
+            if (!WindowsDict.TryGetValue(type, out window))
             {
                 window = new T();
-                windowsDict.Add(type, window);
+                WindowsDict.Add(type, window);
                 window.Show();
             }
 
             if (!window.IsLoaded)
             {
                 window = new T();
-                windowsDict[type] = window;
+                WindowsDict[type] = window;
                 window.Show();
             }
 
@@ -47,7 +47,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <typeparam name="T">Тип окна</typeparam>
         public static void CloseWindow<T>() where T : Window, new()
         {
-            if (windowsDict.TryGetValue(typeof(T).FullName, out Window window) && window.IsLoaded)
+            if (WindowsDict.TryGetValue(typeof(T).FullName, out Window window) && window.IsLoaded)
             {
                 window.Close();
             }
