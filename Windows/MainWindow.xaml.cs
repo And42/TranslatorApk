@@ -47,10 +47,10 @@ namespace TranslatorApk.Windows
 
         public static MainWindow Instance { get; private set; }
 
-        private static string[] Arguments;
+        private static string[] _arguments;
 
-        private readonly Timer fileImagePreviewTimer = new Timer { Interval = 500 };
-        private PreviewWindow fileImagePreviewWindow;
+        private readonly Timer _fileImagePreviewTimer = new Timer { Interval = 500 };
+        private PreviewWindow _fileImagePreviewWindow;
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace TranslatorApk.Windows
         {
             get
             {
-                if (isMinimized)
+                if (_isMinimized)
                     return WindowState.Minimized;
 
                 return SetInc.MainWMaximized ? WindowState.Maximized : WindowState.Normal;
@@ -72,34 +72,31 @@ namespace TranslatorApk.Windows
                 if (value != WindowState.Minimized)
                     SetInc.MainWMaximized = value == WindowState.Maximized;
 
-                isMinimized = value == WindowState.Minimized;
+                _isMinimized = value == WindowState.Minimized;
 
                 OnPropertyChanged(nameof(MainWindowState));
             }
         }
-        private bool isMinimized;
+        private bool _isMinimized;
 
-        public Apktools apk;
+        public Apktools Apk;
 
         public Setting<bool>[] MainWindowSettings { get; }
 
         public string LogBoxText
         {
-            get
-            {
-                return logTextBuilder.ToString();
-            }
+            get => _logTextBuilder.ToString();
             set
             {
-                logTextBuilder.Clear();
-                logTextBuilder.Append(value);
+                _logTextBuilder.Clear();
+                _logTextBuilder.Append(value);
                 OnPropertyChanged(nameof(LogBoxText));
             }
         }
 
-        private static readonly Logger androidLogger = new Logger(GlobalVariables.PathToLogs, false);
+        private static readonly Logger AndroidLogger = new Logger(GlobalVariables.PathToLogs, false);
 
-        private readonly StringBuilder logTextBuilder = new StringBuilder();
+        private readonly StringBuilder _logTextBuilder = new StringBuilder();
 
         //public ObservableCollection<LogItem> LogItems { get; } = new ObservableCollection<LogItem>();
 
@@ -107,7 +104,7 @@ namespace TranslatorApk.Windows
 
         public MainWindow(string[] args)
         {
-            Arguments = args;
+            _arguments = args;
 
             MainWindowSettings = new []
             {
@@ -127,15 +124,15 @@ namespace TranslatorApk.Windows
 
             LoadSettings();
 
-            fileImagePreviewTimer.Tick += (o, arg) =>
+            _fileImagePreviewTimer.Tick += (o, arg) =>
             {
-                fileImagePreviewTimer.Stop();
+                _fileImagePreviewTimer.Stop();
 
                 var pos = System.Windows.Forms.Cursor.Position;
-                fileImagePreviewWindow.Left = pos.X + 5;
-                fileImagePreviewWindow.Top = pos.Y + 5;
+                _fileImagePreviewWindow.Left = pos.X + 5;
+                _fileImagePreviewWindow.Top = pos.Y + 5;
 
-                fileImagePreviewWindow.Show();
+                _fileImagePreviewWindow.Show();
             };
 
             TaskbarItemInfo = new TaskbarItemInfo();
@@ -185,9 +182,9 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void BuildClick(object sender = null, RoutedEventArgs e = null)
         {
-            if (apk == null) return;
+            if (Apk == null) return;
 
-            if (!apk.HasJava())
+            if (!Apk.HasJava())
             {
                 MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
                 return;
@@ -198,7 +195,7 @@ namespace TranslatorApk.Windows
             bool success = false;
             List<Error> errors = new List<Error>();
 
-            LoadingWindow.ShowWindow(() => { }, source => success = apk.Compile(out errors), () =>
+            LoadingWindow.ShowWindow(() => { }, source => success = Apk.Compile(out errors), () =>
             {
                 Enable();
                 VisLog(Log("".PadLeft(30, '-')));
@@ -220,7 +217,7 @@ namespace TranslatorApk.Windows
                 }
                 else
                 {
-                    VisLog(Log(LocRes.FileIsSituatedIn + " " + apk.NewApk));
+                    VisLog(Log(LocRes.FileIsSituatedIn + " " + Apk.NewApk));
                 }
             }, Visibility.Collapsed);
         }
@@ -249,9 +246,9 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void SignClick(object sender = null, RoutedEventArgs e = null)
         {
-            if (apk == null) return;
+            if (Apk == null) return;
 
-            if (!apk.HasJava())
+            if (!Apk.HasJava())
             {
                 MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
                 return;
@@ -262,7 +259,7 @@ namespace TranslatorApk.Windows
 
             string line = "".PadLeft(30, '-');
 
-            LoadingWindow.ShowWindow(() => { }, source => success = apk.Sign(), () =>
+            LoadingWindow.ShowWindow(() => { }, source => success = Apk.Sign(), () =>
             {
                 Enable();
                 VisLog(Log(line));
@@ -270,11 +267,16 @@ namespace TranslatorApk.Windows
 
                 if (success)
                 {
-                    VisLog(Log(LocRes.FileIsSituatedIn + " " + apk.SignedApk));
-                    if (
-                        MessBox.ShowDial(LocRes.FileIsSituatedIn + " " + apk.SignedApk, LocRes.Finished, MessBox.MessageButtons.OK,
-                            LocRes.Open) == LocRes.Open)
-                        Process.Start(Path.GetDirectoryName(apk.SignedApk));
+                    string message = $"{LocRes.FileIsSituatedIn} {Apk.SignedApk}";
+
+                    VisLog(Log(message));
+
+                    string dir = Path.GetDirectoryName(Apk.SignedApk);
+
+                    if (dir != null && MessBox.ShowDial(message, LocRes.Finished, MessBox.MessageButtons.OK, LocRes.Open) == LocRes.Open)
+                    {
+                        Process.Start(dir);
+                    }
                 }
             }, Visibility.Collapsed);
 
@@ -448,9 +450,9 @@ namespace TranslatorApk.Windows
                 MessBox.ShowDial(LocRes.ApktoolNotFound);
             }
 
-            if (Arguments.Length == 1)
+            if (_arguments.Length == 1)
             {
-                var file = Arguments[0];
+                var file = _arguments[0];
                 var ext = Path.GetExtension(file);
 
                 if (Directory.Exists(file))
@@ -481,7 +483,7 @@ namespace TranslatorApk.Windows
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
-            androidLogger.Stop();
+            AndroidLogger.Stop();
             SetInc.MainWindowSize = new Point((int)Width, (int)Height);
         }
 
@@ -697,8 +699,8 @@ namespace TranslatorApk.Windows
 
             if (node.Options.HasPreview)
             {
-                fileImagePreviewWindow = new PreviewWindow(node.Image);
-                fileImagePreviewTimer.Start();
+                _fileImagePreviewWindow = new PreviewWindow(node.Image);
+                _fileImagePreviewTimer.Start();
             }
         }
 
@@ -707,20 +709,20 @@ namespace TranslatorApk.Windows
             if (!SettingsIncapsuler.ShowPreviews)
                 return;
 
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = (sender as FrameworkElement)?.DataContext as TreeViewNodeModel;
 
-            if (node.Options.HasPreview)
+            if (node?.Options.HasPreview == true)
             {
-                fileImagePreviewTimer.Stop();
+                _fileImagePreviewTimer.Stop();
                 try
                 {
-                    fileImagePreviewWindow?.Close();
+                    _fileImagePreviewWindow?.Close();
                 }
                 catch (Exception)
                 {
                     // ignored
                 }
-                fileImagePreviewWindow = null;
+                _fileImagePreviewWindow = null;
             }
         }
 
@@ -733,13 +735,13 @@ namespace TranslatorApk.Windows
 
             if (node.Options.HasPreview)
             {
-                fileImagePreviewTimer.Stop();
-                fileImagePreviewTimer.Start();
+                _fileImagePreviewTimer.Stop();
+                _fileImagePreviewTimer.Start();
 
                 try
                 {
-                    fileImagePreviewWindow.Close();
-                    fileImagePreviewWindow = new PreviewWindow(node.Image);
+                    _fileImagePreviewWindow.Close();
+                    _fileImagePreviewWindow = new PreviewWindow(node.Image);
                 }
                 catch (Exception)
                 {
@@ -781,7 +783,7 @@ namespace TranslatorApk.Windows
         {
             PluginPart<IAdditionalAction> act = sender.As<MenuItem>().DataContext.As<PluginPart<IAdditionalAction>>();
 
-            act.Item.Process(apk?.FileName, apk?.FolderOfProject, apk?.NewApk, apk?.SignedApk,
+            act.Item.Process(Apk?.FileName, Apk?.FolderOfProject, Apk?.NewApk, Apk?.SignedApk,
                 GlobalVariables.PathToResources,
                 GlobalVariables.PathToFiles,
                 GlobalVariables.PathToResources + "\\jre",
@@ -838,12 +840,12 @@ namespace TranslatorApk.Windows
         {
             GlobalVariables.CurrentProjectFile = file;
 
-            androidLogger.NewLog(true, $"{Path.GetDirectoryName(file)}\\{Path.GetFileNameWithoutExtension(file)}_log.txt");
+            AndroidLogger.NewLog(true, $"{Path.GetDirectoryName(file)}\\{Path.GetFileNameWithoutExtension(file)}_log.txt");
 
-            apk = new Apktools(file, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
-            apk.Logging += s => VisLog(Log(s));
+            Apk = new Apktools(file, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
+            Apk.Logging += s => VisLog(Log(s));
 
-            if (!apk.HasJava())
+            if (!Apk.HasJava())
             {
                 MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
                 return;
@@ -852,7 +854,7 @@ namespace TranslatorApk.Windows
             LogBoxText = string.Empty;
             Disable();
             bool success = false;
-            LoadingWindow.ShowWindow(() => {}, source => success = SettingsIncapsuler.OnlyResources ? apk.Decompile(options: "-s") : apk.Decompile(), () =>
+            LoadingWindow.ShowWindow(() => {}, source => success = SettingsIncapsuler.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(), () =>
             {
                 Enable();
                 VisLog(GlobalVariables.LogLine);
@@ -901,13 +903,13 @@ namespace TranslatorApk.Windows
 
             if (!haveLogger)
             {
-                androidLogger.NewLog(true, folderPath + "_log.txt");
+                AndroidLogger.NewLog(true, folderPath + "_log.txt");
             }
 
             GlobalVariables.CurrentProjectFile = folderPath + ".apk";
 
-            apk = new Apktools(GlobalVariables.CurrentProjectFile, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
-            apk.Logging += s => VisLog(Log(s));
+            Apk = new Apktools(GlobalVariables.CurrentProjectFile, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
+            Apk.Logging += s => VisLog(Log(s));
             FilesTreeViewModel.Children.Clear();
             FilesTreeViewModel.Children.Add(new TreeViewNodeModel(null)
             {
@@ -978,14 +980,14 @@ namespace TranslatorApk.Windows
 
         public string Log(string text)
         {
-            androidLogger.Log(text);
+            AndroidLogger.Log(text);
             return text;
         }
 
         public string VisLog(string text)
         {
-            logTextBuilder.Append(text);
-            logTextBuilder.Append(Environment.NewLine);
+            _logTextBuilder.Append(text);
+            _logTextBuilder.Append(Environment.NewLine);
             OnPropertyChanged(nameof(LogBoxText));
             Dispatcher.InvokeAction(() => LogBox.ScrollToEnd());
 
