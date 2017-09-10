@@ -1,8 +1,16 @@
-﻿<Window
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+    
+<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TranslatorApk.Windows"
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
 
         x:Class="TranslatorApk.Windows.MainWindow" 
     
@@ -12,14 +20,18 @@
         Style="{DynamicResource WindowStyle}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         WindowState="{Binding MainWindowState}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
     
-        KeyDown="MainWindow_OnKeyDown" 
         Loaded="MainWindow_OnLoaded" 
         Closed="MainWindow_OnClosed">
     <Window.Title>
         <Binding StringFormat="{}TranslatorApk{0}" Source="{x:Static organisationItems:GlobalVariables.Instance}" Path="CurrentProjectFileProp" Converter="{StaticResource WindowTitleConverter}"/>
     </Window.Title>
+
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding ShowSearchWindowCommand}"/>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding RefreshFilesListCommand}"/>
+    </Window.InputBindings>
 
     <DockPanel Margin="5,0,5,5">
         <Menu 
@@ -43,7 +55,9 @@
             <MenuItem Header="{x:Static localization:Resources.AboutProgram}"       Click="OpenAboutClick"/>
         </Menu>
         
-        <Grid Margin="0,5,0,0" DockPanel.Dock="Top">
+        <Grid Margin="0,5,0,0" DockPanel.Dock="Top" 
+              attachedProperties:GridAP.Rows="A,A"
+              attachedProperties:GridAP.Columns="A,A,A,A">
             <Grid.Resources>
                 <Style x:Key="UpperButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Margin" Value="0,0,7,7"/>
@@ -54,46 +68,37 @@
                     <Setter Property="Padding" Value="15,7"/>
                 </Style>
             </Grid.Resources>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
+
             <!--#region Buttons -->
             
             <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource UpperButtonStyle}"
-                    Content="{x:Static localization:Resources.ChooseFile}"      Click="ChooseFileClick"
+                    Content="{x:Static localization:Resources.ChooseFile}" Command="{Binding ChooseFileCommand}"
                     AllowDrop="True" DragOver="CheckApkDrag" Drop="ApkDragDrop"/>
-            
+
             <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource UpperButtonStyle}"
-                    Content="{x:Static localization:Resources.BuildProject}"    Click="BuildClick"/>
-            
+                    Content="{x:Static localization:Resources.BuildProject}" Command="{Binding BuildCommand}"/>
+
             <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource UpperButtonStyle}"
-                    Content="{x:Static localization:Resources.Sign}" Click="SignClick"/>
+                    Content="{x:Static localization:Resources.Sign}" Command="{Binding SignCommand}"/>
 
             <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource LowerButtonStyle}"
-                    Content="{x:Static localization:Resources.ChooseFolder}"    Click="ChooseFolderClick"
+                    Content="{x:Static localization:Resources.ChooseFolder}" Command="{Binding ChooseFolderCommand}"
                     AllowDrop="True" DragOver="CheckFolderDrag" Drop="FolderDragDrop"/>
             
             <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource LowerButtonStyle}"
-                    Content="Framework"                                         Click="InstallFrameworkClick"
+                    Content="Framework" Command="{Binding InstallFrameworkCommand}"
                     AllowDrop="True" DragOver="CheckApkDrag" Drop="FrameworkDrop"/>
             
-            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource LowerButtonStyle}"
-                    Content="{x:Static localization:Resources.Search}"          Click="SearchClick"  />
+            <Button Grid.Row="1" Grid.Column="2" 
+                    Style="{StaticResource LowerButtonStyle}"
+                    Content="{x:Static localization:Resources.Search}" 
+                    Command="{Binding ShowSearchWindowCommand}"
+                    ToolTip="Ctrl+F"/>
 
             <!--#endregion-->
 
             <ListBox 
-                    Grid.Column="3" Grid.RowSpan="3"
+                    Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"
                     Height="77" Width="200"  
                     ItemsSource="{Binding MainWindowSettings}">
                 <ListBox.ItemTemplate>
@@ -117,27 +122,31 @@
             </Grid.ColumnDefinitions>
             
             <TreeView 
-                x:Name="FilesTreeView"
-                AllowDrop="True"  DragOver="CheckFileDrag" Drop="FilesTreeView_OnDrop" 
-                KeyUp="TreeView_KeyUp" ItemsSource="{Binding FilesTreeViewModel.Children}">
+                    x:Name="FilesTreeView"
+                    AllowDrop="True"  DragOver="CheckFileDrag" Drop="FilesTreeView_OnDrop" 
+                    KeyUp="TreeView_KeyUp" ItemsSource="{Binding FilesTreeViewModel.Children}">
                 <TreeView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static localization:Resources.Refresh}"     Click="RefreshClick" >
+                        <MenuItem Header="{x:Static localization:Resources.Refresh}" 
+                                  Command="{Binding RefreshFilesListCommand}" InputGestureText="Ctrl+R">
                             <MenuItem.Icon>
                                 <Image Source="/Resources/Icons/arrow_refresh.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static localization:Resources.Expand}"      Click="ExpandClick">
+                        <MenuItem Header="{x:Static localization:Resources.Expand}"      
+                                  Click="ExpandClick">
                             <MenuItem.Icon>
                                 <Image Source="/Resources/Icons/folders_explorer.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static localization:Resources.Collapse}"    Click="CollapseClick">
+                        <MenuItem Header="{x:Static localization:Resources.Collapse}"    
+                                  Click="CollapseClick">
                             <MenuItem.Icon>
                                 <Image Source="/Resources/Icons/folders.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static localization:Resources.AddLanguage}" Click="AddNewLanguageClick">
+                        <MenuItem Header="{x:Static localization:Resources.AddLanguage}" 
+                                  Click="AddNewLanguageClick">
                             <MenuItem.Icon>
                                 <Image Source="/Resources/Icons/change_language.png"/>
                             </MenuItem.Icon>
@@ -160,71 +169,84 @@
                                         </Style>
                                     </ContextMenu.Resources>
 
-                                    <MenuItem Header="{x:Static localization:Resources.Open}"                Click="OpenClick"    
+                                    <MenuItem Header="{x:Static localization:Resources.Open}"                
+                                              Click="OpenClick"    
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/open_source.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.OpenWith}"            Click="OpenWithClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.OpenWith}"            
+                                              Click="OpenWithClick" 
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/open_share.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.LoadWithTextStrings}" Click="LoadAllInXml" 
+                                    <MenuItem Header="{x:Static localization:Resources.LoadWithTextStrings}" 
+                                              Click="LoadAllInXml" 
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/text.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Replace}"             Click="ReplaceFileClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.Replace}"             
+                                              Click="ReplaceFileClick" 
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/card_file.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.OpenInExplorer}"      Click="OpenInExplorerClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.OpenInExplorer}"      
+                                              Click="OpenInExplorerClick" 
                                               Style="{StaticResource FolderStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/folder.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.ShowInExplorer}"      Click="OpenInExplorerClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.ShowInExplorer}"      
+                                              Click="OpenInExplorerClick" 
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/folder.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Refresh}"             Click="RefreshClick">
+                                    <MenuItem Header="{x:Static localization:Resources.Refresh}" 
+                                              Command="{Binding RefreshFilesListCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}}"
+                                              InputGestureText="Ctrl+R">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/arrow_refresh.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Delete}"              Click="DeleteFolderClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.Delete}"              
+                                              Click="DeleteFolderClick" 
                                               Style="{StaticResource FolderStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/folder_delete.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Delete}"              Click="DeleteFileClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.Delete}"              
+                                              Click="DeleteFileClick" 
                                               Style="{StaticResource FileStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/page_delete.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.AddLanguage}"         Click="AddNewLanguageClick">
+                                    <MenuItem Header="{x:Static localization:Resources.AddLanguage}"         
+                                              Click="AddNewLanguageClick">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/change_language.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Expand}"              Click="ExpandFolderClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.Expand}"              
+                                              Click="ExpandFolderClick" 
                                               Style="{StaticResource FolderStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/folders_explorer.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{x:Static localization:Resources.Collapse}"            Click="CollapseFolderClick" 
+                                    <MenuItem Header="{x:Static localization:Resources.Collapse}"            
+                                              Click="CollapseFolderClick" 
                                               Style="{StaticResource FolderStyle}">
                                         <MenuItem.Icon>
                                             <Image Source="/Resources/Icons/folders.png"/>
@@ -241,7 +263,7 @@
                 </TreeView.ItemTemplate>
                 
                 <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
+                    <Style TargetType="TreeViewItem" d:DataContext="{d:DesignInstance classes:TreeViewNodeModel}">
                         <Style.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="2"/>
@@ -273,7 +295,7 @@
             <TextBox 
                 x:Name="LogBox"
                 Grid.Column="2" Padding="5" IsReadOnly="True"
-                TextWrapping="Wrap" Text="{Binding LogBoxText}"
+                TextWrapping="Wrap" Text="{Binding LogBoxText, Mode=OneWay}"
                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
         </Grid>
     </DockPanel>

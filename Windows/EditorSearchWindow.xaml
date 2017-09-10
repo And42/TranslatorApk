@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
-        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
         Title="{x:Static localizations:Resources.Search}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         
         Height="600" Width="800" MinWidth="400" MinHeight="300" 
@@ -53,32 +53,36 @@
             <Button Grid.Row="2" Grid.Column="1" TabIndex="2" Content="{x:Static localizations:Resources.FindAll}" Click="FindAllClick" Margin="3" Padding="2"/>
         </Grid>
 
-        <Syncfusion:SfDataGrid x:Name="FoundedItemsGrid" 
+        <syncfusion:SfDataGrid x:Name="FoundItemsGrid" 
                 Grid.Row="1" Margin="0,3,3,3" 
                 ItemsSource="{Binding FoundItems}" 
                 ColumnSizer="AutoLastColumnFill" 
                 SelectionMode="Single" 
                 SelectionUnit="Row"
+                CellDoubleTapped="FoundedItemsGrid_OnCellDoubleTapped"
                 AutoGenerateColumns="False"
                 FontSize="{StaticResource Grid_FontSize}"
                 RowHeight="{StaticResource Grid_RowHeight}"
                 HeaderRowHeight="{StaticResource Grid_HeaderHeight}">
-            <Syncfusion:SfDataGrid.Resources>
-                <Style TargetType="Syncfusion:GridHeaderCellControl">
+            <syncfusion:SfDataGrid.Resources>
+                <Style TargetType="syncfusion:GridHeaderCellControl">
                     <Setter Property="FontSize" Value="{StaticResource Grid_FontSize}"/>
                 </Style>
-            </Syncfusion:SfDataGrid.Resources>
+            </syncfusion:SfDataGrid.Resources>
             
-            <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridTextColumn 
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn 
                     HeaderText="{x:Static localizations:Resources.Filename}" 
                     MappingName="FormattedName" 
                     MinimumWidth="50" Width="300" AllowResizing="True"/>
-                <Syncfusion:GridTextColumn 
+                <syncfusion:GridTextColumn 
                     HeaderText="{x:Static localizations:Resources.Text}" 
                     MappingName="Text"
                     MinimumWidth="50" HorizontalHeaderContentAlignment="Left"/>
-            </Syncfusion:SfDataGrid.Columns>
-        </Syncfusion:SfDataGrid>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
     </Grid>
 </Window>
+
+
+

@@ -128,7 +128,7 @@
     <Setting Name="SessionAutoTranslate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="EditorWindow_SaveToDict" Type="System.Boolean" Scope="User">
+    <Setting Name="EditorWindowSaveToDict" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ShowNotifications" Type="System.Boolean" Scope="User">

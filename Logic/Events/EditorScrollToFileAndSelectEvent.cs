@@ -1,5 +1,5 @@
 ﻿using System;
-using AndroidTranslator;
+using AndroidTranslator.Interfaces.Files;
 
 namespace TranslatorApk.Logic.Events
 {
@@ -11,7 +11,7 @@ namespace TranslatorApk.Logic.Events
         /// <summary>
         /// Условие для выбора файла
         /// </summary>
-        public Predicate<EditableFile> FilePredicate { get; }
+        public Predicate<IEditableFile> FilePredicate { get; }
 
         /// <summary>
         /// Определяет необходимость разворачивания найденной записи
@@ -23,7 +23,7 @@ namespace TranslatorApk.Logic.Events
         /// </summary>
         /// <param name="filePredicate">Условие для выбора файла</param>
         /// <param name="expandRecord">Определяет необходимость разворачивания найденной записи</param>
-        public EditorScrollToFileAndSelectEvent(Predicate<EditableFile> filePredicate, bool expandRecord = true)
+        public EditorScrollToFileAndSelectEvent(Predicate<IEditableFile> filePredicate, bool expandRecord = true)
         {
             FilePredicate = filePredicate ?? throw new ArgumentNullException(nameof(filePredicate));
             ExpandRecord = expandRecord;

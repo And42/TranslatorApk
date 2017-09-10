@@ -5,11 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
-using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -19,27 +18,19 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для SettingsWindow.xaml
     /// </summary>
-    public sealed partial class SettingsWindow : INotifyPropertyChanged
+    public sealed partial class SettingsWindow : IRaisePropertyChanged
     {   
         public string OtherFileExts
         {
             get => _otherFileExts;
-            set
-            {
-                _otherFileExts = value;
-                OnPropertyChanged(nameof(OtherFileExts));
-            }
+            set => this.SetProperty(ref _otherFileExts, value);
         }
         private string _otherFileExts = string.Empty;
 
         public string ImageFileExts
         {
             get => _imageFileExts;
-            set
-            {
-                _imageFileExts = value;
-                OnPropertyChanged(nameof(ImageFileExts));
-            }
+            set => this.SetProperty(ref _imageFileExts, value);
         }
         private string _imageFileExts = string.Empty;
 
@@ -47,8 +38,8 @@ namespace TranslatorApk.Windows
 
         public int LanguageOfAppIndex
         { 
-            get => TranslateService.SupportedProgramLangs.IndexOf(SettingsIncapsuler.LanguageOfApp);
-            set => Functions.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
+            get => TranslateService.SupportedProgramLangs.IndexOf(SettingsIncapsuler.Instance.LanguageOfApp);
+            set => Utils.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
         }
 
         public ObservableCollection<string> ApktoolVersions { get; } = new ObservableCollection<string>(); 
@@ -61,8 +52,8 @@ namespace TranslatorApk.Windows
             set
             {
                 GlobalVariables.CurrentTranslationService = value;
-                SettingsIncapsuler.OnlineTranslator = value.Guid;
-                OnPropertyChanged(nameof(OnlineTranslator));
+                SettingsIncapsuler.Instance.OnlineTranslator = value.Guid;
+                RaisePropertyChanged(nameof(OnlineTranslator));
             } 
         }
 
@@ -70,71 +61,69 @@ namespace TranslatorApk.Windows
 
         public int TopMostIndex
         {
-            get => SettingsIncapsuler.TopMost ? 0 : 1;
-            set => SettingsIncapsuler.TopMost = value == 0;
+            get => SettingsIncapsuler.Instance.TopMost ? 0 : 1;
+            set => SettingsIncapsuler.Instance.TopMost = value == 0;
         }
 
         public int AlternativeEditingKeysIndex
         {
-            get => SettingsIncapsuler.AlternativeEditingKeys ? 0 : 1;
-            set => SettingsIncapsuler.AlternativeEditingKeys = value == 0;
+            get => SettingsIncapsuler.Instance.AlternativeEditingKeys ? 0 : 1;
+            set => SettingsIncapsuler.Instance.AlternativeEditingKeys = value == 0;
         }
 
         public int SessionAutoTranslateIndex
         {
-            get => SettingsIncapsuler.SessionAutoTranslate ? 0 : 1;
-            set => SettingsIncapsuler.SessionAutoTranslate = value == 0;
+            get => SettingsIncapsuler.Instance.SessionAutoTranslate ? 0 : 1;
+            set => SettingsIncapsuler.Instance.SessionAutoTranslate = value == 0;
         }
 
         public int ShowNotificationsIndex
         {
-            get => SettingsIncapsuler.ShowNotifications ? 0 : 1;
-            set => SettingsIncapsuler.ShowNotifications = value == 0;
+            get => SettingsIncapsuler.Instance.ShowNotifications ? 0 : 1;
+            set => SettingsIncapsuler.Instance.ShowNotifications = value == 0;
         }
 
         public int ShowPreviewsIndex
         {
-            get => SettingsIncapsuler.ShowPreviews ? 0 : 1;
-            set => SettingsIncapsuler.ShowPreviews = value == 0;
+            get => SettingsIncapsuler.Instance.ShowPreviews ? 0 : 1;
+            set => SettingsIncapsuler.Instance.ShowPreviews = value == 0;
         }
 
         public int AlternateRowsIndex
         {
-            get => SettingsIncapsuler.AlternatingRows ? 0 : 1;
-            set => SettingsIncapsuler.AlternatingRows = value == 0;
+            get => SettingsIncapsuler.Instance.AlternatingRows ? 0 : 1;
+            set => SettingsIncapsuler.Instance.AlternatingRows = value == 0;
         }
 
         public SettingsWindow()
         {
             InitializeComponent();
-            OtherFileExts = SettingsIncapsuler.OtherExtensions.JoinStr("|");
-            ImageFileExts = SettingsIncapsuler.ImageExtensions.JoinStr("|");
+            OtherFileExts = SettingsIncapsuler.Instance.OtherExtensions.JoinStr("|");
+            ImageFileExts = SettingsIncapsuler.Instance.ImageExtensions.JoinStr("|");
             LoadApktools();
 
             Themes.AddRange(GlobalVariables.ThemesMap.Select(it => it.Value));
 
-            ThemeBox.SelectedItem = GlobalVariables.ThemesMap.Forward[Settings.Default.Theme];
+            ThemeBox.SelectedItem = GlobalVariables.ThemesMap.Forward[SettingsIncapsuler.Instance.Theme];
 
             Translators.AddRange(TranslateService.OnlineTranslators.Values);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void SaveOtherExts(object sender, RoutedEventArgs e)
         {
-            SettingsIncapsuler.OtherExtensions = new HashSet<string>(OtherFileExts.SplitFR("|").Distinct());
+            SettingsIncapsuler.Instance.OtherExtensions = OtherFileExts.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
         }
 
         private void SaveImageExts(object sender, RoutedEventArgs e)
         {
-            SettingsIncapsuler.ImageExtensions = new HashSet<string>(ImageFileExts.SplitFR("|").Distinct());
+            SettingsIncapsuler.Instance.ImageExtensions = ImageFileExts.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
         }
 
         private void ThemeChanged(object sender, SelectionChangedEventArgs e)
@@ -142,15 +131,21 @@ namespace TranslatorApk.Windows
             string changed = e.AddedItems.Count > 0 ? e.AddedItems[0].As<string>() : null;
 
             if (changed != null)
-                Functions.ChangeTheme(GlobalVariables.ThemesMap.Backward[changed]);
+                Utils.ChangeTheme(GlobalVariables.ThemesMap.Backward[changed]);
         }
 
         private void LoadApktools()
         {
             ApktoolVersions.Clear();
-            ApktoolVersions.AddRange(Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions).Select(Path.GetFileNameWithoutExtension).Select(s => s.Split('_')).Where(split => split.Length == 2).Select(split => split[1]));
+            ApktoolVersions.AddRange(
+                Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .Select(s => s.Split('_'))
+                    .Where(split => split.Length == 2)
+                    .Select(split => split[1])
+            );
             ApktoolVersions.Add(Res.Catalog);
-            ApktoolVersionBox.SelectedItem = Settings.Default.ApktoolVersion;
+            ApktoolVersionBox.SelectedItem = SettingsIncapsuler.Instance.ApktoolVersion;
         }
 
         private void ApktoolVersionChanged(object sender, SelectionChangedEventArgs e)
@@ -161,8 +156,8 @@ namespace TranslatorApk.Windows
             string version = e.AddedItems[0].As<string>();
             if (version == Res.Catalog)
             {
-                if (!Settings.Default.ApktoolVersion.NE())
-                    sender.As<ComboBox>().SelectedItem = Settings.Default.ApktoolVersion;
+                if (!SettingsIncapsuler.Instance.ApktoolVersion.NE())
+                    sender.As<ComboBox>().SelectedItem = SettingsIncapsuler.Instance.ApktoolVersion;
 
                 new ApktoolCatalogWindow().ShowDialog();
 
@@ -171,8 +166,7 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            Settings.Default.ApktoolVersion = version;
-            Settings.Default.Save();
+            SettingsIncapsuler.Instance.ApktoolVersion = version;
         }
     }
 }

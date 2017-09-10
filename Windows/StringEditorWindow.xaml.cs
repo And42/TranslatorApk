@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Windows;
+using System.ComponentModel;
 using System.Windows.Input;
-using AndroidTranslator;
+using AndroidTranslator.Interfaces.Strings;
+using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -13,21 +15,120 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для StringEditorWindow.xaml
     /// </summary>
-    public partial class StringEditorWindow
+    public partial class StringEditorWindow : IRaisePropertyChanged
     {
-        public OneString Str { get; }
-
-        private readonly string _backup;
-        private readonly bool _scrollToEnd;
-
-        public StringEditorWindow(OneString str, bool scrollToEnd = true, string prev = "")
+        public IOneString Str
         {
-            Str = str;
-            _backup = str.NewText;
-            str.NewText += prev;
-            _scrollToEnd = scrollToEnd;
+            get => _str;
+            set
+            {
+                if (this.SetRefProperty(ref _str, value))
+                {
+                    _backup = value.NewText;
+                }
+            }
+
+        }
+        private IOneString _str;
+
+        public ActionCommand GoToPreviousStringCommand { get; }
+        public ActionCommand GoToNextStringCommand { get; }
+
+        private string _backup;
+        private bool _scrollToEnd;
+
+        public StringEditorWindow()
+        {
+            GoToPreviousStringCommand = new ActionCommand(GoToPreviousExecute, GoToPreviousCanExecute);
+            GoToNextStringCommand = new ActionCommand(GoToNextExecute, GoToNextCanExecute);
 
             InitializeComponent();
+
+            ManualEventManager.GetEvent<EditStringEvent>().Subscribe(EditStringEventHandler);
+        }
+
+        private bool GoToPreviousCanExecute(object o)
+        {
+            if (Str == null)
+                return false;
+
+            var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
+
+            var nextString = editorWindow.GetPreviousString(Str);
+
+            return nextString.str != null;
+        }
+
+        private void GoToPreviousExecute(object o)
+        {
+            var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
+
+            var previousString = editorWindow.GetPreviousString(Str);
+
+            if (previousString.str == null)
+                return;
+
+            SaveCurrent();
+
+            ManualEventManager
+                .GetEvent<EditStringEvent>()
+                .Publish(new EditStringEvent(previousString.str, previousString.container));
+        }
+
+        private bool GoToNextCanExecute(object o)
+        {
+            if (Str == null)
+                return false;
+
+            var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
+
+            var nextString = editorWindow.GetNextString(Str);
+
+            return nextString.str != null;
+        }
+
+        private void GoToNextExecute(object o)
+        {
+            var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
+
+            var nextString = editorWindow.GetNextString(Str);
+
+            if (nextString.str == null)
+                return;
+
+            SaveCurrent();
+
+            ManualEventManager
+                .GetEvent<EditStringEvent>()
+                .Publish(new EditStringEvent(nextString.str, nextString.container));
+        }
+
+        private void EditStringEventHandler(EditStringEvent editStringEvent)
+        {
+            if (editStringEvent.ContainerFile != null)
+            {
+                Title = $"...{editStringEvent.ContainerFile.FileName.Substring(GlobalVariables.CurrentProjectFolder.Length)}: {editStringEvent.StringToEdit.Name}";
+            }
+
+            Str = editStringEvent.StringToEdit;
+            _scrollToEnd = editStringEvent.ScrollToEnd;
+
+            if (!string.IsNullOrEmpty(editStringEvent.Typed))
+                Str.NewText += editStringEvent.Typed;
+
+            if (Str.IsOldTextReadOnly)
+            {
+                NewTextBox.Focus();
+
+                if (_scrollToEnd && Str.NewText != null)
+                    NewTextBox.CaretIndex = Str.NewText.Length;
+            }
+            else
+            {
+                OldTextBox.Focus();
+            }
+
+            UpdateCommands();
         }
 
         private void StringEditorWindow_OnKeyDown(object sender, KeyEventArgs e)
@@ -35,7 +136,7 @@ namespace TranslatorApk.Windows
             switch (e.Key)
             {
                 case Key.Escape:
-                    if (SettingsIncapsuler.AlternativeEditingKeys)
+                    if (SettingsIncapsuler.Instance.AlternativeEditingKeys && Str != null)
                         Str.NewText = _backup;
 
                     e.Handled = true;
@@ -43,7 +144,7 @@ namespace TranslatorApk.Windows
 
                     break;
                 case Key.Enter:
-                    if (SettingsIncapsuler.AlternativeEditingKeys && (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == 0)
+                    if (SettingsIncapsuler.Instance.AlternativeEditingKeys && (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == 0)
                     {
                         e.Handled = true;
                         Close();
@@ -53,26 +154,19 @@ namespace TranslatorApk.Windows
             }
         }
 
-        private void StringEditorWindow_OnLoaded(object sender, RoutedEventArgs e)
+        private void UpdateCommands()
         {
-            if (Str.IsOldTextReadOnly)
-            {
-                NewTextBox.Focus();
-
-                if (_scrollToEnd && Str.NewText != null)
-                    NewTextBox.CaretIndex = Str.NewText.Length;
-            }
-            else
-                OldTextBox.Focus();
+            GoToPreviousStringCommand.RaiseCanExecuteChanged();
+            GoToNextStringCommand.RaiseCanExecuteChanged();
         }
 
-        private void StringEditorWindow_OnClosed(object sender, EventArgs e)
+        private void SaveCurrent()
         {
-            if (Str.NewText != _backup)
+            if (Str != null && Str.NewText != _backup)
             {
-                Functions.AddToSessionDict(Str.OldText, Str.NewText);
+                Utils.AddToSessionDict(Str.OldText, Str.NewText);
 
-                if (SettingsIncapsuler.SessionAutoTranslate)
+                if (SettingsIncapsuler.Instance.SessionAutoTranslate)
                 {
                     ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                         .Publish(new EditorWindowTranslateTextEvent(Str.OldText, Str.NewText,
@@ -80,5 +174,23 @@ namespace TranslatorApk.Windows
                 }
             }
         }
+
+        private void StringEditorWindow_OnClosed(object sender, EventArgs e)
+        {
+            SaveCurrent();
+
+            ManualEventManager.GetEvent<EditStringEvent>().Unsubscribe(EditStringEventHandler);
+        }
+
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

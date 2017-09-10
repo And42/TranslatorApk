@@ -1,21 +1,24 @@
 ﻿using System;
 using System.ComponentModel;
-using TranslatorApk.Annotations;
-using TranslatorApk.Properties;
+using System.Reflection;
+using TranslatorApk.Logic.Interfaces;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.Classes
 {
-    public sealed class Setting<T> : INotifyPropertyChanged
+    public sealed class Setting<T> : IRaisePropertyChanged
     {
-        private readonly Action<T> OnSetAction;
-        private readonly bool setSettingManually;
+        private readonly PropertyInfo _property;
 
-        public Setting(string settingName, string localizedName, Action<T> onSetValue = null, bool setSettingManually = true)
+        private readonly bool _isReadOnly;
+
+        public Setting(string settingName, string localizedName, bool isReadOnly = false)
         {
             SettingName = settingName;
             LocalizedName = localizedName;
-            OnSetAction = onSetValue ?? (obj => { });
-            this.setSettingManually = setSettingManually;
+            _isReadOnly = isReadOnly;
+
+            _property = typeof(SettingsIncapsuler).GetProperty(settingName);
         }
 
         /// <summary>
@@ -23,12 +26,8 @@ namespace TranslatorApk.Logic.Classes
         /// </summary>
         public string SettingName
         {
-            get { return _settingName; }
-            private set
-            {
-                _settingName = value;
-                OnPropertyChanged(nameof(SettingName));
-            }
+            get => _settingName;
+            private set => this.SetProperty(ref _settingName, value);
         }
         private string _settingName;
 
@@ -37,12 +36,8 @@ namespace TranslatorApk.Logic.Classes
         /// </summary>
         public string LocalizedName
         {
-            get { return _localizedName; }
-            set
-            {
-                _localizedName = value;
-                OnPropertyChanged(nameof(LocalizedName));
-            }
+            get => _localizedName;
+            set => this.SetProperty(ref _localizedName, value);
         }
         private string _localizedName;
 
@@ -51,27 +46,23 @@ namespace TranslatorApk.Logic.Classes
         /// </summary>
         public T Value
         {
-            get { return (T)Settings.Default[SettingName]; }
+            get => (T)_property.GetValue(SettingsIncapsuler.Instance, null);
             set
             {
-                if (setSettingManually)
-                {
-                    Settings.Default[SettingName] = value;
-                    Settings.Default.Save();
-                }
+                if (_isReadOnly)
+                    throw new NotSupportedException("Can't set readonly value");
 
-                OnSetAction(value);
-                OnPropertyChanged(nameof(Value));
+                _property.SetValue(SettingsIncapsuler.Instance, value, null);
+
+                RaisePropertyChanged(nameof(Value));
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

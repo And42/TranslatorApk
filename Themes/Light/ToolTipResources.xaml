@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="ToolTip_BackgroundNormal" Color="{DynamicResource ContainerBackgroundNormal}"/>
+    <SolidColorBrush x:Key="ToolTip_BackgroundDisabled" Color="{DynamicResource ContainerBackgroundNormal}" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="ToolTip_BorderNormal" Color="{DynamicResource BorderNormalColor}"/>
+    <SolidColorBrush x:Key="ToolTip_BorderDisabled" Color="{DynamicResource BorderNormalColor}" Opacity="0.7"/>
+
+</ResourceDictionary>

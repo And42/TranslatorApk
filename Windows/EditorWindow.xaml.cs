@@ -9,22 +9,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using AndroidTranslator;
+using AndroidTranslator.Classes.Files;
+using AndroidTranslator.Interfaces.Files;
+using AndroidTranslator.Interfaces.Strings;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.ScrollAxis;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
 using UsefulFunctionsLib;
 
-using static TranslatorApk.Logic.OrganisationItems.Functions;
+using static TranslatorApk.Logic.OrganisationItems.Utils;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
 using Clipboard = System.Windows.Clipboard;
@@ -40,27 +44,29 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для EditorWindow.xaml
     /// </summary>
-    public partial class EditorWindow : INotifyPropertyChanged
+    public partial class EditorWindow : IRaisePropertyChanged
     {
-        private static EditorWindow _instance;
-
         public static double EditorHeaderFontSize = 20;
         public static double EditorTextFontSize = 15;
 
         public static ReadOnlyCollection<string> Languages;
 
-        public static readonly RoutedUICommand TranslateAllFilesCommand = new RoutedUICommand();
-        public static readonly RoutedUICommand SaveCommand = new RoutedUICommand();
-        public static readonly RoutedUICommand SearchCommand = new RoutedUICommand();
+        public ICommand TranslateAllFilesCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand SaveAndCloseCommand { get; }
+        public ICommand SearchCommand { get; }
+        public ICommand ClearSourceDictionariesListCommand { get; }
 
         public bool SaveToDict
         {
-            get => SettingsIncapsuler.EditorWindowSaveToDict;
+            get => SettingsIncapsuler.Instance.EditorWindowSaveToDict;
             set
             {
-                if (SaveDictionary == null && value) return;
-                SettingsIncapsuler.EditorWindowSaveToDict = value;
-                OnPropertyChanged(nameof(SaveToDict));
+                if (SaveDictionary == null && value)
+                    return;
+
+                SettingsIncapsuler.Instance.EditorWindowSaveToDict = value;
+                RaisePropertyChanged(nameof(SaveToDict));
             }
         }
 
@@ -71,16 +77,16 @@ namespace TranslatorApk.Windows
                 if (_isMinimized)
                     return WindowState.Minimized;
 
-                return SettingsIncapsuler.EditorWMaximized ? WindowState.Maximized : WindowState.Normal;
+                return SettingsIncapsuler.Instance.EditorWMaximized ? WindowState.Maximized : WindowState.Normal;
             }
             set
             {
                 if (value != WindowState.Minimized)
-                    SettingsIncapsuler.EditorWMaximized = value == WindowState.Maximized;
+                    SettingsIncapsuler.Instance.EditorWMaximized = value == WindowState.Maximized;
 
                 _isMinimized = value == WindowState.Minimized;
 
-                OnPropertyChanged(nameof(EditorWindowState));
+                RaisePropertyChanged(nameof(EditorWindowState));
             }
         }
         private bool _isMinimized;
@@ -88,35 +94,39 @@ namespace TranslatorApk.Windows
         /// <summary>
         /// Список редактируемых файлов
         /// </summary>
-        public ObservableRangeCollection<EditableFile> StringFiles { get; } = new ObservableRangeCollection<EditableFile>();
+        public ObservableRangeCollection<IEditableFile> StringFiles { get; } = new ObservableRangeCollection<IEditableFile>();
 
-        public static IList<EditableFile> StringFilesStatic => _instance?.StringFiles;
-        public static SfDataGrid EditorGridStatic => _instance?.EditorGrid;
-
-        public DictionaryFile SaveDictionary
+        public IDictionaryFile SaveDictionary
         {
             get => _saveDictionary;
             set
             {
-                _saveDictionary = value;
-                SettingsIncapsuler.TargetDictionary = value?.FileName;
-                OnPropertyChanged(nameof(SaveDictionary));
+                if (this.SetProperty(ref _saveDictionary, value))
+                    SettingsIncapsuler.Instance.TargetDictionary = value?.FileName;
             }
         }
-        private DictionaryFile _saveDictionary;
+        private IDictionaryFile _saveDictionary;
 
         public int LangsBoxItemIndex
         {
-            get => TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.TargetLanguage);
+            get => TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.Instance.TargetLanguage);
             set
             {
-                SettingsIncapsuler.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
-                OnPropertyChanged(nameof(LangsBoxItemIndex));
+                SettingsIncapsuler.Instance.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
+                RaisePropertyChanged(nameof(LangsBoxItemIndex));
             }
         }
 
+        private readonly QueueEventManager _queueEventManager = new QueueEventManager();
+
         public EditorWindow()
         {
+            TranslateAllFilesCommand = new ActionCommand(_ => TranslateAllFiles());
+            SaveCommand = new ActionCommand(_ => Save());
+            SaveAndCloseCommand = new ActionCommand(_ => Save(Close));
+            SearchCommand = new ActionCommand(_ => WindowManager.ActivateWindow<EditorSearchWindow>());
+            ClearSourceDictionariesListCommand = new ActionCommand(_ => GlobalVariables.SourceDictionaries.Clear());
+
             SubscribeToEvents();
 
             InitializeComponent();
@@ -125,12 +135,93 @@ namespace TranslatorApk.Windows
 
             EditorGrid.SelectionController = new GridSelectionControllerExt(EditorGrid, EditorGrid_OnKeyDown);
 
-            _instance = this;
-
-            string settingsTargetDict = SettingsIncapsuler.TargetDictionary;
+            string settingsTargetDict = SettingsIncapsuler.Instance.TargetDictionary;
 
             if (!settingsTargetDict.NE() && File.Exists(settingsTargetDict))
                 SaveDictionary = new DictionaryFile(settingsTargetDict);
+        }
+
+        public (IOneString str, IEditableFile container) GetPreviousString(IOneString currentString)
+        {
+            var records = EditorGrid.View.Records;
+
+            // searching for the string in files
+            var fileRecordIndex = records.FindIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
+
+            if (fileRecordIndex == -1)
+                return (null, null);
+
+            var editableFile = records[fileRecordIndex].Data.As<IEditableFile>();
+
+            // ordering strings in the file according to the sorting descriptions
+            var orderedStrings = OrderFileStrings(editableFile).ToList();
+
+            int strIndex = orderedStrings.IndexOf(currentString);
+
+            strIndex--;
+
+            // if the previous string is in the current file then return current
+            if (strIndex >= 0)
+                return (orderedStrings[strIndex], editableFile);
+
+            // else try to find in the previous files
+            for (int i = fileRecordIndex - 1; i >= 0; i--)
+            {
+                var file = records[i].Data.As<IEditableFile>();
+
+                if (file.Details.Count > 0)
+                    return (OrderFileStrings(file).Last(), file);
+            }
+
+            // failed
+            return (null, null);
+        }
+
+        public (IOneString str, IEditableFile container) GetNextString(IOneString currentString)
+        {
+            var records = EditorGrid.View.Records;
+
+            // searching for the string in files
+            var fileRecordIndex = records.FindIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
+
+            if (fileRecordIndex == -1)
+                return (null, null);
+
+            var editableFile = records[fileRecordIndex].Data.As<IEditableFile>();
+
+            // ordering strings in the file according to the sorting descriptions
+            var orderedStrings = OrderFileStrings(editableFile).ToList();
+
+            int strIndex = orderedStrings.IndexOf(currentString);
+
+            strIndex++;
+
+            // if the next string is in the current file then return current
+            if (strIndex < orderedStrings.Count)
+                return (orderedStrings[strIndex], editableFile);
+
+            // else try to find in the following files
+            for (int i = fileRecordIndex + 1; i < records.Count; i++)
+            {
+                var file = records[i].Data.As<IEditableFile>();
+
+                if (file.Details.Count > 0)
+                    return (OrderFileStrings(file).First(), file);
+            }
+
+            // failed
+            return (null, null);
+        }
+
+        /// <summary>
+        /// Orders file's strings according to the sorting descriptions
+        /// </summary>
+        /// <param name="file">File with strings</param>
+        private IEnumerable<IOneString> OrderFileStrings(IEditableFile file)
+        {
+            var sortDescriptions = EditorGrid.DetailsViewDefinition[0].As<GridViewDefinition>().DataGrid.SortColumnDescriptions.Cast<SortDescription>();
+
+            return SortWithDescriptions(file.Details, sortDescriptions);
         }
 
         #region События окна
@@ -153,11 +244,7 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            _instance = null;
-
             UnsubscribeFromEvents();
-
-            WindowManager.CloseWindow<EditorSearchWindow>();
         }
 
         #endregion
@@ -169,17 +256,21 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void SubscribeToEvents()
         {
-            ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
-                .Subscribe(OnScrollToFileAndSelectString);
+            _queueEventManager.AddEvent<EditorScrollToStringAndSelectEvent>(OnScrollToFileAndSelectString);
+            _queueEventManager.AddEvent<EditorScrollToFileAndSelectEvent>(OnScrollToFileAndSelect);
+            _queueEventManager.AddEvent<EditorWindowTranslateTextEvent>(OnTranslateText);
+            _queueEventManager.AddEvent<AddEditableFilesEvent>(OnAddEditableFiles);
+        }
 
-            ManualEventManager.GetEvent<EditorScrollToFileAndSelectEvent>()
-                .Subscribe(OnScrollToFileAndSelect);
-
-            ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
-                .Subscribe(OnTranslateText);
-
-            ManualEventManager.GetEvent<AddEditableFilesEvent>()
-                .Subscribe(OnAddEditableFiles);
+        /// <summary>
+        /// Отписывает текущий экземпляр от глобальных событий редактора
+        /// </summary>
+        private void UnsubscribeFromEvents()
+        {
+            _queueEventManager.RemoveEvent<EditorScrollToStringAndSelectEvent>();
+            _queueEventManager.RemoveEvent<EditorScrollToFileAndSelectEvent>();
+            _queueEventManager.RemoveEvent<EditorWindowTranslateTextEvent>();
+            _queueEventManager.RemoveEvent<AddEditableFilesEvent>();
         }
 
         private void OnScrollToFileAndSelectString(EditorScrollToStringAndSelectEvent parameter)
@@ -192,91 +283,53 @@ namespace TranslatorApk.Windows
             EditorGrid.ScrollToFileAndSelect(editorScrollToFileAndSelectEvent.FilePredicate, editorScrollToFileAndSelectEvent.ExpandRecord);
         }
 
-        private void OnTranslateText(EditorWindowTranslateTextEvent editorWindowTranslateTextEvent)
+        private void OnTranslateText(EditorWindowTranslateTextEvent args)
         {
-            if (editorWindowTranslateTextEvent.OldText.NE() ||
-                editorWindowTranslateTextEvent.NewText.NE())
+            if (args.OldText.NE() || args.NewText.NE())
                 return;
-
-            foreach (var file in StringFiles.Where(editorWindowTranslateTextEvent.Filter))
+            
+            foreach (var file in StringFiles.Where(args.Filter))
             {
                 foreach (var str in file.Details)
                 {
-                    if (str.OldText.Equals(editorWindowTranslateTextEvent.OldText, StringComparison.Ordinal) && str.NewText.NE())
-                        str.NewText = editorWindowTranslateTextEvent.NewText;
+                    if (str.OldText.Equals(args.OldText, StringComparison.Ordinal) && str.NewText.NE())
+                        str.NewText = args.NewText;
                 }
             }
         }
 
-        private void OnAddEditableFiles(AddEditableFilesEvent addEditableFilesEvent)
+        private void OnAddEditableFiles(AddEditableFilesEvent args)
         {
-            if (addEditableFilesEvent.Files == null)
+            if (args.Files == null)
                 return;
 
-            var union = StringFiles.Join(addEditableFilesEvent.Files, f => f.FileName, f => f.FileName, (f, s) => f, StringComparer.Ordinal).ToList();
+            var union = StringFiles.Join(args.Files, f => f.FileName, f => f.FileName, (f, _) => f, StringComparer.Ordinal).ToList();
 
-            if (addEditableFilesEvent.ClearExisting)
+            if (args.ClearExisting)
                 StringFiles.Clear();
 
-            IEnumerable<EditableFile> toAdd;
+            IEnumerable<IEditableFile> toAdd;
 
             if (union.Count > 0)
             {
                 toAdd =
-                    addEditableFilesEvent.Files.Except(union,
-                        new ComparisonWrapper<EditableFile>(
+                    args.Files.Except(union,
+                        new ComparisonWrapper<IEditableFile>(
                             (f, s) => string.Compare(f.FileName, s.FileName, StringComparison.Ordinal),
                             f => f.FileName.GetHashCode()));
             }
             else
             {
-                toAdd = addEditableFilesEvent.Files;
+                toAdd = args.Files;
             }
 
-            if (addEditableFilesEvent.ClearExisting && union.Count > 0)
+            if (args.ClearExisting && union.Count > 0)
                 toAdd = union.UnionWOEqCheck(toAdd);
 
-            if (addEditableFilesEvent.Files.Count > 0)
+            if (args.Files.Count > 0)
                 StringFiles.AddRange(toAdd);
 
             TranslateWithSessionDict();
-        }
-
-        /// <summary>
-        /// Отписывает текущий экземпляр от глобальных событий редактора
-        /// </summary>
-        private void UnsubscribeFromEvents()
-        {
-            ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
-                .Unsubscribe(OnScrollToFileAndSelectString);
-
-            ManualEventManager.GetEvent<EditorScrollToFileAndSelectEvent>()
-                .Unsubscribe(OnScrollToFileAndSelect);
-
-            ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
-                .Unsubscribe(OnTranslateText);
-
-            ManualEventManager.GetEvent<AddEditableFilesEvent>()
-                .Unsubscribe(OnAddEditableFiles);
-        }
-
-        #endregion
-
-        #region События кнопок
-
-        public void TranslateAllFilesClicked(object sender, RoutedEventArgs e)
-        {
-            TranslateAllFiles();
-        }
-
-        public void SaveClicked(object sender, RoutedEventArgs e)
-        {
-            Save();
-        }
-
-        private void SaveAndCloseClicked(object sender, RoutedEventArgs e)
-        {
-            Save(Close);
         }
 
         #endregion
@@ -290,18 +343,16 @@ namespace TranslatorApk.Windows
 
         private void ChooseDictionariesClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog
+            var dialog = new CommonOpenFileDialog
             {
-                CheckFileExists = true,
-                AutoUpgradeEnabled = true,
-                CheckPathExists = true,
-                DefaultExt = ".xml",
-                Filter = Res.DictionaryFiles + @" (*.xml)|*.xml",
-                Multiselect = true,
-                ShowHelp = false
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                DefaultExtension = ".xml",
+                Filters = { new CommonFileDialogFilter(Res.DictionaryFiles + @" (*.xml)", "*.xml") },
+                Multiselect = true
             };
 
-            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
                 return;
 
             dialog.FileNames.ForEach(AddSourceDictIfNotAdded);
@@ -322,7 +373,7 @@ namespace TranslatorApk.Windows
             LoadingWindow.ShowWindow(() =>
             {
                 IsEnabled = false;
-                MainWindow.Disable();
+                WindowManager.DisableWindow<MainWindow>();
             }, cts =>
             {
                 var dictWords = 
@@ -337,7 +388,7 @@ namespace TranslatorApk.Windows
 
                     int trans = 0;
 
-                    foreach (OneString str in file.Details)
+                    foreach (IOneString str in file.Details)
                     {
                         if (str.IsChanged)
                             continue;
@@ -356,7 +407,7 @@ namespace TranslatorApk.Windows
             }, () =>
             {
                 IsEnabled = true;
-                MainWindow.Enable();
+                WindowManager.EnableWindow<MainWindow>();
                 MessBox.ShowDial(Res.StringsTranslated + " " + translated, Res.Finished);
             }, Visibility.Collapsed);
         }
@@ -406,19 +457,16 @@ namespace TranslatorApk.Windows
 
         private void ChooseSaveDictionaryClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog
+            var dialog = new CommonOpenFileDialog
             {
-                CheckFileExists = false,
-                AutoUpgradeEnabled = true,
-                CheckPathExists = true,
-                DefaultExt = ".xml",
-                Filter = Res.DictionaryFiles + @" (*.xml)|*.xml",
-                Multiselect = false,
-                ShowHelp = false,
-                AddExtension = true
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                DefaultExtension = ".xml",
+                Filters = { new CommonFileDialogFilter(Res.DictionaryFiles + @" (*.xml)", "*.xml") },
+                Multiselect = true
             };
 
-            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
                 return;
 
             if (!File.Exists(dialog.FileName))
@@ -473,7 +521,7 @@ namespace TranslatorApk.Windows
 
         #region Контекстное меню
 
-        private void GridContextMenuOpened(object sender, RoutedEventArgs e)
+        private void EditorGrid_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             MenuItem CreateItem(string header, RoutedEventHandler clicked)
             {
@@ -482,15 +530,17 @@ namespace TranslatorApk.Windows
                 return item;
             }
 
-            var menu = sender.As<ContextMenu>();
+            var menu = new ContextMenu
+            {
+                Items =
+                {
+                    CreateItem(Res.Expand, Expand_Click),
+                    CreateItem(Res.Collapse, Collapse_Click)
+                },
+                FontSize = (double) FindResource("Window_FontSize")
+            };
 
-            // ReSharper disable once PossibleNullReferenceException
-            menu.Items.Clear();
-
-            menu.Items.Add(CreateItem(Res.Expand, Expand_Click));
-            menu.Items.Add(CreateItem(Res.Collapse, Collapse_Click));
-
-            EditableFile selectedFile = GetSelectedFile();
+            IEditableFile selectedFile = GetSelectedFile();
 
             if (selectedFile != null)
             {
@@ -501,13 +551,12 @@ namespace TranslatorApk.Windows
                     { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty) },
                     { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty) },
                     { Res.Delete, (o, args) => StringFiles.Remove(selectedFile) }
-            };
+                };
 
                 items.ForEach(it => menu.Items.Add(CreateItem(it.Key, it.Value)));
             }
 
-            RowColumnIndex rowColumn;
-            OneString selectedString = GetSelectedString(out rowColumn);
+            IOneString selectedString = GetSelectedString(out RowColumnIndex rowColumn);
 
             if (selectedString != null)
             {
@@ -558,6 +607,8 @@ namespace TranslatorApk.Windows
                     }));
                 }
             }
+
+            menu.IsOpen = true;
         }
 
         private void Expand_Click(object sender, RoutedEventArgs e)
@@ -586,13 +637,17 @@ namespace TranslatorApk.Windows
 
                 if (str != null)
                 {
-                    new StringEditorWindow(str).ShowDialog();
+                    WindowManager.ActivateWindow<StringEditorWindow>();
+
+                    ManualEventManager
+                        .GetEvent<EditStringEvent>()
+                        .Publish(new EditStringEvent(str, GetStringFile(str)));
                 }
                 else
                 {
                     int row;
 
-                    EditableFile file = GetSelectedFile(out row);
+                    IEditableFile file = GetSelectedFile(out row);
 
                     if (file != null)
                     {
@@ -612,6 +667,35 @@ namespace TranslatorApk.Windows
 
                 if (str != null)
                     str.NewText = str.OldText;
+            }
+
+            void TranslateSelectedWithDictionary()
+            {
+                var str = GetSelectedString();
+
+                if (str != null)
+                {
+                    var dictsToUse = 
+                        GlobalVariables.SourceDictionaries
+                            .Where(dict => dict.Item2 && File.Exists(dict.Item1))
+                            .ToList();
+
+                    if (dictsToUse.Count == 0)
+                    {
+                        MessBox.ShowDial(Res.YouNeedToChooseDictionary, Res.ErrorLower);
+                        return;
+                    }
+
+                    var dictWords =
+                        UsefulFunctions.UnionWOEqCheck(dictsToUse.Select(d => new DictionaryFile(d.Item1).Details))
+                            .DistinctByGrouping(f => f.OldText)
+                            .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
+
+                    if (dictWords.TryGetValue(str.OldText, out string translation))
+                    {
+                        str.NewText = translation;
+                    }
+                }
             }
 
             void CopyToClipboard()
@@ -774,6 +858,9 @@ namespace TranslatorApk.Windows
             // Вставить текст из буфера
             AddGridKeyEvent(Key.V, PasteFromClipboard, Ctrls);
 
+            // Переводит выделенную строку с помощью словаря
+            AddGridKeyEvent(Key.D, TranslateSelectedWithDictionary, Ctrls);
+
             // Обработать нажатие Enter (развернуть/свернуть строки файла / открыть окно редактора текущей строки)
             AddGridKeyEvent(Key.Enter, EnterAction);
 
@@ -796,11 +883,11 @@ namespace TranslatorApk.Windows
             AddGridKeyEvent(Key.Delete, RemoveRow);
         }
 
-        private readonly List<Tuple<Key, Key[][], Action>> _editorGridKeyEvents = new List<Tuple<Key, Key[][], Action>>();
+        private readonly List<(Key key, Key[][] modifers, Action action)> _editorGridKeyEvents = new List<(Key, Key[][], Action)>();
 
         private void AddGridKeyEvent(Key key, Action action, params Key[][] modifers)
         {
-            _editorGridKeyEvents.Add(new Tuple<Key, Key[][], Action>(key, modifers, action));
+            _editorGridKeyEvents.Add((key, modifers, action));
         }
 
         private static readonly Key[] Ctrls = { Key.LeftCtrl, Key.RightCtrl };
@@ -836,7 +923,7 @@ namespace TranslatorApk.Windows
                     continue;
                 }
 
-                EditableFile current = GetSuitableEditableFile(file);
+                IEditableFile current = GetSuitableEditableFile(file);
 
                 if (firstAdded == null && current != null)
                     firstAdded = current.FileName;
@@ -863,9 +950,9 @@ namespace TranslatorApk.Windows
 
             foreach (var ev in _editorGridKeyEvents)
             {
-                if (e.Key == ev.Item1 && KeysDown(ev.Item2))
+                if (e.Key == ev.key && KeysDown(ev.modifers))
                 {
-                    ev.Item3();
+                    ev.action();
                     e.Handled = true;
                     return true;
                 }
@@ -876,14 +963,17 @@ namespace TranslatorApk.Windows
 
         private void EditorGrid_OnTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (SettingsIncapsuler.AlternativeEditingKeys)
+            if (SettingsIncapsuler.Instance.AlternativeEditingKeys)
             {
-                OneString current = GetSelectedString();
+                IOneString current = GetSelectedString();
 
                 if (current == null)
                     return;
 
-                new StringEditorWindow(current, true, e.Text).ShowDialog();
+                WindowManager.ActivateWindow<StringEditorWindow>();
+
+                ManualEventManager.GetEvent<EditStringEvent>()
+                    .Publish(new EditStringEvent(current, prev: e.Text));
             }
         }
 
@@ -891,10 +981,15 @@ namespace TranslatorApk.Windows
         {
             switch (args.Record)
             {
-                case OneString str:
-                    new StringEditorWindow(str).ShowDialog();
+                case IOneString str:
+                    WindowManager.ActivateWindow<StringEditorWindow>(this, this);
+
+                    ManualEventManager
+                        .GetEvent<EditStringEvent>()
+                        .Publish(new EditStringEvent(str, GetStringFile(str)));   
+
                     break;
-                case EditableFile _:
+                case IEditableFile _:
                     GetSelectedFile(out var rowIndex);
 
                     if (GetFileSelectedEntry().IsExpanded)
@@ -909,18 +1004,18 @@ namespace TranslatorApk.Windows
 
         #region GetSelections
 
-        private OneString GetSelectedString()
+        private IOneString GetSelectedString()
         {
-            var result = EditorGrid.SelectedDetailsViewGrid?.SelectedItem as OneString;
+            var result = EditorGrid.SelectedDetailsViewGrid?.SelectedItem as IOneString;
 
             return result;
         }
 
-        private OneString GetSelectedString(out RowColumnIndex rowColumn)
+        private IOneString GetSelectedString(out RowColumnIndex rowColumn)
         {
             rowColumn = RowColumnIndex.Empty;
 
-            var result = EditorGrid.SelectedDetailsViewGrid?.SelectedItem as OneString;
+            var result = EditorGrid.SelectedDetailsViewGrid?.SelectedItem as IOneString;
 
             if (result == null)
                 return null;
@@ -930,16 +1025,16 @@ namespace TranslatorApk.Windows
             return result;
         }
 
-        private EditableFile GetSelectedFile()
+        private IEditableFile GetSelectedFile()
         {
-            return EditorGrid.SelectedItem as EditableFile;
+            return EditorGrid.SelectedItem as IEditableFile;
         }
 
-        private EditableFile GetSelectedFile(out int recordRowIndex)
+        private IEditableFile GetSelectedFile(out int recordRowIndex)
         {
             recordRowIndex = -1;
 
-            var result = EditorGrid.SelectedItem as EditableFile;
+            var result = EditorGrid.SelectedItem as IEditableFile;
 
             if (result == null)
                 return null;
@@ -957,7 +1052,7 @@ namespace TranslatorApk.Windows
         #endregion
 
         /// <summary>
-        /// Переводит все файлы в редакторе с помоью онлайн переводчика
+        /// Переводит все файлы в редакторе с помощью онлайн переводчика
         /// </summary>
         private void TranslateAllFiles()
         {
@@ -968,18 +1063,18 @@ namespace TranslatorApk.Windows
             }
 
             string errorMessage = null;
-            var toTranslate = new ConcurrentQueue<KeyValuePair<OneString, string>>();
+            var translated = new ConcurrentQueue<(IOneString source, string translatedValue)>();
 
             void StartActions()
             {
                 Disable();
-                MainWindow.Disable();
+                WindowManager.DisableWindow<MainWindow>();
             }
 
-            void ThreadActions(CancellationTokenSource token)
+            void ThreadActions(CancellationTokenSource token, ILoadingProcessWindowInvoker invoker)
             {
                 int max = StringFiles.Sum(file => file.Details.Count);
-                LoadingProcessWindow.Instance.ProcessMax = max;
+                invoker.ProcessMax = max;
                 var cantTranslate = 0;
                 var list = StringFiles.SelectMany(file => file.Details);
 
@@ -990,17 +1085,17 @@ namespace TranslatorApk.Windows
                     if (token.IsCancellationRequested) return;
                     if (!string.IsNullOrEmpty(str.NewText))
                     {
-                        LoadingProcessWindow.Instance.ProcessValue++;
+                        invoker.ProcessValue++;
                         return;
                     }
                     try
                     {
-                        LoadingProcessWindow.Instance.ProcessValue++;
+                        invoker.ProcessValue++;
 
-                        string translated = GlobalVariables.CurrentTranslationService.Translate(str.OldText,
-                            SettingsIncapsuler.TargetLanguage);
+                        string translatedStr = GlobalVariables.CurrentTranslationService.Translate(str.OldText,
+                            SettingsIncapsuler.Instance.TargetLanguage);
 
-                        toTranslate.Enqueue(new KeyValuePair<OneString, string>(str, translated));
+                        translated.Enqueue((str, translatedStr));
 
                         cantTranslate = 0;
                     }
@@ -1018,14 +1113,14 @@ namespace TranslatorApk.Windows
 
             void FinishActions()
             {
-                foreach (var vals in toTranslate)
-                    vals.Key.NewText = vals.Value;
+                foreach (var vals in translated)
+                    vals.source.NewText = vals.translatedValue;
 
                 if (errorMessage != null)
                     MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
 
                 Enable();
-                MainWindow.Enable();
+                WindowManager.EnableWindow<MainWindow>();
                 EditorGrid.Focus();
             }
 
@@ -1038,14 +1133,14 @@ namespace TranslatorApk.Windows
         /// <param name="onFinished">Действие после обработки</param>
         private void Save(Action onFinished = null)
         {
-            void SavingProcess(CancellationTokenSource cts)
+            void SavingProcess(CancellationTokenSource cts, ILoadingProcessWindowInvoker invoker)
             {
                 bool saveToDict = SaveToDict && SaveDictionary != null;
-                DictionaryFile dict = SaveDictionary;
+                IDictionaryFile dict = SaveDictionary;
 
                 foreach (var file in StringFiles)
                 {
-                    LoadingProcessWindow.Instance.ProcessValue++;
+                    invoker.ProcessValue++;
 
                     if (file.IsChanged)
                     {
@@ -1077,20 +1172,19 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void TranslateWithSessionDict()
         {
-            void TranslateWithSessionDict(EditableFile file)
+            void TranslateWithSessionDict(IEditableFile file)
             {
                 if (file == null || file is DictionaryFile)
                     return;
 
                 foreach (var str in file.Details)
                 {
-                    string found;
-                    if (str.NewText.NE() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out found))
+                    if (str.NewText.NE() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out string found))
                         str.NewText = found;
                 }
             }
 
-            if (!SettingsIncapsuler.SessionAutoTranslate)
+            if (!SettingsIncapsuler.Instance.SessionAutoTranslate)
                 return;
 
             StringFiles.ForEach(TranslateWithSessionDict);
@@ -1101,7 +1195,7 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void TranslateSelected()
         {
-            List<OneString> rows = null;
+            var rows = new List<IOneString>();
 
             var it = GetSelectedString();
 
@@ -1111,21 +1205,23 @@ namespace TranslatorApk.Windows
 
                 if (file != null)
                 {
-                    rows = new List<OneString>(file.Details);
+                    rows.AddRange(file.Details);
                 }
             }
             else
             {
-                rows = new List<OneString> { it };
+                rows.Add(it);
             }
 
-            if (rows == null)
+            if (rows.Count == 0)
+            {
                 return;
+            }
 
             string errorMessage = null;
-            var translated = new ConcurrentQueue<KeyValuePair<OneString, string>>();
+            var translated = new ConcurrentQueue<(IOneString source, string translated)>();
 
-            void ThreadActions(CancellationTokenSource token)
+            void ThreadActions(CancellationTokenSource token, ILoadingProcessWindowInvoker invoker)
             {
                 int cantTranslate = 0;
 
@@ -1138,8 +1234,8 @@ namespace TranslatorApk.Windows
 
                     try
                     {
-                        LoadingProcessWindow.Instance.ProcessValue++;
-                        translated.Enqueue(new KeyValuePair<OneString, string>(str, TranslateTextWithSettings(str.OldText)));
+                        invoker.ProcessValue++;
+                        translated.Enqueue((str, TranslateTextWithSettings(str.OldText)));
 
                         cantTranslate = 0;
                     }
@@ -1157,10 +1253,10 @@ namespace TranslatorApk.Windows
             void FinishActions()
             {
                 foreach (var str in translated)
-                    str.Key.NewText = str.Value;
+                    str.source.NewText = str.translated;
 
                 if (errorMessage != null)
-                    MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
+                    MessBox.ShowDial(string.Concat(Res.CantTranslate, Environment.NewLine, errorMessage), Res.ErrorLower);
 
                 Enable();
                 EditorGrid.Focus();
@@ -1169,14 +1265,19 @@ namespace TranslatorApk.Windows
             LoadingProcessWindow.ShowWindow(Disable, ThreadActions, FinishActions, progressMax: rows.Count);
         }
 
+        private IEditableFile GetStringFile(IOneString str)
+        {
+            return EditorGrid.View.Records.Select(_ => _.Data.As<IEditableFile>()).First(_ => _.Details.Contains(str));
+        }
+
         private static void Enable()
         {
-            _instance?.Dispatcher.InvokeAction(() => _instance.IsEnabled = true);
+            WindowManager.EnableWindow<EditorWindow>();
         }
 
         private static void Disable()
         {
-            _instance?.Dispatcher.InvokeAction(() => _instance.IsEnabled = false);
+            WindowManager.DisableWindow<EditorWindow>();
         }
 
         private bool CheckIfNeedToSave()
@@ -1201,7 +1302,7 @@ namespace TranslatorApk.Windows
 
         private void TranslateWithSessionDictIfNeeded(string oldText, string newText)
         {
-            if (SettingsIncapsuler.SessionAutoTranslate)
+            if (SettingsIncapsuler.Instance.SessionAutoTranslate)
             {
                 ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                     .Publish(new EditorWindowTranslateTextEvent(oldText, newText,
@@ -1209,13 +1310,48 @@ namespace TranslatorApk.Windows
             }
         }
 
+        private void EditorGrid_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _queueEventManager.SetProcessingType(QueueEventManager.ProcessingTypes.Invoking);
+
+            /*typeof(SfDataGrid).GetEvents().ForEach(ev =>
+            {
+                AddEventHandler(ev, EditorGrid, () => {Debug.WriteLine(ev.Name);});
+            });*/
+        }
+
+        /*static void AddEventHandler(EventInfo eventInfo, object item, Action action)
+        {
+            var parameters = eventInfo.EventHandlerType
+                .GetMethod("Invoke")
+                .GetParameters()
+                .Select(parameter => Expression.Parameter(parameter.ParameterType))
+                .ToArray();
+
+            var handler = Expression.Lambda(
+                    eventInfo.EventHandlerType,
+                    Expression.Call(Expression.Constant(action), "Invoke", Type.EmptyTypes),
+                    parameters
+                )
+                .Compile();
+
+            eventInfo.AddEventHandler(item, handler);
+        }*/
+
+        #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        private void ClearDictList_OnClick(object sender, RoutedEventArgs e)
+        {
+            GlobalVariables.SourceDictionaries.Clear();
         }
     }
 }

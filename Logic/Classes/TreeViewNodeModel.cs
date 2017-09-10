@@ -1,84 +1,62 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Media;
-using TranslatorApk.Annotations;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Classes
 {
-    public class TreeViewNodeModel : INotifyPropertyChanged, IHaveChildren
+    public class TreeViewNodeModel : IRaisePropertyChanged, IHaveChildren
     {
         public IHaveChildren Parent { get; }
 
+        public ICommand RefreshFilesListCommand
+        {
+            get => _refreshFilesListCommand;
+            set => this.SetProperty(ref _refreshFilesListCommand, value);
+        }
+        private ICommand _refreshFilesListCommand;
+
         public ObservableCollection<TreeViewNodeModel> Children { get; } = new ObservableCollection<TreeViewNodeModel>();
 
-        public ImageSource Image
+        public BitmapSource Image
         {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                if (Equals(_image, value)) return;
-                _image = value;
-                OnPropertyChanged(nameof(Image));
-            }
+            get => _image;
+            set => this.SetProperty(ref _image, value);
         }
-        private ImageSource _image;
+        private BitmapSource _image;
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (_name == value) return;
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-            }
+            get => _name;
+            set => this.SetProperty(ref _name, value);
         }
         private string _name;
 
         public Options Options
         {
-            get
-            {
-                return _options;
-            }
-            set
-            {
-                _options = value;
-                OnPropertyChanged(nameof(Options));
-            }
+            get => _options;
+            set => this.SetProperty(ref _options, value);
         }
         private Options _options;
 
         public bool IsExpanded
         {
-            get
-            {
-                return _isExpanded;
-            }
+            get => _isExpanded;
             set
             {
-                if (_isExpanded == value) return;
-                _isExpanded = value;
-                OnPropertyChanged(nameof(IsExpanded));
-                if (value)
-                    foreach (var item in Children)
-                        Functions.LoadIconForItem(item);
+                if (this.SetProperty(ref _isExpanded, value) && value)
+                    Children.ForEach(Utils.LoadIconForItem);
             }
         }
         private bool _isExpanded;
 
         public Action DoubleClicked { get; set; }
 
-        public TreeViewNodeModel(IHaveChildren parent)
+        public TreeViewNodeModel(IHaveChildren parent = null)
         {
             Parent = parent;
         }
@@ -90,8 +68,7 @@ namespace TranslatorApk.Logic.Classes
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

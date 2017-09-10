@@ -7,7 +7,7 @@
 
         Title="{x:Static localizations:Resources.XmlRulesEditor}"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource WindowStyle}"

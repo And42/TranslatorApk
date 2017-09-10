@@ -22,5 +22,6 @@
         <ResourceDictionary Source="TabItem.xaml"/>
         <ResourceDictionary Source="TreeView.xaml"/>
         <ResourceDictionary Source="GridView.xaml"/>
+        <ResourceDictionary Source="ToolTip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

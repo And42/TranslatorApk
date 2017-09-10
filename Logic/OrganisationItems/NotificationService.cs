@@ -3,23 +3,27 @@ using System.Windows.Forms;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class NotificationService: INotificationService
+    public class NotificationService : INotificationService
     {
-        private static readonly NotifyIcon trayIcon;
+        private static readonly NotifyIcon TrayIcon;
 
         static NotificationService()
         {
-            trayIcon = new NotifyIcon
+            TrayIcon = new NotifyIcon
             {
-                Icon = Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().ManifestModule.Name)
+                Icon = Icon.ExtractAssociatedIcon(GlobalVariables.PathToExe)
             };
         }
 
+        private NotificationService() { }
+
+        public static NotificationService Instance { get; } = new NotificationService();
+
         public void ShowMessage(string message, string title = "TranslatorApk", ToolTipIcon icon = ToolTipIcon.Info)
         {
-            trayIcon.Visible = true;
-            trayIcon.ShowBalloonTip(3000, title, message, icon);
-            trayIcon.Visible = false;
+            TrayIcon.Visible = true;
+            TrayIcon.ShowBalloonTip(3000, title, message, icon);
+            TrayIcon.Visible = false;
         }
     }
 }

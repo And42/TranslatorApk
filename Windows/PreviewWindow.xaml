@@ -5,19 +5,30 @@
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         
         ShowInTaskbar="False"
-        Width="200" Height="200"
         IsManipulationEnabled="False" 
         
         Style="{DynamicResource WindowStyle}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         
         elements:WindowThemeParameters.CanClose="False"
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"
         
-        Loaded="PreviewWindow_OnLoaded">
-    <Border Margin="5">
-        <Image Source="{Binding Image}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-    </Border>
+        Loaded="PreviewWindow_OnLoaded"
+        
+        SizeToContent="WidthAndHeight">
+    <StackPanel Orientation="Vertical" Margin="5">
+        <Border Padding="3" Width="200" Height="200">
+            <Image Source="{Binding Image}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        </Border>
+        <TextBlock HorizontalAlignment="Center" FontFamily="Century Gothic" FontSize="15">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}x{1}">
+                    <Binding Path="Image.PixelHeight"/>
+                    <Binding Path="Image.PixelWidth"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </StackPanel>
 </Window>

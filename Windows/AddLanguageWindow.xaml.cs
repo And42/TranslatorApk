@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using TranslatorApk.Annotations;
+using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
@@ -17,17 +16,17 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Interaction logic for AddLanguageWindow.xaml
     /// </summary>
-    public partial class AddLanguageWindow : INotifyPropertyChanged
+    public partial class AddLanguageWindow
     {
         /// <summary>
         /// Список исходных языков
         /// </summary>
-        public ObservableCollection<string> SourceLanguages { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> SourceLanguages { get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// Список целевых языков
         /// </summary>
-        public ObservableCollection<Tuple<ImageSource, string>> TargetLanguages { get; set; } = new ObservableCollection<Tuple<ImageSource, string>>();
+        public ObservableCollection<Tuple<BitmapImage, string>> TargetLanguages { get; } = new ObservableCollection<Tuple<BitmapImage, string>>();
 
         private readonly List<string> _folderLangs = GlobalVariables.Settings_FoldersOfLanguages;
         private readonly List<string> _folderLocalizedLangs = GlobalVariables.Settings_NamesOfFolderLanguages;
@@ -45,7 +44,7 @@ namespace TranslatorApk.Windows
             if (folderOfProject == null)
                 return;
 
-            _folder = folderOfProject + "\\res";
+            _folder = Path.Combine(folderOfProject, "res");
 
             var values = Directory.GetDirectories(_folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
 
@@ -64,7 +63,7 @@ namespace TranslatorApk.Windows
                 if (SourceLanguages.All(src => src != lang))
                 {
                     string name = _folderLangs[_folderLocalizedLangs.IndexOf(lang)];
-                    TargetLanguages.Add(new Tuple<ImageSource, string>(Functions.GetFlagImage(name), lang));
+                    TargetLanguages.Add(Tuple.Create(Utils.GetFlagImage(name), lang));
                 }
             }
         }
@@ -77,10 +76,10 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            string target = TargetBox.SelectedValue.As<Tuple<ImageSource, string>>().Item2;
+            string target = TargetBox.SelectedValue.As<(ImageSource, string)>().Item2;
 
-            var sourcedir = $"{_folder}\\values";
-            var targetdir = $"{_folder}\\{_folderLangs[_folderLocalizedLangs.IndexOf(target)]}";
+            var sourcedir = Path.Combine(_folder, "values");
+            var targetdir = Path.Combine(_folder, _folderLangs[_folderLocalizedLangs.IndexOf(target)]);
 
             if (Directory.Exists(targetdir))
                 Directory.Delete(targetdir, true);
@@ -91,24 +90,16 @@ namespace TranslatorApk.Windows
 
             foreach (var file in filesToCopy)
             {
-                string src = sourcedir + "\\" + file;
+                string src = Path.Combine(sourcedir, file);
+
                 if (File.Exists(src))
-                    File.Copy(src, $"{targetdir}\\{file}", true);
+                    File.Copy(src, Path.Combine(targetdir, file), true);
             }
 
             SourceLanguages.Add(target);
             TargetLanguages.RemoveAt(TargetLanguages.FindIndex(it => it.Item2 == target));
 
             MessBox.ShowDial(Res.AllDone);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

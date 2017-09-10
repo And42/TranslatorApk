@@ -5,17 +5,22 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using AndroidLibs;
-using AndroidTranslator;
+using AndroidTranslator.Classes.Exceptions;
+using AndroidTranslator.Classes.Files;
+using AndroidTranslator.Interfaces.Files;
+using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.OrganisationItems;
@@ -32,9 +37,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MenuItem = System.Windows.Controls.MenuItem;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Point = System.Drawing.Point;
-using Settings = TranslatorApk.Properties.Settings;
 using MButtons = TranslatorApk.Windows.MessBox.MessageButtons;
-using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
 namespace TranslatorApk.Windows
 {
@@ -45,18 +48,22 @@ namespace TranslatorApk.Windows
     {
         #region Поля
 
-        public static MainWindow Instance { get; private set; }
-
         private static string[] _arguments;
+        private static readonly Logger AndroidLogger;
 
-        private readonly Timer _fileImagePreviewTimer = new Timer { Interval = 500 };
-        private PreviewWindow _fileImagePreviewWindow;
+        private const int ItemPreviewDelayMs = 500;
 
-        #endregion
+        public ICommand SignCommand { get; }
+        public ICommand BuildCommand { get; }
+        public ICommand ChooseFileCommand { get; }
+        public ICommand ChooseFolderCommand { get; }
+        public ICommand InstallFrameworkCommand { get; }
+        public ICommand ShowSearchWindowCommand { get; }
+        public ICommand RefreshFilesListCommand { get; }
 
-        #region Свойства
+        public Setting<bool>[] MainWindowSettings { get; }
 
-        public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel(null); 
+        public string LogBoxText => _logTextBuilder.ToString();
 
         public WindowState MainWindowState
         {
@@ -65,12 +72,12 @@ namespace TranslatorApk.Windows
                 if (_isMinimized)
                     return WindowState.Minimized;
 
-                return SetInc.MainWMaximized ? WindowState.Maximized : WindowState.Normal;
+                return SettingsIncapsuler.Instance.MainWMaximized ? WindowState.Maximized : WindowState.Normal;
             }
             set
             {
                 if (value != WindowState.Minimized)
-                    SetInc.MainWMaximized = value == WindowState.Maximized;
+                    SettingsIncapsuler.Instance.MainWMaximized = value == WindowState.Maximized;
 
                 _isMinimized = value == WindowState.Minimized;
 
@@ -80,70 +87,143 @@ namespace TranslatorApk.Windows
         private bool _isMinimized;
 
         public Apktools Apk;
-
-        public Setting<bool>[] MainWindowSettings { get; }
-
-        public string LogBoxText
-        {
-            get => _logTextBuilder.ToString();
-            set
-            {
-                _logTextBuilder.Clear();
-                _logTextBuilder.Append(value);
-                OnPropertyChanged(nameof(LogBoxText));
-            }
-        }
-
-        private static readonly Logger AndroidLogger = new Logger(GlobalVariables.PathToLogs, false);
+        public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel();
 
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
+        private Timer _fileImagePreviewTimer;
+        private readonly PreviewWindowHandler _fileImagePreviewWindowHandler = new PreviewWindowHandler();
 
         //public ObservableCollection<LogItem> LogItems { get; } = new ObservableCollection<LogItem>();
 
         #endregion
 
+        static MainWindow()
+        {
+            AndroidLogger = new Logger(GlobalVariables.PathToLogs, false);
+        }
+
         public MainWindow(string[] args)
         {
             _arguments = args;
 
-            MainWindowSettings = new []
+            MainWindowSettings = new[]
             {
-                new Setting<bool>(nameof(SetInc.EmptyXml),        LocRes.EmptyXml,        val => SetInc.EmptyXml = val, false),
-                new Setting<bool>(nameof(SetInc.EmptySmali),      LocRes.EmptySmali,      val => SetInc.EmptySmali = val, false),
-                new Setting<bool>(nameof(SetInc.EmptyFolders),    LocRes.EmptyFolders,    val => SetInc.EmptyFolders = val, false),
-                new Setting<bool>(nameof(SetInc.Images),          LocRes.Images,          val => SetInc.Images = val, false),
-                new Setting<bool>(nameof(SetInc.FilesWithErrors), LocRes.FilesWithErrors, val => SetInc.FilesWithErrors = val, false),
-                new Setting<bool>(nameof(SetInc.OnlyXml),         LocRes.OnlyXml,         val => SetInc.OnlyXml = val, false),
-                new Setting<bool>(nameof(SetInc.OtherFiles),      LocRes.OtherFiles,      val => SetInc.OtherFiles = val, false),
-                new Setting<bool>(nameof(SetInc.OnlyResources),   LocRes.OnlyResources,   val => SetInc.OnlyResources = val, false)
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyXml),        LocRes.EmptyXml),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptySmali),      LocRes.EmptySmali),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyFolders),    LocRes.EmptyFolders),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.Images),          LocRes.Images),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.FilesWithErrors), LocRes.FilesWithErrors),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyXml),         LocRes.OnlyXml),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OtherFiles),      LocRes.OtherFiles),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyResources),   LocRes.OnlyResources)
             };
+
+            SignCommand = new ActionCommand(SignCommand_Execute);
+            BuildCommand = new ActionCommand(BuildCommand_Execute);
+            ChooseFileCommand = new ActionCommand(ChooseFileCommand_Execute);
+            ChooseFolderCommand = new ActionCommand(ChooseFolderCommand_Execute);
+            InstallFrameworkCommand = new ActionCommand(InstallFrameworkCommand_Execute);
+            ShowSearchWindowCommand = new ActionCommand(OpenSearchCommand_Execute);
+            RefreshFilesListCommand = new ActionCommand(RefreshFilesListCommand_Execute);
 
             InitializeComponent();
 
-            Instance = this;
-
             LoadSettings();
-
-            _fileImagePreviewTimer.Tick += (o, arg) =>
-            {
-                _fileImagePreviewTimer.Stop();
-
-                var pos = System.Windows.Forms.Cursor.Position;
-                _fileImagePreviewWindow.Left = pos.X + 5;
-                _fileImagePreviewWindow.Top = pos.Y + 5;
-
-                _fileImagePreviewWindow.Show();
-            };
 
             TaskbarItemInfo = new TaskbarItemInfo();
         }
 
-        #region Кнопки
+        private class PreviewWindowHandler
+        {
+            private PreviewWindow _fileImagePreviewWindow;
+            private BitmapSource _image;
 
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Выбрать файл"
-        /// </summary>
-        private void ChooseFileClick(object sender = null, RoutedEventArgs e = null)
+            public bool IsShown { get; private set; }
+
+            public void Init(BitmapSource image)
+            {
+                _image = image;
+
+                Close();
+            }
+
+            public void Update(System.Windows.Point screenPosition, BitmapSource image = null)
+            {
+                if (ReferenceEquals(_image, image))
+                    image = null;
+
+                if (image != null)
+                    _image = image;
+
+                if (_fileImagePreviewWindow == null)
+                {
+                    _fileImagePreviewWindow = new PreviewWindow(_image)
+                    {
+                        Left = screenPosition.X + 5,
+                        Top = screenPosition.Y + 5
+                    };
+
+                    _fileImagePreviewWindow.Show();
+
+                    IsShown = true;
+                }
+                else
+                {
+                    if (image != null)
+                        _fileImagePreviewWindow.Image = _image;
+
+                    _fileImagePreviewWindow.Left = screenPosition.X + 5;
+                    _fileImagePreviewWindow.Top = screenPosition.Y + 5;
+                }
+            }
+
+            public void Close()
+            {
+                if (_fileImagePreviewWindow != null)
+                {
+                    if (_fileImagePreviewWindow.IsLoaded)
+                        _fileImagePreviewWindow.Close();
+
+                    _fileImagePreviewWindow = null;
+
+                    IsShown = false;
+                }
+            }
+        }
+
+        private void StartPreviewTimer()
+        {
+            _fileImagePreviewTimer = new Timer(state =>
+            {
+                CancelPreviewTimer();
+
+                Dispatcher.InvokeAction(() =>
+                {
+                    var pos = PointToScreen(Mouse.GetPosition(this));
+
+                    _fileImagePreviewWindowHandler.Update(pos);
+                });
+            }, null, ItemPreviewDelayMs, ItemPreviewDelayMs);
+        }
+
+        private void CancelPreviewTimer()
+        {
+            if (_fileImagePreviewTimer != null)
+            {
+                _fileImagePreviewTimer.Dispose();
+                _fileImagePreviewTimer = null;
+            }
+        }
+
+        private void RefreshFilesListCommand_Execute(object obj)
+        {
+            if (!GlobalVariables.CurrentProjectFolder.NE())
+                LoadFolder(GlobalVariables.CurrentProjectFolder);
+        }
+
+        #region Команды
+
+        private void ChooseFileCommand_Execute(object arg)
         {
             var fd = new OpenFileDialog
             {
@@ -154,15 +234,13 @@ namespace TranslatorApk.Windows
                 Multiselect = false
             };
 
-            if (fd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+            if (fd.ShowDialog() != true)
+                return;
 
             DecompileFile(fd.FileName);
         }
 
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Выбрать папку"
-        /// </summary>
-        private void ChooseFolderClick(object sender = null, RoutedEventArgs e = null)
+        private void ChooseFolderCommand_Execute(object arg)
         {
             var dialog = new CommonOpenFileDialog
             {
@@ -171,18 +249,22 @@ namespace TranslatorApk.Windows
                 IsFolderPicker = true,
                 EnsurePathExists = true
             };
-            
-            if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return;
+
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
+                return;
 
             LoadFolder(dialog.FileName);
         }
 
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Собрать проект"
-        /// </summary>
-        private void BuildClick(object sender = null, RoutedEventArgs e = null)
+        private void OpenSearchCommand_Execute(object arg)
         {
-            if (Apk == null) return;
+            new SearchWindow().ShowDialog();
+        }
+
+        private void BuildCommand_Execute(object arg)
+        {
+            if (Apk == null)
+                return;
 
             if (!Apk.HasJava())
             {
@@ -191,41 +273,44 @@ namespace TranslatorApk.Windows
             }
 
             Disable();
-            LogBoxText = "";
+            ClearVisLog();
+
             bool success = false;
-            List<Error> errors = new List<Error>();
+            var errors = new List<Error>();
 
-            LoadingWindow.ShowWindow(() => { }, source => success = Apk.Compile(out errors), () =>
-            {
-                Enable();
-                VisLog(Log("".PadLeft(30, '-')));
-                VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileCompiling));
-                VisLog(Log("".PadLeft(30, '-')));
-
-                if (SettingsIncapsuler.ShowNotifications)
+            LoadingWindow.ShowWindow(
+                beforeStarting: () => { }, 
+                threadActions: source => success = Apk.Compile(out errors), 
+                finishActions: () =>
                 {
-                    ServiceLocator.GetInstance<NotificationService>().ShowMessage(LocRes.CompilationFinished);
-                }
+                    Enable();
+                    VisLog(Log(GlobalVariables.LogLine));
+                    VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileCompiling));
+                    VisLog(Log(GlobalVariables.LogLine));
 
-                if (!success && errors.Any(error => error.Type != Error.ErrorType.None))
-                {
-                    if (MessBox.ShowDial("Обнаружены ошибки. Попробовать исправить?", "", MButtons.Yes, MButtons.No) == MButtons.Yes)
+                    if (SettingsIncapsuler.Instance.ShowNotifications)
                     {
-                        Apktools.FixErrors(errors);
-                        BuildClick();
+                        NotificationService.Instance.ShowMessage(LocRes.CompilationFinished);
                     }
-                }
-                else
-                {
-                    VisLog(Log(LocRes.FileIsSituatedIn + " " + Apk.NewApk));
-                }
-            }, Visibility.Collapsed);
+
+                    if (!success && errors.Any(error => error.Type != Error.ErrorType.None))
+                    {
+                        if (MessBox.ShowDial("Обнаружены ошибки. Попробовать исправить?", "", MButtons.Yes, MButtons.No) == MButtons.Yes)
+                        {
+                            Apktools.FixErrors(errors);
+                            BuildCommand_Execute(arg);
+                        }
+                    }
+                    else
+                    {
+                        VisLog(Log(LocRes.FileIsSituatedIn + " " + Apk.NewApk));
+                    }
+                }, 
+                cancelVisibility: Visibility.Collapsed
+            );
         }
 
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Framework"
-        /// </summary>
-        private void InstallFrameworkClick(object sender = null, RoutedEventArgs e = null)
+        private void InstallFrameworkCommand_Execute(object arg)
         {
             var fd = new OpenFileDialog
             {
@@ -236,17 +321,16 @@ namespace TranslatorApk.Windows
                 Multiselect = false
             };
 
-            if (fd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+            if (fd.ShowDialog() != true)
+                return;
 
             InstallFramework(fd.FileName);
         }
 
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Подписать"
-        /// </summary>
-        private void SignClick(object sender = null, RoutedEventArgs e = null)
+        private void SignCommand_Execute(object arg)
         {
-            if (Apk == null) return;
+            if (Apk == null)
+                return;
 
             if (!Apk.HasJava())
             {
@@ -255,40 +339,37 @@ namespace TranslatorApk.Windows
             }
 
             Disable();
+
             bool success = false;
 
-            string line = "".PadLeft(30, '-');
+            var line = GlobalVariables.LogLine;
 
-            LoadingWindow.ShowWindow(() => { }, source => success = Apk.Sign(), () =>
-            {
-                Enable();
-                VisLog(Log(line));
-                VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileSigning));
-
-                if (success)
+            LoadingWindow.ShowWindow(
+                beforeStarting: () => { }, 
+                threadActions: source => success = Apk.Sign(), 
+                finishActions: () =>
                 {
-                    string message = $"{LocRes.FileIsSituatedIn} {Apk.SignedApk}";
+                    Enable();
+                    VisLog(Log(line));
+                    VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileSigning));
 
-                    VisLog(Log(message));
-
-                    string dir = Path.GetDirectoryName(Apk.SignedApk);
-
-                    if (dir != null && MessBox.ShowDial(message, LocRes.Finished, MessBox.MessageButtons.OK, LocRes.Open) == LocRes.Open)
+                    if (success)
                     {
-                        Process.Start(dir);
+                        string message = $"{LocRes.FileIsSituatedIn} {Apk.SignedApk}";
+
+                        VisLog(Log(message));
+
+                        string dir = Path.GetDirectoryName(Apk.SignedApk);
+
+                        if (dir != null && MessBox.ShowDial(message, LocRes.Finished, MessBox.MessageButtons.OK, LocRes.Open) == LocRes.Open)
+                        {
+                            Process.Start(dir);
+                        }
                     }
-                }
-            }, Visibility.Collapsed);
+                }, 
+                cancelVisibility: Visibility.Collapsed);
 
             VisLog(Log(string.Format("{0}{1}Signing...{1}{0}", line, Environment.NewLine)));
-        }
-
-        /// <summary>
-        /// Обрабатывает нажатие на кнопку "Поиск"
-        /// </summary>
-        private void SearchClick(object sender = null, RoutedEventArgs e = null)
-        {
-            new SearchWindow().ShowDialog();
         }
 
         #endregion
@@ -329,22 +410,14 @@ namespace TranslatorApk.Windows
 
         #region Кнопки общего контекстного меню
 
-        private void RefreshClick(object sender, RoutedEventArgs e)
-        {
-            if (!GlobalVariables.CurrentProjectFolder.NE())
-                LoadFolder(GlobalVariables.CurrentProjectFolder);
-        }
-
         private void ExpandClick(object sender = null, RoutedEventArgs e = null)
         {
-            foreach (TreeViewNodeModel item in FilesTreeViewModel.Children)
-                item.IsExpanded = true;
+            FilesTreeViewModel.Children.ForEach(it => it.IsExpanded = true);
         }
 
         private void CollapseClick(object sender = null, RoutedEventArgs e = null)
         {
-            foreach (TreeViewNodeModel item in FilesTreeViewModel.Children)
-                Expand(item, false);
+            FilesTreeViewModel.Children.ForEach(it => Expand(it, false));
         }
 
         private void AddNewLanguageClick(object sender = null, RoutedEventArgs e = null)
@@ -358,48 +431,53 @@ namespace TranslatorApk.Windows
 
         private void OpenClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
-            if (node.Options.IsFolder) return;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.IsFolder)
+                return;
 
             Process.Start(node.Options.FullPath);
         }
 
         private void OpenWithClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
-            if (node.Options.IsFolder) return;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
-            Functions.OpenAs(node.Options.FullPath);
+            if (node.Options.IsFolder)
+                return;
+
+            Utils.OpenAs(node.Options.FullPath);
         }
 
         private void ReplaceFileClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
-            if (node.Options.IsFolder) return;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.IsFolder)
+                return;
 
             Options opts = node.Options;
+
             var fd = new OpenFileDialog
             {
                 CheckFileExists = true,
                 CheckPathExists = true,
                 Multiselect = false
             };
-            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (fd.ShowDialog() == true)
             {
                 File.Copy(fd.FileName, opts.FullPath, true);
                 MessBox.ShowDial(LocRes.Finished);
             }
             else
+            {
                 MessBox.ShowDial(LocRes.ErrorLower);
+            }
         }
 
         private void DeleteFileClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
             DeleteFilePromt(node);
         }
@@ -410,15 +488,14 @@ namespace TranslatorApk.Windows
 
         private void OpenInExplorerClick(object sender, RoutedEventArgs e)
         {
-            TreeViewNodeModel node = sender.As<MenuItem>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
-            Functions.ShowInExplorer(node.Options.FullPath);
+            Utils.ShowInExplorer(node.Options.FullPath);
         }
 
         private void DeleteFolderClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
             DeleteFolderPromt(node);
 
@@ -426,16 +503,15 @@ namespace TranslatorApk.Windows
 
         private void ExpandFolderClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
             Expand(node);
         }
 
         private void CollapseFolderClick(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
             Expand(node, false);
         }
 
@@ -445,7 +521,7 @@ namespace TranslatorApk.Windows
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (SetInc.ApktoolVersion.NE())
+            if (SettingsIncapsuler.Instance.ApktoolVersion.NE())
             {
                 MessBox.ShowDial(LocRes.ApktoolNotFound);
             }
@@ -458,39 +534,32 @@ namespace TranslatorApk.Windows
                 if (Directory.Exists(file))
                 {
                     LoadFolder(file);
-                    return;
                 }
-
-                if (!File.Exists(file)) return;
-
-                switch (ext)
+                else if (File.Exists(file))
                 {
-                    case ".xml":
-                    case ".smali":
-                        Functions.LoadFile(file);
-                        break;
-                    case ".apk":
-                        DecompileFile(file);
-                        break;
-                    case ".yml":
-                        LoadFolder(Path.GetDirectoryName(file));
-                        break;
+                    switch (ext)
+                    {
+                        case ".xml":
+                        case ".smali":
+                            Utils.LoadFile(file);
+                            break;
+                        case ".apk":
+                            DecompileFile(file);
+                            break;
+                        case ".yml":
+                            LoadFolder(Path.GetDirectoryName(file));
+                            break;
+                    }
                 }
             }
 
-            Task.Factory.StartNew(Functions.LoadPlugins);
+            Task.Factory.StartNew(Utils.LoadPlugins);
         }
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
             AndroidLogger.Stop();
-            SetInc.MainWindowSize = new Point((int)Width, (int)Height);
-        }
-
-        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.F)
-                SearchClick();
+            SettingsIncapsuler.Instance.MainWindowSize = new Point((int)Width, (int)Height);
         }
 
         #endregion
@@ -500,6 +569,7 @@ namespace TranslatorApk.Windows
         private void CheckApkDrag(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
                 e.Effects = DragDropEffects.Move;
             else 
@@ -511,6 +581,7 @@ namespace TranslatorApk.Windows
         private void CheckFolderDrag(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+
             if (files != null && files.Length == 1 && Directory.Exists(files[0]))
                 e.Effects = DragDropEffects.Move;
             else 
@@ -529,33 +600,46 @@ namespace TranslatorApk.Windows
         private void ApkDragDrop(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk") DecompileFile(files[0]);
+
+            if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
+                DecompileFile(files[0]);
+
             e.Handled = true;
         }
 
         private void FolderDragDrop(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (files != null && files.Length == 1 && Directory.Exists(files[0])) LoadFolder(files[0]);
+
+            if (files != null && files.Length == 1 && Directory.Exists(files[0]))
+                LoadFolder(files[0]);
+
             e.Handled = true;
         }
 
         private void FrameworkDrop(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk") InstallFramework(files[0]);
+
+            if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
+                InstallFramework(files[0]);
+
             e.Handled = true;
         }
 
         private void FilesTreeView_OnDrop(object sender, DragEventArgs e)
         {
             e.Handled = true;
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                return;
 
             var list = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (list == null) return;
 
-            List<EditableFile> files = list.Select(Functions.GetSuitableEditableFile).Where(it => it != null).ToList();
+            if (list == null)
+                return;
+
+            List<IEditableFile> files = list.Select(Utils.GetSuitableEditableFile).Where(it => it != null).ToList();
 
             WindowManager.ActivateWindow<EditorWindow>();
 
@@ -577,51 +661,58 @@ namespace TranslatorApk.Windows
 
         private void OneFileDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton != MouseButton.Left || e.ClickCount != 2) return;
+            if (e.ChangedButton != MouseButton.Left || e.ClickCount != 2)
+                return;
 
-            TreeViewNodeModel node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
-            if (node.Options.IsFolder) return;
+            if (node.Options.IsFolder)
+                return;
 
             if (node.DoubleClicked != null)
-            {
                 node.DoubleClicked.Invoke();
-            }
             else
-            {
-                Functions.LoadFile(node.Options.FullPath);
-            }
+                Utils.LoadFile(node.Options.FullPath);
+
+            e.Handled = true;
         }
 
         private void LoadXmlFiles()
         {
             var filesList = new List<XmlFile>();
+
             LoadingProcessWindow.ShowWindow(
-                Disable,
-                cts => {
-                    LoadingProcessWindow.Instance.IsIndeterminate = true;
+                beforeStarting: Disable,
+                threadActions: (cts, invoker) => 
+                {
+                    invoker.IsIndeterminate = true;
 
                     var files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*.xml", SearchOption.AllDirectories);
 
-                    LoadingProcessWindow.Instance.IsIndeterminate = false;
+                    invoker.IsIndeterminate = false;
 
-                    LoadingProcessWindow.Instance.ProcessMax = files.Length;
+                    invoker.ProcessMax = files.Length;
 
                     filesList = new List<XmlFile>(files.Length);
 
                     Parallel.ForEach(files, file =>
                     {
-                        if (!Functions.CheckFilePath(file)) return;
+                        if (!Utils.CheckFilePath(file)) return;
                         if (cts.IsCancellationRequested) return;
 
-                        filesList.Add(XmlFile.Create(file));
+                        try
+                        {
+                            filesList.Add(XmlFile.Create(file));
+                        }
+                        catch (XmlParserException)
+                        { }
 
-                        LoadingProcessWindow.Instance.ProcessValue++;
+                        invoker.ProcessValue++;
                     });
                 },
-                () =>
+                finishActions: () =>
                 { 
-                    List<EditableFile> res = filesList.FindAll(file => file.Details != null && file.Details.Count > 0).ConvertAll(f => (EditableFile)f);
+                    List<IEditableFile> res = filesList.FindAll(file => file.Details != null && file.Details.Count > 0).ConvertAll(f => (IEditableFile)f);
 
                     Enable();
 
@@ -635,34 +726,42 @@ namespace TranslatorApk.Windows
 
         private void LoadSmaliFiles()
         {
-            var filesList = new List<SmaliFile>();
+            var filesList = new List<ISmaliFile>();
+
             LoadingProcessWindow.ShowWindow(
-                Disable,
-                cts =>
+                beforeStarting: Disable,
+                threadActions: (cts, invoker) =>
                 {
-                    LoadingProcessWindow.Instance.IsIndeterminate = true;
+                    invoker.IsIndeterminate = true;
 
                     var files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*.smali", SearchOption.AllDirectories);
 
-                    LoadingProcessWindow.Instance.IsIndeterminate = false;
+                    invoker.IsIndeterminate = false;
 
-                    LoadingProcessWindow.Instance.ProcessMax = files.Length;
-                    filesList = new List<SmaliFile>(files.Length);
+                    invoker.ProcessMax = files.Length;
+
+                    filesList = new List<ISmaliFile>(files.Length);
 
                     Parallel.ForEach(files, file =>
                     {
-                        if (!Functions.CheckFilePath(file)) return;
-                        if (cts.IsCancellationRequested) return;
+                        if (!Utils.CheckFilePath(file))
+                            return;
+
+                        if (cts.IsCancellationRequested)
+                            return;
+
                         filesList.Add(new SmaliFile(file));
-                        LoadingProcessWindow.Instance.ProcessValue++;
+
+                        invoker.ProcessValue++;
                     });
                 },
-                () =>
+                finishActions: () =>
                 {
-                    List<EditableFile> res = 
+                    List<IEditableFile> res = 
                         filesList
                             .Where(file => file.Details != null && file.Details.Count > 0)
-                            .Select(f => (EditableFile)f).ToList();
+                            .Cast<IEditableFile>()
+                            .ToList();
 
                     Enable();
 
@@ -692,67 +791,58 @@ namespace TranslatorApk.Windows
 
         private void TreeViewItem_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.ShowPreviews)
+            if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
             var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
             if (node.Options.HasPreview)
             {
-                _fileImagePreviewWindow = new PreviewWindow(node.Image);
-                _fileImagePreviewTimer.Start();
+                _fileImagePreviewWindowHandler.Init(node.Image);
+                StartPreviewTimer();
             }
         }
 
         private void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.ShowPreviews)
+            if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
             var node = (sender as FrameworkElement)?.DataContext as TreeViewNodeModel;
 
             if (node?.Options.HasPreview == true)
             {
-                _fileImagePreviewTimer.Stop();
-                try
-                {
-                    _fileImagePreviewWindow?.Close();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-                _fileImagePreviewWindow = null;
+                CancelPreviewTimer();
+
+                _fileImagePreviewWindowHandler.Close();
             }
         }
 
         private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.ShowPreviews)
+            if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
             var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
 
             if (node.Options.HasPreview)
             {
-                _fileImagePreviewTimer.Stop();
-                _fileImagePreviewTimer.Start();
-
-                try
+                if (!_fileImagePreviewWindowHandler.IsShown)
                 {
-                    _fileImagePreviewWindow.Close();
-                    _fileImagePreviewWindow = new PreviewWindow(node.Image);
+                    CancelPreviewTimer();
+                    _fileImagePreviewWindowHandler.Init(node.Image);
+                    StartPreviewTimer();
                 }
-                catch (Exception)
+                else
                 {
-                    // ignored
+                    _fileImagePreviewWindowHandler.Update(PointToScreen(Mouse.GetPosition(this)), node.Image);
                 }
             }
         }
 
         #endregion
 
-        #region Functions
+        #region Utils
 
         public void AddActionToMenu(PluginPart<IAdditionalAction> action)
         {
@@ -772,8 +862,10 @@ namespace TranslatorApk.Windows
 
         public void RemoveActionFromMenu(Guid actionGuid)
         {
-            var found = AddActionsMenuItem.Items.Cast<MenuItem>()
-                .FirstOrDefault(it => (it.DataContext as PluginPart<IAdditionalAction>)?.Item.Guid == actionGuid);
+            var found = 
+                AddActionsMenuItem.Items
+                    .Cast<MenuItem>()
+                    .FirstOrDefault(it => (it.DataContext as PluginPart<IAdditionalAction>)?.Item.Guid == actionGuid);
 
             if (found != null)
                 AddActionsMenuItem.Items.Remove(found);
@@ -781,19 +873,20 @@ namespace TranslatorApk.Windows
 
         private void PluginItem_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            PluginPart<IAdditionalAction> act = sender.As<MenuItem>().DataContext.As<PluginPart<IAdditionalAction>>();
+            var act = sender.As<MenuItem>().DataContext.As<PluginPart<IAdditionalAction>>();
 
             act.Item.Process(Apk?.FileName, Apk?.FolderOfProject, Apk?.NewApk, Apk?.SignedApk,
                 GlobalVariables.PathToResources,
                 GlobalVariables.PathToFiles,
-                GlobalVariables.PathToResources + "\\jre",
-                $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar",
-                $"{GlobalVariables.PathToPlugins}\\{act.Host.Name}");
+                Path.Combine(GlobalVariables.PathToResources, "jre"),
+                Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"),
+                Path.Combine(GlobalVariables.PathToPlugins, act.Host.Name)
+            );
 
             //Debug.WriteLine(AppDomain.CurrentDomain.GetAssemblies().Select(it => it.FullName).JoinStr("\n"));
         }
 
-        private void DeleteSmthPromt(TreeViewNodeModel node, string confirmation, Action<string> deleteAction, Func<string, bool> checkAction)
+        private void DeleteSmthPromt(TreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
         {
             Options opts = node.Options;
 
@@ -827,7 +920,7 @@ namespace TranslatorApk.Windows
      
         private void LoadSettings()
         {
-            Point size = Settings.Default.MainWindowSize;
+            Point size = SettingsIncapsuler.Instance.MainWindowSize;
 
             if (!size.IsEmpty)
             {
@@ -840,9 +933,9 @@ namespace TranslatorApk.Windows
         {
             GlobalVariables.CurrentProjectFile = file;
 
-            AndroidLogger.NewLog(true, $"{Path.GetDirectoryName(file)}\\{Path.GetFileNameWithoutExtension(file)}_log.txt");
+            AndroidLogger.NewLog(true, Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, $"{Path.GetFileNameWithoutExtension(file)}_log.txt"));
 
-            Apk = new Apktools(file, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
+            Apk = new Apktools(file, GlobalVariables.PathToResources, Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
             Apk.Logging += s => VisLog(Log(s));
 
             if (!Apk.HasJava())
@@ -851,36 +944,43 @@ namespace TranslatorApk.Windows
                 return;
             }
             
-            LogBoxText = string.Empty;
             Disable();
+            ClearVisLog();
+
             bool success = false;
-            LoadingWindow.ShowWindow(() => {}, source => success = SettingsIncapsuler.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(), () =>
-            {
-                Enable();
-                VisLog(GlobalVariables.LogLine);
-                VisLog(LocRes.Finished);
-                VisLog(GlobalVariables.LogLine);
 
-                if (SettingsIncapsuler.ShowNotifications)
+            LoadingWindow.ShowWindow(
+                beforeStarting: () => {}, 
+                threadActions: source => success = SettingsIncapsuler.Instance.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(),
+                finishActions: () =>
                 {
-                    ServiceLocator.GetInstance<NotificationService>().ShowMessage(LocRes.DecompilationFinished);
-                }
+                    Enable();
+                    VisLog(GlobalVariables.LogLine);
+                    VisLog(LocRes.Finished);
+                    VisLog(GlobalVariables.LogLine);
 
-                if (success)
-                {
-                    Dispatcher.InvokeAction(() => LoadFolder(GlobalVariables.CurrentProjectFolder, true));
-                }
-            }, Visibility.Collapsed);
+                    if (SettingsIncapsuler.Instance.ShowNotifications)
+                    {
+                        NotificationService.Instance.ShowMessage(LocRes.DecompilationFinished);
+                    }
+
+                    if (success)
+                    {
+                        Dispatcher.InvokeAction(() => LoadFolder(GlobalVariables.CurrentProjectFolder, true));
+                    }
+                }, 
+                cancelVisibility: Visibility.Collapsed
+            );
         }
 
         private void InstallFramework(string fileName)
         {
             Disable();
 
-            Task proc = new Task(() =>
+            Task.Factory.StartNew(() =>
             {
                 var apktool = new Apktools(null, GlobalVariables.PathToResources,
-                    $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
+                    Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
 
                 if (!apktool.HasJava())
                 {
@@ -890,10 +990,7 @@ namespace TranslatorApk.Windows
 
                 apktool.Logging += s => VisLog(s);
                 apktool.InstallFramework(fileName);
-            });
-
-            proc.ContinueWith(task => Enable());
-            proc.Start();
+            }).ContinueWith(task => Enable());
         }
 
         public void LoadFolder(string folderPath, bool haveLogger = false)
@@ -908,17 +1005,22 @@ namespace TranslatorApk.Windows
 
             GlobalVariables.CurrentProjectFile = folderPath + ".apk";
 
-            Apk = new Apktools(GlobalVariables.CurrentProjectFile, GlobalVariables.PathToResources, $"{GlobalVariables.PathToApktoolVersions}\\apktool_{Settings.Default.ApktoolVersion}.jar");
+            Apk = new Apktools(
+                GlobalVariables.CurrentProjectFile, 
+                GlobalVariables.PathToResources, 
+                Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar")
+            );
+
             Apk.Logging += s => VisLog(Log(s));
             FilesTreeViewModel.Children.Clear();
-            FilesTreeViewModel.Children.Add(new TreeViewNodeModel(null)
+            FilesTreeViewModel.Children.Add(new TreeViewNodeModel
             {
                 Name = LocRes.AllXml,
                 Options = new Options("", true),
                 DoubleClicked = LoadXmlFiles,
                 Image = GlobalResources.Icon_UnknownFile
             });
-            FilesTreeViewModel.Children.Add(new TreeViewNodeModel(null)
+            FilesTreeViewModel.Children.Add(new TreeViewNodeModel
             {
                 Name = LocRes.AllSmali,
                 Options = new Options("", true),
@@ -928,29 +1030,31 @@ namespace TranslatorApk.Windows
 
             Dispatcher dispatcher = Dispatcher;
 
-            LoadingProcessWindow.ShowWindow(() => Instance.IsEnabled = false,
-                cts =>
+            LoadingProcessWindow.ShowWindow(() => IsEnabled = false,
+                (cts, invoker) =>
                 {
-                    LoadingProcessWindow.Instance.IsIndeterminate = true;
+                    invoker.IsIndeterminate = true;
 
-                    LoadingProcessWindow.Instance.ProcessMax = Directory.EnumerateFiles(folderPath, "*", SearchOption.AllDirectories).Count();
+                    invoker.ProcessMax = Directory.EnumerateFiles(folderPath, "*", SearchOption.AllDirectories).Count();
 
-                    LoadingProcessWindow.Instance.IsIndeterminate = false;
+                    invoker.IsIndeterminate = false;
 
-                    Functions.LoadFilesToTreeView(dispatcher, folderPath, FilesTreeViewModel, SettingsIncapsuler.EmptyFolders, cts, () => LoadingProcessWindow.Instance.ProcessValue++);
+                    Utils.LoadFilesToTreeView(dispatcher, folderPath, FilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
                 () =>
                 {
-                    Instance.IsEnabled = true;
-                    foreach (var node in FilesTreeViewModel.Children) Functions.LoadIconForItem(node);
+                    IsEnabled = true;
+
+                    FilesTreeViewModel.Children.ForEach(Utils.LoadIconForItem);
                 });
         }
 
         private void LoadAllInXml(object sender, RoutedEventArgs e)
         {
-            dynamic send = sender;
-            TreeViewNodeModel node = send.DataContext;
-            if (node.Options.IsFolder || node.Options.Ext != ".xml") return;
+            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+
+            if (node.Options.IsFolder || node.Options.Ext != ".xml")
+                return;
 
             var file = new XmlFile(node.Options.FullPath, XmlFile.XmlRules, true);
 
@@ -968,14 +1072,14 @@ namespace TranslatorApk.Windows
                 Expand(child, expand);
         }
 
-        public static void Enable()
+        private static void Enable()
         {
-            Instance?.Dispatcher.InvokeAction(() => Instance.IsEnabled = true);
+            WindowManager.EnableWindow<MainWindow>();
         }
 
-        public static void Disable()
+        private static void Disable()
         {
-            Instance?.Dispatcher.InvokeAction(() => Instance.IsEnabled = false);
+            WindowManager.DisableWindow<MainWindow>();
         }
 
         public string Log(string text)
@@ -994,6 +1098,12 @@ namespace TranslatorApk.Windows
             //Dispatcher.InvokeAction(() => LogItems.Add(new LogItem(text)));
 
             return text;
+        }
+
+        public void ClearVisLog()
+        {
+            _logTextBuilder.Clear();
+            OnPropertyChanged(nameof(LogBoxText));
         }
 
         #endregion

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
-using AndroidTranslator;
+using AndroidTranslator.Classes.Files;
 using Microsoft.Win32;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
@@ -26,7 +26,7 @@ namespace TranslatorApk.Windows
         {
             Items = new ObservableCollection<CheckBoxSetting>();
 
-            foreach (string item in SettingsIncapsuler.XmlRules)
+            foreach (string item in SettingsIncapsuler.Instance.XmlRules)
                 Items.Add(new CheckBoxSetting(item, true));
 
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace TranslatorApk.Windows
                 var xdoc = new XmlDocument();
                 xdoc.Load(dialog.FileName);
                 var itms = new List<string>(Items.Select(item => item.Text));
-                itms = Functions.GetAllAttributes(xdoc.DocumentElement, itms);
+                itms = Utils.GetAllAttributes(xdoc.DocumentElement, itms);
 
                 for (int i = Items.Count; i < itms.Count; i++)
                     Items.Add(new CheckBoxSetting(itms[i]));
@@ -58,7 +58,7 @@ namespace TranslatorApk.Windows
         {
             var items = Items.Where(it => it.Value).Select(it => it.Text).ToArray();
 
-            SettingsIncapsuler.XmlRules = items;
+            SettingsIncapsuler.Instance.XmlRules = items;
 
             XmlFile.XmlRules = items.ToList();
 

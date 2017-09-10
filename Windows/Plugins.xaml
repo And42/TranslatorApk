@@ -7,7 +7,7 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" Style="{StaticResource WindowStyle}"
         Title="{x:Static localization:Resources.Plugins}" 
         MinHeight="300" MinWidth="300" Width="830" Height="500" WindowStartupLocation="CenterScreen"

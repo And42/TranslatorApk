@@ -10,7 +10,7 @@
         Width="600" SizeToContent="Height"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="True"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{x:Static localization:Resources.Settings}" 
         Style="{DynamicResource WindowStyle}"

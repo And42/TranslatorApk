@@ -4,21 +4,21 @@ namespace TranslatorApk.Logic.EventManagerLogic
 {
     public class PubSubEvent<T>
     {
-        private event Action<T> manualEvent;
+        private event Action<T> ManualEvent;
 
         public void Subscribe(Action<T> action)
         {
-            manualEvent += action;
+            ManualEvent += action;
         }
 
         public void Unsubscribe(Action<T> action)
         {
-            manualEvent -= action;
+            ManualEvent -= action;
         }
 
         public void Publish(T parameter)
         {
-            manualEvent?.Invoke(parameter);
+            ManualEvent?.Invoke(parameter);
         }
     }
 }

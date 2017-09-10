@@ -7,22 +7,29 @@
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         WindowStartupLocation="CenterScreen"
         PreviewKeyDown="StringEditorWindow_OnKeyDown"
-        Loaded="StringEditorWindow_OnLoaded"
         Closed="StringEditorWindow_OnClosed"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d" Style="{DynamicResource WindowStyle}"
-        Topmost="{Binding TopMost, Mode=OneWay, Source={x:Static organisationItems:GlobalVariables.Instance}}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}}"
         FontSize="14"
         Height="300" Width="600" MinWidth="300" MinHeight="200"
         
         elements:WindowThemeParameters.CanMinimize="False">
-    <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBox x:Name="OldTextBox" TabIndex="0" Text="{Binding Str.OldText}" IsReadOnly="{Binding Str.IsOldTextReadOnly}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
-        <TextBox x:Name="NewTextBox" TabIndex="1" Text="{Binding Str.NewText}" IsReadOnly="{Binding Str.IsNewTextReadOnly}" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
-    </Grid>
+    <DockPanel LastChildFill="True" Margin="5">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Content="Prev" Padding="7,3" Command="{Binding GoToPreviousStringCommand}"/>
+            <Button Content="Next" Margin="5,0,0,0" Padding="7,3" Command="{Binding GoToNextStringCommand}"/>
+        </StackPanel>
+        
+        <Grid DockPanel.Dock="Top" Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="OldTextBox" TabIndex="0" Text="{Binding Str.OldText}" IsReadOnly="{Binding Str.IsOldTextReadOnly}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Width="5" Background="Transparent"/>
+            <TextBox x:Name="NewTextBox" TabIndex="1" Text="{Binding Str.NewText}" IsReadOnly="{Binding Str.IsNewTextReadOnly}" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
+        </Grid>
+    </DockPanel>
 </Window>

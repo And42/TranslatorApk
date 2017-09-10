@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         
         Style="{DynamicResource WindowStyle}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" 
         
         elements:WindowThemeParameters.CanClose="False"

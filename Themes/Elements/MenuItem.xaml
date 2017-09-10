@@ -124,6 +124,7 @@
                 <Image
                     Name="Icon"
                     Height="16"
+                    Width="16"
                     Margin="0,0,6,0"
                     VerticalAlignment="Center"
                     Source="{TemplateBinding Icon}"/>
@@ -202,7 +203,7 @@
     <ControlTemplate 
             x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" 
             TargetType="MenuItem">
-        <Border Name="Border" MinHeight="30" MinWidth="50"
+        <Border Name="Border" MinHeight="27" MinWidth="50"
                 Background="{DynamicResource MenuItem_SubLevelBackgroundNormal}"
                 BorderBrush="{DynamicResource MenuItem_SubLevelBorderNormal}"
                 BorderThickness="1">
@@ -212,12 +213,13 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
                 </Grid.ColumnDefinitions>
-                <Image
+                <ContentPresenter
                     Name="Icon"
                     Height="16"
-                    Margin="0,0,6,0"
+                    Width="16"
+                    Margin="0,0,10,0"
                     VerticalAlignment="Center"
-                    Source="{TemplateBinding Icon}"/>
+                    ContentSource="Icon"/>
                 <Border Grid.Column="0" 
                         Name="Check"  
                         Width="13" Height="13" 
@@ -244,9 +246,9 @@
                 <TextBlock 
                     Name="InputGestureText"
                     Grid.Column="2"
+                    VerticalAlignment="Center"
                     Text="{TemplateBinding InputGestureText}"
-                    Margin="5,0,2,0"
-                    DockPanel.Dock="Right" />
+                    Margin="5,0,2,0"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>

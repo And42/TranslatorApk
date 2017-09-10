@@ -7,7 +7,7 @@
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Height="105" Width="400" FontSize="14" SizeToContent="Height"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Style="{DynamicResource WindowStyle}"

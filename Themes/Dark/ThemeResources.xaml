@@ -21,8 +21,9 @@
         <ResourceDictionary Source="ComboBoxResources.xaml"/>
         <ResourceDictionary Source="ContextMenuResources.xaml"/>
         <ResourceDictionary Source="TabItemResources.xaml"/>
-        <ResourceDictionary Source="GridView.xaml"/>
+        <ResourceDictionary Source="GridViewResources.xaml"/>
         <ResourceDictionary Source="SfDataGridResources.xaml"/>
+        <ResourceDictionary Source="ToolTipResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

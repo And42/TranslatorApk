@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
-using TranslatorApk.Annotations;
+using TranslatorApk.Logic.Interfaces;
+using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApkPluginLib;
 
 namespace TranslatorApk.Logic.Classes
 {
-    public class OneTranslationService : INotifyPropertyChanged
+    public class OneTranslationService : IRaisePropertyChanged
     {
+        public delegate string TranslationFunc(string text, string targetLanguage, string apiKey);
+
         public OneTranslationService(ITranslateService service)
         {
             Name = service.GetServiceName();
@@ -14,7 +17,7 @@ namespace TranslatorApk.Logic.Classes
             Guid = service.Guid;
         }
 
-        public OneTranslationService(string name, Func<string, string, string, string> translateFunc, Guid guid)
+        public OneTranslationService(string name, TranslationFunc translateFunc, Guid guid)
         {
             Name = name;
             TranslateFunc = translateFunc;
@@ -28,17 +31,12 @@ namespace TranslatorApk.Logic.Classes
         /// <summary>
         /// Text, target language, api key
         /// </summary>
-        public Func<string, string, string, string> TranslateFunc { get; }
+        public TranslationFunc TranslateFunc { get; }
 
         public string ApiKey
         {
-            get { return _apiKey; }
-            set
-            {
-                if (_apiKey == value) return;
-                _apiKey = value;
-                OnPropertyChanged(nameof(ApiKey));
-            }
+            get => _apiKey;
+            set => this.SetProperty(ref _apiKey, value);
         }
         private string _apiKey;
 
@@ -52,12 +50,15 @@ namespace TranslatorApk.Logic.Classes
             return Name;
         }
 
+        #region Property changed
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

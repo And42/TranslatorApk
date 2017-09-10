@@ -36,19 +36,19 @@ namespace TranslatorApk
 
             EventModuler.Init();
 
-            Functions.LoadSettings();
+            Utils.LoadSettings();
 
 #if !DEBUG
             if (!GlobalVariables.Portable)
 #endif
-                Functions.CheckForUpdate();
+                Utils.CheckForUpdate();
 
-            new MainWindow(e.Args).Show();
+            WindowManager.ActivateWindow(createNew: () => new MainWindow(e.Args));
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Functions.ExitActions();
+            Utils.ExitActions();
         }
     }
 }

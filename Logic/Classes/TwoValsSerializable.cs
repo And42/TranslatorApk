@@ -3,51 +3,42 @@ using System.ComponentModel;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using TranslatorApk.Annotations;
+using TranslatorApk.Logic.Interfaces;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.Classes
 {
     [Serializable]
-    public abstract class TwoValsSerializable<T, K> : INotifyPropertyChanged, IXmlSerializable
+    public abstract class TwoValsSerializable<TFirst, TSecond> : IRaisePropertyChanged, IXmlSerializable
     {
-        public T Item1
+        public TFirst Item1
         {
             get => _item1;
-            set
-            {
-                if (_item1?.Equals(value) == true) return;
-                _item1 = value;
-                OnPropertyChanged(nameof(Item1));
-            }
+            set => this.SetProperty(ref _item1, value);
         }
-        private T _item1;
+        private TFirst _item1;
 
-        public K Item2
+        public TSecond Item2
         {
             get => _item2;
-            set
-            {
-                if (_item2.Equals(value)) return;
-                _item2 = value;
-                OnPropertyChanged(nameof(Item2));
-            }
+            set => this.SetProperty(ref _item2, value);
         }
-        private K _item2;
+        private TSecond _item2;
 
-        private readonly Func<string, T> _firstFromString;
-        private readonly Func<string, K> _secondFromString;
-        private readonly Func<T, string> _firstToString;
-        private readonly Func<K, string> _secondToString;
+        private readonly Func<string, TFirst> _firstFromString;
+        private readonly Func<string, TSecond> _secondFromString;
+        private readonly Func<TFirst, string> _firstToString;
+        private readonly Func<TSecond, string> _secondToString;
 
         protected TwoValsSerializable() { }
 
-        protected TwoValsSerializable(Func<string, T> firstFromString, Func<string, K> secondFromString, Func<T, string> firstToString, Func<K, string> secondToString)
-            : this(default(T), default(K), firstFromString, secondFromString, firstToString, secondToString) { }
+        protected TwoValsSerializable(Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString, Func<TFirst, string> firstToString, Func<TSecond, string> secondToString)
+            : this(default(TFirst), default(TSecond), firstFromString, secondFromString, firstToString, secondToString) { }
 
-        protected TwoValsSerializable(Func<string, T> firstFromString, Func<string, K> secondFromString)
-            : this(default(T), default(K), firstFromString, secondFromString) { }
+        protected TwoValsSerializable(Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString)
+            : this(default(TFirst), default(TSecond), firstFromString, secondFromString) { }
 
-        protected TwoValsSerializable(T item1, K item2, Func<string, T> firstFromString, Func<string, K> secondFromString, Func<T, string> firstToString, Func<K, string> secondToString)
+        protected TwoValsSerializable(TFirst item1, TSecond item2, Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString, Func<TFirst, string> firstToString, Func<TSecond, string> secondToString)
         {
             _firstFromString = firstFromString;
             _secondFromString = secondFromString;
@@ -58,7 +49,7 @@ namespace TranslatorApk.Logic.Classes
             Item2 = item2;
         }
 
-        protected TwoValsSerializable(T item1, K item2, Func<string, T> firstFromString, Func<string, K> secondFromString) 
+        protected TwoValsSerializable(TFirst item1, TSecond item2, Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString) 
             : this(item1, item2, firstFromString, secondFromString, t => t.ToString(), k => k.ToString()) { }
 
         public XmlSchema GetSchema()
@@ -81,8 +72,7 @@ namespace TranslatorApk.Logic.Classes
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

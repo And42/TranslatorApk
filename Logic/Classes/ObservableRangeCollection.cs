@@ -56,7 +56,11 @@ namespace TranslatorApk.Logic.Classes
         /// </summary> 
         public void Replace(T item)
         {
-            ReplaceRange(new [] { item });
+            Items.Clear();
+
+            Items.Add(item);
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         /// <summary> 
@@ -64,7 +68,8 @@ namespace TranslatorApk.Logic.Classes
         /// </summary> 
         public void ReplaceRange(IEnumerable<T> collection)
         {
-            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
 
             Items.Clear();
 
@@ -77,14 +82,13 @@ namespace TranslatorApk.Logic.Classes
         /// <summary> 
         /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class. 
         /// </summary> 
-        public ObservableRangeCollection(): base() { }
+        public ObservableRangeCollection() { }
 
         /// <summary> 
         /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class that contains elements copied from the specified collection. 
         /// </summary> 
         /// <param name="collection">collection: The collection from which the elements are copied.</param> 
         /// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception> 
-        public ObservableRangeCollection(IEnumerable<T> collection)
-            : base(collection) { }
+        public ObservableRangeCollection(IEnumerable<T> collection) : base(collection) { }
     }
 }

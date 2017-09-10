@@ -9,8 +9,8 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using HtmlAgilityPack;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
@@ -21,9 +21,9 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для ApktoolCatalogWindow.xaml
     /// </summary>
-    public partial class ApktoolCatalogWindow : INotifyPropertyChanged
+    public partial class ApktoolCatalogWindow : IRaisePropertyChanged
     {
-        public class DownloadableApktool : INotifyPropertyChanged
+        public class DownloadableApktool : IRaisePropertyChanged
         {
             public string Version { get; set; }
             public string Size { get; set; }
@@ -32,21 +32,13 @@ namespace TranslatorApk.Windows
             public InstallOptionsEnum Installed
             {
                 get => _installed;
-                set
-                {
-                    if (value == _installed)
-                        return;
-
-                    _installed = value;
-                    OnPropertyChanged1(nameof(Installed));
-                }
+                set => this.SetProperty(ref _installed, value);
             }
             private InstallOptionsEnum _installed;
 
             public event PropertyChangedEventHandler PropertyChanged;
 
-            [NotifyPropertyChangedInvocator]
-            protected virtual void OnPropertyChanged1(string propertyName)
+            public void RaisePropertyChanged(string propertyName)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
@@ -55,36 +47,21 @@ namespace TranslatorApk.Windows
         public int Progress
         {
             get => _progress;
-            set
-            {
-                if (_progress == value) return;
-                _progress = value;
-                OnPropertyChanged(nameof(Progress));
-            }
+            set => this.SetProperty(ref _progress, value);
         }
         private int _progress;
 
         public int ProgressMax
         {
             get => _progressMax;
-            set
-            {
-                if (_progressMax == value) return;
-                _progressMax = value;
-                OnPropertyChanged(nameof(ProgressMax));
-            }
+            set => this.SetProperty(ref _progressMax, value);
         }
         private int _progressMax = 100;
 
         public Visibility ProgressBarVisibility
         {
             get => _progressBarVisibility;
-            set
-            {
-                if (_progressBarVisibility == value) return;
-                _progressBarVisibility = value;
-                OnPropertyChanged(nameof(ProgressBarVisibility));
-            }
+            set => this.SetProperty(ref _progressBarVisibility, value);
         }
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
@@ -102,7 +79,7 @@ namespace TranslatorApk.Windows
         {
             var apktool = sender.As<Button>().DataContext.As<DownloadableApktool>();
 
-            _downloadingApktoolPath = $"{GlobalVariables.PathToApktoolVersions}\\apktool_{apktool.Version}.jar";
+            _downloadingApktoolPath = Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{apktool.Version}.jar");
 
             if (apktool.Installed == InstallOptionsEnum.ToUninstall)
             {
@@ -113,7 +90,7 @@ namespace TranslatorApk.Windows
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                    if (Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
                         $"\"delete file|{_downloadingApktoolPath}\"", out Process process))
                     {
                         process.WaitForExit();
@@ -124,9 +101,9 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            if (!Functions.CheckRights())
+            if (!Utils.CheckRights())
             {
-                if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                if (Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
                     $"\"download|{apktool.Link}|{_downloadingApktoolPath}\"", out Process process))
                 {
                     process.WaitForExit();
@@ -170,7 +147,7 @@ namespace TranslatorApk.Windows
 
             try
             {
-                page = await Functions.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads");
+                page = await Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads");
             }
             catch
             {
@@ -211,12 +188,15 @@ namespace TranslatorApk.Windows
             return Path.GetFileNameWithoutExtension(node.SelectSingleNode("td[@class=\"name\"]/a").InnerText.Split('_')[1]);
         }
 
+        #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
 using AndroidLibs;
-using AndroidTranslator;
+using AndroidTranslator.Classes.Files;
+using AndroidTranslator.Interfaces.Files;
+using AndroidTranslator.Interfaces.Strings;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
@@ -24,7 +26,7 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для ChangesDetectorWindow.xaml
     /// </summary>
-    public partial class ChangesDetectorWindow : INotifyPropertyChanged
+    public partial class ChangesDetectorWindow : IRaisePropertyChanged
     {
         public ChangesDetectorWindow()
         {
@@ -39,9 +41,8 @@ namespace TranslatorApk.Windows
             get => _progressValue;
             set
             {
-                _progressValue = value;
-                Dispatcher.InvokeAction(() => TaskbarItemInfo.ProgressValue = value / (double)ProgressMax);
-                OnPropertyChanged(nameof(ProgressValue));
+                if (this.SetProperty(ref _progressValue, value))
+                    Dispatcher.InvokeAction(() => TaskbarItemInfo.ProgressValue = value / (double)ProgressMax);
             }
         }
         private int _progressValue;
@@ -49,22 +50,14 @@ namespace TranslatorApk.Windows
         public int ProgressMax
         {
             get => _progressMax;
-            set
-            {
-                _progressMax = value;
-                OnPropertyChanged(nameof(ProgressMax));
-            }
+            set => this.SetProperty(ref _progressMax, value);
         }
         private int _progressMax;
 
         public bool ButtonsEnabled
         {
             get => _buttonsEnabled;
-            set
-            {
-                _buttonsEnabled = value;
-                OnPropertyChanged(nameof(ButtonsEnabled));
-            }
+            set => this.SetProperty(ref _buttonsEnabled, value);
         }
         private bool _buttonsEnabled = true;
 
@@ -75,7 +68,7 @@ namespace TranslatorApk.Windows
             {
                 _log.Clear();
                 _log.Append(value);
-                OnPropertyChanged(nameof(Log));
+                RaisePropertyChanged(nameof(Log));
             }
         }
         private readonly StringBuilder _log = new StringBuilder();
@@ -87,33 +80,21 @@ namespace TranslatorApk.Windows
         public string CreateFirstFolder
         {
             get => _createFirstFolder;
-            set
-            {
-                _createFirstFolder = value;
-                OnPropertyChanged(nameof(CreateFirstFolder));
-            }
+            set => this.SetProperty(ref _createFirstFolder, value);
         }
         private string _createFirstFolder;
 
         public string CreateSecondFolder
         {
             get => _createSecondFolder;
-            set
-            {
-                _createSecondFolder = value;
-                OnPropertyChanged(nameof(CreateSecondFolder));
-            }
+            set => this.SetProperty(ref _createSecondFolder, value);
         }
         private string _createSecondFolder;
 
         public string CreateResultFolder
         {
             get => _createResultFolder;
-            set
-            {
-                _createResultFolder = value;
-                OnPropertyChanged(nameof(CreateResultFolder));
-            }
+            set => this.SetProperty(ref _createResultFolder, value);
         }
         private string _createResultFolder;
 
@@ -124,22 +105,14 @@ namespace TranslatorApk.Windows
         public string TranslateFolder
         {
             get => _translateFolder;
-            set
-            {
-                _translateFolder = value;
-                OnPropertyChanged(nameof(TranslateFolder));
-            }
+            set => this.SetProperty(ref _translateFolder, value);
         }
         private string _translateFolder ;
 
         public string TranslateDictionaryFolder
         {
             get => _translateDictionaryFolder;
-            set
-            {
-                _translateDictionaryFolder = value;
-                OnPropertyChanged(nameof(TranslateDictionaryFolder));
-            }
+            set => this.SetProperty(ref _translateDictionaryFolder, value);
         }
         private string _translateDictionaryFolder;
 
@@ -150,33 +123,21 @@ namespace TranslatorApk.Windows
         public string CreateMoreFirstFolder
         {
             get => _createMoreFirstFolder;
-            set
-            {
-                _createMoreFirstFolder = value;
-                OnPropertyChanged(nameof(CreateMoreFirstFolder));
-            }
+            set => this.SetProperty(ref _createMoreFirstFolder, value);
         }
         private string _createMoreFirstFolder;
 
         public string CreateMoreSecondFolder
         {
             get => _createMoreSecondFolder;
-            set
-            {
-                _createMoreSecondFolder = value;
-                OnPropertyChanged(nameof(CreateMoreSecondFolder));
-            }
+            set => this.SetProperty(ref _createMoreSecondFolder, value);
         }
         private string _createMoreSecondFolder;
 
         public string CreateMoreResultFolder
         {
             get => _createMoreResultFolder;
-            set
-            {
-                _createMoreResultFolder = value;
-                OnPropertyChanged(nameof(CreateMoreResultFolder));
-            }
+            set => this.SetProperty(ref _createMoreResultFolder, value);
         }
         private string _createMoreResultFolder;
 
@@ -187,22 +148,14 @@ namespace TranslatorApk.Windows
         public string TranslateMoreFolder
         {
             get => _translateMoreFolder;
-            set
-            {
-                _translateMoreFolder = value;
-                OnPropertyChanged(nameof(TranslateMoreFolder));
-            }
+            set => this.SetProperty(ref _translateMoreFolder, value);
         }
         private string _translateMoreFolder;
 
         public string TranslateMoreDictionaryFolder
         {
             get => _translateMoreDictionaryFolder;
-            set
-            {
-                _translateMoreDictionaryFolder = value;
-                OnPropertyChanged(nameof(TranslateMoreDictionaryFolder));
-            }
+            set => this.SetProperty(ref _translateMoreDictionaryFolder, value);
         }
         private string _translateMoreDictionaryFolder;
 
@@ -233,9 +186,10 @@ namespace TranslatorApk.Windows
 
             Log = "";
             ButtonsEnabled = false;
-            var proc = new Task(() => CreateOneFolderDictionary(CreateFirstFolder, CreateSecondFolder, CreateResultFolder));
-            proc.ContinueWith(task => ButtonsEnabled = true);
-            proc.Start();
+
+            Task.Factory
+                .StartNew(() => CreateOneFolderDictionary(CreateFirstFolder, CreateSecondFolder, CreateResultFolder))
+                .ContinueWith(task => ButtonsEnabled = true);
         }
 
         #endregion
@@ -260,9 +214,10 @@ namespace TranslatorApk.Windows
 
             Log = "";
             ButtonsEnabled = false;
-            var proc = new Task(() => TranslateOneFolder(TranslateFolder, TranslateDictionaryFolder));
-            proc.ContinueWith(task => ButtonsEnabled = true);
-            proc.Start();
+
+            Task.Factory
+                .StartNew(() => TranslateOneFolder(TranslateFolder, TranslateDictionaryFolder))
+                .ContinueWith(task => ButtonsEnabled = true);
         }
 
         #endregion
@@ -292,9 +247,10 @@ namespace TranslatorApk.Windows
 
             Log = "";
             ButtonsEnabled = false;
-            var proc = new Task(() => CreateMoreFolderDictionaries(CreateMoreFirstFolder, CreateMoreSecondFolder, CreateMoreResultFolder));
-            proc.ContinueWith(task => ButtonsEnabled = true);
-            proc.Start();
+
+            Task.Factory
+                .StartNew(() => CreateMoreFolderDictionaries(CreateMoreFirstFolder, CreateMoreSecondFolder, CreateMoreResultFolder))
+                .ContinueWith(task => ButtonsEnabled = true);
         }
 
         #endregion
@@ -319,71 +275,97 @@ namespace TranslatorApk.Windows
 
             Log = "";
             ButtonsEnabled = false;
-            var proc = new Task(() => TranslateMoreFolders(TranslateMoreFolder, TranslateMoreDictionaryFolder));
-            proc.ContinueWith(task => ButtonsEnabled = true);
-            proc.Start();
+
+            Task.Factory
+                .StartNew(() => TranslateMoreFolders(TranslateMoreFolder, TranslateMoreDictionaryFolder))
+                .ContinueWith(task => ButtonsEnabled = true);
         }
 
         #endregion
 
-        #region Functions
+        #region Utils
 
         private void CreateOneFolderDictionary(string sourceFolder, string modifiedFolder, string resultFolder, bool log = true)
         {
-            if (Directory.Exists(resultFolder)) Directory.Delete(resultFolder, true);
+            if (Directory.Exists(resultFolder))
+                Directory.Delete(resultFolder, true);
             Directory.CreateDirectory(resultFolder);
 
-            StreamWriter dictFileWriter = new StreamWriter(resultFolder + "\\Paths.dict", false, Encoding.UTF8);
-            StreamWriter foldersFileWriter = new StreamWriter(resultFolder + "\\Languages.dict", false, Encoding.UTF8);
+            var dictFileWriter = new StreamWriter(Path.Combine(resultFolder, "Paths.dict"), false, Encoding.UTF8);
+            var foldersFileWriter = new StreamWriter(Path.Combine(resultFolder, "Languages.dict"), false, Encoding.UTF8);
 
-            if (
-                new[] { sourceFolder, modifiedFolder, resultFolder }.Any(
-                    str => str.NE() || !Directory.Exists(str))) return;
+            if (new[] {sourceFolder, modifiedFolder, resultFolder}.Any(str => str.NE() || !Directory.Exists(str)))
+            {
+                return;
+            }
 
-            string dictsFolder = resultFolder + "\\Dictionaries";
+            string dictsFolder = Path.Combine(resultFolder, "Dictionaries");
             Directory.CreateDirectory(dictsFolder);
 
-            string languagesFolder = resultFolder + "\\Languages";
+            string languagesFolder = Path.Combine(resultFolder, "Languages");
             Directory.CreateDirectory(languagesFolder);
 
-            if (log) LogWrite("Searching for xml files in the first folder...");
+            if (log)
+                LogWrite("Searching for xml files in the first folder...");
+
             List<XmlFile> firstXmlFiles =
-                new List<XmlFile>(
-                    Directory.GetFiles(sourceFolder, "*.xml", SearchOption.AllDirectories)
-                        .Select(file => new XmlFile(file)));
+                Directory.EnumerateFiles(sourceFolder, "*.xml", SearchOption.AllDirectories)
+                    .Select(file => new XmlFile(file))
+                    .ToList();
 
 
-            if (log) LogWrite("Searching for xml files in the second folder...");
+            if (log)
+                LogWrite("Searching for xml files in the second folder...");
+
             List<XmlFile> secondXmlFiles =
-                new List<XmlFile>(
-                    Directory.GetFiles(modifiedFolder, "*.xml", SearchOption.AllDirectories)
-                        .Select(file => new XmlFile(file)));
+                Directory.EnumerateFiles(modifiedFolder, "*.xml", SearchOption.AllDirectories)
+                    .Select(file => new XmlFile(file))
+                    .ToList();
 
             secondXmlFiles.Sort((ffile, sfile) => string.Compare(ffile.FileName, sfile.FileName, StringComparison.Ordinal));
 
             ProgressValue = 0;
             ProgressMax = firstXmlFiles.Count;
-            int filenameIndex = 0;
-            List<string> errors = new List<string>();
 
-            if (log) LogWrite("Comparing...");
+            int filenameIndex = 0;
+            var errors = new List<string>();
+
+            if (log)
+                LogWrite("Comparing...");
+
+            var comparison = 
+                new ComparisonWrapper<XmlFile>((ffile, sfile) => 
+                    string.Compare(
+                        ffile.FileName.Substring(modifiedFolder.Length + 1),
+                        sfile.FileName.Substring(sourceFolder.Length + 1),
+                        StringComparison.Ordinal
+                    )
+                );
+
             foreach (XmlFile file in firstXmlFiles)
             {
                 try
                 {
                     ProgressValue++;
-                    if (file.Details.Count == 0) continue;
-                    int index = secondXmlFiles.BinarySearch(file,
-                        new ComparisonWrapper<XmlFile>((ffile, sfile) => string.Compare(
-                            ffile.FileName.Substring(modifiedFolder.Length + 1),
-                            sfile.FileName.Substring(sourceFolder.Length + 1),
-                            StringComparison.Ordinal)));
-                    if (index < 0) continue;
+
+                    if (file.Details.Count == 0)
+                        continue;
+
+                    int index = secondXmlFiles.BinarySearch(file, comparison);
+
+                    if (index < 0)
+                        continue;
+
                     XmlFile item = secondXmlFiles[index];
-                    var dict = CreateDictionary(file, item, $"{dictsFolder}\\{filenameIndex}.xml");
-                    if (dict.Details.Count == 0) continue;
+
+                    var dict = CreateDictionary(file, item, Path.Combine(dictsFolder, $"{filenameIndex}.xml"));
+
+                    if (dict.Details.Count == 0)
+                        continue;
+
                     dict.SaveChanges();
                     filenameIndex++;
+
                     dictFileWriter.WriteLine(file.FileName.Substring(sourceFolder.Length + 1));
                 }
                 catch (Exception ex)
@@ -392,25 +374,28 @@ namespace TranslatorApk.Windows
                 }
             }
 
-            var sourceFolders = Directory.GetDirectories(sourceFolder + "\\res", "values-*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToArray();
-            var modifiedFolders = Directory.GetDirectories(modifiedFolder + "\\res", "values-*", SearchOption.TopDirectoryOnly);
+            string resFolder = Path.Combine(sourceFolder, "res");
+
+            var sourceFolders = Directory.EnumerateDirectories(resFolder, "values-*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToList();
+            var modifiedFolders = Directory.EnumerateDirectories(resFolder, "values-*", SearchOption.TopDirectoryOnly).ToList();
 
             if (log) LogWrite("Comparing languages...");
 
             ProgressValue = 0;
-            ProgressMax = modifiedFolders.Length;
+            ProgressMax = modifiedFolders.Count;
 
             foreach (string folder in modifiedFolders)
             {
                 ProgressValue++;
 
-                string part = Path.GetFileName(folder);
+                string part = Path.GetFileName(folder) ?? string.Empty;
 
-                if (sourceFolders.Any(f => f == part)) continue;
+                if (sourceFolders.Any(f => f == part))
+                    continue;
                 
                 foldersFileWriter.WriteLine(part);
 
-                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder, languagesFolder + "\\" + part, true);
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder, Path.Combine(languagesFolder, part), true);
             }
 
             if (log)
@@ -421,7 +406,8 @@ namespace TranslatorApk.Windows
                 if (errors.Count > 0)
                 {
                     LogWrite("Number of errors: " + errors.Count);
-                    foreach (var error in errors) LogWrite("  -- " + error);
+                    foreach (var error in errors)
+                        LogWrite("  -- " + error);
                 }
             }
 
@@ -433,41 +419,60 @@ namespace TranslatorApk.Windows
         {
             if (log) LogWrite("Opening dictionaries...");
 
-            string[] paths = File.ReadAllLines(dictionaryFolder + "\\Paths.dict");
+            string[] paths = File.ReadAllLines(Path.Combine(dictionaryFolder, "Paths.dict"));
+
             List<DictionaryFile> dicts =
-                new List<DictionaryFile>(
-                    Directory.GetFiles(dictionaryFolder + "\\Dictionaries")
-                        .Select(file => new DictionaryFile(file)));
+                Directory.EnumerateFiles(Path.Combine(dictionaryFolder, "Dictionaries"))
+                    .Select(file => new DictionaryFile(file))
+                    .ToList();
 
             ProgressValue = 0;
             ProgressMax = paths.Length;
-            if (log) LogWrite("Translating files:");
+
+            if (log)
+                LogWrite("Translating files:");
+
             for (int i = 0; i < paths.Length; i++)
             {
                 ProgressValue++;
-                string xmlfilePath = fileFolder + "\\" + paths[i];
-                if (log) LogWrite("  -- " + xmlfilePath, false);
+                string xmlfilePath = Path.Combine(fileFolder, paths[i]);
+
+                if (log)
+                    LogWrite("  -- " + xmlfilePath, false);
+
                 if (!File.Exists(xmlfilePath))
                 {
-                    if (log) LogWrite(" - skipped");
+                    if (log)
+                        LogWrite(" - skipped");
+
                     continue;
                 }
+
                 DictionaryFile dict = dicts.Find(d => Path.GetFileNameWithoutExtension(d.FileName) == i.ToString());
+
                 if (dict == null)
                 {
-                    if (log) LogWrite(" - skipped");
+                    if (log)
+                        LogWrite(" - skipped");
+
                     continue;
                 }
-                XmlFile xmlfile = new XmlFile(xmlfilePath);
+
+                var xmlfile = new XmlFile(xmlfilePath);
+
                 xmlfile.TranslateWithDictionary(dict, true);
-                if (log) LogWrite(" - translated");
+
+                if (log)
+                    LogWrite(" - translated");
             }
 
-            if (!File.Exists(dictionaryFolder + "\\Languages.dict")) return;
+            if (!File.Exists(Path.Combine(dictionaryFolder, "Languages.dict")))
+                return;
 
-            if (log) LogWrite("Adding languages:");
+            if (log)
+                LogWrite("Adding languages:");
 
-            string[] languages = File.ReadAllLines(dictionaryFolder + "\\Languages.dict");
+            string[] languages = File.ReadAllLines(Path.Combine(dictionaryFolder, "Languages.dict"));
 
             ProgressValue = 0;
             ProgressMax = languages.Length;
@@ -476,19 +481,30 @@ namespace TranslatorApk.Windows
             {
                 ProgressValue++;
 
-                if (log) LogWrite("  -- " + language);
+                if (log)
+                    LogWrite("  -- " + language);
 
-                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory($@"{dictionaryFolder}\Languages\{language}", $@"{fileFolder}\res\{language}", true);
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(Path.Combine(dictionaryFolder, "Languages", language), Path.Combine(fileFolder, "res", language), true);
             }
         }
 
         private void CreateMoreFolderDictionaries(string sourceFolder, string modifiedFolder, string resultFolder)
         {
-            if (Directory.Exists(resultFolder)) Directory.Delete(resultFolder, true);
+            if (Directory.Exists(resultFolder))
+                Directory.Delete(resultFolder, true);
+
             Directory.CreateDirectory(resultFolder);
 
-            List<Apktools> sourceApktools = new List<Apktools>(Directory.GetFiles(sourceFolder, "*.apk").Select(file => new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath)));
-            List<Apktools> modifiedApktools = new List<Apktools>(Directory.GetFiles(modifiedFolder, "*.apk").Select(file => new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath)));
+            List<Apktools> sourceApktools = 
+                Directory.EnumerateFiles(sourceFolder, "*.apk")
+                    .Select(file => new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath))
+                    .ToList();
+
+            List<Apktools> modifiedApktools = 
+                Directory.EnumerateFiles(modifiedFolder, "*.apk")
+                    .Select(file => new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath))
+                    .ToList();
+
             LogWrite("Decompiling files:");
             ProgressValue = 0;
             ProgressMax = sourceApktools.Count + modifiedApktools.Count;
@@ -530,7 +546,7 @@ namespace TranslatorApk.Windows
                         continue;
                     }
 
-                    CreateOneFolderDictionary(apktool.FolderOfProject, modifiedApktool.FolderOfProject, resultFolder + "\\" + apktool.Manifest.Package, false);
+                    CreateOneFolderDictionary(apktool.FolderOfProject, modifiedApktool.FolderOfProject, Path.Combine(resultFolder, apktool.Manifest.Package), false);
 
                     LogWrite(" - created");
                 }
@@ -545,14 +561,20 @@ namespace TranslatorApk.Windows
 
         private void TranslateMoreFolders(string filesFolder, string dictionariesFolder)
         {
-            List<Apktools> fileApktools = new List<Apktools>(Directory.GetFiles(filesFolder, "*.apk").Select(file => new Apktools(file, GlobalVariables.PathToResources)));
+            var fileApktools = 
+                Directory.EnumerateFiles(filesFolder, "*.apk")
+                    .Select(file => new Apktools(file, GlobalVariables.PathToResources))
+                    .ToList();
+
             LogWrite("Decompiling files:");
             ProgressValue = 0;
             ProgressMax = fileApktools.Count;
+
             for (int i = 0; i < fileApktools.Count; i++)
             {
                 ProgressValue++;
                 LogWrite("  -- " + fileApktools[i].FileName);
+
                 if (!fileApktools[i].Decompile(true, false))
                 {
                     LogWrite("Error while decompiling!");
@@ -571,7 +593,9 @@ namespace TranslatorApk.Windows
                 try
                 {
                     LogWrite($"  -- ({progressState++} из {progressMax}) {apktool.FileName}", false);
-                    string dictPath = dictionariesFolder + "\\" + apktool.Manifest.Package;
+
+                    string dictPath = Path.Combine(dictionariesFolder, apktool.Manifest.Package);
+
                     if (!Directory.Exists(dictPath))
                     {
                         LogWrite(" - skipped");
@@ -596,12 +620,14 @@ namespace TranslatorApk.Windows
             ProgressValue = 0;
             ProgressMax = fileApktools.Count;
 
-            string resultFolder = filesFolder + "\\Result";
-            string resultSignedFolder = filesFolder + "\\ResultSigned";
+            string resultFolder = Path.Combine(filesFolder, "Result");
+            string resultSignedFolder = Path.Combine(filesFolder, "ResultSigned");
 
             foreach (var folder in new[] {resultFolder, resultSignedFolder})
             {
-                if (Directory.Exists(folder)) Directory.Delete(folder, true);
+                if (Directory.Exists(folder))
+                    Directory.Delete(folder, true);
+
                 Directory.CreateDirectory(folder);
             }
 
@@ -611,17 +637,19 @@ namespace TranslatorApk.Windows
                 {
                     ProgressValue++;
                     LogWrite("  -- " + fileApktools[i].FileName, false);
+
                     List<Error> errors;
                     if (fileApktools[i].Compile(out errors))
                     {
                         LogWrite(" - compiled", false);
-                        File.Copy(fileApktools[i].NewApk, resultFolder + "\\" + Path.GetFileName(fileApktools[i].NewApk));
+                        File.Copy(fileApktools[i].NewApk, Path.Combine(resultFolder, Path.GetFileName(fileApktools[i].NewApk) ?? string.Empty));
                         LogWrite(" - copied");
                     }
                     else
                     {
                         foreach (var error in errors)
                             LogWrite($" - error: \n    File: {error.File}\n    Line: {error.Line}\n    Message: {error.Message}");
+
                         fileApktools.RemoveAt(i--);
                     }
                 }
@@ -645,10 +673,11 @@ namespace TranslatorApk.Windows
                 {
                     ProgressValue++;
                     LogWrite("  -- " + fileApktools[i].FileName, false);
+
                     if (fileApktools[i].Sign())
                     {
                         LogWrite(" - signed", false);
-                        File.Copy(fileApktools[i].SignedApk, resultSignedFolder + "\\" + Path.GetFileName(fileApktools[i].SignedApk));
+                        File.Copy(fileApktools[i].SignedApk, Path.Combine(resultSignedFolder, Path.GetFileName(fileApktools[i].SignedApk) ?? string.Empty));
                         LogWrite(" - copied");
                     }
                     else
@@ -659,38 +688,59 @@ namespace TranslatorApk.Windows
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(@"Message: " + ex.Message + @"\nStackTrace: " + ex.StackTrace);
+                    MessageBox.Show($@"Message: {ex.Message}\nStackTrace: {ex.StackTrace}");
                     LogWrite(" - error");
                 }
             }
 
             LogWrite();
             LogWrite("Finished");
+
             if (
-                MessBox.ShowDial("Открыть папку с готовыми файлами?", null, MessBox.MessageButtons.Yes,
-                    MessBox.MessageButtons.No) == MessBox.MessageButtons.Yes)
+                MessBox.ShowDial(
+                    "Открыть папку с готовыми файлами?", null,
+                    MessBox.MessageButtons.Yes, MessBox.MessageButtons.No
+                ) == MessBox.MessageButtons.Yes
+            )
+            {
                 Process.Start(Directory.Exists(resultSignedFolder) ? resultSignedFolder : filesFolder);
+            }
         }
 
-        private DictionaryFile CreateDictionary(XmlFile first, XmlFile second, string resultFilename)
+        private void LogWrite(string text = "", bool writeNewLine = true)
         {
-            DictionaryFile result = new DictionaryFile(resultFilename);
-            List<OneString> strings = new List<OneString>(second.Details);
+            _log.Append(text);
+
+            if (writeNewLine)
+                _log.Append(Environment.NewLine);
+
+            RaisePropertyChanged(nameof(Log));
+            Dispatcher.InvokeAction(() => LogBox.ScrollToEnd());
+        }
+
+        private static IDictionaryFile CreateDictionary(IXmlFile first, IXmlFile second, string resultFilename)
+        {
+            var result = new DictionaryFile(resultFilename);
+            var strings = second.SpecDetails.ToList();
 
             if (Path.GetFileName(first.FileName) == "strings.xml")
             {
-                foreach (OneString str in first.Details)
+                foreach (var str in first.Details)
                 {
-                    OneString item = second.Details.FirstOrDefault(it => it.Name == str.Name);
-                    if (item != null && item.OldText != str.OldText) result.Add(str.OldText, item.OldText);
+                    IOneString item = second.Details.FirstOrDefault(it => it.Name == str.Name);
+
+                    if (item != null && item.OldText != str.OldText)
+                        result.Add(str.OldText, item.OldText);
                 }
             }
             else
             {
-                foreach (OneString str in first.Details)
+                foreach (var str in first.SpecDetails)
                 {
-                    OneString item = strings.FirstOrDefault(sstr => str.As<IXmlString>().EqualsNavigations(sstr));
-                    if (item != null && str.OldText != item.OldText) result.Add(str.OldText, item.OldText);
+                    IOneString item = strings.FirstOrDefault(sstr => str.EqualsNavigations(sstr));
+
+                    if (item != null && str.OldText != item.OldText)
+                        result.Add(str.OldText, item.OldText);
                 }
             }
             return result;
@@ -698,7 +748,7 @@ namespace TranslatorApk.Windows
 
         private string ChooseFolderDialogShow()
         {
-            CommonOpenFileDialog fd = new CommonOpenFileDialog
+            var fd = new CommonOpenFileDialog
             {
                 Title = Strings.ChooseFolder,
                 Multiselect = false,
@@ -712,25 +762,15 @@ namespace TranslatorApk.Windows
             return result;
         }
 
-        private void LogWrite(string text = "", bool writeNewLine = true)
-        {
-            _log.Append(text);
-            if (writeNewLine) _log.Append(Environment.NewLine);
-            OnPropertyChanged(nameof(Log));
-            Dispatcher.InvokeAction(() => LogBox.ScrollToEnd());
-        }
-
         #endregion
 
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

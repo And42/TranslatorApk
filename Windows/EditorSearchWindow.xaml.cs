@@ -6,15 +6,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AndroidTranslator;
+using AndroidTranslator.Interfaces.Files;
+using AndroidTranslator.Interfaces.Strings;
 using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
-using Syncfusion.UI.Xaml.ScrollAxis;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
@@ -25,7 +25,7 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для EditorSearchWindow.xaml
     /// </summary>
-    public sealed partial class EditorSearchWindow : INotifyPropertyChanged
+    public sealed partial class EditorSearchWindow : IRaisePropertyChanged
     {
         /// <summary>
         /// Список найденных строк
@@ -37,11 +37,11 @@ namespace TranslatorApk.Windows
         /// </summary>
         public bool OnlyFullWords
         {
-            get => SettingsIncapsuler.EditorSOnlyFullWords;
+            get => SettingsIncapsuler.Instance.EditorSOnlyFullWords;
             set
             {
-                SettingsIncapsuler.EditorSOnlyFullWords = value;
-                OnPropertyChanged(nameof(OnlyFullWords));
+                SettingsIncapsuler.Instance.EditorSOnlyFullWords = value;
+                RaisePropertyChanged(nameof(OnlyFullWords));
             }
         }
 
@@ -50,11 +50,11 @@ namespace TranslatorApk.Windows
         /// </summary>
         public bool MatchCase
         {
-            get => SettingsIncapsuler.EditorSMatchCase;
+            get => SettingsIncapsuler.Instance.EditorSMatchCase;
             set
             {
-                SettingsIncapsuler.EditorSMatchCase = value;
-                OnPropertyChanged(nameof(MatchCase));
+                SettingsIncapsuler.Instance.EditorSMatchCase = value;
+                RaisePropertyChanged(nameof(MatchCase));
             }
         }
 
@@ -64,50 +64,32 @@ namespace TranslatorApk.Windows
         public string TextToSearch
         {
             get => _textToSearch;
-            set
-            {
-                _textToSearch = value;
-                OnPropertyChanged(nameof(TextToSearch));
-            }
+            set => this.SetProperty(ref _textToSearch, value);
         }
         private string _textToSearch;
 
-        public ObservableCollection<string> SearchAdds { get; } = new ObservableCollection<string>(
-            Properties.Settings.Default.EditorSearchAdds != null ?
-                Properties.Settings.Default.EditorSearchAdds.Cast<string>() :
-                new List<string>());
+        public ObservableCollection<string> SearchAdds { get; } = 
+            new ObservableCollection<string>(
+                SettingsIncapsuler.Instance.EditorSearchAdds?.Cast<string>() 
+                ?? Enumerable.Empty<string>()
+            );
 
         public EditorSearchWindow()
         {
             InitializeComponent();
             SearchBox.SelectedIndex = -1;
 
-            FoundedItemsGrid.SelectionController = new GridSelectionControllerExt(FoundedItemsGrid, FoundedItemsView_OnKeyDown, PointerOperation);
+            FoundItemsGrid.SelectionController = new GridSelectionControllerExt(FoundItemsGrid, FoundedItemsView_OnKeyDown);
         }
 
-        private bool _showSelected;
-
-        private bool PointerOperation(GridPointerEventArgs gridPointerEventArgs, RowColumnIndex rowColumnIndex)
+        private void FoundedItemsGrid_OnCellDoubleTapped(object sender, GridCellDoubleTappedEventArgs args)
         {
-            if (gridPointerEventArgs.Operation == Syncfusion.UI.Xaml.Grid.PointerOperation.DoubleTapped)
-            {
-                _showSelected = true;
-                return false;
-            }
-
-            if (gridPointerEventArgs.Operation == Syncfusion.UI.Xaml.Grid.PointerOperation.Tapped && _showSelected)
-            {
-                _showSelected = false;
-                ShowSelectedItemInEditor();
-                return true;
-            }
-
-            return false;
+            ShowSelectedItemInEditor();
         }
 
         private void FindAllClick(object sender, RoutedEventArgs e)
         {
-            var files = EditorWindow.StringFilesStatic;
+            var files = WindowManager.GetActiveWindow<EditorWindow>()?.StringFiles;
 
             if (files == null)
             {
@@ -118,66 +100,76 @@ namespace TranslatorApk.Windows
             if (string.IsNullOrEmpty(TextToSearch))
                 return;
 
-            var founded = new Dictionary<EditableFile, List<OneString>>();
+            var founded = new Dictionary<IEditableFile, List<IOneString>>();
 
             string searchText = MatchCase ? TextToSearch : TextToSearch.ToUpper();
 
-            LoadingWindow.ShowWindow(() => IsEnabled = false, cts =>
-            {
-                StringComparison comparison = MatchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-                Predicate<OneString> checker = OnlyFullWords
-                    ? (Predicate<OneString>) (str => str.OldText.Equals(searchText, comparison))
-                    : (str => str.OldText.IndexOf(searchText, comparison) > -1);
-
-                foreach (EditableFile currentFile in files)
+            LoadingWindow.ShowWindow(
+                beforeStarting: () => IsEnabled = false, 
+                threadActions: cts =>
                 {
-                    List<OneString> items = new List<OneString>();
+                    StringComparison comparison = MatchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-                    foreach (OneString str in currentFile.Details)
+                    Predicate<IOneString> checker = OnlyFullWords
+                        ? (Predicate<IOneString>) (str => str.OldText.Equals(searchText, comparison))
+                        : (str => str.OldText.IndexOf(searchText, comparison) > -1);
+
+                    foreach (IEditableFile currentFile in files)
                     {
-                        if (checker(str))
+                        var items = new List<IOneString>();
+
+                        foreach (var str in currentFile.Details)
                         {
-                            items.Add(str);
+                            if (checker(str))
+                            {
+                                items.Add(str);
+                            }
+                        }
+
+                        if (items.Count > 0)
+                        {
+                            founded.Add(currentFile, items);
                         }
                     }
 
-                    if (items.Count > 0)
-                    {
-                        founded.Add(currentFile, items);
-                    }
-                }
-
-                AddToSearchAdds(TextToSearch);
-            }, () => Dispatcher.InvokeAction(() =>
-            {
-                Activate();
-                IsEnabled = true;
-
-                if (founded.Count == 0)
+                    AddToSearchAdds(TextToSearch);
+                }, 
+                finishActions: () =>
                 {
-                    FoundItems.Clear();
-                    MessBox.ShowDial(StringResources.TextNotFound);
-                    return;
-                }
+                    Dispatcher.InvokeAction(() =>
+                        {
+                            Activate();
+                            IsEnabled = true;
 
-                var selected = founded.SelectMany(it => it.Value.Select(val => new {fileName = it.Key.FileName, str = val}))
-                    .Select(it => new OneFoundItem(it.fileName, it.str.OldText, it.str)).ToArray();
+                            if (founded.Count == 0)
+                            {
+                                FoundItems.Clear();
+                                MessBox.ShowDial(StringResources.TextNotFound);
+                                return;
+                            }
 
-                FoundItems.ReplaceRange(selected);
-            }), Visibility.Collapsed);
+                            var selected =
+                                founded.SelectMany(
+                                    it => it.Value.Select(val => new OneFoundItem(it.Key.FileName, val.OldText, val)));
+
+                            FoundItems.ReplaceRange(selected);
+                        }
+                    );
+                }, 
+                cancelVisibility: Visibility.Collapsed
+            );
         }
 
         private void ShowSelectedItemInEditor()
         {
-            var item = FoundedItemsGrid.SelectedItem as OneFoundItem;
+            var item = FoundItemsGrid.SelectedItem as OneFoundItem;
 
             if (item == null)
             {
                 return;
             }
 
-            WindowManager.ActivateWindow<EditorWindow>();
+            WindowManager.ActivateWindow<EditorWindow>(this);
 
             ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
                 .Publish(new EditorScrollToStringAndSelectEvent(f => f.FileName == item.FileName, s => s == item.EditString));
@@ -185,7 +177,7 @@ namespace TranslatorApk.Windows
 
         private void FindNextClick(object sender, RoutedEventArgs e)
         {
-            SfDataGrid editorGrid = EditorWindow.EditorGridStatic;
+            SfDataGrid editorGrid = WindowManager.GetActiveWindow<EditorWindow>()?.EditorGrid;
 
             if (editorGrid == null)
             {
@@ -230,9 +222,9 @@ namespace TranslatorApk.Windows
             {
                 RecordEntry currentFileRow = editorGrid.View.Records[i];
 
-                EditableFile currentFile = currentFileRow.Data.As<EditableFile>();
+                var currentFile = currentFileRow.Data.As<IEditableFile>();
 
-                bool Process(EditableFile file, OneString instr)
+                bool Process(IEditableFile file, IOneString instr)
                 {
                     string oldText = MatchCase ? instr.OldText : instr.OldText.ToUpper();
 
@@ -253,7 +245,7 @@ namespace TranslatorApk.Windows
 
                     for (int j = inFileIndex; j < childRecords.Count; j++)
                     {
-                        OneString currentString = childRecords[j].Data.As<OneString>();
+                        var currentString = childRecords[j].Data.As<IOneString>();
 
                         if (Process(currentFile, currentString))
                             return;
@@ -261,14 +253,14 @@ namespace TranslatorApk.Windows
                 }
                 else
                 {
-                    foreach (OneString currentString in currentFile.Details)
+                    foreach (IOneString currentString in currentFile.Details)
                     {
                         if (Process(currentFile, currentString))
                         {
                             SfDataGrid detailsGrid = editorGrid.GetDetailsViewGrid(i, "Details");
                             
                             foreach (RecordEntry record in detailsGrid.View.Records)
-                                if (Process(currentFile, record.Data.As<OneString>()))
+                                if (Process(currentFile, record.Data.As<IOneString>()))
                                     return;
                         }
                     }
@@ -288,17 +280,19 @@ namespace TranslatorApk.Windows
                 SearchAdds.Insert(0, text);
                 SearchBox.SelectedIndex = 0;
 
-                if (Properties.Settings.Default.EditorSearchAdds == null) Properties.Settings.Default.EditorSearchAdds = new StringCollection();
-                Properties.Settings.Default.EditorSearchAdds.Remove(text);
-                Properties.Settings.Default.EditorSearchAdds.Insert(0, text);
+                if (SettingsIncapsuler.Instance.EditorSearchAdds == null)
+                    SettingsIncapsuler.Instance.EditorSearchAdds = new StringCollection();
+
+                SettingsIncapsuler.Instance.EditorSearchAdds.Remove(text);
+                SettingsIncapsuler.Instance.EditorSearchAdds.Insert(0, text);
 
                 if (SearchAdds.Count > 20)
                 {
                     SearchAdds.RemoveAt(20);
-                    Properties.Settings.Default.EditorSearchAdds.RemoveAt(20);
+                    SettingsIncapsuler.Instance.EditorSearchAdds.RemoveAt(20);
                 }
 
-                Properties.Settings.Default.Save();
+                SettingsIncapsuler.Save();
             });
         }
 
@@ -313,20 +307,22 @@ namespace TranslatorApk.Windows
             {
                 e.Handled = true;
                 ShowSelectedItemInEditor();
+
                 return true;
             }
 
             return false;
         }
 
+        #region Property Changed
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-
-        private void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

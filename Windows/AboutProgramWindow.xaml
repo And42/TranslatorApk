@@ -8,7 +8,7 @@
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         Title="{x:Static localization:Resources.AboutProgram}" Height="300" Width="300" Style="{DynamicResource WindowStyle}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Margin="7">

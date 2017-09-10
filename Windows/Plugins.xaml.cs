@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Xml.Serialization;
 using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using UsefulFunctionsLib;
 
@@ -20,7 +21,7 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для Plugins.xaml
     /// </summary>
-    public partial class Plugins : INotifyPropertyChanged
+    public partial class Plugins : IRaisePropertyChanged
     {
         private const string PluginsLink = "http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file=Plugins.xml";
 
@@ -29,36 +30,21 @@ namespace TranslatorApk.Windows
         public int Progress
         {
             get => _progress;
-            set
-            {
-                if (_progress == value) return;
-                _progress = value;
-                OnPropertyChanged(nameof(Progress));
-            }
+            set => this.SetProperty(ref _progress, value);
         }
         private int _progress;
 
         public int ProgressMax
         {
             get => _progressMax;
-            set
-            {
-                if (_progressMax == value) return;
-                _progressMax = value;
-                OnPropertyChanged(nameof(ProgressMax));
-            }
+            set => this.SetProperty(ref _progressMax, value);
         }
         private int _progressMax = 100;
 
         public Visibility ProgressBarVisibility
         {
             get => _progressBarVisibility;
-            set
-            {
-                if (_progressBarVisibility == value) return;
-                _progressBarVisibility = value;
-                OnPropertyChanged(nameof(ProgressBarVisibility));
-            }
+            set => this.SetProperty(ref _progressBarVisibility, value);
         }
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
@@ -136,7 +122,7 @@ namespace TranslatorApk.Windows
 
             try
             {
-                plugs = await Functions.DownloadStringAsync(PluginsLink);
+                plugs = await Utils.DownloadStringAsync(PluginsLink);
             }
             catch (Exception)
             {
@@ -145,18 +131,18 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            ServerPlugins splugins = Functions.DeserializeXml<ServerPlugins>(plugs);
+            ServerPlugins splugins = Utils.DeserializeXml<ServerPlugins>(plugs);
 
             splugins.Items.ForEach(v =>
             {
                 string version = existingPlugins.ContainsKey(v.DllName)
-                    ? Functions.GetDllVersion(existingPlugins[v.DllName])
+                    ? Utils.GetDllVersion(existingPlugins[v.DllName])
                     : null;
 
                 v.Installed = version != null 
                     ? v.LatestVersion == null 
                         ? InstallOptionsEnum.ToUninstall 
-                        : (Functions.CompareVersions(v.LatestVersion, version) == 1 
+                        : (Utils.CompareVersions(v.LatestVersion, version) == 1 
                             ? InstallOptionsEnum.ToUpdate
                             : InstallOptionsEnum.ToUninstall) 
                     : InstallOptionsEnum.ToInstall;
@@ -166,61 +152,9 @@ namespace TranslatorApk.Windows
             TableItems.AddRange(splugins.Items);
         }
 
-        private static void InstallPlugin(TableItem item)
-        {
-            string zipPath = $"{GlobalVariables.PathToPlugins}\\{item.Title}.zip";
-            string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
-
-            if (Functions.CheckRights())
-            {
-                Process.Start(GlobalVariables.PathToAdminScripter, arguments)?.WaitForExit();
-
-                string dllPath = $"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll";
-
-                item.Installed = InstallOptionsEnum.ToUninstall;
-                item.Version = item.LatestVersion;
-
-                Functions.LoadPlugin(dllPath);
-            }
-            else if (Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
-            {
-                process.WaitForExit();
-
-                item.Installed = InstallOptionsEnum.ToUninstall;
-                item.Version = item.LatestVersion;
-                Functions.LoadPlugin($"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll");
-            }
-        }
-
-        private static void UninstallPlugin(TableItem item)
-        {
-            string dllName = $"{GlobalVariables.PathToPlugins}\\{item.DllName}.dll";
-            string dirName = $"{GlobalVariables.PathToPlugins}\\{item.DllName}";
-
-            Functions.UnloadPlugin(item.DllName);
-
-            try
-            {
-                File.Delete(dllName);
-                Directory.Delete(dirName, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                string command = $"\"delete file|{dllName}\" \"delete folder|{dirName}\"";
-
-                if (!Functions.RunAsAdmin(GlobalVariables.PathToAdminScripter, command, out var process))
-                    return;
-
-                process.WaitForExit();
-            }
-
-            item.Installed = InstallOptionsEnum.ToInstall;
-            item.Version = "";
-        }
-
         private void DownloadClick(object sender, RoutedEventArgs e)
         {
-            TableItem item = sender.As<Button>().DataContext.As<TableItem>();
+            var item = sender.As<Button>().DataContext.As<TableItem>();
 
             switch (item.Installed)
             {
@@ -237,12 +171,67 @@ namespace TranslatorApk.Windows
             }
         }
 
+        private static void InstallPlugin(TableItem item)
+        {
+            string zipPath = Path.Combine(GlobalVariables.PathToPlugins, $"{item.Title}.zip");
+            string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
+
+            if (Utils.CheckRights())
+            {
+                Process.Start(GlobalVariables.PathToAdminScripter, arguments)?.WaitForExit();
+
+                string dllPath = Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll");
+
+                item.Installed = InstallOptionsEnum.ToUninstall;
+                item.Version = item.LatestVersion;
+
+                Utils.LoadPlugin(dllPath);
+            }
+            else if (Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
+            {
+                process.WaitForExit();
+
+                item.Installed = InstallOptionsEnum.ToUninstall;
+                item.Version = item.LatestVersion;
+                Utils.LoadPlugin(Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll"));
+            }
+        }
+
+        private static void UninstallPlugin(TableItem item)
+        {
+            string dllName = Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll");
+            string dirName = Path.Combine(GlobalVariables.PathToPlugins, item.DllName);
+
+            Utils.UnloadPlugin(item.DllName);
+
+            try
+            {
+                File.Delete(dllName);
+                Directory.Delete(dirName, true);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                string command = $"\"delete file|{dllName}\" \"delete folder|{dirName}\"";
+
+                if (!Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter, command, out var process))
+                    return;
+
+                process.WaitForExit();
+            }
+
+            item.Installed = InstallOptionsEnum.ToInstall;
+            item.Version = "";
+        }
+
+        #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

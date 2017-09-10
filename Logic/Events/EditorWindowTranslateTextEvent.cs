@@ -1,5 +1,5 @@
 ﻿using System;
-using AndroidTranslator;
+using AndroidTranslator.Interfaces.Files;
 
 namespace TranslatorApk.Logic.Events
 {
@@ -11,7 +11,7 @@ namespace TranslatorApk.Logic.Events
         /// <summary>
         /// Фильтр файлов для перевода
         /// </summary>
-        public Func<EditableFile, bool> Filter { get; }
+        public Func<IEditableFile, bool> Filter { get; }
 
         /// <summary>
         /// Текст, который нужно заменить
@@ -26,7 +26,7 @@ namespace TranslatorApk.Logic.Events
         /// <summary>
         /// Функция файла, возвращающая <c>True</c>, если файл не является словарём
         /// </summary>
-        public static readonly Func<EditableFile, bool> NotDictionaryFileFilter = f => !(f is DictionaryFile);
+        public static readonly Func<object, bool> NotDictionaryFileFilter = f => !(f is IDictionaryFile);
 
         /// <summary>
         /// Создаёт новый экземпляр класса <see cref="EditorWindowTranslateTextEvent"/> на основе исходного текста, нового текста и фильтра по файлам
@@ -34,7 +34,7 @@ namespace TranslatorApk.Logic.Events
         /// <param name="oldText">Текст, который нужно заменить</param>
         /// <param name="newText">Текст, на который нужно заменить</param>
         /// <param name="filter">Фильтр файлов для перевода</param>
-        public EditorWindowTranslateTextEvent(string oldText, string newText, Func<EditableFile, bool> filter = null)
+        public EditorWindowTranslateTextEvent(string oldText, string newText, Func<IEditableFile, bool> filter = null)
         {
             Filter = filter ?? (f => true);
             OldText = oldText;

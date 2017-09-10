@@ -50,7 +50,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7</LangVersion>
+    <LangVersion>latest</LangVersion>
     <DocumentationFile>
     </DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
@@ -102,11 +102,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll</HintPath>
     </Reference>
+    <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -153,6 +156,9 @@
     <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.4.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -183,11 +189,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\AttachedProperties\GridAP.cs" />
     <Compile Include="Logic\Classes\ActionHost.cs" />
+    <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
+    <Compile Include="Logic\CustomCommandContainers\ActionCommand.cs" />
     <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
     <Compile Include="Logic\EventManagerLogic\PubSubEvent.cs" />
+    <Compile Include="Logic\EventManagerLogic\QueueEventManager.cs" />
+    <Compile Include="Logic\Events\EditStringEvent.cs" />
+    <Compile Include="Logic\Interfaces\ILoadingProcessWindowInvoker.cs" />
+    <Compile Include="Logic\Interfaces\IRaisePropertyChanged.cs" />
+    <Compile Include="Logic\Interfaces\ISettingsContainer.cs" />
     <Compile Include="Logic\OrganisationItems\EventModuler.cs" />
     <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
@@ -195,7 +209,6 @@
     <Compile Include="Logic\Events\EditorWindowTranslateTextEvent.cs" />
     <Compile Include="Logic\OrganisationItems\INotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
-    <Compile Include="Logic\OrganisationItems\ServiceLocator.cs" />
     <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
     <Compile Include="Logic\OrganisationItems\SettingsIncapsuler.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
@@ -213,14 +226,13 @@
     <Compile Include="Logic\Classes\SerializableStringDictionary.cs" />
     <Compile Include="Logic\Classes\TransServiceHost.cs" />
     <Compile Include="Logic\Classes\TwoValsSerializable.cs" />
-    <Compile Include="Logic\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\DoubleToMBSizeConverter.cs" />
     <Compile Include="Logic\Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\PathModiferConverter.cs" />
     <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
     <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
-    <Compile Include="Logic\OrganisationItems\Functions.cs" />
+    <Compile Include="Logic\OrganisationItems\Utils.cs" />
     <Compile Include="Logic\WebJsonResponses\GoogleTranslateResponse.cs" />
     <Compile Include="Logic\Classes\Options.cs" />
     <Compile Include="Logic\Classes\Setting.cs" />
@@ -313,7 +325,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Dark\GridView.xaml">
+    <Page Include="Themes\Dark\GridViewResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,6 +342,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Dark\TabItemResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\ToolTipResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,6 +425,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Elements\ToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Elements\TreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,7 +445,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Light\GridView.xaml">
+    <Page Include="Themes\Light\GridViewResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -442,6 +462,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Light\TabItemResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\ToolTipResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -701,7 +725,7 @@
     <Resource Include="TranslatorApk.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\arrow_refresh.png" />
@@ -774,13 +798,15 @@
     <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
-  <Import Project="packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets'))" />
   </Target>
+  <Import Project="packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

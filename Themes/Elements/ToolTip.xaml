@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Style TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Name="Border"
+                            CornerRadius="3"
+                            BorderThickness="1"
+                            Background="{DynamicResource ToolTip_BackgroundNormal}"
+                            BorderBrush="{DynamicResource ToolTip_BorderNormal}">
+                        <ContentPresenter Margin="14,3"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ToolTip_BackgroundDisabled}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ToolTip_BorderDisabled}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

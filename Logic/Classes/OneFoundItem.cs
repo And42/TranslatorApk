@@ -1,4 +1,4 @@
-﻿using AndroidTranslator;
+﻿using AndroidTranslator.Interfaces.Strings;
 using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.Classes
@@ -11,9 +11,9 @@ namespace TranslatorApk.Logic.Classes
 
         public string FormattedName { get; }
 
-        public OneString EditString { get; }
+        public IOneString EditString { get; }
 
-        public OneFoundItem(string fileName, string text, OneString str)
+        public OneFoundItem(string fileName, string text, IOneString str)
         {
             FileName = fileName;
             FormattedName = "..." + fileName.Remove(0, GlobalVariables.CurrentProjectFolder.Length);

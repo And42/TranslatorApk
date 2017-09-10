@@ -18,12 +18,14 @@ namespace TranslatorApk.Logic.WebServices
         /// <summary>
         /// Список сокращений языков для онлайн перевода
         /// </summary>
-        public static ReadOnlyCollection<string> ShortTargetLanguages = new ReadOnlyCollection<string>(Properties.Resources.OnlineTranslationsShortLanguages.Split('|'));
+        public static ReadOnlyCollection<string> ShortTargetLanguages = 
+            new ReadOnlyCollection<string>(Properties.Resources.OnlineTranslationsShortLanguages.Split('|'));
 
         /// <summary>
         /// Список сокращений языков для онлайн перевода
         /// </summary>
         public static ReadOnlyCollection<string> LongTargetLanguages;
+
         #endregion
 
         #endregion
@@ -49,13 +51,13 @@ namespace TranslatorApk.Logic.WebServices
         static TranslateService()
         {
             //OnlineTranslators.Add("Yandex", TranslateWithYandex);
-            var gguid = Guid.Parse("ec9ecfae-ee23-482e-b96d-e616c518c16f");
-            var yguid = Guid.Parse("ddc03c26-9ca9-481d-bbb6-7473ee5a1319");
-            var bguid = Guid.Parse("6d01675a-7e6a-4618-8eb4-78fbf8d85875");
+            var gGuid = Guid.Parse("ec9ecfae-ee23-482e-b96d-e616c518c16f");
+            var yGuid = Guid.Parse("ddc03c26-9ca9-481d-bbb6-7473ee5a1319");
+            var bGuid = Guid.Parse("6d01675a-7e6a-4618-8eb4-78fbf8d85875");
 
-            OnlineTranslators.Add(gguid, new OneTranslationService("Google", TranslateWithGoogleSecond, gguid));
-            OnlineTranslators.Add(yguid, new OneTranslationService("Yandex (API)", TranslateWithYandexApi, yguid));
-            OnlineTranslators.Add(bguid, new OneTranslationService("Baidu", TranslateWithBaidu, bguid));
+            OnlineTranslators.Add(gGuid, new OneTranslationService("Google", TranslateWithGoogleSecond, gGuid));
+            OnlineTranslators.Add(yGuid, new OneTranslationService("Yandex (API)", TranslateWithYandexApi, yGuid));
+            OnlineTranslators.Add(bGuid, new OneTranslationService("Baidu", TranslateWithBaidu, bGuid));
         }
 
         /// <summary>
@@ -88,7 +90,10 @@ namespace TranslatorApk.Logic.WebServices
             {
                 result = YandexTranslateService.Translate(text, targetLanguage);
             }
-            catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
+            catch (Exception e)
+            {
+                throw new Exception("Can't translate. Reason: " + e.Message);
+            }
             return result;
         }
 
@@ -105,7 +110,10 @@ namespace TranslatorApk.Logic.WebServices
             {
                 result = YandexTranslateService.TranslateApi(text, targetLanguage, apiKey);
             }
-            catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
+            catch (Exception e)
+            {
+                throw new Exception("Can't translate. Reason: " + e.Message);
+            }
             return result;
         }
 
@@ -122,7 +130,10 @@ namespace TranslatorApk.Logic.WebServices
             {
                 result = BaiduTranslateService.Translate(text, targetLanguage);
             }
-            catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
+            catch (Exception e)
+            {
+                throw new Exception("Can't translate. Reason: " + e.Message);
+            }
             return result;
         }
 
@@ -139,7 +150,10 @@ namespace TranslatorApk.Logic.WebServices
             {
                 result = GoogleTranslateServiceSecond.Translate(text, targetLanguage);
             }
-            catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
+            catch (Exception e)
+            {
+                throw new Exception("Can't translate. Reason: " + e.Message);
+            }
             return result;
         }
 
@@ -155,7 +169,10 @@ namespace TranslatorApk.Logic.WebServices
             {
                 result = GoogleTranslateService.Translate(text, targetLanguage);
             }
-            catch (Exception e) { throw new Exception("Can't translate. Reason: " + e.Message); }
+            catch (Exception e)
+            {
+                throw new Exception("Can't translate. Reason: " + e.Message);
+            }
             return result;
         }
 
@@ -163,7 +180,7 @@ namespace TranslatorApk.Logic.WebServices
         {
             string link =
                 "http://" + $"translation.babylon.com/translate/babylon.php?v=1.0&q={HttpUtility.UrlEncode(text)}&langpair={sourceLanguage}|{targetLanguage}&callback=callbackFn&context=babylon";
-            return Functions.DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
+            return Utils.DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         /// <summary>

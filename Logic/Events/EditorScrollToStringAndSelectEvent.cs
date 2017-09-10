@@ -1,5 +1,6 @@
 ﻿using System;
-using AndroidTranslator;
+using AndroidTranslator.Interfaces.Files;
+using AndroidTranslator.Interfaces.Strings;
 
 namespace TranslatorApk.Logic.Events
 {
@@ -11,19 +12,19 @@ namespace TranslatorApk.Logic.Events
         /// <summary>
         /// Условие для выбора файла
         /// </summary>
-        public Predicate<EditableFile> FilePredicate { get; }
+        public Predicate<IEditableFile> FilePredicate { get; }
 
         /// <summary>
         /// Условие для выбора строки
         /// </summary>
-        public Predicate<OneString> StringPredicate { get; }
+        public Predicate<IOneString> StringPredicate { get; }
 
         /// <summary>
         /// Создаёт новый экземпляр класса <see cref="EditorScrollToStringAndSelectEvent"/> на основе условий для файла и строки
         /// </summary>
         /// <param name="filePredicate">Условие для выбора файла</param>
         /// <param name="stringPredicate">Условие для выбора строки</param>
-        public EditorScrollToStringAndSelectEvent(Predicate<EditableFile> filePredicate, Predicate<OneString> stringPredicate)
+        public EditorScrollToStringAndSelectEvent(Predicate<IEditableFile> filePredicate, Predicate<IOneString> stringPredicate)
         {
             FilePredicate = filePredicate ?? throw new ArgumentNullException(nameof(filePredicate));
             StringPredicate = stringPredicate ?? throw new ArgumentNullException(nameof(stringPredicate));

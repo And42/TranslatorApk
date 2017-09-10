@@ -4,46 +4,52 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class GlobalVariables : INotifyPropertyChanged
+    public class GlobalVariables : IRaisePropertyChanged
     {
         public static GlobalVariables Instance { get; } = new GlobalVariables();
 
         static GlobalVariables()
         {
 #if DEBUG
-            PathToExe = Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) + "\\Release\\" + Path.GetFileName(Assembly.GetExecutingAssembly().Location);
+            PathToExe = 
+                Path.Combine(
+                    Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) ?? string.Empty,
+                    "Release",
+                    Path.GetFileName(Assembly.GetExecutingAssembly().Location ?? string.Empty)
+                );
 #else
             PathToExe = Assembly.GetExecutingAssembly().Location;
 #endif
 
-            PathToStartFolder       = Path.GetDirectoryName(PathToExe);
-            PathToFiles             = PathToStartFolder + "\\Files";
-            PathToResources         = PathToFiles + "\\Resources";
+            PathToStartFolder       = Path.GetDirectoryName(PathToExe) ?? string.Empty;
+            PathToFiles             = Path.Combine(PathToStartFolder, "Files");
+            PathToResources         = Path.Combine(PathToFiles, "Resources");
 
-            PathToApktoolVersions   = PathToResources + "\\apktools";
-            PathToAdminScripter     = PathToStartFolder + "\\AdminScripter.exe";
-            PathToPlugins           = PathToFiles + "\\Plugins"; 
-            PathToFlags             = PathToResources + "\\Flags";
-            PathToLogs              = PathToStartFolder + "\\Logs";
+            PathToApktoolVersions   = Path.Combine(PathToResources, "apktools");
+            PathToAdminScripter     = Path.Combine(PathToStartFolder, "AdminScripter.exe");
+            PathToPlugins           = Path.Combine(PathToFiles, "Plugins"); 
+            PathToFlags             = Path.Combine(PathToResources, "Flags");
+            PathToLogs              = Path.Combine(PathToStartFolder, "Logs");
 
             EditableFileExtenstions = new[] { ".xml", ".smali" };
             ProgramVersion          = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Portable                = File.Exists(PathToStartFolder + "\\isportable");
+            Portable                = File.Exists(Path.Combine(PathToStartFolder, "isportable"));
 
             ThemesMap.Add("Light", Resources.Localizations.Resources.Theme_Light);
             ThemesMap.Add("Dark", Resources.Localizations.Resources.Theme_Dark);
 
-            SourceDictionaries = Settings.Default.SourceDictionaries != null 
-                ? new ObservableCollection<CheckableString>(Settings.Default.SourceDictionaries) 
-                : new ObservableCollection<CheckableString>();
+            SourceDictionaries = 
+                Settings.Default.SourceDictionaries != null 
+                    ? new ObservableCollection<CheckableString>(Settings.Default.SourceDictionaries) 
+                    : new ObservableCollection<CheckableString>();
         }
 
         #region Readonly properties
@@ -125,7 +131,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Путь к текущему apktool.jar
         /// </summary>
-        public static string CurrentApktoolPath => $"{PathToApktoolVersions}\\apktool_{SettingsIncapsuler.ApktoolVersion}.jar";
+        public static string CurrentApktoolPath => 
+            Path.Combine(PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar");
 
         /// <summary>
         /// Текущий сервис перевода
@@ -150,15 +157,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public string CurrentProjectFolderProp
         {
-            get
-            {
-                return _currentProjectFolder;
-            }
-            set
-            {
-                _currentProjectFolder = value;
-                OnPropertyChanged(nameof(CurrentProjectFolderProp));
-            }
+            get => _currentProjectFolder;
+            set => this.SetProperty(ref _currentProjectFolder, value);
         }
         private string _currentProjectFolder;
 
@@ -167,15 +167,11 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public string CurrentProjectFileProp
         {
-            get
-            {
-                return _currentProjectFile;
-            }
+            get => _currentProjectFile;
             set
             {
-                _currentProjectFile = value;
-                CurrentProjectFolderProp = UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
-                OnPropertyChanged(nameof(CurrentProjectFileProp));
+                if (this.SetProperty(ref _currentProjectFile, value))
+                    CurrentProjectFolderProp = UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
             }
         }
         private string _currentProjectFile;
@@ -185,8 +181,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public static string CurrentProjectFolder
         {
-            get { return Instance.CurrentProjectFolderProp; }
-            set { Instance.CurrentProjectFolderProp = value; }
+            get => Instance.CurrentProjectFolderProp;
+            set => Instance.CurrentProjectFolderProp = value;
         }
 
         /// <summary>
@@ -194,26 +190,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public static string CurrentProjectFile
         {
-            get { return Instance.CurrentProjectFileProp; }
-            set { Instance.CurrentProjectFileProp = value; }
+            get => Instance.CurrentProjectFileProp;
+            set => Instance.CurrentProjectFileProp = value;
         }
 
         public static ObservableCollection<CheckableString> SourceDictionaries { get; }
 
-        /// <summary>
-        /// Определяет, должно ли окно всегда находиться поверх других окон
-        /// </summary>
-        public bool TopMost
-        {
-            get { return SettingsIncapsuler.TopMost; }
-            set
-            {
-                SettingsIncapsuler.TopMost = value;
-                OnPropertyChanged(nameof(TopMost));
-            }
-        }
-
-#endregion
+        #endregion
 
         #region Settings
 
@@ -233,8 +216,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        public virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

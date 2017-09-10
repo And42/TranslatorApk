@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
@@ -14,43 +19,134 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Создаёт (если не создано раннее) и активирует окно
         /// </summary>
         /// <typeparam name="T">Тип окна</typeparam>
-        public static void ActivateWindow<T>() where T : Window, new()
+        public static void ActivateWindow<T>(Window notHittableWindow = null, Window ownerWindow = null, Func<T> createNew = null) where T : Window
         {
-            string type = typeof(T).FullName;
+            ActivateWindow(typeof(T), notHittableWindow, ownerWindow, createNew);
+        }
+
+        /// <summary>
+        /// Создаёт (если не создано раннее) и активирует окно
+        /// </summary>
+        /// <param name="windowType">Тип окна</param>
+        /// <param name="notHittableWindow">Окно, которое не должно получать события</param>
+        /// <param name="ownerWindow">Окно - родитель</param>
+        /// <param name="createNew">Функция создания нового экземпляра окна</param>
+        public static void ActivateWindow(Type windowType, Window notHittableWindow = null, Window ownerWindow = null, Func<Window> createNew = null)
+        {
+            if (notHittableWindow != null)
+                notHittableWindow.IsHitTestVisible = false;
+
+            string type = windowType.FullName;
 
             Window window;
 
             if (!WindowsDict.TryGetValue(type, out window))
             {
-                window = new T();
+                window = createNew?.Invoke() ?? (Window) Activator.CreateInstance(windowType);
+                window.Closing += ChildWindowOnClosing;
                 WindowsDict.Add(type, window);
-                window.Show();
             }
-
-            if (!window.IsLoaded)
+            else
             {
-                window = new T();
-                WindowsDict[type] = window;
-                window.Show();
+                if (!window.IsLoaded)
+                {
+                    window = createNew?.Invoke() ?? (Window) Activator.CreateInstance(windowType);
+                    window.Closing += ChildWindowOnClosing;
+                    WindowsDict[type] = window;
+                }
             }
 
-            window.Activate();
-            window.Focus();
+            if (ownerWindow != null)
+                window.Owner = ownerWindow;
 
-            if (window.WindowState == WindowState.Minimized)
-                window.WindowState = WindowState.Normal;
+            var currentDispatcher = Dispatcher.CurrentDispatcher;
+
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
+            {
+                if (!window.IsLoaded)
+                    window.Show();
+
+                window.Activate();
+                window.Focus();
+
+                if (window.WindowState == WindowState.Minimized)
+                    window.WindowState = WindowState.Normal;
+
+                if (notHittableWindow != null)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(500);
+
+                        currentDispatcher.InvokeAction(() => notHittableWindow.IsHitTestVisible = true);
+                    });
+                }
+            }));
+        }
+
+        private static void ChildWindowOnClosing(object sender, CancelEventArgs cancelEventArgs)
+        {
+            if (!cancelEventArgs.Cancel)
+                RemoveFromList(sender.GetType());
         }
 
         /// <summary>
-        /// Закрывает окно, которое ранее было активировано методом <see cref="ActivateWindow{T}"/>
+        /// Закрывает окно, которое ранее было активировано методом <see cref="ActivateWindow"/>
         /// </summary>
         /// <typeparam name="T">Тип окна</typeparam>
-        public static void CloseWindow<T>() where T : Window, new()
+        public static void CloseWindow<T>() where T : Window
         {
-            if (WindowsDict.TryGetValue(typeof(T).FullName, out Window window) && window.IsLoaded)
+            CloseWindow(typeof(T));
+        }
+
+        /// <summary>
+        /// Закрывает окно, которое ранее было активировано методом <see cref="ActivateWindow"/>
+        /// </summary>
+        /// <param name="windowType">Тип окна</param>
+        public static void CloseWindow(Type windowType)
+        {
+            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
             {
                 window.Close();
+                WindowsDict.Remove(windowType.FullName);
             }
+        }
+
+        public static void RemoveFromList<T>() where T : Window
+        {
+            RemoveFromList(typeof(T));
+        }
+
+        public static void RemoveFromList(Type windowType)
+        {
+            WindowsDict.Remove(windowType.FullName);
+        }
+
+        public static void EnableWindow<T>() where T : Window
+        {
+            EnableWindow(typeof(T));
+        }
+
+        public static void EnableWindow(Type windowType)
+        {
+            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
+                window.IsEnabled = true;
+        }
+
+        public static void DisableWindow<T>() where T : Window
+        {
+            DisableWindow(typeof(T));
+        }
+
+        public static void DisableWindow(Type windowType)
+        {
+            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
+                window.IsEnabled = false;
+        }
+
+        public static T GetActiveWindow<T>() where T : Window
+        {
+            return WindowsDict.TryGetValue(typeof(T).FullName, out Window result) ? (T)result : null;
         }
     }
 }

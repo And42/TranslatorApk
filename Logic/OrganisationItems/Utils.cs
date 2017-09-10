@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -14,12 +15,14 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using AndroidTranslator;
+using AndroidTranslator.Classes.Exceptions;
+using AndroidTranslator.Classes.Files;
+using AndroidTranslator.Interfaces.Files;
+using AndroidTranslator.Interfaces.Strings;
 using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
@@ -41,7 +44,7 @@ using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public static class Functions
+    public static class Utils
     {
         //todo: Исправить ошибку от Aid5 (IconHandler.IconFromExtension(item.Options.Ext, IconSize.Large))
 
@@ -56,7 +59,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (item.Options.IsImageLoaded)
                 return;
 
-            ImageSource icon;
+            BitmapSource icon;
 
             if (item.Options.IsFolder)
             {
@@ -94,30 +97,41 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Загружает изображение из файла, указанного в объекте типа <see cref="Options"/>
         /// </summary>
         /// <param name="file">Объект для обработки</param>
-        private static ImageSource LoadIconFromFile(Options file)
+        private static BitmapSource LoadIconFromFile(Options file)
         {
-            if (SettingsIncapsuler.ImageExtensions.Contains(file.Ext))
+            if (SetInc.Instance.ImageExtensions.Contains(file.Ext))
             {
                 try
                 {
-                    var image = LoadImageFromFile(file.FullPath);
+                    var image = LoadThumbnailFromFile(file.FullPath);
                     file.HasPreview = true;
                     return image;
                 }
                 catch (NotSupportedException)
                 {
-                    return ShellIcon.IconToImageSource(ShellIcon.GetLargeIcon(file.FullPath));
+                    return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
                 }
             }
 
-            return ShellIcon.IconToImageSource(ShellIcon.GetLargeIcon(file.FullPath));
+            return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
+        }
+
+        /// <summary>
+        /// Загружает иконку, ассоциированную с указанным файлом
+        /// </summary>
+        /// <param name="filePath">Файл, иконку которого необходимо получить</param>
+        private static Icon GetIconFromFile(string filePath)
+        {
+            //return ShellIcon.GetLargeIcon(filePath);
+
+            return Icon.ExtractAssociatedIcon(filePath);
         }
 
         /// <summary>
         /// Загружает изображение из файла
         /// </summary>
         /// <param name="fileName">Файл</param>
-        private static BitmapImage LoadImageFromFile(string fileName)
+        private static BitmapImage LoadThumbnailFromFile(string fileName)
         {
             return new BitmapImage(new Uri(fileName));
         }
@@ -129,37 +143,55 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="extension">Расширение файла</param>
         private static bool CheckFileWithSettings(string file, string extension)
         {
-            if (extension != ".xml" && SettingsIncapsuler.OnlyXml)
+            if (extension != ".xml" && SetInc.Instance.OnlyXml)
                 return false;
 
             if (extension == ".xml")
             {
-                if (!SettingsIncapsuler.EmptyXml && XmlFile.Create(file).Details?.Count == 0)
-                    return false;
+                if (!SetInc.Instance.EmptyXml)
+                {
+                    try
+                    {
+                        return XmlFile.Create(file).Details?.Count == 0;
+                    }
+                    catch (XmlParserException)
+                    {
+                        return false;
+                    }
+                }
             }
             else if (extension == ".smali")
             {
-                if (!SettingsIncapsuler.EmptySmali && !SmaliFile.HasLines(file))
+                if (!SetInc.Instance.EmptySmali && !SmaliFile.HasLines(file))
                     return false;
             }
-            else if (SettingsIncapsuler.ImageExtensions.Contains(extension))
+            else if (SetInc.Instance.ImageExtensions.Contains(extension))
             {
-                if (!SettingsIncapsuler.Images)
+                if (!SetInc.Instance.Images)
                     return false;
             }
-            else if (SettingsIncapsuler.OtherExtensions.Contains(extension))
+            else if (SetInc.Instance.OtherExtensions.Contains(extension))
             {
-                if (!SettingsIncapsuler.OtherFiles)
+                if (!SetInc.Instance.OtherFiles)
                     return false;
             }
 
             return true;
         }
 
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null, HashSet<string> flagFiles = null)
         {
             if (cts?.IsCancellationRequested == true)
                 return;
+
+            if (flagFiles == null)
+            {
+                flagFiles = 
+                    new HashSet<string>(
+                        Directory.EnumerateFiles(GlobalVariables.PathToFlags, "*.png")
+                            .Select(Path.GetFileNameWithoutExtension)
+                    );
+            }
 
             var files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
             var folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
@@ -177,7 +209,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
                 int index = GlobalVariables.Settings_FoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
 
-                if (File.Exists($"{GlobalVariables.PathToFlags}\\{item.Name}.png"))
+                if (flagFiles.Contains(item.Name))
                 {
                     dispatcher.InvokeAction(() =>
                     {
@@ -200,7 +232,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                 }
 
                 dispatcher.InvokeAction(() => root.Children.Add(item));
-                LoadFilesToTreeView(dispatcher, folder, item, showEmptyFolders, cts, oneFileAdded);
+                LoadFilesToTreeView(dispatcher, folder, item, showEmptyFolders, cts, oneFileAdded, flagFiles);
 
                 if (item.Children.Count == 0 && !showEmptyFolders)
                     dispatcher.InvokeAction(() => root.Children.Remove(item));
@@ -208,9 +240,11 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             foreach (var file in files)
             {
-                if (!CheckFilePath(file)) continue;
+                if (!CheckFilePath(file))
+                    continue;
 
-                if (cts?.IsCancellationRequested == true) return;
+                if (cts?.IsCancellationRequested == true)
+                    return;
 
                 oneFileAdded?.Invoke();
 
@@ -233,7 +267,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="title">Язык</param>
         public static BitmapImage GetFlagImage(string title)
         {
-            string file = $"{GlobalVariables.PathToFlags}\\{title}.png";
+            string file = Path.Combine(GlobalVariables.PathToFlags, $"{title}.png");
 
             if (File.Exists(file))
                 return new BitmapImage(new Uri(file));
@@ -321,74 +355,75 @@ namespace TranslatorApk.Logic.OrganisationItems
                 Settings.Default.Save();
             }
                     
-            if (SetInc.TargetLanguage == "")
-                SetInc.TargetLanguage = "ru";
+            if (SetInc.Instance.TargetLanguage == "")
+                SetInc.Instance.TargetLanguage = "ru";
 
-            if (SetInc.OnlineTranslator == Guid.Empty)
-                SetInc.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
+            if (SetInc.Instance.OnlineTranslator == Guid.Empty)
+                SetInc.Instance.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
 
             if (Settings.Default.TranslatorServicesKeys == null)
                 Settings.Default.TranslatorServicesKeys = new SerializableStringDictionary();
             
-            if (SetInc.LanguageOfApp == "")
+            if (SetInc.Instance.LanguageOfApp == "")
                 SetLanguageOfApp(TranslateService.SupportedProgramLangs.FirstOrDefault(lang => lang == GetCurrentLanguage()) ?? TranslateService.SupportedProgramLangs.First());
             else
-                SetLanguageOfApp(SetInc.LanguageOfApp);
+                SetLanguageOfApp(SetInc.Instance.LanguageOfApp);
 
-            if (SetInc.XmlRules == null || SetInc.XmlRules.Length == 0)
+            if (SetInc.Instance.XmlRules == null || SetInc.Instance.XmlRules.Length == 0)
             {
-                SetInc.XmlRules = new[]
+                SetInc.Instance.XmlRules = new[]
                 {
                     "android:text", "android:title", "android:summary", "android:dialogTitle", 
                     "android:summaryOff", "android:summaryOn", "value"
                 };
             }
 
-            if (SetInc.AvailToEditFiles == null || SetInc.AvailToEditFiles.Length == 0)
+            if (SetInc.Instance.AvailToEditFiles == null || SetInc.Instance.AvailToEditFiles.Length == 0)
             {
-                SetInc.AvailToEditFiles = new[] {".xml", ".smali"};
+                SetInc.Instance.AvailToEditFiles = new[] {".xml", ".smali"};
             }
 
-            if (SetInc.ImageExtensions == null || SetInc.ImageExtensions.Count == 0 ||
-                SetInc.ImageExtensions.Count == 1 && SetInc.ImageExtensions.First().NE())
+            if (SetInc.Instance.ImageExtensions == null || 
+                SetInc.Instance.ImageExtensions.Length == 0 ||
+                SetInc.Instance.ImageExtensions.Length == 1 && SetInc.Instance.ImageExtensions[0].NE())
             {
-                SetInc.ImageExtensions = new HashSet<string> {".png", ".jpg", ".jpeg"};
+                SetInc.Instance.ImageExtensions = new[] {".png", ".jpg", ".jpeg"};
             }
 
-            if (SetInc.OtherExtensions == null)
+            if (SetInc.Instance.OtherExtensions == null)
             {
-                SetInc.OtherExtensions = new HashSet<string>();
+                SetInc.Instance.OtherExtensions = new string[0];
             }
 
-            XmlFile.XmlRules = SetInc.XmlRules.ToList();
+            XmlFile.XmlRules = SetInc.Instance.XmlRules.ToList();
             EditorWindow.Languages = TranslateService.LongTargetLanguages;
 
             // todo: Убрать в будущих версиях
 
             string source;
 
-            if (GlobalVariables.ThemesMap.TryGetKey(SetInc.Theme, out source))
-                SetInc.Theme = source;
+            if (GlobalVariables.ThemesMap.TryGetKey(SetInc.Instance.Theme, out source))
+                SetInc.Instance.Theme = source;
 
             // ---
 
-            if (SetInc.Theme.NE() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Theme))
-                SetInc.Theme = GlobalVariables.ThemesMap.First().Key;
+            if (SetInc.Instance.Theme.NE() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Instance.Theme))
+                SetInc.Instance.Theme = GlobalVariables.ThemesMap.First().Key;
 
-            ChangeTheme(SetInc.Theme);
+            ChangeTheme(SetInc.Instance.Theme);
 
             TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(LocRes.OnlineTranslationsLongLanguages.Split('|'));
 
-            string apktoolVersion = SetInc.ApktoolVersion;
+            string apktoolVersion = SetInc.Instance.ApktoolVersion;
 
-            if (apktoolVersion.NE() || !File.Exists($"{GlobalVariables.PathToApktoolVersions}\\apktool_{apktoolVersion}.jar"))
+            if (apktoolVersion.NE() || !File.Exists(Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{apktoolVersion}.jar")))
             {
                 string vers = Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions, "*.jar").LastOrDefault();
 
                 if (vers != null)
                     vers = Path.GetFileNameWithoutExtension(vers).SplitFR("apktool_")[0];
 
-                SetInc.ApktoolVersion = vers;
+                SetInc.Instance.ApktoolVersion = vers;
             }
 
             UpdateApiKeys();
@@ -440,7 +475,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                 for (int i = 0; i < themesToAdd.Length; i++)
                     dicts.RemoveAt(1 + themesToAdd.Length);
 
-                SetInc.Theme = name;
+                SetInc.Instance.Theme = name;
             }
         }
 
@@ -474,13 +509,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         private static void LoadCurrentTranslationService()
         {
-            if (TranslateService.OnlineTranslators.TryGetValue(SetInc.OnlineTranslator, out var found))
+            if (TranslateService.OnlineTranslators.TryGetValue(SetInc.Instance.OnlineTranslator, out var found))
             {
                 GlobalVariables.CurrentTranslationService = found;
             }
             else
             {
-                SetInc.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
+                SetInc.Instance.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
                 GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
             }
         }
@@ -491,11 +526,15 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="path">Путь к файлу</param>
         public static void LoadPlugin(string path)
         {
-            var appDomain = AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(path));
+            var appDomain = AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(path) ?? throw new NullReferenceException("Path name is null"));
+
+            var type = typeof(PluginHost);
 
             var loader = (PluginHost)
-                appDomain.CreateInstanceAndUnwrap(typeof(PluginHost).Assembly.FullName,
-                    typeof(PluginHost).FullName);
+                appDomain.CreateInstanceAndUnwrap(
+                    type.Assembly.FullName,
+                    type.FullName ?? throw new NullReferenceException($"{nameof(PluginHost)}.{nameof(type.FullName)} is null")
+                );
 
             loader.Load(path);
 
@@ -534,7 +573,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="action">Действие</param>
         public static void AddAction(PluginHost host, IAdditionalAction action)
         {
-            MainWindow.Instance.AddActionToMenu(new PluginPart<IAdditionalAction>(host, action));
+            WindowManager.GetActiveWindow<MainWindow>()?.AddActionToMenu(new PluginPart<IAdditionalAction>(host, action));
         }
 
         /// <summary>
@@ -543,7 +582,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="action"></param>
         public static void RemoveAction(IAdditionalAction action)
         {
-            MainWindow.Instance.RemoveActionFromMenu(action.Guid);
+            WindowManager.GetActiveWindow<MainWindow>().RemoveActionFromMenu(action.Guid);
         }
 
         /// <summary>
@@ -571,7 +610,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="newText">Новый текст</param>
         public static void AddToSessionDict(string oldText, string newText)
         {
-            if (!SettingsIncapsuler.SessionAutoTranslate)
+            if (!SetInc.Instance.SessionAutoTranslate)
                 return;
 
             if (GlobalVariables.SessionDictionary.ContainsKey(oldText))
@@ -594,16 +633,25 @@ namespace TranslatorApk.Logic.OrganisationItems
                 return;
             }
             
-            EditableFile file;
+            IEditableFile file;
 
-            switch (ext)
+            try
             {
-                case ".xml":
-                    file = XmlFile.Create(pathToFile);
-                    break;
-                default: //".smali":
-                    file = new SmaliFile(pathToFile);
-                    break;
+                switch (ext)
+                {
+                    case ".xml":
+                        file = XmlFile.Create(pathToFile);
+                        break;
+                    default: //".smali":
+                        file = new SmaliFile(pathToFile);
+                        break;
+                }
+            }
+            catch (IOException ex)
+            {
+                // todo: add to string resources
+                MessBox.ShowDial($"Не удалось загрузить файл из-за ошибки системы.\nСообщение: {ex.Message}", Resources.Localizations.Resources.ErrorLower);
+                return;
             }
 
             WindowManager.ActivateWindow<EditorWindow>();
@@ -635,7 +683,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(language);
-            SetInc.LanguageOfApp = language;
+            SetInc.Instance.LanguageOfApp = language;
             
             if (showDialog && MessBox.ShowDial(LocRes.RestartProgramToApplyLanguage, null,
                 MessBox.MessageButtons.Yes, MessBox.MessageButtons.No) ==
@@ -763,7 +811,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         {
             #pragma warning disable 168
 
-            return RunAsAdmin(fileName, arguments, out Process process);
+            return RunAsAdmin(fileName, arguments, out Process _);
 
             #pragma warning restore 168
         }
@@ -803,7 +851,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         {
             try
             {
-                string file = GlobalVariables.PathToStartFolder + "\\temp";
+                string file = Path.Combine(GlobalVariables.PathToStartFolder, "temp");
                 File.WriteAllText(file, @"test");
                 File.Delete(file);
                 return true;
@@ -871,7 +919,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Возвращает изменяемый файл, соответствующий файлу на диске, или null, если подходящий файл не найден
         /// </summary>
         /// <param name="filePath">Путь к файлу на диске</param>
-        public static EditableFile GetSuitableEditableFile(string filePath)
+        public static IEditableFile GetSuitableEditableFile(string filePath)
         {
             switch (Path.GetExtension(filePath))
             {
@@ -905,7 +953,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="item">Строка, содержащая XML</param>
         public static T DeserializeXml<T>(string item)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            var xmlSerializer = new XmlSerializer(typeof(T));
 
             using (var reader = new StringReader(item))
                 return (T)xmlSerializer.Deserialize(reader);
@@ -918,7 +966,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="item">Объект для сериализации</param>
         public static string SerializeXml<T>(T item)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            var xmlSerializer = new XmlSerializer(typeof(T));
 
             using (var writer = new StringWriter())
             {
@@ -1018,7 +1066,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="text">Текст для перевода</param>
         public static string TranslateTextWithSettings(string text)
         {
-            return GlobalVariables.CurrentTranslationService.Translate(text, SettingsIncapsuler.TargetLanguage);
+            return GlobalVariables.CurrentTranslationService.Translate(text, SetInc.Instance.TargetLanguage);
         }
 
         /// <summary>
@@ -1082,14 +1130,14 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="grid">Таблица для обработки</param>
         /// <param name="filePredicate">Проверка на корректность файла</param>
         /// <param name="stringPredicate">Проверка на корректность строки</param>
-        public static void ScrollToFileAndSelectString(this SfDataGrid grid, Predicate<EditableFile> filePredicate,
-            Predicate<OneString> stringPredicate)
+        public static void ScrollToFileAndSelectString(this SfDataGrid grid, Predicate<IEditableFile> filePredicate,
+            Predicate<IOneString> stringPredicate)
         {
-            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<EditableFile>()));
+            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
 
             var detailsGrid = grid.GetDetailsViewGridWUpd("Details", parentIndex);
 
-            int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as OneString));
+            int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as IOneString));
 
             detailsGrid.SelectedIndex = childIndex;
 
@@ -1107,9 +1155,9 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="grid">Таблица для обработки</param>
         /// <param name="filePredicate">Проверка на корректность файла</param>
         /// <param name="expandRecord">Нужно ли разворачивать таблицу вложенных элементов у файла</param>
-        public static void ScrollToFileAndSelect(this SfDataGrid grid, Predicate<EditableFile> filePredicate, bool expandRecord = true)
+        public static void ScrollToFileAndSelect(this SfDataGrid grid, Predicate<IEditableFile> filePredicate, bool expandRecord = true)
         {
-            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<EditableFile>()));
+            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
 
             if (expandRecord)
                 grid.ExpandDetailsViewAt(parentIndex);
@@ -1145,6 +1193,88 @@ namespace TranslatorApk.Logic.OrganisationItems
         public static T ExecRefl<T>(Type type, object obj, string name, params object[] parameters)
         {
             return type.GetMethod(name).Invoke(obj, parameters).As<T>();
+        }
+
+        public static bool SetProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged
+        {
+            if (EqualityComparer<TPropType>.Default.Equals(storage, value))
+                return false;
+
+            storage = value;
+            sender.RaisePropertyChanged(propertyName);
+
+            return true;
+        }
+
+        public static bool SetRefProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged where TPropType : class
+        {
+            if (ReferenceEquals(storage, value))
+                return false;
+
+            storage = value;
+            sender.RaisePropertyChanged(propertyName);
+
+            return true;
+        }
+
+        public static IEnumerable<TRecord> SortWithDescriptions<TRecord>(IEnumerable<TRecord> collection, IEnumerable<SortDescription> sortDescriptions)
+        {
+            var recType = typeof(TRecord);
+
+            foreach (var sortDesc in sortDescriptions)
+            {
+                var prop = recType.GetProperty(sortDesc.PropertyName);
+
+                if (prop == null)
+                    throw new NullReferenceException($"Property \"{sortDesc.PropertyName}\" was not found in \"{recType.FullName}\"");
+
+                if (sortDesc.Direction == ListSortDirection.Ascending)
+                    collection = collection.OrderBy(rec => prop.GetValue(rec, null));
+                else
+                    collection = collection.OrderByDescending(rec => prop.GetValue(rec, null));
+            }
+
+            return collection;
+        }
+
+        /// <summary>
+        /// Select method with error handling
+        /// </summary>
+        /// <typeparam name="TSource">Source collection type</typeparam>
+        /// <typeparam name="TResult">Target collection type</typeparam>
+        /// <param name="source">Source collection</param>
+        /// <param name="selector">Value converter</param>
+        /// <param name="onFail">Called when converting an item causes an exception</param>
+        public static IEnumerable<TResult> SelectSafe<TSource, TResult>(this IEnumerable<TSource> source,
+            Func<TSource, TResult> selector, Action<TSource> onFail = null)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            IEnumerable<TResult> _()
+            {
+                foreach (var it in source)
+                {
+                    TResult res;
+
+                    try
+                    {
+                        res = selector(it);
+                    }
+                    catch (Exception)
+                    {
+                        onFail?.Invoke(it);
+
+                        continue;
+                    }
+
+                    yield return res;
+                }
+            }
+
+            return _();
         }
     }
 }

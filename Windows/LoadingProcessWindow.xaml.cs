@@ -1,11 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using TranslatorApk.Annotations;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Windows
@@ -20,9 +24,8 @@ namespace TranslatorApk.Windows
             get => _processValue;
             set
             {
-                _processValue = value;
-                TaskBarProgress = (int)(value * 10.0 / ProcessMax);
-                OnPropertyChanged(nameof(ProcessValue));
+                if (SetProperty(ref _processValue, value))
+                    TaskBarProgress = (int)(value * 10.0 / ProcessMax);
             }
         }
         private int _processValue;
@@ -30,23 +33,14 @@ namespace TranslatorApk.Windows
         public int ProcessMax
         {
             get => _processMax;
-            set
-            {
-                _processMax = value;
-                OnPropertyChanged(nameof(ProcessMax));
-            }
+            set => SetProperty(ref _processMax, value);
         }
         private int _processMax = 100;
 
         public bool IsIndeterminate
         {
             get => _isIndeterminate;
-            set
-            {
-                if (_isIndeterminate == value) return;
-                _isIndeterminate = value;
-                OnPropertyChanged(nameof(IsIndeterminate));
-            }
+            set => SetProperty(ref _isIndeterminate, value);
         }
         private bool _isIndeterminate;
 
@@ -55,10 +49,8 @@ namespace TranslatorApk.Windows
             get => _taskBarProgress;
             set
             {
-                if (_taskBarProgress == value)
-                    return;
-                Dispatcher.InvokeAction(() => TaskbarItemInfo.ProgressValue = value / 10.0);
-                _taskBarProgress = value;
+                if (SetProperty(ref _taskBarProgress, value))
+                    Dispatcher.InvokeAction(() => TaskbarItemInfo.ProgressValue = value / 10.0);
             }
         }
         private int _taskBarProgress;
@@ -66,15 +58,10 @@ namespace TranslatorApk.Windows
         public Visibility CancelVisibility
         {
             get => _cancelVisibility;
-            set
-            {
-                _cancelVisibility = value;
-                OnPropertyChanged(nameof(CancelVisibility));
-            }
+            set => SetProperty(ref _cancelVisibility, value);
         }
         private Visibility _cancelVisibility = Visibility.Visible;
 
-        public static LoadingProcessWindow Instance;
         // ReSharper disable once InconsistentNaming
         private static CancellationTokenSource cancellationToken;
 
@@ -88,24 +75,35 @@ namespace TranslatorApk.Windows
 
             TaskbarItemInfo = new TaskbarItemInfo
             {
-                ProgressState = TaskbarItemProgressState.Normal,
+                ProgressState = TaskbarItemProgressState.Normal
             };
         }
 
-        public static void ShowWindow(Action beforeStarting, Action<CancellationTokenSource> threadActions, Action finishActions, Visibility cancelVisibility = Visibility.Visible, int progressMax = 0)
+        public static void ShowWindow(Action beforeStarting, Action<CancellationTokenSource, ILoadingProcessWindowInvoker> threadActions, Action finishActions, Visibility cancelVisibility = Visibility.Visible, int progressMax = 0)
         {
+#if DEBUG
+            var localStack = Environment.StackTrace;
+#endif
+
             cancellationToken = new CancellationTokenSource();
             Application.Current.Dispatcher.Invoke(beforeStarting);
 
             var culture = Application.Current.Dispatcher.Thread.CurrentUICulture;
 
+            LoadingProcessWindow window = null;
+
             bool created = false;
             var loadingWindowTh = new Thread(() =>
             {
-                Instance = new LoadingProcessWindow { CancelVisibility = cancelVisibility, ProcessMax = progressMax };
+                window = new LoadingProcessWindow
+                {
+                    CancelVisibility = cancelVisibility,
+                    ProcessMax = progressMax
+                };
+
                 created = true;
-                Instance.DoFinishActions = true;
-                Instance.ShowDialog();
+                window.DoFinishActions = true;
+                window.ShowDialog();
             })
             {
                 CurrentCulture = culture,
@@ -114,17 +112,23 @@ namespace TranslatorApk.Windows
             loadingWindowTh.SetApartmentState(ApartmentState.STA);
             loadingWindowTh.Start();
 
-            while (!created) Thread.Sleep(100);
+            while (!created)
+            {
+                Thread.Sleep(100);
+            }
 
 //#if !DEBUG
             var th = new Thread(() =>
             {
                 try
                 {
-                    threadActions(cancellationToken);
+                    threadActions(cancellationToken, new LoadingProcessWindowInvoker(window));
                 }
                 catch (Exception ex)
                 {
+#if DEBUG
+                    Trace.WriteLine(localStack, $"{nameof(LoadingProcessWindow)} thread stack");
+#endif
                     Application.Current.Dispatcher.InvokeAction(() => throw ex);
                 }
             })
@@ -147,10 +151,11 @@ namespace TranslatorApk.Windows
 
                 if (thr != null && loadingWindowTh.IsAlive && !thr.HasShutdownStarted)
                 {
-                    Instance._canClose = true;
-                    thr.InvokeAction(() => Instance.Close());
+                    window._canClose = true;
+                    thr.InvokeAction(() => window.Close());
                 }
-                if (Instance.DoFinishActions)
+
+                if (window.DoFinishActions)
                 {
                     Application.Current.Dispatcher.Invoke(finishActions);
                 }
@@ -169,6 +174,17 @@ namespace TranslatorApk.Windows
             {
                 e.Cancel = true;
             }
+        }
+
+        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value))
+                return false;
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
