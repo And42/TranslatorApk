@@ -47,7 +47,8 @@
                         </Border.Effect>
                         <StackPanel  
                             IsItemsHost="True" 
-                            KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                            Grid.IsSharedSizeScope="True"/>
                     </Border>
                 </Popup>
             </StackPanel>
@@ -121,13 +122,13 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Image
+                <ContentPresenter
                     Name="Icon"
                     Height="16"
                     Width="16"
-                    Margin="0,0,6,0"
+                    Margin="0,0,10,0"
                     VerticalAlignment="Center"
-                    Source="{TemplateBinding Icon}"/>
+                    ContentSource="Icon"/>
                 <ContentPresenter 
                     Name="HeaderHost"
                     Grid.Column="1" Margin="0,0,15,0"
@@ -165,7 +166,8 @@
                         </Border.Effect>
                         <StackPanel  
                             IsItemsHost="True" 
-                            KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                            Grid.IsSharedSizeScope="True"/>
                     </Border>
                 </Popup>
             </Grid>

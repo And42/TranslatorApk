@@ -23,8 +23,8 @@
         Closing="LoadingWindow_OnClosing">
     <Grid 
             Margin="5"
-            attachedProperties:GridAP.Rows="*,25"
-            attachedProperties:GridAP.Columns="*,A">
+            attachedProperties:Grid.Rows="*,25"
+            attachedProperties:Grid.Columns="*,A">
 
         <TextBlock Margin="0,9,0,15" FontSize="15" HorizontalAlignment="Center" Grid.ColumnSpan="2" 
                    Text="{x:Static localization:Resources.WaitingOperation}"/>

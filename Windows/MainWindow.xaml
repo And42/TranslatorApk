@@ -34,8 +34,7 @@
     </Window.InputBindings>
 
     <DockPanel Margin="5,0,5,5">
-        <Menu 
-                x:Name="Menu" 
+        <Menu   x:Name="Menu" 
                 DockPanel.Dock="Top"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                 FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
@@ -50,14 +49,18 @@
             <MenuItem Header="{x:Static localization:Resources.XmlRulesEditor}"     Click="OpenXmlRulesClick"/>
             <MenuItem Header="{x:Static localization:Resources.ChangesDetector}"    Click="OpenChangesDetectorClick"/>
             <MenuItem Header="{x:Static localization:Resources.Plugins}"            x:Name="AddActionsMenuItem">
-                <MenuItem Header="{x:Static localization:Resources.Catalog}"        Click="OpenPluginsWindowClick"/>
+                <MenuItem Header="{x:Static localization:Resources.Catalog}"        Click="OpenPluginsWindowClick">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/Icons/folder.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static localization:Resources.AboutProgram}"       Click="OpenAboutClick"/>
         </Menu>
         
         <Grid Margin="0,5,0,0" DockPanel.Dock="Top" 
-              attachedProperties:GridAP.Rows="A,A"
-              attachedProperties:GridAP.Columns="A,A,A,A">
+              attachedProperties:Grid.Rows="A,A"
+              attachedProperties:Grid.Columns="A,A,A,A">
             <Grid.Resources>
                 <Style x:Key="UpperButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Margin" Value="0,0,7,7"/>

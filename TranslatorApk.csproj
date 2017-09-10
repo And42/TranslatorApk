@@ -189,7 +189,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Logic\AttachedProperties\GridAP.cs" />
+    <Compile Include="Logic\AttachedProperties\Grid.cs" />
     <Compile Include="Logic\Classes\ActionHost.cs" />
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
@@ -783,6 +783,9 @@
     <XliffResource Include="MultilingualResources\TranslatorApk.ru.xlf" />
     <XliffResource Include="MultilingualResources\TranslatorApk.uk-UA.xlf" />
     <XliffResource Include="MultilingualResources\TranslatorApk.vi-VN.xlf" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Splash.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />

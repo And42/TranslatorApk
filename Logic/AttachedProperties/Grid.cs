@@ -7,10 +7,10 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.AttachedProperties
 {
-    public static class GridAP
+    public static class Grid
     {
         public static readonly DependencyProperty RowsProperty = DependencyProperty.RegisterAttached(
-            "Rows", typeof(string), typeof(GridAP), new PropertyMetadata(default(string), PropertyChangedCallback));
+            "Rows", typeof(string), typeof(Grid), new PropertyMetadata(default, PropertyChangedCallback));
 
         public static void SetRows(DependencyObject element, string value)
         {
@@ -23,7 +23,7 @@ namespace TranslatorApk.Logic.AttachedProperties
         }
 
         public static readonly DependencyProperty ColumnsProperty = DependencyProperty.RegisterAttached(
-            "Columns", typeof(string), typeof(GridAP), new PropertyMetadata(default(string), PropertyChangedCallback));
+            "Columns", typeof(string), typeof(Grid), new PropertyMetadata(default, PropertyChangedCallback));
 
         public static void SetColumns(DependencyObject element, string value)
         {
@@ -53,7 +53,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
         private static void ProcessRows(DependencyObject element, string value)
         {
-            var grid = element as Grid;
+            var grid = element as System.Windows.Controls.Grid;
 
             if (grid == null)
                 throw new ArgumentException("Element must be of Grid type");
@@ -93,7 +93,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
         private static void ProcessColumns(DependencyObject element, string value)
         {
-            var grid = element as Grid;
+            var grid = element as System.Windows.Controls.Grid;
 
             if (grid == null)
                 throw new ArgumentException("Element must be of Grid type");

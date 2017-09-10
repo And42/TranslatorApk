@@ -39,7 +39,7 @@
     </Window.Resources>
 
     <Grid Margin="5"
-          attachedProps:GridAP.Rows="A,*,A">
+          attachedProps:Grid.Rows="A,*,A">
         <Grid.Resources>
 
             <sys:Double x:Key="EditorGrid_FontSize">15</sys:Double>
@@ -82,7 +82,7 @@
                 </MenuItem.Resources>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="115" Margin="-8,-1">
-                    <Grid attachedProps:GridAP.Rows="*,A">
+                    <Grid attachedProps:Grid.Rows="*,A">
                         <ItemsControl ItemsSource="{x:Static organisationItems:GlobalVariables.SourceDictionaries}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>

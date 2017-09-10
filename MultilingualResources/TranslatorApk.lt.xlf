@@ -72,7 +72,7 @@
           <target state="translated">Patvirtinimas</target>
         </trans-unit>
         <trans-unit id="CurrentDictionary" translate="yes" xml:space="preserve">
-          <source>Instanse dictionary</source>
+          <source>Current dictionary</source>
           <target state="needs-review-translation">Einamasis žodynas</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
