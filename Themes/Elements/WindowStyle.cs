@@ -65,8 +65,8 @@ namespace TranslatorApk.Themes.Elements
 
         public static void ForWindowFromTemplate(this object templateFrameworkElement, Action<Window> action)
         {
-            var window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as Window;
-            if (window != null) action(window);
+            if (templateFrameworkElement.As<FrameworkElement>().TemplatedParent is Window window)
+                action(window);
         }
 
         public static IntPtr GetWindowHandle(this Window window)
@@ -118,10 +118,15 @@ namespace TranslatorApk.Themes.Elements
 
         #region P/Invoke
 
+        // ReSharper disable InconsistentNaming
+
         const int WM_SYSCOMMAND = 0x112;
         const int SC_KEYMENU = 0xF100;
 
+        // ReSharper restore InconsistentNaming
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        // ReSharper disable once InconsistentNaming
         static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         #endregion
@@ -132,7 +137,7 @@ namespace TranslatorApk.Themes.Elements
 
             if (!WindowThemeParameters.GetIsResizable(currentWindow))
             {
-                WindowChrome.GetWindowChrome(currentWindow).ResizeBorderThickness = default(Thickness);
+                WindowChrome.GetWindowChrome(currentWindow).ResizeBorderThickness = default;
                 currentWindow.ResizeMode = ResizeMode.NoResize;
             }
 

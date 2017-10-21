@@ -20,14 +20,14 @@ namespace TranslatorApk.Logic.EventManagerLogic
             if (eventHandler == null)
                 throw new ArgumentNullException(nameof(eventHandler));
 
-            _handlersDictionary.Add(typeof(TEvent).FullName, param => eventHandler((TEvent)param));
+            _handlersDictionary.Add(typeof(TEvent).FullName ?? throw new InvalidOperationException(), param => eventHandler((TEvent)param));
 
             ManualEventManager.GetEvent<TEvent>().Subscribe(SubscribtionHandler);
         }
 
         public void RemoveEvent<TEvent>()
         {
-            _handlersDictionary.Remove(typeof(TEvent).FullName);
+            _handlersDictionary.Remove(typeof(TEvent).FullName ?? throw new InvalidOperationException());
 
             ManualEventManager.GetEvent<TEvent>().Unsubscribe(SubscribtionHandler);
         }
@@ -57,7 +57,7 @@ namespace TranslatorApk.Logic.EventManagerLogic
 
         private void InvokeEvent(object eventObj)
         {
-            if (_handlersDictionary.TryGetValue(eventObj.GetType().FullName, out var handler))
+            if (_handlersDictionary.TryGetValue(eventObj.GetType().FullName ?? throw new InvalidOperationException(), out Action<object> handler))
                 handler(eventObj);
         }
     }

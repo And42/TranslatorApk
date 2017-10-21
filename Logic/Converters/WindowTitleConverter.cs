@@ -10,7 +10,7 @@ namespace TranslatorApk.Logic.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? "" : " - " + Path.GetFileName(value.As<string>());
+            return value == null ? string.Empty : " - " + Path.GetFileName(value.As<string>());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Data;
 using TranslatorApk.Logic.Classes;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Converters
 {
-    class OptionsToVisibilityConverter : IValueConverter
+    class OptionsToVisibilityConverter : ConverterBase<Options>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override object Convert(Options options, Type targetType, object parameter, CultureInfo culture)
         {
-            Options options = value.As<Options>();
-
-            if (options.FullPath == "")
+            if (options.FullPath == string.Empty)
                 return Visibility.Collapsed;
 
             bool param = parameter != null;
@@ -21,11 +17,6 @@ namespace TranslatorApk.Logic.Converters
             if (param)
                 return options.IsFolder ? Visibility.Visible : Visibility.Collapsed;
             return !options.IsFolder ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

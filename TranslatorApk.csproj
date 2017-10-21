@@ -101,6 +101,7 @@
     <Reference Include="AndroidTranslator, Version=1.2.6190.821, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll</HintPath>
+      <Aliases>global</Aliases>
     </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
@@ -191,8 +192,10 @@
     </ApplicationDefinition>
     <Compile Include="Logic\AttachedProperties\Grid.cs" />
     <Compile Include="Logic\Classes\ActionHost.cs" />
+    <Compile Include="Logic\Classes\BindableBase.cs" />
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
+    <Compile Include="Logic\Converters\ConverterBase.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Logic\CustomCommandContainers\ActionCommand.cs" />
     <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
@@ -243,13 +246,11 @@
     <Compile Include="Logic\WebServices\GoogleTranslateService.cs" />
     <Compile Include="Logic\WebServices\YandexDetectService.cs" />
     <Compile Include="Logic\WebServices\YandexTranslateService.cs" />
-    <Compile Include="Logic\WebJsonResponses\YandexTranslateResponse.cs" />
     <Compile Include="Logic\OrganisationItems\GlobalResources.cs" />
     <Compile Include="Logic\OrganisationItems\GlobalVariables.cs" />
     <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
     <Compile Include="Logic\Converters\OptionsToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\InstallTextConverter.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Themes\Elements\WindowStyle.cs" />
     <Compile Include="Windows\AboutProgramWindow.xaml.cs">
       <DependentUpon>AboutProgramWindow.xaml</DependentUpon>

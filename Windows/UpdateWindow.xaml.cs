@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -52,8 +51,7 @@ namespace TranslatorApk.Windows
             }
             else
             {
-                Process process;
-                Utils.RunAsAdmin(System.Reflection.Assembly.GetExecutingAssembly().Location, "update", out process);
+                Utils.RunAsAdmin(System.Reflection.Assembly.GetExecutingAssembly().Location, "update", out _);
                 Environment.Exit(0);
             }
         }

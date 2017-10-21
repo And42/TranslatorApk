@@ -1,5 +1,5 @@
-﻿using AndroidTranslator.Interfaces.Strings;
-using TranslatorApk.Logic.OrganisationItems;
+﻿using TranslatorApk.Logic.OrganisationItems;
+using AndroidTranslator.Interfaces.Strings;
 
 namespace TranslatorApk.Logic.Classes
 {

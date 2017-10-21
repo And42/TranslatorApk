@@ -1018,14 +1018,14 @@ namespace TranslatorApk.Windows
                 Name = LocRes.AllXml,
                 Options = new Options("", true),
                 DoubleClicked = LoadXmlFiles,
-                Image = GlobalResources.Icon_UnknownFile
+                Image = GlobalResources.IconUnknownFile
             });
             FilesTreeViewModel.Children.Add(new TreeViewNodeModel
             {
                 Name = LocRes.AllSmali,
                 Options = new Options("", true),
                 DoubleClicked = LoadSmaliFiles,
-                Image = GlobalResources.Icon_UnknownFile
+                Image = GlobalResources.IconUnknownFile
             });
 
             Dispatcher dispatcher = Dispatcher;

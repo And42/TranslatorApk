@@ -432,9 +432,7 @@ namespace TranslatorApk.Windows
             if (GlobalVariables.SourceDictionaries.Any(dict => dict.Item1 == dictionaryFile))
                 return;
 
-            DictionaryFile dictFile;
-
-            if (TryFunc(() => new DictionaryFile(dictionaryFile), out dictFile))
+            if (TryFunc(() => new DictionaryFile(dictionaryFile), out _))
                 GlobalVariables.SourceDictionaries.Add(new CheckableString(dictionaryFile, true));
             else
                 MessBox.ShowDial(dictionaryFile + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
@@ -442,7 +440,7 @@ namespace TranslatorApk.Windows
 
         private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CheckableString item = (sender as Grid)?.DataContext as CheckableString;
+            var item = (sender as Grid)?.DataContext as CheckableString;
 
             if (item != null)
                 GlobalVariables.SourceDictionaries.Remove(item);
@@ -523,9 +521,13 @@ namespace TranslatorApk.Windows
 
         private void EditorGrid_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            MenuItem CreateItem(string header, RoutedEventHandler clicked)
+            MenuItem CreateItem(string header, RoutedEventHandler clicked, string gesture = null)
             {
-                var item = new MenuItem { Header = header };
+                var item = new MenuItem
+                {
+                    Header = header,
+                    InputGestureText = gesture,
+                };
                 item.Click += clicked;
                 return item;
             }
@@ -544,16 +546,16 @@ namespace TranslatorApk.Windows
 
             if (selectedFile != null)
             {
-                var items = new Dictionary<string, RoutedEventHandler>
+                var items = new List<(string header, RoutedEventHandler handler, string gesture)>
                 {
-                    { Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName)},
-                    { Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName) },
-                    { Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty) },
-                    { Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty) },
-                    { Res.Delete, (o, args) => StringFiles.Remove(selectedFile) }
+                    ( Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName), default ),
+                    ( Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName), default ),
+                    ( Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty), default ),
+                    ( Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty), default ),
+                    ( Res.Delete, (o, args) => StringFiles.Remove(selectedFile), "Delete" )
                 };
 
-                items.ForEach(it => menu.Items.Add(CreateItem(it.Key, it.Value)));
+                items.ForEach(it => menu.Items.Add(CreateItem(it.header, it.handler, it.gesture)));
             }
 
             IOneString selectedString = GetSelectedString(out RowColumnIndex rowColumn);
@@ -1349,9 +1351,9 @@ namespace TranslatorApk.Windows
 
         #endregion
 
-        private void ClearDictList_OnClick(object sender, RoutedEventArgs e)
+        /*private void ClearDictList_OnClick(object sender, RoutedEventArgs e)
         {
             GlobalVariables.SourceDictionaries.Clear();
-        }
+        }*/
     }
 }

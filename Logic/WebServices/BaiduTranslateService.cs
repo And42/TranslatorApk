@@ -17,20 +17,8 @@ namespace TranslatorApk.Logic.WebServices
         public static string Translate(string text, string sourceLanguage, string targetLanguage)
         {
             text = $"query={text}&from={sourceLanguage}&to={targetLanguage}&transtype=trans&simple_means_flag=3";
-            var request = (HttpWebRequest)WebRequest.Create("http://fanyi.baidu.com/v2transapi");
-            request.Headers = new WebHeaderCollection
-            {
-                {HttpRequestHeader.AcceptCharset, "utf-8"}
-            };
-            request.UserAgent = GlobalVariables.MozillaAgent;
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
 
-            var bytes = Encoding.UTF8.GetBytes(text);
-            request.ContentLength = bytes.Length;
-            request.GetRequestStream().Write(bytes, 0, bytes.Length);
-
-            string resp = new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
+            string resp = UploadString("http://fanyi.baidu.com/v2transapi", text);
 
             var obj = new
             {
@@ -54,20 +42,8 @@ namespace TranslatorApk.Logic.WebServices
         public static string Detect(string text)
         {
             text = "query=" + text;
-            var request = (HttpWebRequest) WebRequest.Create("http://fanyi.baidu.com/langdetect");
-            request.Headers = new WebHeaderCollection
-            {
-                {HttpRequestHeader.AcceptCharset, "utf-8"}
-            };
-            request.UserAgent = GlobalVariables.MozillaAgent;
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
 
-            var bytes = Encoding.UTF8.GetBytes(text);
-            request.ContentLength = bytes.Length;
-            request.GetRequestStream().Write(bytes, 0, bytes.Length);
-
-            string resp = new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
+            string resp = UploadString("http://fanyi.baidu.com/langdetect", text);
 
             var obj = new
             {
@@ -81,6 +57,33 @@ namespace TranslatorApk.Logic.WebServices
                 throw new Exception("Detect error");
 
             return convResp.lan;
+        }
+
+        private static string UploadString(string uri, string text)
+        {
+            var request = (HttpWebRequest) WebRequest.Create(uri);
+
+            request.Headers = new WebHeaderCollection
+            {
+                {HttpRequestHeader.AcceptCharset, "utf-8"}
+            };
+
+            request.UserAgent = GlobalVariables.MozillaAgent;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+
+            var bytes = Encoding.UTF8.GetBytes(text);
+            request.ContentLength = bytes.Length;
+            request.GetRequestStream().Write(bytes, 0, bytes.Length);
+
+            var responseStream = request.GetResponse().GetResponseStream();
+
+            if (responseStream == null)
+                return string.Empty;
+
+            using (responseStream)
+                using (var reader = new StreamReader(responseStream))
+                    return reader.ReadToEnd();
         }
     }
 }

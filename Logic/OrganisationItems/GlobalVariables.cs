@@ -23,7 +23,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                 Path.Combine(
                     Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) ?? string.Empty,
                     "Release",
-                    Path.GetFileName(Assembly.GetExecutingAssembly().Location ?? string.Empty)
+                    Path.GetFileName(Assembly.GetExecutingAssembly().Location)
                 );
 #else
             PathToExe = Assembly.GetExecutingAssembly().Location;
@@ -203,12 +203,12 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Settings.Default.FoldersOfLanguages as list
         /// </summary>
-        public static List<string> Settings_FoldersOfLanguages { get; set; } = Properties.Resources.FoldersOfLanguages.Split('|').ToList();
+        public static List<string> SettingsFoldersOfLanguages { get; set; } = Properties.Resources.FoldersOfLanguages.Split('|').ToList();
 
         /// <summary>
         /// Settings.Default.NamesOfFolderLanguages as list
         /// </summary>
-        public static List<string> Settings_NamesOfFolderLanguages { get; set; } = Resources.Localizations.Resources.NamesOfFolderLanguages.Split('|').ToList();
+        public static List<string> SettingsNamesOfFolderLanguages { get; set; } = Resources.Localizations.Resources.NamesOfFolderLanguages.Split('|').ToList();
 
         #endregion
 

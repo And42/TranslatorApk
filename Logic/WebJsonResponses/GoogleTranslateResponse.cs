@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
+// ReSharper disable InconsistentNaming
+
 namespace TranslatorApk.Logic.WebJsonResponses
 {
     public class GoogleTranslateResponse
@@ -19,10 +21,14 @@ namespace TranslatorApk.Logic.WebJsonResponses
 
         public override string ToString()
         {
-            if (sentences == null || sentences.Count == 0) return string.Empty;
+            if (sentences == null || sentences.Count == 0)
+                return string.Empty;
+
             var sb = new StringBuilder();
+
             foreach (_sentences str in sentences)
                 sb.Append(str.trans);
+
             return sb.ToString();
         }
     }

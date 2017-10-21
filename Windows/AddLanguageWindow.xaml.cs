@@ -28,8 +28,8 @@ namespace TranslatorApk.Windows
         /// </summary>
         public ObservableCollection<Tuple<BitmapImage, string>> TargetLanguages { get; } = new ObservableCollection<Tuple<BitmapImage, string>>();
 
-        private readonly List<string> _folderLangs = GlobalVariables.Settings_FoldersOfLanguages;
-        private readonly List<string> _folderLocalizedLangs = GlobalVariables.Settings_NamesOfFolderLanguages;
+        private readonly List<string> _folderLangs = GlobalVariables.SettingsFoldersOfLanguages;
+        private readonly List<string> _folderLocalizedLangs = GlobalVariables.SettingsNamesOfFolderLanguages;
 
         private readonly string _folder;
 

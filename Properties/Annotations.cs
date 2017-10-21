@@ -1,4 +1,8 @@
 ﻿using System;
+// ReSharper disable NotNullMemberIsNotInitialized
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+// ReSharper disable RedundantAttributeUsageProperty
+// ReSharper disable CheckNamespace
 
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global

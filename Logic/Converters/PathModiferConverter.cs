@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Windows.Data;
 
 namespace TranslatorApk.Logic.Converters
 {
-    public class PathModiferConverter : IValueConverter
+    public class PathModiferConverter : ConverterBase<string>
     {
         public enum ConvertOptions
         {
@@ -14,28 +13,21 @@ namespace TranslatorApk.Logic.Converters
             Name
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override object Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            string val = (string) value;
-
             ConvertOptions param = parameter == null ? ConvertOptions.Name : (ConvertOptions) Enum.Parse(typeof(ConvertOptions), parameter.ToString());
 
             switch (param)
             {
                 case ConvertOptions.Name:
-                    return Path.GetFileNameWithoutExtension(val);
+                    return Path.GetFileNameWithoutExtension(value);
                 case ConvertOptions.NameAndExt:
-                    return Path.GetFileName(val);
+                    return Path.GetFileName(value);
                 case ConvertOptions.PathAndName:
-                    return UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFullFNWithoutExt(val);
+                    return UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
             }
 
             return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -8,6 +8,7 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
+        xmlns:windows="clr-namespace:TranslatorApk.Windows"
         mc:Ignorable="d" MinHeight="300" MinWidth="300" Width="450" Height="400" WindowStartupLocation="CenterScreen"
         Title="Apktools"
         
@@ -25,14 +26,41 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <syncfusion:SfDataGrid HeaderStyle="{StaticResource GridHeaderStyle}" HeaderRowHeight="30" RowHeight="35" FontSize="15" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding ServerApktools}" ColumnSizer="AutoLastColumnFill" SelectionMode="None" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutoGenerateColumns="False" IsEnabled="{Binding ProgressBarVisibility, Converter={StaticResource VisibilityToBoolConverter}, ConverterParameter=True}">
+        <syncfusion:SfDataGrid
+                DockPanel.Dock="Top"
+                HeaderStyle="{StaticResource GridHeaderStyle}"
+                HeaderRowHeight="30"
+                RowHeight="35" FontSize="15"
+                VerticalAlignment="Top"
+                ItemsSource="{Binding ServerApktools}"
+                ColumnSizer="AutoLastColumnFill"
+                SelectionMode="None"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                AutoGenerateColumns="False"
+                IsEnabled="{Binding ProgressBarVisibility, Converter={StaticResource VisibilityToBoolConverter}, ConverterParameter=True}">
             <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn AllowResizing="False" MappingName="Version" HeaderText="{x:Static localization:Resources.Version}" Width="100" AllowSorting="False"/>
-                <syncfusion:GridTextColumn AllowResizing="False" MappingName="Size" HeaderText="{x:Static localization:Resources.Size}" Width="100" AllowSorting="False"/>
-                <syncfusion:GridTemplateColumn HeaderText=" " MappingName="Installed" AllowResizing="False" AllowSorting="False" HorizontalAlignment="Stretch">
+                <syncfusion:GridTextColumn
+                    MappingName="Version"
+                    HeaderText="{x:Static localization:Resources.Version}"
+                    AllowResizing="False"
+                    Width="100"
+                    AllowSorting="False"/>
+                <syncfusion:GridTextColumn
+                    MappingName="Size"
+                    HeaderText="{x:Static localization:Resources.Size}"
+                    AllowResizing="False"
+                    Width="100"
+                    AllowSorting="False"/>
+                <syncfusion:GridTemplateColumn
+                        MappingName="Installed"
+                        HeaderText=" "
+                        AllowResizing="False"
+                        AllowSorting="False"
+                        HorizontalAlignment="Stretch">
                     <syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button 
+                                d:DataContext="{d:DesignInstance windows:ApktoolCatalogWindow+DownloadableApktool}"
                                 Content="{Binding Installed, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
                                 Padding="5, 3" Margin="3"
                                 HorizontalAlignment="Stretch" Click="DownloadClick"/>

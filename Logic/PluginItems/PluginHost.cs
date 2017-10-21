@@ -12,10 +12,10 @@ namespace TranslatorApk.Logic.PluginItems
     public class PluginHost : MarshalByRefObject 
     {
         public readonly ReadOnlyCollection<ActionHost> Actions;
-        private readonly List<ActionHost> actions;
+        private readonly List<ActionHost> _actions;
 
         public readonly ReadOnlyCollection<TransServiceHost> Translators;
-        private readonly List<TransServiceHost> translators;
+        private readonly List<TransServiceHost> _translators;
 
         public AppDomain Domain { get; }
 
@@ -23,11 +23,11 @@ namespace TranslatorApk.Logic.PluginItems
 
         public PluginHost()
         {
-            actions = new List<ActionHost>();
-            Actions = new ReadOnlyCollection<ActionHost>(actions);
+            _actions = new List<ActionHost>();
+            Actions = _actions.AsReadOnly();
 
-            translators = new List<TransServiceHost>();
-            Translators = new ReadOnlyCollection<TransServiceHost>(translators);
+            _translators = new List<TransServiceHost>();
+            Translators = _translators.AsReadOnly();
 
             Domain = AppDomain.CurrentDomain;
         }
@@ -83,9 +83,9 @@ namespace TranslatorApk.Logic.PluginItems
                 var customAttribs = type.GetCustomAttributes(false);
 
                 if (customAttribs.Any(a => a.GetType().FullName == "TranslatorApkPluginLib.TranslateServiceAttribute"))
-                    translators.Add(new TransServiceHost(LoadService(type)));
+                    _translators.Add(new TransServiceHost(LoadService(type)));
                 else if (customAttribs.Any(a => a.GetType().FullName == "TranslatorApkPluginLib.AdditionalActionAttribute"))
-                    actions.Add(new ActionHost(LoadService(type)));
+                    _actions.Add(new ActionHost(LoadService(type)));
             }
         }
 

@@ -43,13 +43,13 @@
                     <Binding StringFormat="{}{0}:" Source="{x:Static localizations:Resources.Text}"/>
                 </TextBlock.Text>
             </TextBlock>
-            <ComboBox x:Name="SearchBox" Grid.Column="1" TabIndex="0" Text="{Binding TextToSearch}" ItemsSource="{Binding SearchAdds}" IsTextSearchEnabled="False" 
+            <ComboBox x:Name="SearchBox" Grid.Row="0" Grid.Column="1" TabIndex="0" Text="{Binding TextToSearch}" ItemsSource="{Binding SearchAdds}" IsTextSearchEnabled="False" 
                   MaxDropDownHeight="300" IsEditable="True" Margin="3"/>
 
-            <CheckBox Grid.Row="1" VerticalAlignment="Center" Content="{x:Static localizations:Resources.OnlyFullWords}" IsChecked="{Binding OnlyFullWords}"/>
+            <CheckBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:Resources.OnlyFullWords}" IsChecked="{Binding OnlyFullWords}"/>
             <Button Grid.Row="1" Grid.Column="1" TabIndex="1" Content="{x:Static localizations:Resources.FindNext}" Click="FindNextClick" Margin="3" Padding="2"/>
 
-            <CheckBox Grid.Row="2" VerticalAlignment="Center" Content="{x:Static localizations:Resources.MatchCase}" IsChecked="{Binding MatchCase}"  />
+            <CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:Resources.MatchCase}" IsChecked="{Binding MatchCase}"  />
             <Button Grid.Row="2" Grid.Column="1" TabIndex="2" Content="{x:Static localizations:Resources.FindAll}" Click="FindAllClick" Margin="3" Padding="2"/>
         </Grid>
 

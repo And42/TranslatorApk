@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,8 +11,6 @@ using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using Res = TranslatorApk.Resources.Localizations.Resources;
-
-using static TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
@@ -38,14 +37,26 @@ namespace TranslatorApk.Windows
             {
                 CheckFileExists = true,
                 CheckPathExists = true,
-                Filter = XmlFiles + " (*.xml)|*.xml",
+                Filter = Res.XmlFiles + " (*.xml)|*.xml",
                 Multiselect = false
             };
-            // ReSharper disable once PossibleInvalidOperationException
-            if (dialog.ShowDialog().Value)
+            
+            if (dialog.ShowDialog() == true)
             {
                 var xdoc = new XmlDocument();
-                xdoc.Load(dialog.FileName);
+
+                try
+                {
+                    xdoc.Load(dialog.FileName);
+                }
+                catch (XmlException ex)
+                {
+                    // todo: Localize
+                    MessBox.ShowDial(Res.ErrorLower,
+                        $"Can't open file '{dialog.FileName}'{Environment.NewLine}Error: {ex}");
+                    return;
+                }
+
                 var itms = new List<string>(Items.Select(item => item.Text));
                 itms = Utils.GetAllAttributes(xdoc.DocumentElement, itms);
 
@@ -62,8 +73,10 @@ namespace TranslatorApk.Windows
 
             XmlFile.XmlRules = items.ToList();
 
-            MessBox.ShowDial(Finished);
+            MessBox.ShowDial(Res.Finished);
         }
+
+#pragma warning disable 1591
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -73,5 +86,7 @@ namespace TranslatorApk.Windows
             PropertyChangedEventHandler handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+#pragma warning restore 1591
     }
 }

@@ -64,6 +64,7 @@ namespace TranslatorApk.Logic.WebServices
         /// Возвращает двусимвольное название языка
         /// </summary>
         /// <param name="longName">Полное название языка</param>
+        // ReSharper disable once InconsistentNaming
         public static string GetShortTL(string longName)
         {
             return ShortTargetLanguages[LongTargetLanguages.IndexOf(longName)];
@@ -73,6 +74,7 @@ namespace TranslatorApk.Logic.WebServices
         /// Возвращает полное названия языка
         /// </summary>
         /// <param name="shortName">Двусимвольное название языка</param>
+        // ReSharper disable once InconsistentNaming
         public static string GetLongTL(string shortName)
         {
             return LongTargetLanguages[ShortTargetLanguages.IndexOf(shortName)];

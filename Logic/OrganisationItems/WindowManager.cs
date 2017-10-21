@@ -40,7 +40,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             Window window;
 
-            if (!WindowsDict.TryGetValue(type, out window))
+            if (!WindowsDict.TryGetValue(type ?? throw new InvalidOperationException(), out window))
             {
                 window = createNew?.Invoke() ?? (Window) Activator.CreateInstance(windowType);
                 window.Closing += ChildWindowOnClosing;
@@ -105,7 +105,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="windowType">Тип окна</param>
         public static void CloseWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
+            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
             {
                 window.Close();
                 WindowsDict.Remove(windowType.FullName);
@@ -119,7 +119,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public static void RemoveFromList(Type windowType)
         {
-            WindowsDict.Remove(windowType.FullName);
+            WindowsDict.Remove(windowType.FullName ?? throw new InvalidOperationException());
         }
 
         public static void EnableWindow<T>() where T : Window
@@ -129,7 +129,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public static void EnableWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
+            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
                 window.IsEnabled = true;
         }
 
@@ -140,13 +140,13 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public static void DisableWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName, out Window window) && window.IsLoaded)
+            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
                 window.IsEnabled = false;
         }
 
         public static T GetActiveWindow<T>() where T : Window
         {
-            return WindowsDict.TryGetValue(typeof(T).FullName, out Window result) ? (T)result : null;
+            return WindowsDict.TryGetValue(typeof(T).FullName ?? throw new InvalidOperationException(), out Window result) ? (T)result : null;
         }
     }
 }

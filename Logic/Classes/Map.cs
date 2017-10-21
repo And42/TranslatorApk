@@ -25,8 +25,8 @@ namespace TranslatorApk.Logic.Classes
 
             public T4 this[T3 index]
             {
-                get { return _dictionary[index]; }
-                set { _dictionary[index] = value; }
+                get => _dictionary[index];
+                set => _dictionary[index] = value;
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -46,8 +46,8 @@ namespace TranslatorApk.Logic.Classes
             _backward.Add(t2, t1);
         }
 
-        public Indexer<T1, T2> Forward { get; private set; }
-        public Indexer<T2, T1> Backward { get; private set; }
+        public Indexer<T1, T2> Forward { get; }
+        public Indexer<T2, T1> Backward { get; }
 
         public bool ContainsKey(T1 key) => _forward.ContainsKey(key);
 

@@ -241,10 +241,10 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            if (CachedProperties.TryGetValue(propertyName, out var value))
+            if (CachedProperties.TryGetValue(propertyName, out object value))
                 return (T) value;
 
-            var val = Settings.Default[propertyName];
+            object val = Settings.Default[propertyName];
 
             CachedProperties.Add(propertyName, val);
 

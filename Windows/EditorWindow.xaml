@@ -72,7 +72,7 @@
                 </StackPanel>
             </MenuItem>
 
-            <MenuItem Header="{x:Static lang:Resources.Search}" Click="ShowSearchClick"/>
+            <MenuItem Header="{x:Static lang:Resources.Search}" Click="ShowSearchClick" ToolTip="Ctrl + F"/>
 
             <MenuItem Header="Словари">
                 <MenuItem.Resources>
@@ -133,10 +133,15 @@
                     <StackPanel Orientation="Horizontal">
                         <Button 
                             Margin="0,0,3,0" Padding="3,2"
-                            Content="..."  Click="ChooseDictionariesClick"
-                            AllowDrop="True" PreviewDragEnter="CurrentDictionariesDragEnter" PreviewDrop="CurrentDictionariesDragDrop"/>
+                            Content="..."  
+                            Click="ChooseDictionariesClick"
+                            AllowDrop="True" 
+                            PreviewDragEnter="CurrentDictionariesDragEnter" 
+                            PreviewDrop="CurrentDictionariesDragDrop"/>
                         <Button 
-                            Padding="6,2" Content="{x:Static lang:Resources.Use}" Click="UseDictionariesClick"/>
+                            Padding="6,2" 
+                            Content="{x:Static lang:Resources.Use}" 
+                            Click="UseDictionariesClick"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>

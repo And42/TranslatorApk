@@ -6,6 +6,7 @@
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:windows="clr-namespace:TranslatorApk.Windows"
 
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" Style="{StaticResource WindowStyle}"
@@ -24,7 +25,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <syncfusion:SfDataGrid x:Name="PluginsGrid" FontSize="15" HeaderStyle="{StaticResource GridHeaderStyle}" HeaderRowHeight="30" ItemsSource="{Binding TableItems}" AutoGenerateColumns="False" ColumnSizer="AutoLastColumnFill" RowHeight="35" SelectionMode="None">
+        <syncfusion:SfDataGrid
+                x:Name="PluginsGrid"
+                FontSize="15"
+                HeaderStyle="{StaticResource GridHeaderStyle}"
+                HeaderRowHeight="30"
+                ItemsSource="{Binding TableItems}"
+                AutoGenerateColumns="False"
+                ColumnSizer="AutoLastColumnFill"
+                RowHeight="35"
+                SelectionMode="None">
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn MappingName="Title" HeaderText="{x:Static localization:Resources.Title}" MinimumWidth="120" Width="170" AllowResizing="True"/>
                 <syncfusion:GridTextColumn MappingName="Description" HeaderText="{x:Static localization:Resources.Description}" MinimumWidth="240" AllowSorting="False" AllowResizing="True"/>
@@ -34,6 +44,7 @@
                     <syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button 
+                                d:DataContext="{d:DesignInstance windows:Plugins+TableItem}"
                                 Content="{Binding Installed, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}"  
                                 Padding="5, 3" Margin="3"
                                 HorizontalAlignment="Stretch" Click="DownloadClick"/>

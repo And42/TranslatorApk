@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace TranslatorApk.Logic.Converters
 {
-    class InvertBoolConverter : IValueConverter
+    class InvertBoolConverter : ConverterBase<bool>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override object Convert(bool value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return !value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override bool ConvertBackObj(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return !(bool)value;
         }

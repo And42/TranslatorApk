@@ -1,4 +1,4 @@
-﻿namespace TranslatorApk.Logic
+﻿namespace TranslatorApk.Logic.OrganisationItems
 {
     public static class EventModuler
     {

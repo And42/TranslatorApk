@@ -53,6 +53,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
         private static void ProcessRows(DependencyObject element, string value)
         {
+            // ReSharper disable once UsePatternMatching
             var grid = element as System.Windows.Controls.Grid;
 
             if (grid == null)
@@ -93,6 +94,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
         private static void ProcessColumns(DependencyObject element, string value)
         {
+            // ReSharper disable once UsePatternMatching
             var grid = element as System.Windows.Controls.Grid;
 
             if (grid == null)

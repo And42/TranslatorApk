@@ -15,7 +15,7 @@ namespace TranslatorApk.Logic.EventManagerLogic
         /// <typeparam name="TEventType">Тип события</typeparam>
         public static PubSubEvent<TEventType> GetEvent<TEventType>()
         {
-            string typeName = typeof(TEventType).FullName;
+            string typeName = typeof(TEventType).FullName ?? string.Empty;
 
             if (Events.TryGetValue(typeName, out object evnt))
             {

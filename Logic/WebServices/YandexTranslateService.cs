@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using TranslatorApk.Logic.OrganisationItems;
 
+// ReSharper disable InconsistentNaming
 // ReSharper disable CollectionNeverUpdated.Local
 // ReSharper disable ClassNeverInstantiated.Local
 // ReSharper disable MemberCanBePrivate.Local
@@ -24,8 +25,10 @@ namespace TranslatorApk.Logic.WebServices
             public override string ToString()
             {
                 var sb = new StringBuilder();
+
                 foreach (string str in text)
                     sb.Append(str);
+
                 return sb.ToString();
             }
         }

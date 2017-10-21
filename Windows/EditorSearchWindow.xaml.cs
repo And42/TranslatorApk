@@ -162,12 +162,11 @@ namespace TranslatorApk.Windows
 
         private void ShowSelectedItemInEditor()
         {
+            // ReSharper disable once UsePatternMatching
             var item = FoundItemsGrid.SelectedItem as OneFoundItem;
 
             if (item == null)
-            {
                 return;
-            }
 
             WindowManager.ActivateWindow<EditorWindow>(this);
 

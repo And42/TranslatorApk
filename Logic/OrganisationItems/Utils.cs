@@ -63,7 +63,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             if (item.Options.IsFolder)
             {
-                icon = GlobalResources.Icon_FolderVerticalOpen;
+                icon = GlobalResources.IconFolderVerticalOpen;
             }
             else
             {
@@ -75,13 +75,13 @@ namespace TranslatorApk.Logic.OrganisationItems
                     }
                     catch (RuntimeWrappedException)
                     {
-                        icon = GlobalResources.Icon_UnknownFile;
+                        icon = GlobalResources.IconUnknownFile;
                         _canLoadIcons = false;
                     }
                 }
                 else
                 {
-                    icon = GlobalResources.Icon_UnknownFile;
+                    icon = GlobalResources.IconUnknownFile;
                 }
             }
 
@@ -207,7 +207,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                     Options = new Options(folder)
                 };
 
-                int index = GlobalVariables.Settings_FoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
+                int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
 
                 if (flagFiles.Contains(item.Name))
                 {
@@ -221,11 +221,11 @@ namespace TranslatorApk.Logic.OrganisationItems
 
                 if (index > -1)
                 {
-                    string found = GlobalVariables.Settings_FoldersOfLanguages[index];
+                    string found = GlobalVariables.SettingsFoldersOfLanguages[index];
 
                     string source = item.Name;
 
-                    item.Name = GlobalVariables.Settings_NamesOfFolderLanguages[index];
+                    item.Name = GlobalVariables.SettingsNamesOfFolderLanguages[index];
 
                     if (found != source)
                         item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
@@ -991,7 +991,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             }
             catch (Exception)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
         }
@@ -1192,6 +1192,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="parameters">Параметры метода</param>
         public static T ExecRefl<T>(Type type, object obj, string name, params object[] parameters)
         {
+            // ReSharper disable once PossibleNullReferenceException
             return type.GetMethod(name).Invoke(obj, parameters).As<T>();
         }
 
@@ -1228,10 +1229,10 @@ namespace TranslatorApk.Logic.OrganisationItems
                 if (prop == null)
                     throw new NullReferenceException($"Property \"{sortDesc.PropertyName}\" was not found in \"{recType.FullName}\"");
 
-                if (sortDesc.Direction == ListSortDirection.Ascending)
-                    collection = collection.OrderBy(rec => prop.GetValue(rec, null));
-                else
-                    collection = collection.OrderByDescending(rec => prop.GetValue(rec, null));
+                collection = 
+                    sortDesc.Direction == ListSortDirection.Ascending 
+                        ? collection.OrderBy(rec => prop.GetValue(rec, null)) 
+                        : collection.OrderByDescending(rec => prop.GetValue(rec, null));
             }
 
             return collection;

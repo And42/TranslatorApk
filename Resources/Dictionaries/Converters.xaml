@@ -7,7 +7,7 @@
     <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
     <converters:OptionsToVisibilityConverter x:Key="OptionsToVisibilityConverter"/>
     <converters:WindowTitleConverter x:Key="WindowTitleConverter"/>
-    <converters:DoubleToMBSizeConverter x:Key="DoubleToMbSizeConverter"/>
+    <converters:DoubleToMbSizeConverter x:Key="DoubleToMbSizeConverter"/>
     <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter"/>
     <converters:TranslateServiceToStringConverter x:Key="TranslateServiceToStringConverter"/>
     <converters:PathModiferConverter x:Key="PathModiferConverter"/>

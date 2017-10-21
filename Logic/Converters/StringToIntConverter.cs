@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace TranslatorApk.Logic.Converters
 {
-    class StringToIntConverter :IValueConverter
+    class StringToIntConverter : ConverterBase<string>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override object Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            return int.Parse((string)value);
+            return int.Parse(value);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override string ConvertBackObj(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return ((int)value).ToString();
         }

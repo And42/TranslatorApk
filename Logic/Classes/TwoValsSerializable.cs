@@ -33,10 +33,10 @@ namespace TranslatorApk.Logic.Classes
         protected TwoValsSerializable() { }
 
         protected TwoValsSerializable(Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString, Func<TFirst, string> firstToString, Func<TSecond, string> secondToString)
-            : this(default(TFirst), default(TSecond), firstFromString, secondFromString, firstToString, secondToString) { }
+            : this(default, default, firstFromString, secondFromString, firstToString, secondToString) { }
 
         protected TwoValsSerializable(Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString)
-            : this(default(TFirst), default(TSecond), firstFromString, secondFromString) { }
+            : this(default, default, firstFromString, secondFromString) { }
 
         protected TwoValsSerializable(TFirst item1, TSecond item2, Func<string, TFirst> firstFromString, Func<string, TSecond> secondFromString, Func<TFirst, string> firstToString, Func<TSecond, string> secondToString)
         {

@@ -1,35 +1,18 @@
-﻿using System.ComponentModel;
-using TranslatorApk.Annotations;
-
-namespace TranslatorApk.Logic.Classes
+﻿namespace TranslatorApk.Logic.Classes
 {
-    public class CheckBoxSetting : INotifyPropertyChanged
+    public class CheckBoxSetting : BindableBase
     {
         public string Text
         {
-            get
-            {
-                return _text;
-            }
-            set
-            {
-                _text = value;
-                OnPropertyChanged(nameof(Text));
-            }
+            get => _text;
+            set => SetProperty(ref _text, value);
         }
         private string _text;
 
         public bool Value
         {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                _value = value;
-                OnPropertyChanged(nameof(Value));
-            }
+            get => _value;
+            set => SetProperty(ref _value, value);
         }
         private bool _value;
 
@@ -37,15 +20,6 @@ namespace TranslatorApk.Logic.Classes
         {
             _text = text;
             _value = value;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

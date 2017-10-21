@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Converters
 {
@@ -8,12 +9,12 @@ namespace TranslatorApk.Logic.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return bool.Parse((string) value);
+            return bool.Parse(value.As<string>());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool) value).ToString();
+            return value.As<bool>().ToString();
         }
     }
 }

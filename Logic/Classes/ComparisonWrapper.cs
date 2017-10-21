@@ -5,18 +5,18 @@ namespace TranslatorApk.Logic.Classes
 {
     public class ComparisonWrapper<T> : IComparer<T>, IEqualityComparer<T>
     {
-        private readonly Comparison<T> comparison;
-        private readonly Func<T, int> provideHash;
+        private readonly Comparison<T> _comparison;
+        private readonly Func<T, int> _provideHash;
 
         public ComparisonWrapper(Comparison<T> comparison, Func<T, int> getHashCode = null)
         {
-            this.comparison = comparison;
-            provideHash = getHashCode ?? (it => it.GetHashCode());
+            _comparison = comparison;
+            _provideHash = getHashCode ?? (it => it.GetHashCode());
         }
 
         public int Compare(T x, T y)
         {
-            return comparison(x, y);
+            return _comparison(x, y);
         }
 
         public bool Equals(T x, T y)
@@ -26,7 +26,7 @@ namespace TranslatorApk.Logic.Classes
 
         public int GetHashCode(T obj)
         {
-            return provideHash(obj);
+            return _provideHash(obj);
         }
     }
 }
