@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using AndroidLibs;
-using AndroidTranslator.Classes.Exceptions;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using Microsoft.Win32;
@@ -48,7 +48,7 @@ namespace TranslatorApk.Windows
     {
         #region Поля
 
-        private static string[] _arguments;
+        private readonly string[] _arguments;
         private static readonly Logger AndroidLogger;
 
         private const int ItemPreviewDelayMs = 500;
@@ -470,8 +470,8 @@ namespace TranslatorApk.Windows
 
             if (_arguments.Length == 1)
             {
-                var file = _arguments[0];
-                var ext = Path.GetExtension(file);
+                string file = _arguments[0];
+                string ext = Path.GetExtension(file);
 
                 if (Directory.Exists(file))
                 {
@@ -585,16 +585,16 @@ namespace TranslatorApk.Windows
 
             WindowManager.ActivateWindow<EditorWindow>();
 
-            if (files.Count > 0)
-            {
-                ManualEventManager.GetEvent<AddEditableFilesEvent>()
-                    .Publish(new AddEditableFilesEvent(files, false));
+            if (files.Count == 0)
+                return;
 
-                string fileName = files[0].FileName;
+            ManualEventManager.GetEvent<AddEditableFilesEvent>()
+                .Publish(new AddEditableFilesEvent(files, false));
 
-                ManualEventManager.GetEvent<EditorScrollToFileAndSelectEvent>()
-                    .Publish(new EditorScrollToFileAndSelectEvent(f => f.FileName.Equals(fileName, StringComparison.Ordinal)));
-            }
+            string fileName = files[0].FileName;
+
+            ManualEventManager.GetEvent<EditorScrollToFileAndSelectEvent>()
+                .Publish(new EditorScrollToFileAndSelectEvent(f => f.FileName.Equals(fileName, StringComparison.Ordinal)));
         }
 
         #endregion
@@ -619,56 +619,19 @@ namespace TranslatorApk.Windows
             e.Handled = true;
         }
 
-        private void LoadXmlFiles()
+        private static void LoadXmlFiles()
         {
-            var filesList = new List<XmlFile>();
-
-            LoadingProcessWindow.ShowWindow(
-                beforeStarting: Disable,
-                threadActions: (cts, invoker) => 
-                {
-                    invoker.IsIndeterminate = true;
-
-                    var files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*.xml", SearchOption.AllDirectories);
-
-                    invoker.IsIndeterminate = false;
-
-                    invoker.ProcessMax = files.Length;
-
-                    filesList = new List<XmlFile>(files.Length);
-
-                    Parallel.ForEach(files, file =>
-                    {
-                        if (!Utils.CheckFilePath(file)) return;
-                        if (cts.IsCancellationRequested) return;
-
-                        try
-                        {
-                            filesList.Add(XmlFile.Create(file));
-                        }
-                        catch (XmlParserException)
-                        { }
-
-                        invoker.ProcessValue++;
-                    });
-                },
-                finishActions: () =>
-                { 
-                    List<IEditableFile> res = filesList.FindAll(file => file.Details != null && file.Details.Count > 0).ConvertAll(f => (IEditableFile)f);
-
-                    Enable();
-
-                    WindowManager.ActivateWindow<EditorWindow>();
-
-                    ManualEventManager.GetEvent<AddEditableFilesEvent>()
-                        .Publish(new AddEditableFilesEvent(res));
-                }
-            );
+            LoadFiles(".xml", XmlFile.Create);
         }
 
-        private void LoadSmaliFiles()
+        private static void LoadSmaliFiles()
         {
-            var filesList = new List<ISmaliFile>();
+            LoadFiles(".smali", file => new SmaliFile(file));
+        }
+
+        private static void LoadFiles<T>(string extension, Func<string, T> createNew) where T : IEditableFile
+        {
+            var filesList = new ConcurrentQueue<T>();
 
             LoadingProcessWindow.ShowWindow(
                 beforeStarting: Disable,
@@ -676,13 +639,13 @@ namespace TranslatorApk.Windows
                 {
                     invoker.IsIndeterminate = true;
 
-                    var files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*.smali", SearchOption.AllDirectories);
+                    string[] files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*" + extension, SearchOption.AllDirectories);
 
                     invoker.IsIndeterminate = false;
 
                     invoker.ProcessMax = files.Length;
 
-                    filesList = new List<ISmaliFile>(files.Length);
+                    filesList = new ConcurrentQueue<T>();
 
                     Parallel.ForEach(files, file =>
                     {
@@ -692,14 +655,21 @@ namespace TranslatorApk.Windows
                         if (cts.IsCancellationRequested)
                             return;
 
-                        filesList.Add(new SmaliFile(file));
+                        try
+                        {
+                            filesList.Enqueue(createNew(file));
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
 
                         invoker.ProcessValue++;
                     });
                 },
                 finishActions: () =>
                 {
-                    List<IEditableFile> res = 
+                    List<IEditableFile> res =
                         filesList
                             .Where(file => file.Details != null && file.Details.Count > 0)
                             .Cast<IEditableFile>()
@@ -881,7 +851,7 @@ namespace TranslatorApk.Windows
             if (!TryCreateNewLog(logPath))
                 return;
 
-            Apk = new Apktools(file, GlobalVariables.PathToResources, Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
+            Apk = new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath);
             Apk.Logging += s => VisLog(Log(s));
 
             if (!Apk.HasJava())
@@ -957,29 +927,35 @@ namespace TranslatorApk.Windows
             Apk = new Apktools(
                 GlobalVariables.CurrentProjectFile, 
                 GlobalVariables.PathToResources, 
-                Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar")
+                GlobalVariables.CurrentApktoolPath
             );
 
             Apk.Logging += s => VisLog(Log(s));
+
             FilesTreeViewModel.Children.Clear();
-            FilesTreeViewModel.Children.Add(new TreeViewNodeModel
-            {
-                Name = StringResources.AllXml,
-                Options = new Options("", true),
-                DoubleClicked = LoadXmlFiles,
-                Image = GlobalResources.IconUnknownFile
-            });
-            FilesTreeViewModel.Children.Add(new TreeViewNodeModel
-            {
-                Name = StringResources.AllSmali,
-                Options = new Options("", true),
-                DoubleClicked = LoadSmaliFiles,
-                Image = GlobalResources.IconUnknownFile
-            });
+            FilesTreeViewModel.Children.Add(
+                new TreeViewNodeModel
+                {
+                    Name = StringResources.AllXml,
+                    Options = new Options("", true),
+                    DoubleClicked = LoadXmlFiles,
+                    Image = GlobalResources.IconUnknownFile
+                }
+            );
+            FilesTreeViewModel.Children.Add(
+                new TreeViewNodeModel
+                {
+                    Name = StringResources.AllSmali,
+                    Options = new Options("", true),
+                    DoubleClicked = LoadSmaliFiles,
+                    Image = GlobalResources.IconUnknownFile
+                }
+            );
 
             Dispatcher dispatcher = Dispatcher;
 
-            LoadingProcessWindow.ShowWindow(() => IsEnabled = false,
+            LoadingProcessWindow.ShowWindow(
+                Disable,
                 (cts, invoker) =>
                 {
                     invoker.IsIndeterminate = true;
@@ -992,7 +968,7 @@ namespace TranslatorApk.Windows
                 },
                 () =>
                 {
-                    IsEnabled = true;
+                    Enable();
 
                     FilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
                 });
@@ -1013,7 +989,7 @@ namespace TranslatorApk.Windows
                 .Publish(new AddEditableFilesEvent(file));
         }
         
-        private void Expand(TreeViewNodeModel item, bool expand = true)
+        private static void Expand(TreeViewNodeModel item, bool expand = true)
         {
             item.IsExpanded = expand;
             
@@ -1055,7 +1031,7 @@ namespace TranslatorApk.Windows
             OnPropertyChanged(nameof(LogBoxText));
         }
 
-        private bool TryCreateNewLog(string logPath)
+        private static bool TryCreateNewLog(string logPath)
         {
             try
             {
