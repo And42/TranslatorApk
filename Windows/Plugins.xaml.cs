@@ -12,6 +12,7 @@ using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using UsefulFunctionsLib;
 
 using StringResources = TranslatorApk.Resources.Localizations.Resources;
@@ -48,7 +49,7 @@ namespace TranslatorApk.Windows
         }
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
-        public class TableItem : INotifyPropertyChanged
+        public class TableItem : BindableBase
         {
             [XmlElement("title")]
             public string Title { get; set; }
@@ -68,36 +69,16 @@ namespace TranslatorApk.Windows
             public string Version
             {
                 get => _version;
-                set
-                {
-                    if (_version == value) return;
-                    _version = value;
-                    OnPropertyChanged1(nameof(Version));
-                }
+                set => SetProperty(ref _version, value);
             }
             private string _version;
 
             public InstallOptionsEnum Installed
             {
                 get => _installed;
-                set
-                {
-                    if (value == _installed)
-                        return;
-
-                    _installed = value;
-                    OnPropertyChanged1(nameof(Installed));
-                }
+                set => SetProperty(ref _installed, value);
             }
             private InstallOptionsEnum _installed;
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            [NotifyPropertyChangedInvocator]
-            protected virtual void OnPropertyChanged1(string propertyName)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         [XmlRoot("items")]
@@ -185,7 +166,7 @@ namespace TranslatorApk.Windows
                 item.Installed = InstallOptionsEnum.ToUninstall;
                 item.Version = item.LatestVersion;
 
-                Utils.LoadPlugin(dllPath);
+                PluginUtils.LoadPlugin(dllPath);
             }
             else if (Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
             {
@@ -193,7 +174,7 @@ namespace TranslatorApk.Windows
 
                 item.Installed = InstallOptionsEnum.ToUninstall;
                 item.Version = item.LatestVersion;
-                Utils.LoadPlugin(Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll"));
+                PluginUtils.LoadPlugin(Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll"));
             }
         }
 
@@ -202,7 +183,7 @@ namespace TranslatorApk.Windows
             string dllName = Path.Combine(GlobalVariables.PathToPlugins, $"{item.DllName}.dll");
             string dirName = Path.Combine(GlobalVariables.PathToPlugins, item.DllName);
 
-            Utils.UnloadPlugin(item.DllName);
+            PluginUtils.UnloadPlugin(item.DllName);
 
             try
             {

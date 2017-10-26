@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using UsefulFunctionsLib;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -63,7 +64,7 @@ namespace TranslatorApk.Windows
                 if (SourceLanguages.All(src => src != lang))
                 {
                     string name = _folderLangs[_folderLocalizedLangs.IndexOf(lang)];
-                    TargetLanguages.Add(Tuple.Create(Utils.GetFlagImage(name), lang));
+                    TargetLanguages.Add(Tuple.Create(ImageUtils.GetFlagImage(name), lang));
                 }
             }
         }

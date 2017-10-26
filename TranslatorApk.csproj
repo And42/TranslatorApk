@@ -66,7 +66,7 @@
     <DefineConstants>TRACE;/F 10485760</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7</LangVersion>
+    <LangVersion>latest</LangVersion>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -195,6 +195,7 @@
     <Compile Include="Logic\Classes\BindableBase.cs" />
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
+    <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
     <Compile Include="Logic\Converters\ConverterBase.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Logic\CustomCommandContainers\ActionCommand.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
     <Compile Include="Logic\OrganisationItems\SettingsIncapsuler.cs" />
+    <Compile Include="Logic\Utils\ImageUtils.cs" />
+    <Compile Include="Logic\Utils\PluginUtils.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
@@ -235,7 +238,7 @@
     <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
     <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
-    <Compile Include="Logic\OrganisationItems\Utils.cs" />
+    <Compile Include="Logic\Utils\Utils.cs" />
     <Compile Include="Logic\WebJsonResponses\GoogleTranslateResponse.cs" />
     <Compile Include="Logic\Classes\Options.cs" />
     <Compile Include="Logic\Classes\Setting.cs" />

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,7 +14,6 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -31,111 +29,19 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.PluginItems;
+using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Windows;
-using TranslatorApkPluginLib;
-using UsefulClasses;
 using UsefulFunctionsLib;
 
 using LocRes = TranslatorApk.Resources.Localizations.Resources;
 using Settings = TranslatorApk.Properties.Settings;
 using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
-namespace TranslatorApk.Logic.OrganisationItems
+namespace TranslatorApk.Logic.Utils
 {
     public static class Utils
     {
-        //todo: Исправить ошибку от Aid5 (IconHandler.IconFromExtension(item.Options.Ext, IconSize.Large))
-
-        private static bool _canLoadIcons = true;
-
-        /// <summary>
-        /// Загружает иконку для TreeViewItem
-        /// </summary>
-        /// <param name="item">Целевой объект</param>
-        public static void LoadIconForItem(TreeViewNodeModel item)
-        {
-            if (item.Options.IsImageLoaded)
-                return;
-
-            BitmapSource icon;
-
-            if (item.Options.IsFolder)
-            {
-                icon = GlobalResources.IconFolderVerticalOpen;
-            }
-            else
-            {
-                if (_canLoadIcons)
-                {
-                    try
-                    {
-                        icon = LoadIconFromFile(item.Options);
-                    }
-                    catch (RuntimeWrappedException)
-                    {
-                        icon = GlobalResources.IconUnknownFile;
-                        _canLoadIcons = false;
-                    }
-                }
-                else
-                {
-                    icon = GlobalResources.IconUnknownFile;
-                }
-            }
-
-            if (icon != null)
-            {
-                item.Image = icon;
-            }
-
-            item.Options.IsImageLoaded = true;
-        }
-
-        /// <summary>
-        /// Загружает изображение из файла, указанного в объекте типа <see cref="Options"/>
-        /// </summary>
-        /// <param name="file">Объект для обработки</param>
-        private static BitmapSource LoadIconFromFile(Options file)
-        {
-            if (SetInc.Instance.ImageExtensions.Contains(file.Ext))
-            {
-                try
-                {
-                    var image = LoadThumbnailFromFile(file.FullPath);
-                    file.HasPreview = true;
-                    return image;
-                }
-                catch (NotSupportedException)
-                {
-                    return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
-                }
-            }
-
-            return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
-        }
-
-        /// <summary>
-        /// Загружает иконку, ассоциированную с указанным файлом
-        /// </summary>
-        /// <param name="filePath">Файл, иконку которого необходимо получить</param>
-        private static Icon GetIconFromFile(string filePath)
-        {
-            //return ShellIcon.GetLargeIcon(filePath);
-
-            return Icon.ExtractAssociatedIcon(filePath);
-        }
-
-        /// <summary>
-        /// Загружает изображение из файла
-        /// </summary>
-        /// <param name="fileName">Файл</param>
-        private static BitmapImage LoadThumbnailFromFile(string fileName)
-        {
-            return new BitmapImage(new Uri(fileName));
-        }
-
         /// <summary>
         /// Проверяет текущий файл на соответствие настройкам
         /// </summary>
@@ -179,25 +85,32 @@ namespace TranslatorApk.Logic.OrganisationItems
             return true;
         }
 
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null, HashSet<string> flagFiles = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, IHaveChildren root,
+            bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
+        {
+            var flagFiles =
+                new HashSet<string>(
+                    Directory.EnumerateFiles(GlobalVariables.PathToFlags, "*.png")
+                        .Select(Path.GetFileNameWithoutExtension)
+                );
+
+            LoadFilesToTreeViewInternal(dispatcher, pathToFolder, root, showEmptyFolders, cts, oneFileAdded, flagFiles);
+        }
+
+        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
         {
             if (cts?.IsCancellationRequested == true)
                 return;
 
-            if (flagFiles == null)
-            {
-                flagFiles = 
-                    new HashSet<string>(
-                        Directory.EnumerateFiles(GlobalVariables.PathToFlags, "*.png")
-                            .Select(Path.GetFileNameWithoutExtension)
-                    );
-            }
+            IEnumerable<string> files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
+            IEnumerable<string> folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
 
-            var files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
-            var folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
-
-            foreach (var folder in folders)
+            foreach (string folder in folders)
             {
+                if (cts?.IsCancellationRequested == true)
+                    return;
+
+                // folder length
                 if (!CheckFilePath(folder))
                     continue;
 
@@ -207,18 +120,20 @@ namespace TranslatorApk.Logic.OrganisationItems
                     Options = new Options(folder)
                 };
 
-                int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
-
+                // folder has it's own flag
                 if (flagFiles.Contains(item.Name))
                 {
                     dispatcher.InvokeAction(() =>
                     {
-                        item.Image = GetFlagImage(item.Name);
+                        item.Image = ImageUtils.GetFlagImage(item.Name);
                     });
 
                     item.Options.IsImageLoaded = true;
                 }
 
+                int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
+
+                // folder is a language folder
                 if (index > -1)
                 {
                     string found = GlobalVariables.SettingsFoldersOfLanguages[index];
@@ -232,19 +147,19 @@ namespace TranslatorApk.Logic.OrganisationItems
                 }
 
                 dispatcher.InvokeAction(() => root.Children.Add(item));
-                LoadFilesToTreeView(dispatcher, folder, item, showEmptyFolders, cts, oneFileAdded, flagFiles);
+                LoadFilesToTreeViewInternal(dispatcher, folder, item, showEmptyFolders, cts, oneFileAdded, flagFiles);
 
                 if (item.Children.Count == 0 && !showEmptyFolders)
                     dispatcher.InvokeAction(() => root.Children.Remove(item));
             }
 
-            foreach (var file in files)
+            foreach (string file in files)
             {
-                if (!CheckFilePath(file))
-                    continue;
-
                 if (cts?.IsCancellationRequested == true)
                     return;
+
+                if (!CheckFilePath(file))
+                    continue;
 
                 oneFileAdded?.Invoke();
 
@@ -259,30 +174,6 @@ namespace TranslatorApk.Logic.OrganisationItems
 
                 dispatcher.InvokeAction(() => root.Children.Add(item));
             }
-        }
-
-        /// <summary>
-        /// Возвращает флаг указанного языка
-        /// </summary>
-        /// <param name="title">Язык</param>
-        public static BitmapImage GetFlagImage(string title)
-        {
-            string file = Path.Combine(GlobalVariables.PathToFlags, $"{title}.png");
-
-            if (File.Exists(file))
-                return new BitmapImage(new Uri(file));
-
-            return null;
-            //return GetImageFromApp($"/Resources/Flags/{title}.png");
-        }
-
-        /// <summary>
-        /// Возвращает изображение из ресурсов программы
-        /// </summary>
-        /// <param name="pathInApp">Путь в ресурсах</param>
-        public static BitmapImage GetImageFromApp(string pathInApp)
-        {
-            return new BitmapImage(new Uri(pathInApp, UriKind.Relative));
         }
 
         /// <summary>
@@ -479,130 +370,6 @@ namespace TranslatorApk.Logic.OrganisationItems
             }
         }
 
-        private static bool _pluginsLoaded;
-        /// <summary>
-        /// Загружает плагины из папки (вызывается только 1 раз)
-        /// </summary>
-        public static void LoadPlugins()
-        {
-            if (_pluginsLoaded)
-                return;
-
-            if (!Directory.Exists(GlobalVariables.PathToPlugins))
-            {
-                LoadCurrentTranslationService();
-
-                return;
-            }
-
-            var plugins = Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll", SearchOption.TopDirectoryOnly);
-
-            plugins.ForEach(LoadPlugin);
-
-            _pluginsLoaded = true;
-
-            LoadCurrentTranslationService();
-        }
-
-        /// <summary>
-        /// Устанавливает текущий сервис перевода, основываясь на настройках
-        /// </summary>
-        private static void LoadCurrentTranslationService()
-        {
-            if (TranslateService.OnlineTranslators.TryGetValue(SetInc.Instance.OnlineTranslator, out var found))
-            {
-                GlobalVariables.CurrentTranslationService = found;
-            }
-            else
-            {
-                SetInc.Instance.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
-                GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
-            }
-        }
-
-        /// <summary>
-        /// Загружает плагин
-        /// </summary>
-        /// <param name="path">Путь к файлу</param>
-        public static void LoadPlugin(string path)
-        {
-            var appDomain = AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(path) ?? throw new NullReferenceException("Path name is null"));
-
-            var type = typeof(PluginHost);
-
-            var loader = (PluginHost)
-                appDomain.CreateInstanceAndUnwrap(
-                    type.Assembly.FullName,
-                    type.FullName ?? throw new NullReferenceException($"{nameof(PluginHost)}.{nameof(type.FullName)} is null")
-                );
-
-            loader.Load(path);
-
-            loader.Actions.ForEach(it => AddAction(loader, it));
-            
-            loader.Translators.ForEach(AddTranslator);
-
-            GlobalVariables.Plugins.Add(loader.Name, loader);
-        }
-
-        /// <summary>
-        /// Выгружает плагин
-        /// </summary>
-        /// <param name="name">Название плагина</param>
-        public static void UnloadPlugin(string name)
-        {
-            PluginHost found;
-
-            if (!GlobalVariables.Plugins.TryGetValue(name, out found))
-                return;
-
-            found.Actions.ForEach(RemoveAction);
-            found.Translators.ForEach(RemoveTranslator);
-
-            string pluginName = found.Name;
-
-            AppDomain.Unload(found.Domain);
-
-            GlobalVariables.Plugins.Remove(pluginName);
-        }
-
-        /// <summary>
-        /// Добавляет действие в меню
-        /// </summary>
-        /// <param name="host"></param>
-        /// <param name="action">Действие</param>
-        public static void AddAction(PluginHost host, IAdditionalAction action)
-        {
-            WindowManager.GetActiveWindow<MainWindow>()?.AddActionToMenu(new PluginPart<IAdditionalAction>(host, action));
-        }
-
-        /// <summary>
-        /// Удаляет действие из меню
-        /// </summary>
-        /// <param name="action"></param>
-        public static void RemoveAction(IAdditionalAction action)
-        {
-            WindowManager.GetActiveWindow<MainWindow>().RemoveActionFromMenu(action.Guid);
-        }
-
-        /// <summary>
-        /// Добавляет сервис перевода в список доступных сервисов
-        /// </summary>
-        /// <param name="translator">Сервис перевода</param>
-        public static void AddTranslator(ITranslateService translator)
-        {
-            TranslateService.OnlineTranslators.Add(translator.Guid, new OneTranslationService(translator));
-        }
-
-        /// <summary>
-        /// Удаляет сервис перевода из списка доступных сервисов
-        /// </summary>
-        /// <param name="translator">Сервис перевода</param>
-        public static void RemoveTranslator(ITranslateService translator)
-        {
-            TranslateService.OnlineTranslators.Remove(translator.Guid);
-        }
-
         /// <summary>
         /// Добавляет или заменяет перевод в словаре переводов текущей сессии, если активирована соответствующая настройка
         /// </summary>
@@ -797,7 +564,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public static bool IsAdmin()
         {
-            WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+
             return pricipal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
@@ -809,11 +577,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <returns>True, если запуск успешен, false, если нет</returns>
         public static bool RunAsAdmin(string fileName, string arguments)
         {
-            #pragma warning disable 168
-
             return RunAsAdmin(fileName, arguments, out Process _);
-
-            #pragma warning restore 168
         }
 
         /// <summary>
@@ -888,7 +652,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                 return false;
             }
 
-            var docElem = xDoc.DocumentElement;
+            XmlElement docElem = xDoc.DocumentElement;
 
             return docElem?.Name == "translations" && docElem.Attributes["name"]?.Value == "AeDict";
         }
@@ -902,7 +666,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (Path.GetExtension(file) != ".xml")
                 return false;
 
-            using (var stream = File.OpenRead(file))
+            using (FileStream stream = File.OpenRead(file))
                 return IsDictionaryFile(stream);
         }
 
@@ -926,6 +690,7 @@ namespace TranslatorApk.Logic.OrganisationItems
                 case ".xml":
                     if (IsDictionaryFile(filePath))
                         return new DictionaryFile(filePath);
+
                     return XmlFile.Create(filePath);
                 case ".smali":
                     return new SmaliFile(filePath);
@@ -1089,7 +854,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="grid">Таблица, объект которой нужно получить</param>
         public static DetailsViewManager GetViewManager(this SfDataGrid grid)
         {
-            var propertyInfo = grid.GetType().GetField("DetailsViewManager", BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo propertyInfo = grid.GetType().GetField("DetailsViewManager", BindingFlags.Instance | BindingFlags.NonPublic);
             return propertyInfo?.GetValue(grid) as DetailsViewManager;
         }
 
@@ -1112,7 +877,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             grid.ScrollInView(new RowColumnIndex(vIndex, detailsColumn));
 
-            var view = grid.GetDetailsViewGrid(recordIndex, relationalColumn);
+            SfDataGrid view = grid.GetDetailsViewGrid(recordIndex, relationalColumn);
 
             if (view != null)
                 return view;
@@ -1135,13 +900,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         {
             int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
 
-            var detailsGrid = grid.GetDetailsViewGridWUpd("Details", parentIndex);
+            SfDataGrid detailsGrid = grid.GetDetailsViewGridWUpd("Details", parentIndex);
 
             int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as IOneString));
 
             detailsGrid.SelectedIndex = childIndex;
 
-            var container = grid.GetVisualContainer();
+            VisualContainer container = grid.GetVisualContainer();
 
             container.ScrollRows.ScrollInView(grid.ResolveToRowIndex(parentIndex));
 
@@ -1164,7 +929,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             grid.SelectedIndex = parentIndex;
 
-            var container = grid.GetVisualContainer();
+            VisualContainer container = grid.GetVisualContainer();
 
             container.ScrollRows.ScrollInView(grid.ResolveToRowIndex(parentIndex));
         }
@@ -1196,6 +961,11 @@ namespace TranslatorApk.Logic.OrganisationItems
             return type.GetMethod(name).Invoke(obj, parameters).As<T>();
         }
 
+        public static bool Contains<T>(this T[] array, T value)
+        {
+            return Array.IndexOf(array, value) != -1;
+        }
+
         public static bool SetProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged
         {
             if (EqualityComparer<TPropType>.Default.Equals(storage, value))
@@ -1222,12 +992,12 @@ namespace TranslatorApk.Logic.OrganisationItems
         {
             var recType = typeof(TRecord);
 
-            foreach (var sortDesc in sortDescriptions)
+            foreach (SortDescription sortDesc in sortDescriptions)
             {
                 var prop = recType.GetProperty(sortDesc.PropertyName);
 
                 if (prop == null)
-                    throw new NullReferenceException($"Property \"{sortDesc.PropertyName}\" was not found in \"{recType.FullName}\"");
+                    throw new NullReferenceException($"Property `{sortDesc.PropertyName}` was not found in `{recType.FullName}`");
 
                 collection = 
                     sortDesc.Direction == ListSortDirection.Ascending 
@@ -1247,7 +1017,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="selector">Value converter</param>
         /// <param name="onFail">Called when converting an item causes an exception</param>
         public static IEnumerable<TResult> SelectSafe<TSource, TResult>(this IEnumerable<TSource> source,
-            Func<TSource, TResult> selector, Action<TSource> onFail = null)
+            Func<TSource, TResult> selector, Action<TSource, Exception> onFail = null)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -1256,7 +1026,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             IEnumerable<TResult> _()
             {
-                foreach (var it in source)
+                foreach (TSource it in source)
                 {
                     TResult res;
 
@@ -1264,9 +1034,9 @@ namespace TranslatorApk.Logic.OrganisationItems
                     {
                         res = selector(it);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        onFail?.Invoke(it);
+                        onFail?.Invoke(it, ex);
 
                         continue;
                     }

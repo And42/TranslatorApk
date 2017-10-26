@@ -73,8 +73,7 @@
         </trans-unit>
         <trans-unit id="CurrentDictionary" translate="yes" xml:space="preserve">
           <source>Current dictionary</source>
-          <target state="needs-review-translation">Текущий словарь</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Текущий словарь</target>
         </trans-unit>
         <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -602,7 +601,11 @@
         </trans-unit>
         <trans-unit id="Clear" translate="yes" xml:space="preserve">
           <source>Clear</source>
-          <target state="new">Clear</target>
+          <target state="translated">Очистить</target>
+        </trans-unit>
+        <trans-unit id="FileIsInUse" translate="yes" xml:space="preserve">
+          <source>The file may be in use (and thus locked) by another user or application: "{0}"</source>
+          <target state="translated">Следующий файл уже используется (и поэтому недоступен) другим пользователем или приложением: "{0}"</target>
         </trans-unit>
       </group>
     </body>

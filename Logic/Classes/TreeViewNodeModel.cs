@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Classes
@@ -49,7 +50,7 @@ namespace TranslatorApk.Logic.Classes
             set
             {
                 if (this.SetProperty(ref _isExpanded, value) && value)
-                    Children.ForEach(Utils.LoadIconForItem);
+                    Children.ForEach(Utils.ImageUtils.LoadIconForItem);
             }
         }
         private bool _isExpanded;

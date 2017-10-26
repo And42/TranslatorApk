@@ -28,7 +28,7 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
 using UsefulFunctionsLib;
 
-using static TranslatorApk.Logic.OrganisationItems.Utils;
+using static TranslatorApk.Logic.Utils.Utils;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
 using Clipboard = System.Windows.Clipboard;

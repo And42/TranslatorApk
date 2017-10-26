@@ -604,6 +604,10 @@
           <source>Clear</source>
           <target state="new">Clear</target>
         </trans-unit>
+        <trans-unit id="FileIsInUse" translate="yes" xml:space="preserve">
+          <source>The file may be in use (and thus locked) by another user or application: "{0}"</source>
+          <target state="new">The file may be in use (and thus locked) by another user or application: "{0}"</target>
+        </trans-unit>
       </group>
     </body>
   </file>

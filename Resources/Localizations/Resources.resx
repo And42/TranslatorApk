@@ -549,4 +549,7 @@
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="FileIsInUse" xml:space="preserve">
+    <value>The file may be in use (and thus locked) by another user or application: "{0}"</value>
+  </data>
 </root>

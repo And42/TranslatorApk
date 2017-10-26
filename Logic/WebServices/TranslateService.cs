@@ -182,7 +182,7 @@ namespace TranslatorApk.Logic.WebServices
         {
             string link =
                 "http://" + $"translation.babylon.com/translate/babylon.php?v=1.0&q={HttpUtility.UrlEncode(text)}&langpair={sourceLanguage}|{targetLanguage}&callback=callbackFn&context=babylon";
-            return Utils.DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
+            return Utils.Utils.DownloadString(link).Split('{')[1].Split('}')[0].Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         /// <summary>

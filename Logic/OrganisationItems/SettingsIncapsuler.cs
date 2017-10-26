@@ -247,7 +247,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             object val = Settings.Default[propertyName];
 
             CachedProperties.Add(propertyName, val);
-
+            
             return (T) val;
         }
 

@@ -556,6 +556,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на The file may be in use (and thus locked) by another user or application: &quot;{0}&quot;.
+        /// </summary>
+        public static string FileIsInUse {
+            get {
+                return ResourceManager.GetString("FileIsInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на File is situated in.
         /// </summary>
         public static string FileIsSituatedIn {

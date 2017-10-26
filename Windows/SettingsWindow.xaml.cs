@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
 using UsefulFunctionsLib;
 

@@ -15,6 +15,7 @@ using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using UsefulFunctionsLib;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -69,9 +70,9 @@ namespace TranslatorApk.Windows
 
         public SearchWindow()
         {
-            SearchAdds      = new ObservableCollection<string>(SettingsIncapsuler.Instance.FullSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>());
-            OnlyFullWords   = new Setting<bool>(nameof(SettingsIncapsuler.OnlyFullWords), Res.OnlyFullWords);
-            MatchCase       = new Setting<bool>(nameof(SettingsIncapsuler.MatchCase), Res.MatchCase);
+            SearchAdds = new ObservableCollection<string>(SettingsIncapsuler.Instance.FullSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>());
+            OnlyFullWords = new Setting<bool>(nameof(SettingsIncapsuler.OnlyFullWords), Res.OnlyFullWords);
+            MatchCase = new Setting<bool>(nameof(SettingsIncapsuler.MatchCase), Res.MatchCase);
 
             InitializeComponent();
             SearchBoxIndex = -1;
@@ -105,7 +106,7 @@ namespace TranslatorApk.Windows
                     var buildFolder = Path.DirectorySeparatorChar + "build";
                     var buildFolderM = Path.DirectorySeparatorChar + "build" + Path.DirectorySeparatorChar;
 
-                    var xmlFiles = 
+                    List<string> xmlFiles = 
                         Directory.EnumerateFiles(projectFolder, "*.xml", SearchOption.AllDirectories)
                             .Where(file =>
                                 {
@@ -116,7 +117,7 @@ namespace TranslatorApk.Windows
                             )
                             .ToList();
 
-                    var smaliFiles = Directory.EnumerateFiles(projectFolder, "*.smali", SearchOption.AllDirectories).ToList();
+                    List<string> smaliFiles = Directory.EnumerateFiles(projectFolder, "*.smali", SearchOption.AllDirectories).ToList();
 
                     invoker.ProcessValue = 0;
                     invoker.ProcessMax = xmlFiles.Count + smaliFiles.Count;
@@ -135,11 +136,11 @@ namespace TranslatorApk.Windows
                     else /*if (matchCase && onlyFullWords)*/
                         checkRules = (f, s) => f.Equals(s, StringComparison.Ordinal);
 
-                    var union =
+                    IEnumerable<IEditableFile> union =
                         xmlFiles.SelectSafe<string, IEditableFile>(XmlFile.Create)
                             .UnionWOEqCheck(smaliFiles.SelectSafe(it => new SmaliFile(it)));
 
-                    foreach (var file in union)
+                    foreach (IEditableFile file in union)
                     {
                         if (cts.IsCancellationRequested)
                         {
@@ -204,7 +205,7 @@ namespace TranslatorApk.Windows
             if (SettingsIncapsuler.Instance.FullSearchAdds == null)
                 SettingsIncapsuler.Instance.FullSearchAdds = new StringCollection();
 
-            var adds = SettingsIncapsuler.Instance.FullSearchAdds;
+            StringCollection adds = SettingsIncapsuler.Instance.FullSearchAdds;
 
             adds.Remove(text);
             adds.Insert(0, text);

@@ -1,6 +1,6 @@
 ﻿using System;
 using TranslatorApkPluginLib;
-using static TranslatorApk.Logic.OrganisationItems.Utils;
+using static TranslatorApk.Logic.Utils.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {

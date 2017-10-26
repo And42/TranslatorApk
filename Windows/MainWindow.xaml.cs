@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using AndroidLibs;
@@ -25,11 +24,12 @@ using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApkPluginLib;
 using UsefulClasses;
 using UsefulFunctionsLib;
 
-using LocRes = TranslatorApk.Resources.Localizations.Resources;
+using StringResources = TranslatorApk.Resources.Localizations.Resources;
 using DataFormats = System.Windows.DataFormats;
 using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;
@@ -108,14 +108,14 @@ namespace TranslatorApk.Windows
 
             MainWindowSettings = new[]
             {
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyXml),        LocRes.EmptyXml),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptySmali),      LocRes.EmptySmali),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyFolders),    LocRes.EmptyFolders),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.Images),          LocRes.Images),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.FilesWithErrors), LocRes.FilesWithErrors),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyXml),         LocRes.OnlyXml),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OtherFiles),      LocRes.OtherFiles),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyResources),   LocRes.OnlyResources)
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyXml),        StringResources.EmptyXml),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptySmali),      StringResources.EmptySmali),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyFolders),    StringResources.EmptyFolders),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.Images),          StringResources.Images),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.FilesWithErrors), StringResources.FilesWithErrors),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyXml),         StringResources.OnlyXml),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OtherFiles),      StringResources.OtherFiles),
+                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyResources),   StringResources.OnlyResources)
             };
 
             SignCommand = new ActionCommand(SignCommand_Execute);
@@ -131,65 +131,7 @@ namespace TranslatorApk.Windows
             LoadSettings();
 
             TaskbarItemInfo = new TaskbarItemInfo();
-        }
-
-        private class PreviewWindowHandler
-        {
-            private PreviewWindow _fileImagePreviewWindow;
-            private BitmapSource _image;
-
-            public bool IsShown { get; private set; }
-
-            public void Init(BitmapSource image)
-            {
-                _image = image;
-
-                Close();
-            }
-
-            public void Update(System.Windows.Point screenPosition, BitmapSource image = null)
-            {
-                if (ReferenceEquals(_image, image))
-                    image = null;
-
-                if (image != null)
-                    _image = image;
-
-                if (_fileImagePreviewWindow == null)
-                {
-                    _fileImagePreviewWindow = new PreviewWindow(_image)
-                    {
-                        Left = screenPosition.X + 5,
-                        Top = screenPosition.Y + 5
-                    };
-
-                    _fileImagePreviewWindow.Show();
-
-                    IsShown = true;
-                }
-                else
-                {
-                    if (image != null)
-                        _fileImagePreviewWindow.Image = _image;
-
-                    _fileImagePreviewWindow.Left = screenPosition.X + 5;
-                    _fileImagePreviewWindow.Top = screenPosition.Y + 5;
-                }
-            }
-
-            public void Close()
-            {
-                if (_fileImagePreviewWindow != null)
-                {
-                    if (_fileImagePreviewWindow.IsLoaded)
-                        _fileImagePreviewWindow.Close();
-
-                    _fileImagePreviewWindow = null;
-
-                    IsShown = false;
-                }
-            }
-        }
+        }  
 
         private void StartPreviewTimer()
         {
@@ -230,7 +172,7 @@ namespace TranslatorApk.Windows
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = ".apk",
-                Filter = LocRes.AndroidApps + @" (*.apk)|*.apk",
+                Filter = StringResources.AndroidApps + @" (*.apk)|*.apk",
                 Multiselect = false
             };
 
@@ -244,7 +186,7 @@ namespace TranslatorApk.Windows
         {
             var dialog = new CommonOpenFileDialog
             {
-                Title = LocRes.SelectAFolder,
+                Title = StringResources.SelectAFolder,
                 Multiselect = false,
                 IsFolderPicker = true,
                 EnsurePathExists = true
@@ -268,7 +210,7 @@ namespace TranslatorApk.Windows
 
             if (!Apk.HasJava())
             {
-                MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
+                MessBox.ShowDial(StringResources.JavaNotFoundError, StringResources.ErrorLower);
                 return;
             }
 
@@ -285,12 +227,12 @@ namespace TranslatorApk.Windows
                 {
                     Enable();
                     VisLog(Log(GlobalVariables.LogLine));
-                    VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileCompiling));
+                    VisLog(Log(success ? StringResources.Finished : StringResources.ErrorWhileCompiling));
                     VisLog(Log(GlobalVariables.LogLine));
 
                     if (SettingsIncapsuler.Instance.ShowNotifications)
                     {
-                        NotificationService.Instance.ShowMessage(LocRes.CompilationFinished);
+                        NotificationService.Instance.ShowMessage(StringResources.CompilationFinished);
                     }
 
                     if (!success && errors.Any(error => error.Type != Error.ErrorType.None))
@@ -303,7 +245,7 @@ namespace TranslatorApk.Windows
                     }
                     else
                     {
-                        VisLog(Log(LocRes.FileIsSituatedIn + " " + Apk.NewApk));
+                        VisLog(Log(StringResources.FileIsSituatedIn + " " + Apk.NewApk));
                     }
                 }, 
                 cancelVisibility: Visibility.Collapsed
@@ -317,7 +259,7 @@ namespace TranslatorApk.Windows
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = ".apk",
-                Filter = LocRes.AndroidApps + @" (*.apk)|*.apk",
+                Filter = StringResources.AndroidApps + @" (*.apk)|*.apk",
                 Multiselect = false
             };
 
@@ -334,7 +276,7 @@ namespace TranslatorApk.Windows
 
             if (!Apk.HasJava())
             {
-                MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
+                MessBox.ShowDial(StringResources.JavaNotFoundError, StringResources.ErrorLower);
                 return;
             }
 
@@ -351,17 +293,17 @@ namespace TranslatorApk.Windows
                 {
                     Enable();
                     VisLog(Log(line));
-                    VisLog(Log(success ? LocRes.Finished : LocRes.ErrorWhileSigning));
+                    VisLog(Log(success ? StringResources.Finished : StringResources.ErrorWhileSigning));
 
                     if (success)
                     {
-                        string message = $"{LocRes.FileIsSituatedIn} {Apk.SignedApk}";
+                        string message = $"{StringResources.FileIsSituatedIn} {Apk.SignedApk}";
 
                         VisLog(Log(message));
 
                         string dir = Path.GetDirectoryName(Apk.SignedApk);
 
-                        if (dir != null && MessBox.ShowDial(message, LocRes.Finished, MessBox.MessageButtons.OK, LocRes.Open) == LocRes.Open)
+                        if (dir != null && MessBox.ShowDial(message, StringResources.Finished, MessBox.MessageButtons.OK, StringResources.Open) == StringResources.Open)
                         {
                             Process.Start(dir);
                         }
@@ -467,11 +409,11 @@ namespace TranslatorApk.Windows
             if (fd.ShowDialog() == true)
             {
                 File.Copy(fd.FileName, opts.FullPath, true);
-                MessBox.ShowDial(LocRes.Finished);
+                MessBox.ShowDial(StringResources.Finished);
             }
             else
             {
-                MessBox.ShowDial(LocRes.ErrorLower);
+                MessBox.ShowDial(StringResources.ErrorLower);
             }
         }
 
@@ -523,7 +465,7 @@ namespace TranslatorApk.Windows
         {
             if (SettingsIncapsuler.Instance.ApktoolVersion.NE())
             {
-                MessBox.ShowDial(LocRes.ApktoolNotFound);
+                MessBox.ShowDial(StringResources.ApktoolNotFound);
             }
 
             if (_arguments.Length == 1)
@@ -553,7 +495,7 @@ namespace TranslatorApk.Windows
                 }
             }
 
-            Task.Factory.StartNew(Utils.LoadPlugins);
+            Task.Factory.StartNew(PluginUtils.LoadPlugins);
         }
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
@@ -890,32 +832,32 @@ namespace TranslatorApk.Windows
         {
             Options opts = node.Options;
 
-            if (MessBox.ShowDial($"{confirmation} {opts.FullPath}?", LocRes.Confirmation, LocRes.Yes, LocRes.No) == LocRes.Yes)
+            if (MessBox.ShowDial($"{confirmation} {opts.FullPath}?", StringResources.Confirmation, StringResources.Yes, StringResources.No) == StringResources.Yes)
             {
                 try
                 {
                     deleteAction(opts.FullPath);
 
                     if (checkAction(opts.FullPath))
-                        MessBox.ShowDial(LocRes.ErrorLower);
+                        MessBox.ShowDial(StringResources.ErrorLower);
                     else
                         node.RemoveFromParent();
                 }
                 catch (Exception)
                 {
-                    MessBox.ShowDial(LocRes.ErrorLower);
+                    MessBox.ShowDial(StringResources.ErrorLower);
                 }
             }
         }
 
         private void DeleteFilePromt(TreeViewNodeModel node)
         {
-            DeleteSmthPromt(node, LocRes.FileDeleteConfirmation, File.Delete, File.Exists);
+            DeleteSmthPromt(node, StringResources.FileDeleteConfirmation, File.Delete, File.Exists);
         }
 
         private void DeleteFolderPromt(TreeViewNodeModel node)
         {
-            DeleteSmthPromt(node, LocRes.FolderDeleteConfirmation, str => Directory.Delete(str, true), Directory.Exists);
+            DeleteSmthPromt(node, StringResources.FolderDeleteConfirmation, str => Directory.Delete(str, true), Directory.Exists);
         }
      
         private void LoadSettings()
@@ -933,14 +875,18 @@ namespace TranslatorApk.Windows
         {
             GlobalVariables.CurrentProjectFile = file;
 
-            AndroidLogger.NewLog(true, Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, $"{Path.GetFileNameWithoutExtension(file)}_log.txt"));
+            string logPath = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty,
+                $"{Path.GetFileNameWithoutExtension(file)}_log.txt");
+
+            if (!TryCreateNewLog(logPath))
+                return;
 
             Apk = new Apktools(file, GlobalVariables.PathToResources, Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
             Apk.Logging += s => VisLog(Log(s));
 
             if (!Apk.HasJava())
             {
-                MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
+                MessBox.ShowDial(StringResources.JavaNotFoundError, StringResources.ErrorLower);
                 return;
             }
             
@@ -956,12 +902,12 @@ namespace TranslatorApk.Windows
                 {
                     Enable();
                     VisLog(GlobalVariables.LogLine);
-                    VisLog(LocRes.Finished);
+                    VisLog(StringResources.Finished);
                     VisLog(GlobalVariables.LogLine);
 
                     if (SettingsIncapsuler.Instance.ShowNotifications)
                     {
-                        NotificationService.Instance.ShowMessage(LocRes.DecompilationFinished);
+                        NotificationService.Instance.ShowMessage(StringResources.DecompilationFinished);
                     }
 
                     if (success)
@@ -984,7 +930,7 @@ namespace TranslatorApk.Windows
 
                 if (!apktool.HasJava())
                 {
-                    MessBox.ShowDial(LocRes.JavaNotFoundError, LocRes.ErrorLower);
+                    MessBox.ShowDial(StringResources.JavaNotFoundError, StringResources.ErrorLower);
                     return;
                 }
 
@@ -1000,7 +946,10 @@ namespace TranslatorApk.Windows
 
             if (!haveLogger)
             {
-                AndroidLogger.NewLog(true, folderPath + "_log.txt");
+                string logPath = folderPath + "_log.txt";
+
+                if (!TryCreateNewLog(logPath))
+                    return;
             }
 
             GlobalVariables.CurrentProjectFile = folderPath + ".apk";
@@ -1015,14 +964,14 @@ namespace TranslatorApk.Windows
             FilesTreeViewModel.Children.Clear();
             FilesTreeViewModel.Children.Add(new TreeViewNodeModel
             {
-                Name = LocRes.AllXml,
+                Name = StringResources.AllXml,
                 Options = new Options("", true),
                 DoubleClicked = LoadXmlFiles,
                 Image = GlobalResources.IconUnknownFile
             });
             FilesTreeViewModel.Children.Add(new TreeViewNodeModel
             {
-                Name = LocRes.AllSmali,
+                Name = StringResources.AllSmali,
                 Options = new Options("", true),
                 DoubleClicked = LoadSmaliFiles,
                 Image = GlobalResources.IconUnknownFile
@@ -1045,7 +994,7 @@ namespace TranslatorApk.Windows
                 {
                     IsEnabled = true;
 
-                    FilesTreeViewModel.Children.ForEach(Utils.LoadIconForItem);
+                    FilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
                 });
         }
 
@@ -1104,6 +1053,20 @@ namespace TranslatorApk.Windows
         {
             _logTextBuilder.Clear();
             OnPropertyChanged(nameof(LogBoxText));
+        }
+
+        private bool TryCreateNewLog(string logPath)
+        {
+            try
+            {
+                AndroidLogger.NewLog(true, logPath);
+                return true;
+            }
+            catch (IOException)
+            {
+                MessBox.ShowDial(string.Format(StringResources.FileIsInUse, logPath), StringResources.ErrorLower);
+                return false;
+            }
         }
 
         #endregion

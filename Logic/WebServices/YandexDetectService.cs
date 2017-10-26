@@ -10,7 +10,7 @@ namespace TranslatorApk.Logic.WebServices
         {
             string link = "http://translate.yandex.net/api/v1.5/tr.json/detect?srv=tr-text&text=" +
                           HttpUtility.UrlEncode(text);
-            return TranslateService.GetResponseFromJson<YandexDetectResponse>(Utils.DownloadString(link));
+            return TranslateService.GetResponseFromJson<YandexDetectResponse>(Utils.Utils.DownloadString(link));
         }
     }
 }
