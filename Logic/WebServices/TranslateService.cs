@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using TranslatorApk.Logic.Classes;
-using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.WebServices
 {

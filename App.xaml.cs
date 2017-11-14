@@ -3,6 +3,7 @@ using System.Windows;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Windows;
+using UsefulFunctionsLib;
 
 namespace TranslatorApk
 {
@@ -42,6 +43,11 @@ namespace TranslatorApk
             if (!GlobalVariables.Portable)
 #endif
                 Utils.CheckForUpdate();
+
+            if (SettingsIncapsuler.Instance.ApktoolVersion.NE())
+            {
+                MessBox.ShowDial(TranslatorApk.Resources.Localizations.Resources.ApktoolNotFound);
+            }
 
             WindowManager.ActivateWindow(createNew: () => new MainWindow(e.Args));
         }

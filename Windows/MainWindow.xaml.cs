@@ -463,11 +463,6 @@ namespace TranslatorApk.Windows
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (SettingsIncapsuler.Instance.ApktoolVersion.NE())
-            {
-                MessBox.ShowDial(StringResources.ApktoolNotFound);
-            }
-
             if (_arguments.Length == 1)
             {
                 string file = _arguments[0];

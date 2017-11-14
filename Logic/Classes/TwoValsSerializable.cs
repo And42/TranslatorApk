@@ -4,7 +4,6 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.Classes

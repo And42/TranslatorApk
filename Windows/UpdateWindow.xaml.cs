@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Xml;
-using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 
 // ReSharper disable PossibleNullReferenceException
@@ -19,7 +18,7 @@ namespace TranslatorApk.Windows
         public UpdateWindow(string nowVersion, string changes)
         {
             InitializeComponent();
-            XmlDocument xdoc = new XmlDocument();
+            var xdoc = new XmlDocument();
             xdoc.LoadXml(changes);
             List<XmlNode> versions = 
                 xdoc.GetElementsByTagName("version")
@@ -29,7 +28,7 @@ namespace TranslatorApk.Windows
 
             var sb = new StringBuilder();
 
-            foreach (var version in versions)
+            foreach (XmlNode version in versions)
             {
                 sb.Append(version.Attributes["version"].InnerText + ":");
 

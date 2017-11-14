@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using TranslatorApk.Logic.OrganisationItems;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable CollectionNeverUpdated.Local
