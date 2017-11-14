@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Interfaces;
@@ -9,14 +8,14 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Classes
 {
-    public class TreeViewNodeModel : IRaisePropertyChanged, IHaveChildren
+    public class TreeViewNodeModel : BindableBase, IHaveChildren
     {
         public IHaveChildren Parent { get; }
 
         public ICommand RefreshFilesListCommand
         {
             get => _refreshFilesListCommand;
-            set => this.SetProperty(ref _refreshFilesListCommand, value);
+            set => SetProperty(ref _refreshFilesListCommand, value);
         }
         private ICommand _refreshFilesListCommand;
 
@@ -25,21 +24,21 @@ namespace TranslatorApk.Logic.Classes
         public BitmapSource Image
         {
             get => _image;
-            set => this.SetProperty(ref _image, value);
+            set => SetProperty(ref _image, value);
         }
         private BitmapSource _image;
 
         public string Name
         {
             get => _name;
-            set => this.SetProperty(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
         private string _name;
 
         public Options Options
         {
             get => _options;
-            set => this.SetProperty(ref _options, value);
+            set => SetProperty(ref _options, value);
         }
         private Options _options;
 
@@ -48,8 +47,8 @@ namespace TranslatorApk.Logic.Classes
             get => _isExpanded;
             set
             {
-                if (this.SetProperty(ref _isExpanded, value) && value)
-                    Children.ForEach(Utils.ImageUtils.LoadIconForItem);
+                if (SetProperty(ref _isExpanded, value) && value)
+                    Children.ForEach(ImageUtils.LoadIconForItem);
             }
         }
         private bool _isExpanded;
@@ -64,13 +63,6 @@ namespace TranslatorApk.Logic.Classes
         public void RemoveFromParent()
         {
             Parent?.Children.Remove(this);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

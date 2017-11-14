@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using TranslatorApk.Annotations;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Threading;
@@ -17,14 +15,14 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для LoadingProcessWindow.xaml
     /// </summary>
-    public partial class LoadingProcessWindow : INotifyPropertyChanged
+    public partial class LoadingProcessWindow : IRaisePropertyChanged
     {
         public int ProcessValue
         {
             get => _processValue;
             set
             {
-                if (SetProperty(ref _processValue, value))
+                if (this.SetProperty(ref _processValue, value))
                     TaskBarProgress = (int)(value * 10.0 / ProcessMax);
             }
         }
@@ -33,14 +31,14 @@ namespace TranslatorApk.Windows
         public int ProcessMax
         {
             get => _processMax;
-            set => SetProperty(ref _processMax, value);
+            set => this.SetProperty(ref _processMax, value);
         }
         private int _processMax = 100;
 
         public bool IsIndeterminate
         {
             get => _isIndeterminate;
-            set => SetProperty(ref _isIndeterminate, value);
+            set => this.SetProperty(ref _isIndeterminate, value);
         }
         private bool _isIndeterminate;
 
@@ -49,7 +47,7 @@ namespace TranslatorApk.Windows
             get => _taskBarProgress;
             set
             {
-                if (SetProperty(ref _taskBarProgress, value))
+                if (this.SetProperty(ref _taskBarProgress, value))
                     Dispatcher.InvokeAction(() => TaskbarItemInfo.ProgressValue = value / 10.0);
             }
         }
@@ -58,7 +56,7 @@ namespace TranslatorApk.Windows
         public Visibility CancelVisibility
         {
             get => _cancelVisibility;
-            set => SetProperty(ref _cancelVisibility, value);
+            set => this.SetProperty(ref _cancelVisibility, value);
         }
         private Visibility _cancelVisibility = Visibility.Visible;
 
@@ -176,24 +174,11 @@ namespace TranslatorApk.Windows
             }
         }
 
-        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-                return false;
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-
-            return true;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public  void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

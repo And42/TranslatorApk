@@ -28,7 +28,7 @@ namespace TranslatorApk.Windows
 
         private void PreviewWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
+            var anim = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
             BeginAnimation(OpacityProperty, anim);
         }
 

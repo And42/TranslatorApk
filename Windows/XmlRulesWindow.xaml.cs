@@ -18,7 +18,7 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для XmlRulesWindow.xaml
     /// </summary>
-    public partial class XmlRulesWindow : INotifyPropertyChanged
+    public partial class XmlRulesWindow
     {
         public ObservableCollection<CheckBoxSetting> Items { get; }
 
@@ -76,18 +76,5 @@ namespace TranslatorApk.Windows
 
             MessBox.ShowDial(Res.Finished);
         }
-
-#pragma warning disable 1591
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-#pragma warning restore 1591
     }
 }
