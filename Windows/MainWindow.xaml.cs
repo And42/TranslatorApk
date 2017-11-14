@@ -689,9 +689,11 @@ namespace TranslatorApk.Windows
         {
             if (e.Key == Key.Delete)
             {
-                object item = FilesTreeView.SelectedItem;
-                if (item == null) return;
-                TreeViewNodeModel node = item.As<TreeViewNodeModel>();
+                var node = FilesTreeView.SelectedItem as TreeViewNodeModel;
+
+                if (node == null)
+                    return;
+
                 Options opt = node.Options;
                 
                 if (opt.IsFolder)
