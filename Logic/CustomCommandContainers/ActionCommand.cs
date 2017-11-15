@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace TranslatorApk.Logic.CustomCommandContainers
 {
-    public class ActionCommand: ICommand
+    public class ActionCommand : ICommand
     {
         private readonly Action<object> _executeAction;
         private readonly Func<object, bool> _canExecuteFunc;

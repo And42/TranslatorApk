@@ -19,23 +19,23 @@ namespace TranslatorApk.Logic.Classes
 
             while (reader.Read() && !(reader.NodeType == XmlNodeType.EndElement && reader.LocalName == typeName))
             {
-                var name = reader["Name"];
+                string name = reader["Name"];
 
                 if (name == null)
                     throw new FormatException();
 
-                var value = reader["Value"];
+                string value = reader["Value"];
                 this[name] = value;
             }
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            foreach (var key in Keys)
+            foreach (string key in Keys)
             {
                 writer.WriteStartElement("Pair");
-                writer.WriteAttributeString("Name", (string)key);
-                writer.WriteAttributeString("Value", this[(string)key]);
+                writer.WriteAttributeString("Name", key);
+                writer.WriteAttributeString("Value", this[key]);
                 writer.WriteEndElement();
             }
         }

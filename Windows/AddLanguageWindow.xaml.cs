@@ -49,7 +49,7 @@ namespace TranslatorApk.Windows
 
             var values = Directory.GetDirectories(_folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
 
-            foreach (var value in values)
+            foreach (string value in values)
             {
                 int index = _folderLangs.IndexOf(value);
 
@@ -59,7 +59,7 @@ namespace TranslatorApk.Windows
                 }
             }
 
-            foreach (var lang in _folderLocalizedLangs)
+            foreach (string lang in _folderLocalizedLangs)
             {
                 if (SourceLanguages.All(src => src != lang))
                 {

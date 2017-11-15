@@ -23,9 +23,7 @@ namespace TranslatorApk.Windows
             set
             {
                 if (this.SetRefProperty(ref _str, value))
-                {
                     _backup = value.NewText;
-                }
             }
 
         }

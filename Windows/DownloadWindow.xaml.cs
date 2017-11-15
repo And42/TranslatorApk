@@ -43,7 +43,9 @@ namespace TranslatorApk.Windows
 
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (_close) return;
+            if (_close)
+                return;
+
             try
             {
                 File.Delete("NewVersion.exe");

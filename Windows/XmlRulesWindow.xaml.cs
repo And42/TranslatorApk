@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Xml;
 using AndroidTranslator.Classes.Files;
 using Microsoft.Win32;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
@@ -68,7 +66,7 @@ namespace TranslatorApk.Windows
 
         private void SaveChangesClick(object sender, RoutedEventArgs e)
         {
-            var items = Items.Where(it => it.Value).Select(it => it.Text).ToArray();
+            string[] items = Items.Where(it => it.Value).Select(it => it.Text).ToArray();
 
             SettingsIncapsuler.Instance.XmlRules = items;
 

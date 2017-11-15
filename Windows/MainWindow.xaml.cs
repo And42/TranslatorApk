@@ -17,11 +17,11 @@ using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using TranslatorApk.Annotations;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
+using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Logic.Utils;
@@ -44,7 +44,7 @@ namespace TranslatorApk.Windows
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : INotifyPropertyChanged
+    public partial class MainWindow : IRaisePropertyChanged
     {
         #region Поля
 
@@ -81,7 +81,7 @@ namespace TranslatorApk.Windows
 
                 _isMinimized = value == WindowState.Minimized;
 
-                OnPropertyChanged(nameof(MainWindowState));
+                RaisePropertyChanged(nameof(MainWindowState));
             }
         }
         private bool _isMinimized;
@@ -1014,7 +1014,7 @@ namespace TranslatorApk.Windows
         {
             _logTextBuilder.Append(text);
             _logTextBuilder.Append(Environment.NewLine);
-            OnPropertyChanged(nameof(LogBoxText));
+            RaisePropertyChanged(nameof(LogBoxText));
             Dispatcher.InvokeAction(() => LogBox.ScrollToEnd());
 
             //Dispatcher.InvokeAction(() => LogItems.Add(new LogItem(text)));
@@ -1025,7 +1025,7 @@ namespace TranslatorApk.Windows
         public void ClearVisLog()
         {
             _logTextBuilder.Clear();
-            OnPropertyChanged(nameof(LogBoxText));
+            RaisePropertyChanged(nameof(LogBoxText));
         }
 
         private static bool TryCreateNewLog(string logPath)
@@ -1048,11 +1048,9 @@ namespace TranslatorApk.Windows
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

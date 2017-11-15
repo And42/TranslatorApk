@@ -1,27 +1,24 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {
     [Serializable]
-    public abstract class TwoValsSerializable<TFirst, TSecond> : IRaisePropertyChanged, IXmlSerializable
+    public abstract class TwoValsSerializable<TFirst, TSecond> : BindableBase, IXmlSerializable
     {
         public TFirst Item1
         {
             get => _item1;
-            set => this.SetProperty(ref _item1, value);
+            set => SetProperty(ref _item1, value);
         }
         private TFirst _item1;
 
         public TSecond Item2
         {
             get => _item2;
-            set => this.SetProperty(ref _item2, value);
+            set => SetProperty(ref _item2, value);
         }
         private TSecond _item2;
 
@@ -68,13 +65,6 @@ namespace TranslatorApk.Logic.Classes
         {
             writer.WriteAttributeString("Item1", _firstToString(Item1));
             writer.WriteAttributeString("Item2", _secondToString(Item2));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

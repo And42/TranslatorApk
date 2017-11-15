@@ -24,7 +24,7 @@ namespace TranslatorApk.Windows
     /// </summary>
     public partial class ApktoolCatalogWindow : IRaisePropertyChanged
     {
-        public class DownloadableApktool : IRaisePropertyChanged
+        public class DownloadableApktool : BindableBase
         {
             public string Version { get; set; }
             public string Size { get; set; }
@@ -33,16 +33,9 @@ namespace TranslatorApk.Windows
             public InstallOptionsEnum Installed
             {
                 get => _installed;
-                set => this.SetProperty(ref _installed, value);
+                set => SetProperty(ref _installed, value);
             }
             private InstallOptionsEnum _installed;
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            public void RaisePropertyChanged(string propertyName)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         public int Progress
@@ -157,12 +150,17 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            HashSet<string> installed = new HashSet<string>(Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions).Select(Path.GetFileNameWithoutExtension).Select(s => s.Split('_')[1]));
+            var installed = 
+                new HashSet<string>(
+                    Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
+                        .Select(Path.GetFileNameWithoutExtension)
+                        .Select(s => s.Split('_')[1])
+                );
 
-            HtmlDocument document = new HtmlDocument();
+            var document = new HtmlDocument();
             document.LoadHtml(page);
 
-            var iterableItems = document.GetElementbyId("uploaded-files").SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
+            HtmlNodeCollection iterableItems = document.GetElementbyId("uploaded-files").SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
 
             var items = iterableItems
                 .Select(it =>

@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using TranslatorApk.Logic.Classes;
-using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.PluginItems;
-using TranslatorApk.Logic.Utils;
 using TranslatorApk.Properties;
 using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class GlobalVariables : IRaisePropertyChanged
+    public class GlobalVariables : BindableBase
     {
         public static GlobalVariables Instance { get; } = new GlobalVariables();
 
@@ -159,7 +156,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         public string CurrentProjectFolderProp
         {
             get => _currentProjectFolder;
-            set => this.SetProperty(ref _currentProjectFolder, value);
+            set => SetProperty(ref _currentProjectFolder, value);
         }
         private string _currentProjectFolder;
 
@@ -171,7 +168,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             get => _currentProjectFile;
             set
             {
-                if (this.SetProperty(ref _currentProjectFile, value))
+                if (SetProperty(ref _currentProjectFile, value))
                     CurrentProjectFolderProp = UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
             }
         }
@@ -210,17 +207,6 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Settings.Default.NamesOfFolderLanguages as list
         /// </summary>
         public static List<string> SettingsNamesOfFolderLanguages { get; set; } = Resources.Localizations.Resources.NamesOfFolderLanguages.Split('|').ToList();
-
-        #endregion
-
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         #endregion
     }
