@@ -101,6 +101,8 @@ namespace TranslatorApk.Logic.Utils
             IEnumerable<string> files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
             IEnumerable<string> folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
 
+            List<TreeViewNodeModel> itemsToAdd = new List<TreeViewNodeModel>();
+
             foreach (string folder in folders)
             {
                 if (cts?.IsCancellationRequested == true)
@@ -142,11 +144,10 @@ namespace TranslatorApk.Logic.Utils
                         item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
                 }
 
-                dispatcher.InvokeAction(() => root.Children.Add(item));
                 LoadFilesToTreeViewInternal(dispatcher, folder, item, showEmptyFolders, cts, oneFileAdded, flagFiles);
 
-                if (item.Children.Count == 0 && !showEmptyFolders)
-                    dispatcher.InvokeAction(() => root.Children.Remove(item));
+                if (item.Children.Count != 0 || showEmptyFolders)
+                    itemsToAdd.Add(item);
             }
 
             foreach (string file in files)
@@ -168,8 +169,10 @@ namespace TranslatorApk.Logic.Utils
                     Options = new Options(file, false)
                 };
 
-                dispatcher.InvokeAction(() => root.Children.Add(item));
+                itemsToAdd.Add(item);
             }
+
+            dispatcher.InvokeAction(() => root.Children.AddRange(itemsToAdd));
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Interfaces;
@@ -19,7 +18,7 @@ namespace TranslatorApk.Logic.Classes
         }
         private ICommand _refreshFilesListCommand;
 
-        public ObservableCollection<TreeViewNodeModel> Children { get; } = new ObservableCollection<TreeViewNodeModel>();
+        public ObservableRangeCollection<TreeViewNodeModel> Children { get; } = new ObservableRangeCollection<TreeViewNodeModel>();
 
         public BitmapSource Image
         {
