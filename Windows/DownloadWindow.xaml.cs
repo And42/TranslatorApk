@@ -64,6 +64,7 @@ namespace TranslatorApk.Windows
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ProcessBar.Value = e.ProgressPercentage;
+            ProgressBlock.Text = e.ProgressPercentage + "%";
         }
 
         private void DownloadWindow_Load(object sender, EventArgs e)

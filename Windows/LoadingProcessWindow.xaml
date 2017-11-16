@@ -33,6 +33,15 @@
         <TextBlock Grid.ColumnSpan="3" Text="{x:Static localization:Resources.Loading}" Margin="0,9,0,15" FontSize="15" HorizontalAlignment="Center"/>
         
         <ProgressBar Grid.Row="1" Grid.Column="0" Height="25" Value="{Binding ProcessValue}" Maximum="{Binding ProcessMax}" IsIndeterminate="{Binding IsIndeterminate}"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource PercentageTextConverter}">
+                    <Binding Path="ProcessValue"/>
+                    <Binding Path="ProcessMax"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        
         <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0" FontSize="14">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} {2} {1}">

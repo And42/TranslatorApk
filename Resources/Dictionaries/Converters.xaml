@@ -15,4 +15,5 @@
     <converters:InstallTextConverter x:Key="InstallTextConverter"/>
     <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
     <converters:EditorWindowFileNameConverter x:Key="EditorWindowFileNameConverter"/>
+    <converters:PercentageTextConverter x:Key="PercentageTextConverter"/>
 </ResourceDictionary>

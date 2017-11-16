@@ -201,6 +201,7 @@
     <Compile Include="Logic\Converters\ConverterBase.cs" />
     <Compile Include="Logic\Converters\EditorWindowFileNameConverter.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
+    <Compile Include="Logic\Converters\PercentageTextConverter.cs" />
     <Compile Include="Logic\CustomCommandContainers\ActionCommand.cs" />
     <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
     <Compile Include="Logic\EventManagerLogic\PubSubEvent.cs" />

@@ -5,7 +5,7 @@
         xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         
-        Height="57" Width="370" 
+        Width="370" 
         WindowStartupLocation="CenterScreen" 
         Loaded="DownloadWindow_Load"
         Closing="Window_Closing"
@@ -15,8 +15,11 @@
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         
         elements:WindowThemeParameters.CanMinimize="False"
-        elements:WindowThemeParameters.IsResizable="False">
-    <Grid>
-        <ProgressBar x:Name="ProcessBar" Margin="15, 10"/>
+        elements:WindowThemeParameters.IsResizable="False"
+        
+        SizeToContent="Height">
+    <Grid Margin="10,5,10,10">
+        <ProgressBar x:Name="ProcessBar" Height="22"/>
+        <TextBlock x:Name="ProgressBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
