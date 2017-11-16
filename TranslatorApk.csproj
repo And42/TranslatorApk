@@ -199,6 +199,7 @@
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
     <Compile Include="Logic\Converters\ConverterBase.cs" />
+    <Compile Include="Logic\Converters\EditorWindowFileNameConverter.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Logic\CustomCommandContainers\ActionCommand.cs" />
     <Compile Include="Logic\EventManagerLogic\EventManager.cs" />

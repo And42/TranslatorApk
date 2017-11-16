@@ -37,7 +37,7 @@ namespace TranslatorApk.Logic.PluginItems
             Name = Path.GetFileNameWithoutExtension(name);
 
             {
-                var libsPath = $@"{Path.GetDirectoryName(name)}\{Path.GetFileNameWithoutExtension(name)}\Libraries";
+                string libsPath = Path.Combine(Path.GetDirectoryName(name) ?? string.Empty, Path.GetFileNameWithoutExtension(name) ?? string.Empty, "Libraries");
 
                 if (Directory.Exists(libsPath))
                 {
@@ -78,9 +78,9 @@ namespace TranslatorApk.Logic.PluginItems
                 return;
             }         
 
-            foreach (var type in types)
+            foreach (Type type in types)
             {
-                var customAttribs = type.GetCustomAttributes(false);
+                object[] customAttribs = type.GetCustomAttributes(false);
 
                 if (customAttribs.Any(a => a.GetType().FullName == "TranslatorApkPluginLib.TranslateServiceAttribute"))
                     _translators.Add(new TransServiceHost(LoadService(type)));

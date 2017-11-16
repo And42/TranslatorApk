@@ -12,6 +12,10 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"    
         xmlns:attachedProps="clr-namespace:TranslatorApk.Logic.AttachedProperties"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"    
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:files="clr-namespace:AndroidTranslator.Interfaces.Files;assembly=AndroidTranslator"
+        mc:Ignorable="d"
 
         Activated="EditorWindow_OnActivated"
         Loaded="EditorWindow_OnLoaded"
@@ -229,8 +233,12 @@
             </syncfusion:SfDataGrid.Resources>
 
             <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn MappingName="FileName" HeaderText="{x:Static lang:Resources.Filename}" 
-                                           HorizontalHeaderContentAlignment="Left" Padding="6,0"/>
+                <syncfusion:GridTextColumn
+                    d:DataContext="{d:DesignInstance files:IEditableFile}"
+                    MappingName="FileName"
+                    DisplayBinding="{Binding FileName, Converter={StaticResource EditorWindowFileNameConverter}, Mode=OneWay}"
+                    HeaderText="{x:Static lang:Resources.Filename}"                   
+                    HorizontalHeaderContentAlignment="Left" Padding="6,0"/>
             </syncfusion:SfDataGrid.Columns>
 
             <syncfusion:SfDataGrid.DetailsViewDefinition>

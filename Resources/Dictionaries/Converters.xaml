@@ -14,4 +14,5 @@
     <converters:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
     <converters:InstallTextConverter x:Key="InstallTextConverter"/>
     <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+    <converters:EditorWindowFileNameConverter x:Key="EditorWindowFileNameConverter"/>
 </ResourceDictionary>
