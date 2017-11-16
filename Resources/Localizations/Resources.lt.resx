@@ -441,4 +441,13 @@
   <data name="AlternateRowsInEditor" xml:space="preserve">
     <value>Pakaitinio eilučių redaktorius</value>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Valyti</value>
+  </data>
+  <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
+    <value>Pirmyn</value>
+  </data>
+  <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
+    <value>Ankstesnė</value>
+  </data>
 </root>

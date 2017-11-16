@@ -447,4 +447,10 @@
   <data name="FileIsInUse" xml:space="preserve">
     <value>Следующий файл уже используется (и поэтому недоступен) другим пользователем или приложением: "{0}"</value>
   </data>
+  <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
+    <value>Следующая</value>
+  </data>
+  <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
 </root>

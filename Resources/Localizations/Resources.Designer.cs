@@ -1159,6 +1159,24 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Next.
+        /// </summary>
+        public static string StringEditorWindow_NextStringLabel {
+            get {
+                return ResourceManager.GetString("StringEditorWindow_NextStringLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Previous.
+        /// </summary>
+        public static string StringEditorWindow_PreviousStringLabel {
+            get {
+                return ResourceManager.GetString("StringEditorWindow_PreviousStringLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Strings translated:.
         /// </summary>
         public static string StringsTranslated {

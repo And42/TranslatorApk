@@ -552,4 +552,10 @@
   <data name="FileIsInUse" xml:space="preserve">
     <value>The file may be in use (and thus locked) by another user or application: "{0}"</value>
   </data>
+  <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
+    <value>Previous</value>
+  </data>
 </root>

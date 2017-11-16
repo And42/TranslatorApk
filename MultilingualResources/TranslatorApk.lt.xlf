@@ -73,8 +73,7 @@
         </trans-unit>
         <trans-unit id="CurrentDictionary" translate="yes" xml:space="preserve">
           <source>Current dictionary</source>
-          <target state="needs-review-translation">Einamasis žodynas</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Einamasis žodynas</target>
         </trans-unit>
         <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -602,11 +601,19 @@
         </trans-unit>
         <trans-unit id="Clear" translate="yes" xml:space="preserve">
           <source>Clear</source>
-          <target state="new">Clear</target>
+          <target state="translated">Valyti</target>
         </trans-unit>
         <trans-unit id="FileIsInUse" translate="yes" xml:space="preserve">
           <source>The file may be in use (and thus locked) by another user or application: "{0}"</source>
           <target state="new">The file may be in use (and thus locked) by another user or application: "{0}"</target>
+        </trans-unit>
+        <trans-unit id="StringEditorWindow_NextStringLabel" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="translated">Pirmyn</target>
+        </trans-unit>
+        <trans-unit id="StringEditorWindow_PreviousStringLabel" translate="yes" xml:space="preserve">
+          <source>Previous</source>
+          <target state="translated">Ankstesnė</target>
         </trans-unit>
       </group>
     </body>

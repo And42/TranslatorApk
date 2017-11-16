@@ -441,4 +441,13 @@
   <data name="AlternateRowsInEditor" xml:space="preserve">
     <value>Редактор рядків</value>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Очистити</value>
+  </data>
+  <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
+    <value>Далі</value>
+  </data>
+  <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
+    <value>Попередній</value>
+  </data>
 </root>

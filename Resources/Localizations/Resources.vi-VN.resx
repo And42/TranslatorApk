@@ -441,4 +441,13 @@
   <data name="AlternateRowsInEditor" xml:space="preserve">
     <value>Thay thế hàng trong trình soạn thảo</value>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
+    <value>Tiếp theo</value>
+  </data>
+  <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
+    <value>Trước</value>
+  </data>
 </root>
