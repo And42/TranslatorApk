@@ -52,7 +52,9 @@ namespace TranslatorApk.Logic.Utils
                 {
                     try
                     {
-                        return XmlFile.Create(file).Details?.Count == 0;
+                        var details = XmlFile.Create(file).Details;
+
+                        return details != null && details.Count != 0;
                     }
                     catch (XmlParserException)
                     {
@@ -111,7 +113,7 @@ namespace TranslatorApk.Logic.Utils
                 var item = new TreeViewNodeModel(root)
                 {
                     Name = Path.GetFileName(folder),
-                    Options = new Options(folder)
+                    Options = new Options(folder, true)
                 };
 
                 // folder has it's own flag
@@ -163,7 +165,7 @@ namespace TranslatorApk.Logic.Utils
                 var item = new TreeViewNodeModel(root)
                 {
                     Name = Path.GetFileName(file),
-                    Options = new Options(file)
+                    Options = new Options(file, false)
                 };
 
                 dispatcher.InvokeAction(() => root.Children.Add(item));
@@ -950,6 +952,15 @@ namespace TranslatorApk.Logic.Utils
             }
 
             return _();
+        }
+
+        /// <summary>
+        /// Returns files from drag event argsuments
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        public static string[] GetFilesDrop(this DragEventArgs args)
+        {
+            return args.Data.GetData(DataFormats.FileDrop) as string[];
         }
     }
 }

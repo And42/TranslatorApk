@@ -22,10 +22,10 @@ namespace TranslatorApk.Logic.Classes
             get => _fullPath;
             set
             {
-                _fullPath = value;
-                Ext = Path.GetExtension(value);
-                IsFolder = Directory.Exists(value);
-                RaisePropertyChanged();
+                if (SetProperty(ref _fullPath, value))
+                {
+                    Ext = Path.GetExtension(value);
+                }
             }
         }
         private string _fullPath;
@@ -33,12 +33,7 @@ namespace TranslatorApk.Logic.Classes
         /// <summary>
         /// Определяет, является ли файл папкой
         /// </summary>
-        public bool IsFolder
-        {
-            get => _isFolder;
-            private set => SetProperty(ref _isFolder, value);
-        }
-        private bool _isFolder;
+        public bool IsFolder { get; }
 
         /// <summary>
         /// Возвращает или задаёт, загружена ли иконка файла
@@ -57,12 +52,12 @@ namespace TranslatorApk.Logic.Classes
         }
         private bool _hasPreview;
 
-        public Options(string fullPath, bool isImageLoaded = false)
+        public Options(string fullPath, bool isFolder, bool isImageLoaded = false)
         {
-            IsImageLoaded = isImageLoaded;
-            FullPath = fullPath;
-            Ext = Path.GetExtension(fullPath);
-            IsFolder = Directory.Exists(fullPath);
+            _isImageLoaded = isImageLoaded;
+            _fullPath = fullPath;
+            _ext = Path.GetExtension(fullPath);
+            IsFolder = isFolder;
         }
     }
 }

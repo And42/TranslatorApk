@@ -423,7 +423,7 @@ namespace TranslatorApk.Windows
         {
             e.Handled = true;
 
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             files?.ForEach(AddSourceDictIfNotAdded);
         }
@@ -501,7 +501,7 @@ namespace TranslatorApk.Windows
         {
             e.Handled = true;
 
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files == null || files.Length == 0)
                 return;
@@ -906,7 +906,7 @@ namespace TranslatorApk.Windows
 
         private void EditorGrid_OnDrop(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files == null)
                 return;

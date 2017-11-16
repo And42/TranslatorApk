@@ -505,7 +505,7 @@ namespace TranslatorApk.Windows
 
         private void CheckApkDrag(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
                 e.Effects = DragDropEffects.Move;
@@ -517,7 +517,7 @@ namespace TranslatorApk.Windows
 
         private void CheckFolderDrag(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Directory.Exists(files[0]))
                 e.Effects = DragDropEffects.Move;
@@ -536,7 +536,7 @@ namespace TranslatorApk.Windows
 
         private void ApkDragDrop(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
                 DecompileFile(files[0]);
@@ -546,7 +546,7 @@ namespace TranslatorApk.Windows
 
         private void FolderDragDrop(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Directory.Exists(files[0]))
                 LoadFolder(files[0]);
@@ -556,7 +556,7 @@ namespace TranslatorApk.Windows
 
         private void FrameworkDrop(object sender, DragEventArgs e)
         {
-            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
                 InstallFramework(files[0]);
@@ -568,10 +568,7 @@ namespace TranslatorApk.Windows
         {
             e.Handled = true;
 
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-                return;
-
-            var list = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] list = e.GetFilesDrop();
 
             if (list == null)
                 return;
@@ -624,9 +621,9 @@ namespace TranslatorApk.Windows
             LoadFiles(".smali", file => new SmaliFile(file));
         }
 
-        private static void LoadFiles<T>(string extension, Func<string, T> createNew) where T : IEditableFile
+        private static void LoadFiles(string extension, Func<string, IEditableFile> createNew)
         {
-            var filesList = new ConcurrentQueue<T>();
+            var filesList = new ConcurrentQueue<IEditableFile>();
 
             LoadingProcessWindow.ShowWindow(
                 beforeStarting: Disable,
@@ -640,7 +637,7 @@ namespace TranslatorApk.Windows
 
                     invoker.ProcessMax = files.Length;
 
-                    filesList = new ConcurrentQueue<T>();
+                    filesList = new ConcurrentQueue<IEditableFile>();
 
                     Parallel.ForEach(files, file =>
                     {
@@ -667,7 +664,6 @@ namespace TranslatorApk.Windows
                     List<IEditableFile> res =
                         filesList
                             .Where(file => file.Details != null && file.Details.Count > 0)
-                            .Cast<IEditableFile>()
                             .ToList();
 
                     Enable();
@@ -934,7 +930,7 @@ namespace TranslatorApk.Windows
                 new TreeViewNodeModel
                 {
                     Name = StringResources.AllXml,
-                    Options = new Options("", true),
+                    Options = new Options("", false, true),
                     DoubleClicked = LoadXmlFiles,
                     Image = GlobalResources.IconUnknownFile
                 }
@@ -943,7 +939,7 @@ namespace TranslatorApk.Windows
                 new TreeViewNodeModel
                 {
                     Name = StringResources.AllSmali,
-                    Options = new Options("", true),
+                    Options = new Options("", false, true),
                     DoubleClicked = LoadSmaliFiles,
                     Image = GlobalResources.IconUnknownFile
                 }
