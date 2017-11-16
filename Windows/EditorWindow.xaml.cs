@@ -246,6 +246,8 @@ namespace TranslatorApk.Windows
             }
 
             UnsubscribeFromEvents();
+
+            GC.Collect();
         }
 
         #endregion
