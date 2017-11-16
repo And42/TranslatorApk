@@ -5,6 +5,7 @@
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
+        MinHeight="400" MinWidth="450" 
         Height="400" Width="450" 
         WindowStartupLocation="CenterScreen"
         
