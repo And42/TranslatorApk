@@ -252,7 +252,7 @@ namespace TranslatorApk.Windows
             );
         }
 
-        private void InstallFrameworkCommand_Execute(object arg)
+        private async void InstallFrameworkCommand_Execute(object arg)
         {
             var fd = new OpenFileDialog
             {
@@ -266,7 +266,7 @@ namespace TranslatorApk.Windows
             if (fd.ShowDialog() != true)
                 return;
 
-            InstallFramework(fd.FileName);
+            await InstallFramework(fd.FileName);
         }
 
         private void SignCommand_Execute(object arg)
@@ -554,12 +554,12 @@ namespace TranslatorApk.Windows
             e.Handled = true;
         }
 
-        private void FrameworkDrop(object sender, DragEventArgs e)
+        private async void FrameworkDrop(object sender, DragEventArgs e)
         {
             string[] files = e.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
-                InstallFramework(files[0]);
+                await InstallFramework(files[0]);
 
             e.Handled = true;
         }
@@ -834,7 +834,7 @@ namespace TranslatorApk.Windows
             }
         }
 
-        public void DecompileFile(string file)
+        private void DecompileFile(string file)
         {
             GlobalVariables.CurrentProjectFile = file;
 
@@ -882,11 +882,11 @@ namespace TranslatorApk.Windows
             );
         }
 
-        private void InstallFramework(string fileName)
+        private async Task InstallFramework(string fileName)
         {
             Disable();
 
-            Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
                 var apktool = new Apktools(null, GlobalVariables.PathToResources,
                     Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
@@ -899,7 +899,9 @@ namespace TranslatorApk.Windows
 
                 apktool.Logging += s => VisLog(s);
                 apktool.InstallFramework(fileName);
-            }).ContinueWith(task => Enable());
+            });
+
+            Enable();
         }
 
         public void LoadFolder(string folderPath, bool haveLogger = false)

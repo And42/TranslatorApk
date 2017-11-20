@@ -36,7 +36,7 @@ namespace TranslatorApk.Logic.Utils
                 {
                     try
                     {
-                        icon = LoadIconFromFile(item.Options);
+                        icon = LoadIconFromFile(item.Options).FreezeIfCan();
                     }
                     catch (RuntimeWrappedException)
                     {
@@ -74,11 +74,11 @@ namespace TranslatorApk.Logic.Utils
                 }
                 catch (NotSupportedException)
                 {
-                    return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
+                    return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath)).FreezeIfCan();
                 }
             }
 
-            return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath));
+            return ShellIcon.IconToBitmapSource(GetIconFromFile(file.FullPath)).FreezeIfCan();
         }
 
         /// <summary>

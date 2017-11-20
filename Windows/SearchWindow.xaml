@@ -7,6 +7,7 @@
         Title="{x:Static localization:Resources.Search}" Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         Loaded="SearchWindow_OnLoaded"
+        Closing="SearchWindow_OnClosing"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" 
         IsEnabled="{Binding Working, Converter={StaticResource InvertBoolConverter}}"
         FontSize="14" Style="{DynamicResource WindowStyle}">

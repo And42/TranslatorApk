@@ -83,6 +83,11 @@ namespace TranslatorApk.Windows
             SearchBox.Focus();
         }
 
+        private void SearchWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            Files.Clear();
+        }
+
         private void FindFilesClick(object sender, RoutedEventArgs e)
         {
             if (GlobalVariables.CurrentProjectFolder == null)

@@ -965,5 +965,18 @@ namespace TranslatorApk.Logic.Utils
         {
             return args.Data.GetData(DataFormats.FileDrop) as string[];
         }
+
+        /// <summary>
+        /// Freezes object if can
+        /// </summary>
+        /// <typeparam name="T">Freezable object type</typeparam>
+        /// <param name="obj">Object to freeze</param>
+        public static T FreezeIfCan<T>(this T obj) where T : Freezable
+        {
+            if (obj.CanFreeze)
+                obj.Freeze();
+
+            return obj;
+        }
     }
 }

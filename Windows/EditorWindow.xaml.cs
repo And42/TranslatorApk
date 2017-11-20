@@ -247,6 +247,8 @@ namespace TranslatorApk.Windows
 
             UnsubscribeFromEvents();
 
+            StringFiles.Clear();
+
             GC.Collect();
         }
 

@@ -13,6 +13,7 @@
         Height="600" Width="800" MinWidth="400" MinHeight="300" 
         WindowStartupLocation="CenterScreen" FontSize="13" 
         Style="{DynamicResource WindowStyle}"
+        Closing="EditorSearchWindow_OnClosing"
         
         Loaded="EditorSearchWindow_OnLoaded">
     <Grid Margin="7">

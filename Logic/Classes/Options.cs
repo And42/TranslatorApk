@@ -24,7 +24,7 @@ namespace TranslatorApk.Logic.Classes
             {
                 if (SetProperty(ref _fullPath, value))
                 {
-                    Ext = Path.GetExtension(value);
+                    Ext = string.Intern(Path.GetExtension(value) ?? string.Empty);
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace TranslatorApk.Logic.Classes
         {
             _isImageLoaded = isImageLoaded;
             _fullPath = fullPath;
-            _ext = Path.GetExtension(fullPath);
+            _ext = string.Intern(Path.GetExtension(fullPath) ?? string.Empty);
             IsFolder = isFolder;
         }
     }

@@ -314,6 +314,11 @@ namespace TranslatorApk.Windows
             return false;
         }
 
+        private void EditorSearchWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            FoundItems.Clear();
+        }
+
         #region Property Changed
 
         public event PropertyChangedEventHandler PropertyChanged;
