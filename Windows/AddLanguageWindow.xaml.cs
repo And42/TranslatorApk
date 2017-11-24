@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Logic.ViewModels;
 using UsefulFunctionsLib;
 
 using Res = TranslatorApk.Resources.Localizations.Resources;
@@ -26,7 +25,7 @@ namespace TranslatorApk.Windows
         /// <summary>
         /// Список целевых языков
         /// </summary>
-        public ObservableCollection<Tuple<BitmapImage, string>> TargetLanguages { get; } = new ObservableCollection<Tuple<BitmapImage, string>>();
+        public ObservableCollection<NewLanguageViewModel> TargetLanguages { get; } = new ObservableCollection<NewLanguageViewModel>();
 
         private readonly List<string> _folderLangs = GlobalVariables.SettingsFoldersOfLanguages;
         private readonly List<string> _folderLocalizedLangs = GlobalVariables.SettingsNamesOfFolderLanguages;
@@ -63,7 +62,14 @@ namespace TranslatorApk.Windows
                 if (SourceLanguages.All(src => src != lang))
                 {
                     string name = _folderLangs[_folderLocalizedLangs.IndexOf(lang)];
-                    TargetLanguages.Add(Tuple.Create(ImageUtils.GetFlagImage(name), lang));
+
+                    TargetLanguages.Add(
+                        new NewLanguageViewModel
+                        {
+                            LanguageIcon = ImageUtils.GetFlagImage(name),
+                            Title = lang
+                        }
+                    );
                 }
             }
         }
@@ -76,7 +82,7 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            string target = TargetBox.SelectedValue.As<Tuple<BitmapImage, string>>().Item2;
+            string target = TargetBox.SelectedValue.As<NewLanguageViewModel>().Title;
 
             var sourcedir = Path.Combine(_folder, "values");
             var targetdir = Path.Combine(_folder, _folderLangs[_folderLocalizedLangs.IndexOf(target)]);
@@ -97,7 +103,7 @@ namespace TranslatorApk.Windows
             }
 
             SourceLanguages.Add(target);
-            TargetLanguages.RemoveAt(TargetLanguages.FindIndex(it => it.Item2 == target));
+            TargetLanguages.RemoveAt(TargetLanguages.FindIndex(it => it.Title == target));
 
             MessBox.ShowDial(Res.AllDone);
         }

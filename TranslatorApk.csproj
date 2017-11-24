@@ -221,6 +221,7 @@
     <Compile Include="Logic\Utils\ImageUtils.cs" />
     <Compile Include="Logic\Utils\PluginUtils.cs" />
     <Compile Include="Logic\Utils\SfDataGridUtils.cs" />
+    <Compile Include="Logic\ViewModels\NewLanguageViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />

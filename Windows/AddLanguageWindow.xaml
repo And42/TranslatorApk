@@ -32,8 +32,8 @@
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
-                        <Image Source="{Binding Item1}" Width="24" RenderOptions.BitmapScalingMode="Linear"/>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding Item2}" VerticalAlignment="Center"/>
+                        <Image Source="{Binding LanguageIcon}" Width="24" RenderOptions.BitmapScalingMode="Linear"/>
+                        <TextBlock Margin="10,0,0,0" Text="{Binding Title}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
