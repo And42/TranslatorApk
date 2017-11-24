@@ -54,8 +54,9 @@ namespace TranslatorApk.Logic.Classes
 
         public Action DoubleClicked { get; set; }
 
-        public TreeViewNodeModel(IHaveChildren parent = null)
+        public TreeViewNodeModel(ICommand refreshFilesListCommand, IHaveChildren parent = null)
         {
+            _refreshFilesListCommand = refreshFilesListCommand;
             Parent = parent;
         }
 

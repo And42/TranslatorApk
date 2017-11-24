@@ -87,7 +87,7 @@ namespace TranslatorApk.Windows
         private bool _isMinimized;
 
         public Apktools Apk;
-        public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel();
+        public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel(null);
 
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
         private Timer _fileImagePreviewTimer;
@@ -791,7 +791,7 @@ namespace TranslatorApk.Windows
             //Debug.WriteLine(AppDomain.CurrentDomain.GetAssemblies().Select(it => it.FullName).JoinStr("\n"));
         }
 
-        private void DeleteSmthPromt(TreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
+        private static void DeleteSmthPromt(TreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
         {
             Options opts = node.Options;
 
@@ -813,12 +813,12 @@ namespace TranslatorApk.Windows
             }
         }
 
-        private void DeleteFilePromt(TreeViewNodeModel node)
+        private static void DeleteFilePromt(TreeViewNodeModel node)
         {
             DeleteSmthPromt(node, StringResources.FileDeleteConfirmation, File.Delete, File.Exists);
         }
 
-        private void DeleteFolderPromt(TreeViewNodeModel node)
+        private static void DeleteFolderPromt(TreeViewNodeModel node)
         {
             DeleteSmthPromt(node, StringResources.FolderDeleteConfirmation, str => Directory.Delete(str, true), Directory.Exists);
         }
@@ -929,7 +929,7 @@ namespace TranslatorApk.Windows
 
             FilesTreeViewModel.Children.Clear();
             FilesTreeViewModel.Children.Add(
-                new TreeViewNodeModel
+                new TreeViewNodeModel(RefreshFilesListCommand)
                 {
                     Name = StringResources.AllXml,
                     Options = new Options("", false, true),
@@ -938,7 +938,7 @@ namespace TranslatorApk.Windows
                 }
             );
             FilesTreeViewModel.Children.Add(
-                new TreeViewNodeModel
+                new TreeViewNodeModel(RefreshFilesListCommand)
                 {
                     Name = StringResources.AllSmali,
                     Options = new Options("", false, true),
@@ -959,7 +959,7 @@ namespace TranslatorApk.Windows
 
                     invoker.IsIndeterminate = false;
 
-                    Utils.LoadFilesToTreeView(dispatcher, folderPath, FilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
+                    Utils.LoadFilesToTreeView(dispatcher, folderPath, RefreshFilesListCommand, FilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
                 () =>
                 {

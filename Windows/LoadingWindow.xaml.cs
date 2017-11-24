@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -83,6 +84,9 @@ namespace TranslatorApk.Windows
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.ToString(), "Error");
+                    Debug.WriteLine(Environment.StackTrace, "Current Stack Trace");
+
                     Application.Current.Dispatcher.InvokeAction(() => throw ex);
                 }
 
