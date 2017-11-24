@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
@@ -77,7 +76,7 @@ namespace TranslatorApk.Windows
                 return;
             }
 
-            string target = TargetBox.SelectedValue.As<(ImageSource, string)>().Item2;
+            string target = TargetBox.SelectedValue.As<Tuple<BitmapImage, string>>().Item2;
 
             var sourcedir = Path.Combine(_folder, "values");
             var targetdir = Path.Combine(_folder, _folderLangs[_folderLocalizedLangs.IndexOf(target)]);
