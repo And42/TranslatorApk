@@ -45,7 +45,7 @@ namespace TranslatorApk.Windows
 
             _folder = Path.Combine(folderOfProject, "res");
 
-            var values = Directory.GetDirectories(_folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
+            var values = Directory.EnumerateDirectories(_folder, "values*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
 
             foreach (string value in values)
             {
