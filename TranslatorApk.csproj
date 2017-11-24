@@ -132,9 +132,8 @@
       <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=14.3400.0.49, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -177,9 +176,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libs\UsefulClasses\bin\Release\UsefulClasses.dll</HintPath>
     </Reference>
-    <Reference Include="UsefulFunctionsLib, Version=1.1.6299.40990, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UsefulFunctionsLib, Version=1.4.6537.36668, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Libs\UsefulFunctionsLib\UsefulFunctions\bin\Release\UsefulFunctionsLib.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\UsefulFunctions\bin\Release\UsefulFunctionsLib.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -716,7 +715,9 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
