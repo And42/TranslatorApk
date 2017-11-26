@@ -8,7 +8,7 @@ namespace TranslatorApk.Logic.Converters
     {
         protected override object Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.StartsWith(GlobalVariables.CurrentProjectFolder))
+            if (GlobalVariables.CurrentProjectFolder != null && value.StartsWith(GlobalVariables.CurrentProjectFolder))
                 return "..." + value.Substring(GlobalVariables.CurrentProjectFolder.Length);
 
             return value;
