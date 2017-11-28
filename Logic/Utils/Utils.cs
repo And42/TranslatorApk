@@ -104,76 +104,83 @@ namespace TranslatorApk.Logic.Utils
 
             List<TreeViewNodeModel> itemsToAdd = new List<TreeViewNodeModel>();
 
-            foreach (string folder in folders)
+            try
             {
-                if (cts?.IsCancellationRequested == true)
-                    return;
-
-                // folder length
-                if (!CheckFilePath(folder))
-                    continue;
-
-                var item = new TreeViewNodeModel(refreshFilesListCommand, root)
+                foreach (string folder in folders)
                 {
-                    Name = Path.GetFileName(folder),
-                    Options = new Options(folder, true)
-                };
+                    if (cts?.IsCancellationRequested == true)
+                        return;
 
-                // folder has it's own flag
-                if (flagFiles.Contains(item.Name))
-                {
-                    dispatcher.InvokeAction(() =>
+                    // folder length
+                    if (!CheckFilePath(folder))
+                        continue;
+
+                    var item = new TreeViewNodeModel(refreshFilesListCommand, root)
                     {
-                        item.Image = ImageUtils.GetFlagImage(item.Name);
-                    });
+                        Name = Path.GetFileName(folder),
+                        Options = new Options(folder, true)
+                    };
 
-                    item.Options.IsImageLoaded = true;
+                    // folder has it's own flag
+                    if (flagFiles.Contains(item.Name))
+                    {
+                        dispatcher.InvokeAction(() =>
+                        {
+                            item.Image = ImageUtils.GetFlagImage(item.Name);
+                        });
+
+                        item.Options.IsImageLoaded = true;
+                    }
+
+                    int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm =>
+                        item.Name.StartsWith(nm, StringComparison.Ordinal));
+
+                    // folder is a language folder
+                    if (index > -1)
+                    {
+                        string found = GlobalVariables.SettingsFoldersOfLanguages[index];
+
+                        string source = item.Name;
+
+                        item.Name = GlobalVariables.SettingsNamesOfFolderLanguages[index];
+
+                        if (found != source)
+                            item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
+                    }
+
+                    LoadFilesToTreeViewInternal(dispatcher, folder, refreshFilesListCommand, item, showEmptyFolders,
+                        cts, oneFileAdded, flagFiles);
+
+                    if (item.Children.Count != 0 || showEmptyFolders)
+                        itemsToAdd.Add(item);
                 }
 
-                int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm => item.Name.StartsWith(nm, StringComparison.Ordinal));
-
-                // folder is a language folder
-                if (index > -1)
+                foreach (string file in files)
                 {
-                    string found = GlobalVariables.SettingsFoldersOfLanguages[index];
+                    if (cts?.IsCancellationRequested == true)
+                        return;
 
-                    string source = item.Name;
+                    if (!CheckFilePath(file))
+                        continue;
 
-                    item.Name = GlobalVariables.SettingsNamesOfFolderLanguages[index];
+                    oneFileAdded?.Invoke();
 
-                    if (found != source)
-                        item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
-                }
+                    if (!CheckFileWithSettings(file, Path.GetExtension(file)))
+                        continue;
 
-                LoadFilesToTreeViewInternal(dispatcher, folder, refreshFilesListCommand, item, showEmptyFolders, cts, oneFileAdded, flagFiles);
+                    var item = new TreeViewNodeModel(refreshFilesListCommand, root)
+                    {
+                        Name = Path.GetFileName(file),
+                        Options = new Options(file, false)
+                    };
 
-                if (item.Children.Count != 0 || showEmptyFolders)
                     itemsToAdd.Add(item);
+                }
             }
-
-            foreach (string file in files)
+            finally
             {
-                if (cts?.IsCancellationRequested == true)
-                    return;
-
-                if (!CheckFilePath(file))
-                    continue;
-
-                oneFileAdded?.Invoke();
-
-                if (!CheckFileWithSettings(file, Path.GetExtension(file)))
-                    continue;
-
-                var item = new TreeViewNodeModel(refreshFilesListCommand, root)
-                {
-                    Name = Path.GetFileName(file),
-                    Options = new Options(file, false)
-                };
-
-                itemsToAdd.Add(item);
+                dispatcher.InvokeAction(() => root.Children.AddRange(itemsToAdd));
             }
-
-            dispatcher.InvokeAction(() => root.Children.AddRange(itemsToAdd));
         }
 
         /// <summary>
