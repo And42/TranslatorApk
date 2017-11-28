@@ -85,12 +85,6 @@ namespace TranslatorApk.Logic.OrganisationItems
             }));
         }
 
-        private static void ChildWindowOnClosing(object sender, CancelEventArgs cancelEventArgs)
-        {
-            if (!cancelEventArgs.Cancel)
-                RemoveFromList(sender.GetType());
-        }
-
         /// <summary>
         /// Закрывает окно, которое ранее было активировано методом <see cref="ActivateWindow"/>
         /// </summary>
@@ -106,9 +100,10 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <param name="windowType">Тип окна</param>
         public static void CloseWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
+            if (GetWindow(windowType, out Window window) && window.IsLoaded)
             {
                 window.Close();
+                // ReSharper disable once AssignNullToNotNullAttribute
                 WindowsDict.Remove(windowType.FullName);
             }
         }
@@ -130,7 +125,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public static void EnableWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
+            if (GetWindow(windowType, out Window window) && window.IsLoaded)
                 window.IsEnabled = true;
         }
 
@@ -141,13 +136,24 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public static void DisableWindow(Type windowType)
         {
-            if (WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out Window window) && window.IsLoaded)
+            if (GetWindow(windowType, out Window window) && window.IsLoaded)
                 window.IsEnabled = false;
         }
 
         public static T GetActiveWindow<T>() where T : Window
         {
-            return WindowsDict.TryGetValue(typeof(T).FullName ?? throw new InvalidOperationException(), out Window result) ? (T)result : null;
+            return GetWindow(typeof(T), out Window result) ? (T)result : null;
+        }
+
+        private static bool GetWindow(Type windowType, out Window window)
+        {
+            return WindowsDict.TryGetValue(windowType.FullName ?? throw new InvalidOperationException(), out window);
+        }
+
+        private static void ChildWindowOnClosing(object sender, CancelEventArgs cancelEventArgs)
+        {
+            if (!cancelEventArgs.Cancel)
+                RemoveFromList(sender.GetType());
         }
     }
 }
