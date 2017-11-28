@@ -120,6 +120,8 @@ namespace TranslatorApk.Windows
 
         private readonly QueueEventManager _queueEventManager = new QueueEventManager();
 
+        private readonly object _lock = new object();
+
         public EditorWindow()
         {
             TranslateAllFilesCommand = new ActionCommand(_ => TranslateAllFiles());
@@ -1063,12 +1065,6 @@ namespace TranslatorApk.Windows
         /// </summary>
         private void TranslateAllFiles()
         {
-            if (!TryAction(() => DownloadString("http://www.ya.ru")))
-            {
-                MessBox.ShowDial(Res.NoInternetCantTranslate, Res.ErrorLower);
-                return;
-            }
-
             string errorMessage = null;
             var translated = new ConcurrentQueue<(IOneString source, string translatedValue)>();
 
@@ -1089,7 +1085,9 @@ namespace TranslatorApk.Windows
 
                 Parallel.ForEach(list, str =>
                 {
-                    if (token.IsCancellationRequested) return;
+                    if (token.IsCancellationRequested)
+                        return;
+
                     if (!string.IsNullOrEmpty(str.NewText))
                     {
                         invoker.ProcessValue++;
@@ -1108,11 +1106,15 @@ namespace TranslatorApk.Windows
                     }
                     catch (Exception ex)
                     {
-                        Interlocked.Add(ref cantTranslate, 1);
-                        if (!token.IsCancellationRequested && cantTranslate >= max)
+                        lock (_lock)
                         {
-                            token.Cancel();
-                            errorMessage = ex.Message;
+                            cantTranslate++;
+
+                            if (!token.IsCancellationRequested && cantTranslate >= max)
+                            {
+                                token.Cancel();
+                                errorMessage = ex.Message;
+                            }
                         }
                     }
                 });
@@ -1124,7 +1126,7 @@ namespace TranslatorApk.Windows
                     vals.source.NewText = vals.translatedValue;
 
                 if (errorMessage != null)
-                    MessBox.ShowDial(Res.CantTranslate + "\n" + errorMessage, Res.ErrorLower);
+                    MessBox.ShowDial(Res.CantTranslate + Environment.NewLine + errorMessage, Res.ErrorLower);
 
                 Enable();
                 WindowManager.EnableWindow<MainWindow>();
