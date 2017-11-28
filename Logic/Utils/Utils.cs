@@ -121,19 +121,24 @@ namespace TranslatorApk.Logic.Utils
                         Options = new Options(folder, true)
                     };
 
-                    // folder has it's own flag
-                    if (flagFiles.Contains(item.Name))
+                    var (index, languageFolder) = GlobalVariables.SettingsFoldersOfLanguages.FindWithIndex(nm =>
+                        item.Name.StartsWith(nm, StringComparison.Ordinal));
+
+                    void SetFolder(string path)
                     {
                         dispatcher.InvokeAction(() =>
                         {
-                            item.Image = ImageUtils.GetFlagImage(item.Name);
+                            item.Image = ImageUtils.GetFlagImage(path);
                         });
 
                         item.Options.IsImageLoaded = true;
                     }
 
-                    int index = GlobalVariables.SettingsFoldersOfLanguages.FindIndex(nm =>
-                        item.Name.StartsWith(nm, StringComparison.Ordinal));
+                    // folder has it's own flag
+                    if (flagFiles.Contains(item.Name))
+                        SetFolder(item.Name);
+                    else if (index != -1 && flagFiles.Contains(languageFolder))
+                        SetFolder(languageFolder);
 
                     // folder is a language folder
                     if (index > -1)
@@ -145,7 +150,7 @@ namespace TranslatorApk.Logic.Utils
                         item.Name = GlobalVariables.SettingsNamesOfFolderLanguages[index];
 
                         if (found != source)
-                            item.Name += $" ({source.Split('-').Last().TrimStart('r')})";
+                            item.Name += $" ({source.Substring(languageFolder.Length).TrimStart('-').TrimStart('r')})";
                     }
 
                     LoadFilesToTreeViewInternal(dispatcher, folder, refreshFilesListCommand, item, showEmptyFolders,
@@ -985,6 +990,26 @@ namespace TranslatorApk.Logic.Utils
                 obj.Freeze();
 
             return obj;
+        }
+
+        public static (int index, T value) FindWithIndex<T>(this IEnumerable<T> collection, Predicate<T> predicate)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            int index = 0;
+
+            foreach (T item in collection)
+            {
+                if (predicate(item))
+                    return (index, item);
+
+                index++;
+            }
+
+            return (-1, default);
         }
     }
 }
