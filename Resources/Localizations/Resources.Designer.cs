@@ -421,6 +421,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Dictionaries.
+        /// </summary>
+        public static string Dictionaries_Label {
+            get {
+                return ResourceManager.GetString("Dictionaries_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Folder with dictionaries.
         /// </summary>
         public static string DictionariesFolder {

@@ -78,7 +78,7 @@
 
             <MenuItem Header="{x:Static lang:Resources.Search}" Click="ShowSearchClick" ToolTip="Ctrl + F"/>
 
-            <MenuItem Header="Словари">
+            <MenuItem Header="{x:Static lang:Resources.Dictionaries_Label}">
                 <MenuItem.Resources>
                     <!-- ReSharper disable Xaml.RedundantResource -->
                     <SolidColorBrush x:Key="MenuItem_SubLevelBackgroundOver" Color="Transparent"/>

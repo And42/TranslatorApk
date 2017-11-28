@@ -450,4 +450,7 @@
   <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
     <value>Ankstesnė</value>
   </data>
+  <data name="Dictionaries_Label" xml:space="preserve">
+    <value>Žodynai</value>
+  </data>
 </root>

@@ -615,6 +615,10 @@
           <source>Previous</source>
           <target state="translated">Предыдущая</target>
         </trans-unit>
+        <trans-unit id="Dictionaries_Label" translate="yes" xml:space="preserve">
+          <source>Dictionaries</source>
+          <target state="translated">Словари</target>
+        </trans-unit>
       </group>
     </body>
   </file>

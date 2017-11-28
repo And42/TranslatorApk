@@ -558,4 +558,7 @@
   <data name="StringEditorWindow_PreviousStringLabel" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="Dictionaries_Label" xml:space="preserve">
+    <value>Dictionaries</value>
+  </data>
 </root>
