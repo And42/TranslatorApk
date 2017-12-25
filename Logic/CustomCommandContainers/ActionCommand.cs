@@ -44,6 +44,7 @@ namespace TranslatorApk.Logic.CustomCommandContainers
     public class ActionCommand<T> : ICommand
     {
         private static readonly Type TargetType = typeof(T);
+        private static readonly bool IsClass = default(T) == null;
 
         private readonly Action<T> _executeAction;
         private readonly Func<T, bool> _canExecuteFunc;
@@ -74,6 +75,9 @@ namespace TranslatorApk.Logic.CustomCommandContainers
 
         private static T Convert(object obj)
         {
+            if (obj == null && IsClass)
+                return default;
+
             return obj is T
                 ? (T)obj
                 : (T)Converter.ConvertTo(obj, TargetType);

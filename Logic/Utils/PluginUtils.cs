@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
@@ -36,8 +37,11 @@ namespace TranslatorApk.Logic.Utils
 
             loader.Load(path);
 
-            loader.Actions.ForEach(it => AddAction(loader, it));
-            loader.Translators.ForEach(AddTranslator);
+            Application.Current.Dispatcher.InvokeAction(() =>
+            {
+                loader.Actions.ForEach(it => AddAction(loader, it));
+                loader.Translators.ForEach(AddTranslator);
+            });
 
             GlobalVariables.Plugins.Add(loader.Name, loader);
         }
@@ -53,8 +57,11 @@ namespace TranslatorApk.Logic.Utils
             if (!GlobalVariables.Plugins.TryGetValue(name, out found))
                 return;
 
-            found.Actions.ForEach(RemoveAction);
-            found.Translators.ForEach(RemoveTranslator);
+            Application.Current.Dispatcher.InvokeAction(() =>
+            {
+                found.Actions.ForEach(RemoveAction);
+                found.Translators.ForEach(RemoveTranslator);
+            });
 
             string pluginName = found.Name;
 

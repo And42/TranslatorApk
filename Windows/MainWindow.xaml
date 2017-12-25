@@ -42,18 +42,18 @@
                 </Style>
             </Menu.Resources>
             
-            <MenuItem Header="{x:Static localization:Resources.Settings}"           Click="OpenSettingsClick"/>
-            <MenuItem Header="{x:Static localization:Resources.Editor}"             Click="OpenEditorClick"/>
-            <MenuItem Header="{x:Static localization:Resources.XmlRulesEditor}"     Click="OpenXmlRulesClick"/>
-            <MenuItem Header="{x:Static localization:Resources.ChangesDetector}"    Click="OpenChangesDetectorClick"/>
+            <MenuItem Header="{x:Static localization:Resources.Settings}"           Command="{Binding OpenSettingsCommand}"/>
+            <MenuItem Header="{x:Static localization:Resources.Editor}"             Command="{Binding OpenEditorCommand}"/>
+            <MenuItem Header="{x:Static localization:Resources.XmlRulesEditor}"     Command="{Binding OpenXmlRulesCommand}"/>
+            <MenuItem Header="{x:Static localization:Resources.ChangesDetector}"    Command="{Binding OpenChangesDetectorCommand}"/>
             <MenuItem Header="{x:Static localization:Resources.Plugins}"            x:Name="AddActionsMenuItem">
-                <MenuItem Header="{x:Static localization:Resources.Catalog}"        Click="OpenPluginsWindowClick">
+                <MenuItem Header="{x:Static localization:Resources.Catalog}"        Command="{Binding OpenPluginsCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Resources/Icons/folder.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="{x:Static localization:Resources.AboutProgram}"       Click="OpenAboutClick"/>
+            <MenuItem Header="{x:Static localization:Resources.AboutProgram}"       Command="{Binding OpenAboutCommand}"/>
         </Menu>
         
         <Grid Margin="0,5,0,0" DockPanel.Dock="Top" 
@@ -104,7 +104,9 @@
                     ItemsSource="{Binding MainWindowSettings}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding LocalizedName}" IsChecked="{Binding Value}"/>
+                        <CheckBox
+                            Content="{Binding LocalizedName, Mode=OneWay}"
+                            IsChecked="{Binding Value, Mode=TwoWay}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
@@ -261,15 +263,19 @@
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
 
-                            <Image Source="{Binding Image}" Height="32" Width="32" RenderOptions.BitmapScalingMode="Linear"/>
+                            <Image Source="{Binding Image, Mode=OneWay}" Height="32" Width="32" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
-                            <TextBlock Margin="5,0,0,0" Text="{Binding Name}" VerticalAlignment="Center" FontSize="14"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" FontSize="14"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
                 
                 <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem" d:DataContext="{d:DesignInstance classes:FilesTreeViewNodeModel}">
+                    <Style TargetType="TreeViewItem">
+                        <d:Style.DataContext>
+                            <x:Type Type="classes:FilesTreeViewNodeModel"/>
+                        </d:Style.DataContext>
+
                         <Style.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="2"/>

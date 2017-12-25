@@ -166,9 +166,6 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Expression.Blend.Sdk.1.0.2\lib\net40-client\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -237,6 +234,7 @@
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
@@ -315,8 +313,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Plugins.xaml.cs">
-      <DependentUpon>Plugins.xaml</DependentUpon>
+    <Compile Include="Windows\PluginsWindow.xaml.cs">
+      <DependentUpon>PluginsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PreviewWindow.xaml.cs">
       <DependentUpon>PreviewWindow.xaml</DependentUpon>
@@ -700,7 +698,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\Plugins.xaml">
+    <Page Include="Windows\PluginsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -48,13 +48,17 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _client.DownloadProgressChanged += ClientOnDownloadProgressChanged;
             _client.DownloadFileCompleted += ClientOnDownloadFileCompleted;
 
-            _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommandExecute);
+            _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsLoading);
         }
 
         public bool IsLoading
         {
             get => _isLoading;
-            private set => SetProperty(ref _isLoading, value);
+            private set
+            {
+                if (SetProperty(ref _isLoading, value))
+                    _itemClickedCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public int Progress
@@ -91,6 +95,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             catch
             {
                 MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecieveApktoolsList, Resources.Localizations.Resources.ErrorLower);
+                IsLoading = false;
                 return;
             }
 
@@ -138,7 +143,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             IsLoading = false;
         }
 
-        private void ItemClickedCommandExecute(DownloadableApktool item)
+        private void ItemClickedCommand_Execute(DownloadableApktool item)
         {
             if (item == null || !ServerApktools.Contains(item))
                 return;

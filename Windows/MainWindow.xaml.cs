@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -52,6 +51,7 @@ namespace TranslatorApk.Windows
         private static readonly Logger AndroidLogger;
 
         private const int ItemPreviewDelayMs = 500;
+        private static readonly TimeSpan ItemPreviewDelay = TimeSpan.FromMilliseconds(ItemPreviewDelayMs);
 
         public ICommand SignCommand { get; }
         public ICommand BuildCommand { get; }
@@ -60,6 +60,13 @@ namespace TranslatorApk.Windows
         public ICommand InstallFrameworkCommand { get; }
         public ICommand ShowSearchWindowCommand { get; }
         public ICommand RefreshFilesListCommand { get; }
+
+        public ICommand OpenSettingsCommand { get; }
+        public ICommand OpenEditorCommand { get; }
+        public ICommand OpenXmlRulesCommand { get; }
+        public ICommand OpenChangesDetectorCommand { get; }
+        public ICommand OpenPluginsCommand { get; }
+        public ICommand OpenAboutCommand { get; }
 
         public Setting<bool>[] MainWindowSettings { get; }
 
@@ -90,7 +97,7 @@ namespace TranslatorApk.Windows
         public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel(null);
 
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
-        private Timer _fileImagePreviewTimer;
+        private DispatcherTimer _fileImagePreviewTimer;
         private readonly PreviewWindowHandler _fileImagePreviewWindowHandler = new PreviewWindowHandler();
 
         //public ObservableCollection<LogItem> LogItems { get; } = new ObservableCollection<LogItem>();
@@ -128,33 +135,45 @@ namespace TranslatorApk.Windows
             ShowSearchWindowCommand = new ActionCommand(OpenSearchCommand_Execute);
             RefreshFilesListCommand = new ActionCommand(RefreshFilesListCommand_Execute);
 
+            OpenSettingsCommand = new ActionCommand(OpenSettingsCommand_Execute);
+            OpenEditorCommand = new ActionCommand(OpenEditorCommand_Execute);
+            OpenXmlRulesCommand = new ActionCommand(OpenXmlRulesCommand_Execute);
+            OpenChangesDetectorCommand = new ActionCommand(OpenChangesDetectorCommand_Execute);
+            OpenPluginsCommand = new ActionCommand(OpenPluginsCommand_Execute);
+            OpenAboutCommand = new ActionCommand(OpenAboutCommand_Execute);
+
             InitializeComponent();
 
             LoadSettings();
 
             TaskbarItemInfo = new TaskbarItemInfo();
-        }  
+        }
 
         private void StartPreviewTimer()
         {
-            _fileImagePreviewTimer = new Timer(state =>
-            {
-                CancelPreviewTimer();
+            _fileImagePreviewTimer = 
+                new DispatcherTimer(
+                    ItemPreviewDelay,
+                    DispatcherPriority.Normal,
+                    PreviewTimerCallback,
+                    Dispatcher
+                );
+        }
 
-                Dispatcher.InvokeAction(() =>
-                {
-                    var pos = PointToScreen(Mouse.GetPosition(this));
+        private void PreviewTimerCallback(object sender, EventArgs args)
+        {
+            CancelPreviewTimer();
 
-                    _fileImagePreviewWindowHandler.Update(pos);
-                });
-            }, null, ItemPreviewDelayMs, ItemPreviewDelayMs);
+            var pos = PointToScreen(Mouse.GetPosition(this));
+
+            _fileImagePreviewWindowHandler.Update(pos);
         }
 
         private void CancelPreviewTimer()
         {
             if (_fileImagePreviewTimer != null)
             {
-                _fileImagePreviewTimer.Dispose();
+                _fileImagePreviewTimer.IsEnabled = false;
                 _fileImagePreviewTimer = null;
             }
         }
@@ -314,32 +333,32 @@ namespace TranslatorApk.Windows
 
         #region Кнопки меню
 
-        private void OpenPluginsWindowClick(object sender, RoutedEventArgs e)
-        {
-            new Plugins().ShowDialog();
-        }
-
-        private void OpenSettingsClick(object sender, RoutedEventArgs e)
+        private void OpenSettingsCommand_Execute()
         {
             new SettingsWindow().ShowDialog();
         }
 
-        private void OpenEditorClick(object sender, RoutedEventArgs e)
+        private void OpenEditorCommand_Execute()
         {
             WindowManager.ActivateWindow<EditorWindow>();
         }
 
-        private void OpenXmlRulesClick(object sender, RoutedEventArgs e)
+        private void OpenXmlRulesCommand_Execute()
         {
             new XmlRulesWindow().ShowDialog();
         }
 
-        private void OpenChangesDetectorClick(object sender, RoutedEventArgs e)
+        private void OpenChangesDetectorCommand_Execute()
         {
             WindowManager.ActivateWindow<ChangesDetectorWindow>();
         }
 
-        private void OpenAboutClick(object sender, RoutedEventArgs e)
+        private void OpenPluginsCommand_Execute()
+        {
+            new PluginsWindow().ShowDialog();
+        }
+
+        private void OpenAboutCommand_Execute()
         {
             new AboutProgramWindow().ShowDialog();
         }

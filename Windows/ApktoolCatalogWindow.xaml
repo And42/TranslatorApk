@@ -9,7 +9,6 @@
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d" MinHeight="300" MinWidth="300" Width="450" Height="400" WindowStartupLocation="CenterScreen"
         Title="Apktools"
         
@@ -66,14 +65,8 @@
                                 Content="{Binding Installed, Mode=OneWay, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
                                 Padding="5,3" Margin="3"
                                 HorizontalAlignment="Stretch"
-                                IsEnabled="{Binding DataContext.IsLoading, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource InvertBoolConverter}}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction
-                                            Command="{Binding DataContext.ItemClickedCommand, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                            CommandParameter="{Binding}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                Command="{Binding DataContext.ItemClickedCommand, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding}">
                             </Button>
                         </DataTemplate>
                     </syncfusion:GridTemplateColumn.CellTemplate>
