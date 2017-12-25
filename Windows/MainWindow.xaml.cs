@@ -87,7 +87,7 @@ namespace TranslatorApk.Windows
         private bool _isMinimized;
 
         public Apktools Apk;
-        public TreeViewNodeModel FilesTreeViewModel { get; } = new TreeViewNodeModel(null);
+        public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel(null);
 
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
         private Timer _fileImagePreviewTimer;
@@ -104,6 +104,8 @@ namespace TranslatorApk.Windows
 
         public MainWindow(string[] args)
         {
+            //CrashHandler.Instance.HandleCrashes(false);
+
             _arguments = args;
 
             MainWindowSettings = new[]
@@ -157,15 +159,9 @@ namespace TranslatorApk.Windows
             }
         }
 
-        private void RefreshFilesListCommand_Execute(object obj)
-        {
-            if (!GlobalVariables.CurrentProjectFolder.NE())
-                LoadFolder(GlobalVariables.CurrentProjectFolder);
-        }
-
         #region Команды
 
-        private void ChooseFileCommand_Execute(object arg)
+        private void ChooseFileCommand_Execute()
         {
             var fd = new OpenFileDialog
             {
@@ -182,7 +178,7 @@ namespace TranslatorApk.Windows
             DecompileFile(fd.FileName);
         }
 
-        private void ChooseFolderCommand_Execute(object arg)
+        private void ChooseFolderCommand_Execute()
         {
             var dialog = new CommonOpenFileDialog
             {
@@ -198,12 +194,12 @@ namespace TranslatorApk.Windows
             LoadFolder(dialog.FileName);
         }
 
-        private void OpenSearchCommand_Execute(object arg)
+        private void OpenSearchCommand_Execute()
         {
             new SearchWindow().ShowDialog();
         }
 
-        private void BuildCommand_Execute(object arg)
+        private void BuildCommand_Execute()
         {
             if (Apk == null)
                 return;
@@ -240,7 +236,7 @@ namespace TranslatorApk.Windows
                         if (MessBox.ShowDial("Обнаружены ошибки. Попробовать исправить?", "", MButtons.Yes, MButtons.No) == MButtons.Yes)
                         {
                             Apktools.FixErrors(errors);
-                            BuildCommand_Execute(arg);
+                            BuildCommand_Execute();
                         }
                     }
                     else
@@ -252,7 +248,7 @@ namespace TranslatorApk.Windows
             );
         }
 
-        private async void InstallFrameworkCommand_Execute(object arg)
+        private async void InstallFrameworkCommand_Execute()
         {
             var fd = new OpenFileDialog
             {
@@ -269,7 +265,7 @@ namespace TranslatorApk.Windows
             await InstallFramework(fd.FileName);
         }
 
-        private void SignCommand_Execute(object arg)
+        private void SignCommand_Execute()
         {
             if (Apk == null)
                 return;
@@ -352,14 +348,20 @@ namespace TranslatorApk.Windows
 
         #region Кнопки общего контекстного меню
 
+        private void RefreshFilesListCommand_Execute()
+        {
+            if (!GlobalVariables.CurrentProjectFolder.NE())
+                LoadFolder(GlobalVariables.CurrentProjectFolder);
+        }
+
         private void ExpandClick(object sender = null, RoutedEventArgs e = null)
         {
-            FilesTreeViewModel.Children.ForEach(it => it.IsExpanded = true);
+            FilesFilesTreeViewModel.Children.ForEach(it => it.IsExpanded = true);
         }
 
         private void CollapseClick(object sender = null, RoutedEventArgs e = null)
         {
-            FilesTreeViewModel.Children.ForEach(it => Expand(it, false));
+            FilesFilesTreeViewModel.Children.ForEach(it => Expand(it, false));
         }
 
         private void AddNewLanguageClick(object sender = null, RoutedEventArgs e = null)
@@ -373,7 +375,7 @@ namespace TranslatorApk.Windows
 
         private void OpenClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.IsFolder)
                 return;
@@ -383,7 +385,7 @@ namespace TranslatorApk.Windows
 
         private void OpenWithClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.IsFolder)
                 return;
@@ -393,7 +395,7 @@ namespace TranslatorApk.Windows
 
         private void ReplaceFileClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.IsFolder)
                 return;
@@ -419,7 +421,7 @@ namespace TranslatorApk.Windows
 
         private void DeleteFileClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             DeleteFilePromt(node);
         }
@@ -430,14 +432,14 @@ namespace TranslatorApk.Windows
 
         private void OpenInExplorerClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             Utils.ShowInExplorer(node.Options.FullPath);
         }
 
         private void DeleteFolderClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             DeleteFolderPromt(node);
 
@@ -445,14 +447,14 @@ namespace TranslatorApk.Windows
 
         private void ExpandFolderClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             Expand(node);
         }
 
         private void CollapseFolderClick(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             Expand(node, false);
         }
@@ -598,7 +600,7 @@ namespace TranslatorApk.Windows
             if (e.ChangedButton != MouseButton.Left || e.ClickCount != 2)
                 return;
 
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.IsFolder)
                 return;
@@ -680,7 +682,7 @@ namespace TranslatorApk.Windows
         {
             if (e.Key == Key.Delete)
             {
-                var node = FilesTreeView.SelectedItem as TreeViewNodeModel;
+                var node = FilesTreeView.SelectedItem as FilesTreeViewNodeModel;
 
                 if (node == null)
                     return;
@@ -699,7 +701,7 @@ namespace TranslatorApk.Windows
             if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.HasPreview)
             {
@@ -713,7 +715,7 @@ namespace TranslatorApk.Windows
             if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
-            var node = (sender as FrameworkElement)?.DataContext as TreeViewNodeModel;
+            var node = (sender as FrameworkElement)?.DataContext as FilesTreeViewNodeModel;
 
             if (node?.Options.HasPreview == true)
             {
@@ -728,7 +730,7 @@ namespace TranslatorApk.Windows
             if (!SettingsIncapsuler.Instance.ShowPreviews)
                 return;
 
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.HasPreview)
             {
@@ -791,7 +793,7 @@ namespace TranslatorApk.Windows
             //Debug.WriteLine(AppDomain.CurrentDomain.GetAssemblies().Select(it => it.FullName).JoinStr("\n"));
         }
 
-        private static void DeleteSmthPromt(TreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
+        private static void DeleteSmthPromt(FilesTreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
         {
             Options opts = node.Options;
 
@@ -813,12 +815,12 @@ namespace TranslatorApk.Windows
             }
         }
 
-        private static void DeleteFilePromt(TreeViewNodeModel node)
+        private static void DeleteFilePromt(FilesTreeViewNodeModel node)
         {
             DeleteSmthPromt(node, StringResources.FileDeleteConfirmation, File.Delete, File.Exists);
         }
 
-        private static void DeleteFolderPromt(TreeViewNodeModel node)
+        private static void DeleteFolderPromt(FilesTreeViewNodeModel node)
         {
             DeleteSmthPromt(node, StringResources.FolderDeleteConfirmation, str => Directory.Delete(str, true), Directory.Exists);
         }
@@ -927,9 +929,9 @@ namespace TranslatorApk.Windows
 
             Apk.Logging += s => VisLog(Log(s));
 
-            FilesTreeViewModel.Children.Clear();
-            FilesTreeViewModel.Children.Add(
-                new TreeViewNodeModel(RefreshFilesListCommand)
+            FilesFilesTreeViewModel.Children.Clear();
+            FilesFilesTreeViewModel.Children.Add(
+                new FilesTreeViewNodeModel(RefreshFilesListCommand)
                 {
                     Name = StringResources.AllXml,
                     Options = new Options("", false, true),
@@ -937,8 +939,8 @@ namespace TranslatorApk.Windows
                     Image = GlobalResources.IconUnknownFile
                 }
             );
-            FilesTreeViewModel.Children.Add(
-                new TreeViewNodeModel(RefreshFilesListCommand)
+            FilesFilesTreeViewModel.Children.Add(
+                new FilesTreeViewNodeModel(RefreshFilesListCommand)
                 {
                     Name = StringResources.AllSmali,
                     Options = new Options("", false, true),
@@ -959,19 +961,19 @@ namespace TranslatorApk.Windows
 
                     invoker.IsIndeterminate = false;
 
-                    Utils.LoadFilesToTreeView(dispatcher, folderPath, RefreshFilesListCommand, FilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
+                    Utils.LoadFilesToTreeView(dispatcher, folderPath, RefreshFilesListCommand, FilesFilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
                 () =>
                 {
                     Enable();
 
-                    FilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
+                    FilesFilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
                 });
         }
 
         private void LoadAllInXml(object sender, RoutedEventArgs e)
         {
-            var node = sender.As<FrameworkElement>().DataContext.As<TreeViewNodeModel>();
+            var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
 
             if (node.Options.IsFolder || node.Options.Ext != ".xml")
                 return;
@@ -984,11 +986,11 @@ namespace TranslatorApk.Windows
                 .Publish(new AddEditableFilesEvent(file));
         }
         
-        private static void Expand(TreeViewNodeModel item, bool expand = true)
+        private static void Expand(FilesTreeViewNodeModel item, bool expand = true)
         {
             item.IsExpanded = expand;
             
-            foreach (TreeViewNodeModel child in item.Children)
+            foreach (FilesTreeViewNodeModel child in item.Children)
                 Expand(child, expand);
         }
 

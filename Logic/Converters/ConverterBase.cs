@@ -7,8 +7,14 @@ namespace TranslatorApk.Logic.Converters
 {
     public abstract class ConverterBase<TValueType> : IValueConverter
     {
+        protected virtual TValueType NullForward { get; } = default;
+        protected virtual object NullBackward { get; } = default;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+                return NullForward;
+
             if (value is TValueType typeVal)
                 return Convert(typeVal, targetType, parameter, culture);
 
@@ -19,6 +25,9 @@ namespace TranslatorApk.Logic.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+                return NullBackward;
+
             if (value is TValueType typeVal)
                 return ConvertBackObj(typeVal, targetType, parameter, culture);
 

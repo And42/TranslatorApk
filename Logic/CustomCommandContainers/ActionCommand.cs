@@ -15,6 +15,12 @@ namespace TranslatorApk.Logic.CustomCommandContainers
             _canExecuteFunc = canExecuteFunc ?? AlwaysTrueAction;
         }
 
+        public ActionCommand(Action executeAction, Func<bool> canExecuteFunc = null)
+        {
+            _executeAction = executeAction != null ? new Action<object>(obj => executeAction()) : throw new ArgumentNullException(nameof(executeAction));
+            _canExecuteFunc = canExecuteFunc != null ? new Func<object, bool>(obj => canExecuteFunc()) : AlwaysTrueAction;
+        }
+
         public void Execute(object parameter)
         {
             _executeAction(parameter);
@@ -30,10 +36,7 @@ namespace TranslatorApk.Logic.CustomCommandContainers
             CanExecuteChanged?.Invoke(this, null);
         }
 
-        private static bool AlwaysTrueAction(object param)
-        {
-            return true;
-        }
+        private static bool AlwaysTrueAction(object param) => true;
 
         public event EventHandler CanExecuteChanged;
     }

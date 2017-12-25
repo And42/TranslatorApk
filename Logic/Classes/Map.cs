@@ -83,6 +83,8 @@ namespace TranslatorApk.Logic.Classes
             return _backward.TryGetValue(value, out key);
         }
 
+        public T2 this[T1 key] => Forward[key];
+
         public IEnumerator<KeyValuePair<T1, T2>> GetEnumerator()
         {
             return _forward.GetEnumerator();

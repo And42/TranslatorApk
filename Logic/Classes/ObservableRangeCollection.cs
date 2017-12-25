@@ -31,10 +31,18 @@ namespace TranslatorApk.Logic.Classes
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
-            foreach (var i in items)
+            foreach (T i in items)
                 Items.Add(i);
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+
+        /// <summary> 
+        /// Adds the elements to the end of the ObservableCollection(Of T). 
+        /// </summary> 
+        public void AddRange(params T[] items)
+        {
+            AddRange((IList<T>)items);
         }
 
         /// <summary> 

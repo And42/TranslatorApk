@@ -1,95 +1,86 @@
-﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
-    
-<Window x:Class="TranslatorApk.Windows.SettingsWindow"
+﻿<Window x:Class="TranslatorApk.Windows.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
-        xmlns:webServices="clr-namespace:TranslatorApk.Logic.WebServices"
-        xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
-        xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
-
+        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
+        xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
+        xmlns:treeViewModels="clr-namespace:TranslatorApk.Logic.ViewModels.TreeViewModels"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         FontSize="14"
-        Width="600" SizeToContent="Height"
-        WindowStartupLocation="CenterScreen" ShowInTaskbar="True"
+        
+        MinWidth="900" MinHeight="500"
+        Width="900" Height="500"
         
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{x:Static localization:Resources.Settings}" 
         Style="{DynamicResource WindowStyle}"
         
-        elements:WindowThemeParameters.CanMinimize="False"
-        elements:WindowThemeParameters.IsResizable="False">
-    <Grid Margin="7"
-          attachedProperties:Grid.Rows="A,2,A,2,A,2,A,2,A,2,A,2,A,2,A,2,A,2,A,2,A,2,A,*"
-          attachedProperties:Grid.Columns="A,*">
-        <Grid.Resources>
-            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                <Setter Property="Padding" Value="6,3"/>
-            </Style>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="5,0"/>
-            </Style>
-        </Grid.Resources>
+        d:DataContext="{d:DesignInstance settingsPages:SettingsViewModel}"
+        
+        elements:WindowThemeParameters.CanMinimize="False">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <DockPanel>
+            <TreeView
+                Width="300"
+                ItemsSource="{Binding PagesRoot.Children, Mode=OneWay}"
+                SelectedItemChanged="TreeView_OnSelectedItemChanged">
+                <TreeView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                     Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <TextBlock
+                            Margin="10,5"
+                            Text="{Binding PageViewModel.PageTitle, Mode=OneWay}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}" d:DataContext="{d:DesignInstance treeViewModels:SettingsTreeViewNodeModel}">
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="2"/>
+                            </Style>
+                        </Style.Resources>
 
-        <TextBlock Text="{x:Static localization:Resources.LanguageOfApp}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1"
-                  ItemsSource="{x:Static webServices:TranslateService.SupportedProgramLangsFullNames}" 
-                  SelectedIndex="{Binding LanguageOfAppIndex}" />
-
-        <TextBlock Grid.Row="2"  Grid.Column="0"
-                   Text="{x:Static localization:Resources.OnlineTranslator}"/>
-        <ComboBox Grid.Row="2"  Grid.Column="1"
-                  ItemsSource="{Binding Translators}" 
-                  SelectedItem="{Binding OnlineTranslator}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
-        <TextBlock Grid.Row="4"  Grid.Column="0" Text="{x:Static localization:Resources.Theme}"/>
-        <ComboBox  Grid.Row="4"  Grid.Column="1" SelectionChanged="ThemeChanged" x:Name="ThemeBox"
-                  ItemsSource="{Binding Themes}"/>
-
-        <TextBlock Grid.Row="6"  Grid.Column="0" Text="{x:Static localization:Resources.ApktoolVersion}"/>
-        <ComboBox  Grid.Row="6"  Grid.Column="1" x:Name="ApktoolVersionBox" SelectionChanged="ApktoolVersionChanged"
-                  ItemsSource="{Binding ApktoolVersions}"/>
-
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static localization:Resources.ShowPreview}"/>
-        <ComboBox  Grid.Row="8" Grid.Column="1" SelectedIndex="{Binding ShowPreviewsIndex}" ItemsSource="{Binding YesNoItems}"/>
-
-        <TextBlock Grid.Row="10" Grid.Column="0" Text="{x:Static localization:Resources.ApiKey}"/>
-        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding OnlineTranslator.ApiKey, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <TextBlock Grid.Row="12" Grid.Column="0" Text="{x:Static localization:Resources.TopMost}"/>
-        <ComboBox Grid.Row="12" Grid.Column="1" SelectedIndex="{Binding TopMostIndex}" ItemsSource="{Binding YesNoItems}"/>
-
-        <TextBlock Grid.Row="14" Grid.Column="0" Text="{x:Static localization:Resources.AlternativeEditingKeys}"/>
-        <ComboBox Grid.Row="14" Grid.Column="1" SelectedIndex="{Binding AlternativeEditingKeysIndex}" ItemsSource="{Binding YesNoItems}"/>
-
-        <TextBlock Grid.Row="16" Grid.Column="0" Text="{x:Static localization:Resources.SessionAutoTranslation}"/>
-        <ComboBox Grid.Row="16" Grid.Column="1" SelectedIndex="{Binding SessionAutoTranslateIndex}" ItemsSource="{Binding YesNoItems}"/>
-
-        <TextBlock Grid.Row="18" Grid.Column="0" Text="{x:Static localization:Resources.ShowNotifications}"/>
-        <ComboBox Grid.Row="18" Grid.Column="1" SelectedIndex="{Binding ShowNotificationsIndex}" ItemsSource="{Binding YesNoItems}"/>
-
-        <!--<TextBlock Grid.Row="20" Grid.Column="0" Text="{x:Static localization:Resources.AlternateRowsInEditor}"
-                   VerticalAlignment="Center" Padding="4,3"/>
-        <ComboBox Grid.Row="20" Grid.Column="1" SelectedIndex="{Binding AlternateRowsIndex}" ItemsSource="{Binding YesNoItems}"/>-->
-
-        <TextBlock Grid.Row="20" Grid.Column="0" Text="{x:Static localization:Resources.ImageExtensions}"/>
-        <Grid      Grid.Row="20" Grid.Column="1" attachedProperties:Grid.Columns="*,A">
-            <TextBox Text="{Binding ImageFileExts}"/>
-            <Button Grid.Column="1" Content="{x:Static localization:Resources.Save}" Margin="3,0,0,0" Click="SaveImageExts"/>
-        </Grid>
-
-        <TextBlock Grid.Row="22" Grid.Column="0" Text="{x:Static localization:Resources.OtherExtensions}"/>
-        <Grid      Grid.Row="22" Grid.Column="1" attachedProperties:Grid.Columns="*,A">
-            <TextBox Text="{Binding OtherFileExts, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="1" Content="{x:Static localization:Resources.Save}" Margin="3,0,0,0" Click="SaveOtherExts"/>
-        </Grid>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                        <Setter Property="Padding" Value="4,0,6,0"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+        </DockPanel>
+        <DockPanel
+            Grid.Column="1"
+            Margin="5,0,0,0">
+            <Border DockPanel.Dock="Top" Background="{DynamicResource SettingsTitleBackground_Brush}">
+                <TextBlock
+                    Foreground="{DynamicResource SettingsTitleForeground_Brush}"
+                    FontFamily="Century Gothic"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Text="{Binding CurrentPage.PageViewModel.PageTitle, Mode=OneWay, FallbackValue=None}"
+                    Margin="15,2"/>
+            </Border>
+            <ScrollViewer
+                    Margin="0,5,0,0"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                <Frame
+                    x:Name="NavigationFrame"
+                    DockPanel.Dock="Top"
+                    NavigationUIVisibility="Hidden"
+                    Source="{Binding CurrentPage.PageUri, Mode=OneWay}"
+                    Navigated="Frame_OnNavigated"/>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </Window>

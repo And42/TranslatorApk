@@ -19,7 +19,7 @@ namespace TranslatorApk.Logic.Utils
         /// Загружает иконку для TreeViewItem
         /// </summary>
         /// <param name="item">Целевой объект</param>
-        public static void LoadIconForItem(TreeViewNodeModel item)
+        public static void LoadIconForItem(FilesTreeViewNodeModel item)
         {
             if (item.Options.IsImageLoaded)
                 return;

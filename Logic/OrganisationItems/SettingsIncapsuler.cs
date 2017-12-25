@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using TranslatorApk.Annotations;
+using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Properties;
 
@@ -15,22 +12,13 @@ namespace TranslatorApk.Logic.OrganisationItems
     /// <summary>
     /// Класс для работы с файлом настроек. Поддерживает кэширование. Крайне рекомендуется использовать его для управления настройками.
     /// </summary>
-    public class SettingsIncapsuler : ISettingsContainer
+    public class SettingsIncapsuler : BindableBase, ISettingsContainer
     {
-        private static readonly Dictionary<string, PropertyInfo> CurrentTypeProperties;
+        public static SettingsIncapsuler Instance { get; } = new SettingsIncapsuler();
 
-        public static SettingsIncapsuler Instance =>
-            _current ?? (_current = new SettingsIncapsuler());
-        private static SettingsIncapsuler _current;
+        public bool AutoFlush { get; set; } = true;
 
-        private static readonly Dictionary<string, object> CachedProperties = new Dictionary<string, object>();
-
-        static SettingsIncapsuler()
-        {
-            CurrentTypeProperties = typeof(SettingsIncapsuler).GetProperties().ToDictionary(_ => _.Name, _ => _);
-        }
-
-        private SettingsIncapsuler() { }
+        private readonly Dictionary<string, object> _cachedProperties = new Dictionary<string, object>();
 
         public string TargetLanguage
         {
@@ -241,12 +229,12 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            if (CachedProperties.TryGetValue(propertyName, out object value))
+            if (_cachedProperties.TryGetValue(propertyName, out object value))
                 return (T) value;
 
             object val = Settings.Default[propertyName];
 
-            CachedProperties.Add(propertyName, val);
+            _cachedProperties.Add(propertyName, val);
             
             return (T) val;
         }
@@ -256,57 +244,39 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            if (CachedProperties.TryGetValue(propertyName, out var cachedValue))
+            if (_cachedProperties.TryGetValue(propertyName, out var cachedValue))
             {
                 if (EqualityComparer<T>.Default.Equals((T) cachedValue, value))
                     return;
 
-                CachedProperties[propertyName] = value;
+                _cachedProperties[propertyName] = value;
             }
             else
             {
-                CachedProperties.Add(propertyName, value);
+                _cachedProperties.Add(propertyName, value);
             }
 
             Settings.Default[propertyName] = value;
 
-            Save();
+            if (AutoFlush)
+                Save();
 
-            OnPropertyChanged(propertyName);
+            RaisePropertyChanged(propertyName);
         }
 
         public T GetValue<T>(string settingName)
         {
-            if (CurrentTypeProperties.TryGetValue(settingName, out var property))
-                return (T) property.GetValue(null, null);
-
-            throw new ArgumentOutOfRangeException(nameof(settingName));
+            return GetValueInternal<T>(settingName);
         }
 
         public void SetValue<T>(string settingName, T value)
         {
-            if (CurrentTypeProperties.TryGetValue(settingName, out var property))
-                property.SetValue(this, value, null);
-            else
-                throw new ArgumentOutOfRangeException(nameof(settingName));
+            SetValueInternal(value, settingName);
         }
 
-        void ISettingsContainer.Save()
-        {
-            Save();
-        }
-
-        public static void Save()
+        public void Save()
         {
             Settings.Default.Save();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

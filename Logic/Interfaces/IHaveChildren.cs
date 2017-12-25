@@ -2,8 +2,8 @@
 
 namespace TranslatorApk.Logic.Interfaces
 {
-    public interface IHaveChildren
+    public interface IHaveChildren<TChildType>
     {
-        ObservableRangeCollection<TreeViewNodeModel> Children { get; }
+        ObservableRangeCollection<TChildType> Children { get; }
     }
 }

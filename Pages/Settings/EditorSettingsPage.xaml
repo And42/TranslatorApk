@@ -1,0 +1,38 @@
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+    
+<Page x:Class="TranslatorApk.Pages.Settings.EditorSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
+      xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+      xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="600"
+      Title="TranslationSettingsPage"
+      FontSize="14"
+      
+      d:DataContext="{d:DesignInstance settingsPages:EditorSettingsPageViewModel}">
+
+    <Border BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+        <Grid
+            Margin="5"
+            attachedProperties:Grid.Rows="Auto,5,Auto"
+            attachedProperties:Grid.Columns="Auto,*">
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5,0,10,0"/>
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static localization:Resources.AlternativeEditingKeys}"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding AlternativeEditingKeysIndex}" ItemsSource="{Binding YesNoItems}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localization:Resources.SessionAutoTranslation}"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" SelectedIndex="{Binding SessionAutoTranslateIndex}" ItemsSource="{Binding YesNoItems}"/>
+        </Grid>
+    </Border>
+</Page>

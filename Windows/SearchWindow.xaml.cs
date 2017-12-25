@@ -221,7 +221,7 @@ namespace TranslatorApk.Windows
                 adds.RemoveAt(20);
             }
 
-            SettingsIncapsuler.Save();
+            SettingsIncapsuler.Instance.Save();
         }
 
         private void LoadSelected()

@@ -124,8 +124,13 @@
             
             <TreeView 
                     x:Name="FilesTreeView"
-                    AllowDrop="True"  DragOver="CheckFileDrag" Drop="FilesTreeView_OnDrop" 
-                    KeyUp="TreeView_KeyUp" ItemsSource="{Binding FilesTreeViewModel.Children}">
+                    AllowDrop="True" DragOver="CheckFileDrag" Drop="FilesTreeView_OnDrop" 
+                    KeyUp="TreeView_KeyUp" ItemsSource="{Binding FilesFilesTreeViewModel.Children}">
+                <TreeView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                     Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
+                </TreeView.Resources>
+                
                 <TreeView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static localization:Resources.Refresh}" 
@@ -264,7 +269,7 @@
                 </TreeView.ItemTemplate>
                 
                 <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem" d:DataContext="{d:DesignInstance classes:TreeViewNodeModel}">
+                    <Style TargetType="TreeViewItem" d:DataContext="{d:DesignInstance classes:FilesTreeViewNodeModel}">
                         <Style.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="2"/>

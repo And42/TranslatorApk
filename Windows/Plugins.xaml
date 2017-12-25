@@ -13,7 +13,8 @@
         Title="{x:Static localization:Resources.Plugins}" 
         MinHeight="300" MinWidth="300" Width="830" Height="500" WindowStartupLocation="CenterScreen"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" 
-        Loaded="Plugins_OnLoaded">
+        Loaded="Plugins_OnLoaded"
+        Closed="Plugins_OnClosed">
     <Grid Margin="5">
         <Grid.Resources>
             <Style x:Key="GridHeaderStyle" TargetType="syncfusion:GridHeaderCellControl">

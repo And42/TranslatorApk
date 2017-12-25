@@ -24,6 +24,8 @@
         <ResourceDictionary Source="GridViewResources.xaml"/>
         <ResourceDictionary Source="SfDataGridResources.xaml"/>
         <ResourceDictionary Source="ToolTipResources.xaml"/>
+        <ResourceDictionary Source="TreeViewItemResources.xaml"/>
+        <ResourceDictionary Source="SettingsWindowResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

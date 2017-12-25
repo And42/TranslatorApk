@@ -107,6 +107,9 @@
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="HockeySDK">
+      <HintPath>..\..\..\Libs\Dll_Libraries\HockeySDK.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -197,6 +200,10 @@
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
+    <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
+    <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
+    <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />
+    <Compile Include="Logic\ViewModels\TreeViewModels\TreeViewNodeModelBase.cs" />
     <Compile Include="Logic\Converters\ConverterBase.cs" />
     <Compile Include="Logic\Converters\EditorWindowFileNameConverter.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
@@ -209,6 +216,7 @@
     <Compile Include="Logic\Interfaces\ILoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Interfaces\IRaisePropertyChanged.cs" />
     <Compile Include="Logic\Interfaces\ISettingsContainer.cs" />
+    <Compile Include="Logic\Interfaces\SettingsPages\ISettingsPageModel.cs" />
     <Compile Include="Logic\OrganisationItems\EventModuler.cs" />
     <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
@@ -222,6 +230,8 @@
     <Compile Include="Logic\Utils\PluginUtils.cs" />
     <Compile Include="Logic\Utils\SfDataGridUtils.cs" />
     <Compile Include="Logic\ViewModels\NewLanguageViewModel.cs" />
+    <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
+    <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
@@ -249,7 +259,7 @@
     <Compile Include="Logic\Classes\Setting.cs" />
     <Compile Include="Logic\WebServices\GoogleTranslateServiceSecond.cs" />
     <Compile Include="Logic\WebServices\TranslateService.cs" />
-    <Compile Include="Logic\Classes\TreeViewNodeModel.cs" />
+    <Compile Include="Logic\ViewModels\TreeViewModels\FilesTreeViewNodeModel.cs" />
     <Compile Include="Logic\WebJsonResponses\YandexDetectResponse.cs" />
     <Compile Include="Logic\WebServices\GoogleTranslateService.cs" />
     <Compile Include="Logic\WebServices\YandexDetectService.cs" />
@@ -259,6 +269,15 @@
     <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
     <Compile Include="Logic\Converters\OptionsToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\InstallTextConverter.cs" />
+    <Compile Include="Pages\Settings\AppSettingsPage.xaml.cs">
+      <DependentUpon>AppSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\EditorSettingsPage.xaml.cs">
+      <DependentUpon>EditorSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\TranslationSettingsPage.xaml.cs">
+      <DependentUpon>TranslationSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\Elements\WindowStyle.cs" />
     <Compile Include="Windows\AboutProgramWindow.xaml.cs">
       <DependentUpon>AboutProgramWindow.xaml</DependentUpon>
@@ -310,6 +329,18 @@
     <Compile Include="Windows\XmlRulesWindow.xaml.cs">
       <DependentUpon>XmlRulesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Pages\Settings\AppSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Settings\EditorSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Settings\TranslationSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Dictionaries\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -346,6 +377,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Dark\SettingsWindowResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Dark\SfDataGridResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -357,6 +392,10 @@
     <Page Include="Themes\Dark\ToolTipResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark\TreeViewItemResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Dark\TreeViewResources.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -466,6 +505,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Light\SettingsWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Light\SfDataGridResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -475,6 +518,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Light\ToolTipResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Light\TreeViewItemResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -798,6 +845,7 @@
   <ItemGroup>
     <SplashScreen Include="Splash.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
   <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">

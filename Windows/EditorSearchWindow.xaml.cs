@@ -292,7 +292,7 @@ namespace TranslatorApk.Windows
                     SettingsIncapsuler.Instance.EditorSearchAdds.RemoveAt(20);
                 }
 
-                SettingsIncapsuler.Save();
+                SettingsIncapsuler.Instance.Save();
             });
         }
 

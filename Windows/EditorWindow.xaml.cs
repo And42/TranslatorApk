@@ -222,7 +222,7 @@ namespace TranslatorApk.Windows
         /// <param name="file">File with strings</param>
         private IEnumerable<IOneString> OrderFileStrings(IEditableFile file)
         {
-            var sortDescriptions = EditorGrid.DetailsViewDefinition[0].As<GridViewDefinition>().DataGrid.SortColumnDescriptions.Cast<SortDescription>();
+            var sortDescriptions = EditorGrid.DetailsViewDefinition[0].As<GridViewDefinition>().DataGrid.SortColumnDescriptions.Cast<SortColumnDescription>();
 
             return SortWithDescriptions(file.Details, sortDescriptions);
         }

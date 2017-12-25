@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using AndroidTranslator.Classes.Exceptions;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
+using Syncfusion.UI.Xaml.Grid;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
@@ -82,8 +83,7 @@ namespace TranslatorApk.Logic.Utils
             return true;
         }
 
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, IHaveChildren root,
-            bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
         {
             var flagFiles =
                 new HashSet<string>(
@@ -94,7 +94,7 @@ namespace TranslatorApk.Logic.Utils
             LoadFilesToTreeViewInternal(dispatcher, pathToFolder, refreshFilesListCommand, root, showEmptyFolders, cts, oneFileAdded, flagFiles);
         }
 
-        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, IHaveChildren root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
+        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
         {
             if (cts?.IsCancellationRequested == true)
                 return;
@@ -102,7 +102,7 @@ namespace TranslatorApk.Logic.Utils
             IEnumerable<string> files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
             IEnumerable<string> folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
 
-            List<TreeViewNodeModel> itemsToAdd = new List<TreeViewNodeModel>();
+            List<FilesTreeViewNodeModel> itemsToAdd = new List<FilesTreeViewNodeModel>();
 
             try
             {
@@ -115,7 +115,7 @@ namespace TranslatorApk.Logic.Utils
                     if (!CheckFilePath(folder))
                         continue;
 
-                    var item = new TreeViewNodeModel(refreshFilesListCommand, root)
+                    var item = new FilesTreeViewNodeModel(refreshFilesListCommand, root)
                     {
                         Name = Path.GetFileName(folder),
                         Options = new Options(folder, true)
@@ -173,7 +173,7 @@ namespace TranslatorApk.Logic.Utils
                     if (!CheckFileWithSettings(file, Path.GetExtension(file)))
                         continue;
 
-                    var item = new TreeViewNodeModel(refreshFilesListCommand, root)
+                    var item = new FilesTreeViewNodeModel(refreshFilesListCommand, root)
                     {
                         Name = Path.GetFileName(file),
                         Options = new Options(file, false)
@@ -346,7 +346,7 @@ namespace TranslatorApk.Logic.Utils
             {
                 string path = d.Source?.OriginalString;
 
-                if (String.IsNullOrEmpty(path))
+                if (string.IsNullOrEmpty(path))
                     return false;
 
                 var split = path.Split('/');
@@ -834,7 +834,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="timeout">Время ожидания ответа от сервера</param>
         public static Task<string> DownloadStringAsync(string link, int timeout = DefaultTimeout)
         {
-            return Task<string>.Factory.StartNew(() => DownloadString(link));
+            return Task<string>.Factory.StartNew(() => DownloadString(link, timeout));
         }
 
         /// <summary>
@@ -910,19 +910,19 @@ namespace TranslatorApk.Logic.Utils
             return true;
         }
 
-        public static IEnumerable<TRecord> SortWithDescriptions<TRecord>(IEnumerable<TRecord> collection, IEnumerable<SortDescription> sortDescriptions)
+        public static IEnumerable<TRecord> SortWithDescriptions<TRecord>(IEnumerable<TRecord> collection, IEnumerable<SortColumnDescription> sortDescriptions)
         {
             var recType = typeof(TRecord);
 
-            foreach (SortDescription sortDesc in sortDescriptions)
+            foreach (var sortDesc in sortDescriptions)
             {
-                var prop = recType.GetProperty(sortDesc.PropertyName);
+                var prop = recType.GetProperty(sortDesc.ColumnName);
 
                 if (prop == null)
-                    throw new NullReferenceException($"Property `{sortDesc.PropertyName}` was not found in `{recType.FullName}`");
+                    throw new NullReferenceException($"Property `{sortDesc.ColumnName}` was not found in `{recType.FullName}`");
 
                 collection = 
-                    sortDesc.Direction == ListSortDirection.Ascending 
+                    sortDesc.SortDirection == ListSortDirection.Ascending 
                         ? collection.OrderBy(rec => prop.GetValue(rec, null)) 
                         : collection.OrderByDescending(rec => prop.GetValue(rec, null));
             }
@@ -1010,6 +1010,11 @@ namespace TranslatorApk.Logic.Utils
             }
 
             return (-1, default);
+        }
+
+        public static void IgnoreComboBoxChange()
+        {
+            throw new ArgumentException("ComboBox change was cancelled");
         }
     }
 }

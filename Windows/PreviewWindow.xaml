@@ -25,8 +25,8 @@
         <TextBlock HorizontalAlignment="Center" FontFamily="Century Gothic" FontSize="15">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0}x{1}">
-                    <Binding Path="Image.PixelHeight"/>
                     <Binding Path="Image.PixelWidth"/>
+                    <Binding Path="Image.PixelHeight"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>

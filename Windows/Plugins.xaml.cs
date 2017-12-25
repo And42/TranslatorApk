@@ -203,6 +203,12 @@ namespace TranslatorApk.Windows
             item.Version = "";
         }
 
+        private void Plugins_OnClosed(object sender, EventArgs e)
+        {
+            TableItems.Clear();
+            GC.Collect();
+        }
+
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
