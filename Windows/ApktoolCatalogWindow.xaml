@@ -5,17 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         Style="{StaticResource WindowStyle}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
-        xmlns:windows="clr-namespace:TranslatorApk.Windows"
+        xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
+        xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d" MinHeight="300" MinWidth="300" Width="450" Height="400" WindowStartupLocation="CenterScreen"
         Title="Apktools"
         
         Loaded="ApktoolCatalogWindow_OnLoaded"
         
         elements:WindowThemeParameters.CanMinimize="False"
-        elements:WindowThemeParameters.IsResizable="False">
+        elements:WindowThemeParameters.IsResizable="False"
+        
+        d:DataContext="{d:DesignInstance windowModels:ApktoolCatalogWindowViewModel}">
     <Grid Margin="5">
         <Grid.Resources>
             <Style x:Key="GridHeaderStyle" TargetType="syncfusion:GridHeaderCellControl">
@@ -32,12 +35,11 @@
                 HeaderRowHeight="30"
                 RowHeight="35" FontSize="15"
                 VerticalAlignment="Top"
-                ItemsSource="{Binding ServerApktools}"
+                ItemsSource="{Binding ServerApktools, Mode=OneWay}"
                 ColumnSizer="AutoLastColumnFill"
                 SelectionMode="None"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                AutoGenerateColumns="False"
-                IsEnabled="{Binding ProgressBarVisibility, Converter={StaticResource VisibilityToBoolConverter}, ConverterParameter=True}">
+                AutoGenerateColumns="False">
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn
                     MappingName="Version"
@@ -60,15 +62,29 @@
                     <syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button 
-                                d:DataContext="{d:DesignInstance windows:ApktoolCatalogWindow+DownloadableApktool}"
-                                Content="{Binding Installed, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
-                                Padding="5, 3" Margin="3"
-                                HorizontalAlignment="Stretch" Click="DownloadClick"/>
+                                d:DataContext="{d:DesignInstance classes:DownloadableApktool}"
+                                Content="{Binding Installed, Mode=OneWay, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
+                                Padding="5,3" Margin="3"
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding DataContext.IsLoading, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource InvertBoolConverter}}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding DataContext.ItemClickedCommand, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                         </DataTemplate>
                     </syncfusion:GridTemplateColumn.CellTemplate>
                 </syncfusion:GridTemplateColumn>
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
-        <ProgressBar Value="{Binding Progress}" Visibility="{Binding ProgressBarVisibility}" Margin="0,5,0,0" Grid.Row="1" Height="23" Maximum="{Binding ProgressMax}"/>
+        <ProgressBar
+            Grid.Row="1"
+            Margin="0,5,0,0" Height="23"
+            Value="{Binding Progress, Mode=OneWay}"
+            Maximum="{Binding ProgressMax, Mode=OneWay}"
+            Visibility="{Binding ProgressBarVisibility, Mode=OneWay}"/>
     </Grid>
 </Window>

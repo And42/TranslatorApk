@@ -43,10 +43,11 @@ namespace TranslatorApk.Logic.CustomCommandContainers
 
     public class ActionCommand<T> : ICommand
     {
+        private static readonly Type TargetType = typeof(T);
+
         private readonly Action<T> _executeAction;
         private readonly Func<T, bool> _canExecuteFunc;
-        private readonly Type _targetType = typeof(T);
-
+        
         // ReSharper disable once StaticMemberInGenericType
         private static readonly TypeConverter Converter = new TypeConverter();
 
@@ -58,21 +59,24 @@ namespace TranslatorApk.Logic.CustomCommandContainers
 
         public void Execute(object parameter)
         {
-            T param = (T)Converter.ConvertTo(parameter, _targetType);
+            if (!CanExecute(parameter))
+                return;
 
-            _executeAction(param);
+            _executeAction(Convert(parameter));
         }
 
-        public bool CanExecute(object parameter)
-        {
-            T param = (T)Converter.ConvertTo(parameter, _targetType);
-
-            return _canExecuteFunc(param);
-        }
+        public bool CanExecute(object parameter) => _canExecuteFunc(Convert(parameter));
 
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, null);
+        }
+
+        private static T Convert(object obj)
+        {
+            return obj is T
+                ? (T)obj
+                : (T)Converter.ConvertTo(obj, TargetType);
         }
 
         private static bool AlwaysTrueAction(T param)

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using TranslatorApk.Logic.Classes;
@@ -12,15 +12,24 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
-    public class AppSettingsPageViewModel : BindableBase, ISettingsPageViewModel, IDisposable
+    public class AppSettingsPageViewModel : BindableBase, ISettingsPageViewModel
     {
         public static Lazy<ISettingsPageViewModel> InstanseLazy { get; }
             = new Lazy<ISettingsPageViewModel>(() => new AppSettingsPageViewModel());
 
         public static AppSettingsPageViewModel Instanse => (AppSettingsPageViewModel)InstanseLazy.Value;
 
+        private readonly ObservableRangeCollection<string> _themes;
+        private readonly ObservableRangeCollection<string> _apktoolVersions;
+
         private AppSettingsPageViewModel()
         {
+            _themes = new ObservableRangeCollection<string>();
+            _apktoolVersions = new ObservableRangeCollection<string>();
+
+            Themes = new ReadOnlyObservableCollection<string>(_themes);
+            ApktoolVersions = new ReadOnlyObservableCollection<string>(_apktoolVersions);
+
             RefreshData();
 
             SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
@@ -72,9 +81,9 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             set => SettingsIncapsuler.Instance.ImageExtensions = value.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
         }
 
-        public ObservableRangeCollection<string> Themes { get; } = new ObservableRangeCollection<string>();
+        public ReadOnlyObservableCollection<string> Themes { get; }
 
-        public ObservableRangeCollection<string> ApktoolVersions { get; } = new ObservableRangeCollection<string>();
+        public ReadOnlyObservableCollection<string> ApktoolVersions { get; }
 
         public string CurrentTheme
         {
@@ -85,7 +94,6 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         public string CurrentApktoolVersion
         {
             get => SettingsIncapsuler.Instance.ApktoolVersion;
-            [DebuggerStepThrough]
             set
             {
                 if (value == null)
@@ -108,14 +116,14 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             YesNoItems = new[] { Resources.Localizations.Resources.Yes, Resources.Localizations.Resources.No };
 
-            Themes.ReplaceRange(GlobalVariables.ThemesMap.Select(it => it.Value));
+            _themes.ReplaceRange(GlobalVariables.ThemesMap.Select(it => it.Value));
 
             LoadApktools();
         }
 
         private void LoadApktools()
         {
-            ApktoolVersions.ReplaceRange(
+            _apktoolVersions.ReplaceRange(
                 Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
                     .Select(Path.GetFileNameWithoutExtension)
                     .Select(s => s.Split('_'))
@@ -123,7 +131,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                     .Select(split => split[1])
             );
 
-            ApktoolVersions.Add(Resources.Localizations.Resources.Catalog);
+            _apktoolVersions.Add(Resources.Localizations.Resources.Catalog);
 
             if (!ApktoolVersions.Contains(SettingsIncapsuler.Instance.ApktoolVersion))
                 SettingsIncapsuler.Instance.ApktoolVersion = ApktoolVersions[0];
