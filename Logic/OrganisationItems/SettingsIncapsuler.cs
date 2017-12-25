@@ -224,6 +224,14 @@ namespace TranslatorApk.Logic.OrganisationItems
             set => SetValueInternal(value);
         }
 
+        public int TranslationTimeout
+        {
+            get => GetValueInternal<int>();
+            set => SetValueInternal(value);
+        }
+
+
+
         private T GetValueInternal<T>([CallerMemberName] string propertyName = null)
         {
             if (propertyName == null)

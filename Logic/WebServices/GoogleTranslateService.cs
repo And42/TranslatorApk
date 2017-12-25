@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Web;
+using TranslatorApk.Logic.OrganisationItems;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ClassNeverInstantiated.Local
@@ -39,7 +40,7 @@ namespace TranslatorApk.Logic.WebServices
         public static string Translate(string text, string targetLanguage)
         {
             string link = "http://" + $"translate.google.com/translate_a/t?client=p&text={HttpUtility.UrlEncode(text)}&sl=auto&tl={targetLanguage}";
-            string downloaded = Utils.Utils.DownloadString(link);
+            string downloaded = Utils.Utils.DownloadString(link, SettingsIncapsuler.Instance.TranslationTimeout);
             return TranslateService.GetResponseFromJson<GoogleTranslateResponse>(downloaded).ToString();
         }
     }

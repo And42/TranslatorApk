@@ -102,7 +102,7 @@ namespace TranslatorApk.Windows
 
             try
             {
-                plugs = await Utils.DownloadStringAsync(PluginsLink);
+                plugs = await Utils.DownloadStringAsync(PluginsLink, Utils.DefaultTimeout);
             }
             catch (Exception)
             {

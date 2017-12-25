@@ -17,8 +17,8 @@
     <Border BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
         <Grid
             Margin="5"
-            attachedProperties:Grid.Rows="A,5,A"
-            attachedProperties:Grid.Columns="A,*">
+            attachedProperties:Grid.Rows="Auto,5,Auto,5,Auto"
+            attachedProperties:Grid.Columns="Auto,*">
 
             <Grid.Resources>
                 <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -39,8 +39,11 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <TextBlock Grid.Row="10" Grid.Column="0" Text="{x:Static localization:Resources.ApiKey}"/>
-            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding OnlineTranslator.ApiKey, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localization:Resources.ApiKey}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding OnlineTranslator.ApiKey, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static localization:Resources.TranslationTimeout_Label}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding TranslationTimeout}"/>
         </Grid>
     </Border>
 </Page>

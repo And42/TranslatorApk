@@ -619,6 +619,10 @@
           <source>Dictionaries</source>
           <target state="translated">Wörterbücher</target>
         </trans-unit>
+        <trans-unit id="TranslationTimeout_Label" translate="yes" xml:space="preserve">
+          <source>Translation timeout:</source>
+          <target state="new">Translation timeout:</target>
+        </trans-unit>
       </group>
     </body>
   </file>

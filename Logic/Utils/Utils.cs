@@ -39,6 +39,11 @@ namespace TranslatorApk.Logic.Utils
     public static class Utils
     {
         /// <summary>
+        /// Время ожидания ответа от сервера при загрузке данных по умолчанию
+        /// </summary>
+        public const int DefaultTimeout = 50000;
+
+        /// <summary>
         /// Проверяет текущий файл на соответствие настройкам
         /// </summary>
         /// <param name="file">Файл</param>
@@ -493,7 +498,7 @@ namespace TranslatorApk.Logic.Utils
             {
                 string newVersion;
 
-                if (!TryFunc(() => DownloadString("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version"), out newVersion))
+                if (!TryFunc(() => DownloadString("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version", DefaultTimeout), out newVersion))
                     return;
 
                 if (CompareVersions(newVersion, GlobalVariables.ProgramVersion) != 1)
@@ -509,7 +514,7 @@ namespace TranslatorApk.Logic.Utils
                         changesLink = "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_changes"; break;
                 }
 
-                string changes = DownloadString(changesLink);
+                string changes = DownloadString(changesLink, DefaultTimeout);
 
                 Application.Current.Dispatcher.InvokeAction(() =>
                 {
@@ -802,16 +807,11 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
-        /// Время ожидания ответа от сервера при загрузке данных по умолчанию
-        /// </summary>
-        private const int DefaultTimeout = 50000;
-
-        /// <summary>
         /// Загружает страницу в виде текста по ссылке
         /// </summary>
         /// <param name="link">Ссылка</param>
         /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static string DownloadString(string link, int timeout = DefaultTimeout)
+        public static string DownloadString(string link, int timeout)
         {
             var client = (HttpWebRequest)WebRequest.Create(link);
 
@@ -832,7 +832,7 @@ namespace TranslatorApk.Logic.Utils
         /// </summary>
         /// <param name="link">Ссылка</param>
         /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static Task<string> DownloadStringAsync(string link, int timeout = DefaultTimeout)
+        public static Task<string> DownloadStringAsync(string link, int timeout)
         {
             return Task<string>.Factory.StartNew(() => DownloadString(link, timeout));
         }

@@ -86,7 +86,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             try
             {
-                page = await Utils.Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads");
+                page = await Utils.Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads", Utils.Utils.DefaultTimeout);
             }
             catch
             {

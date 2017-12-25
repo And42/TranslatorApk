@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
@@ -18,6 +19,8 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         private TranslationPageViewModel()
         {
             RefreshData();
+
+            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         public string PageTitle { get; } = "Перевод";
@@ -38,6 +41,18 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
+        public int TranslationTimeout
+        {
+            get => SettingsIncapsuler.Instance.TranslationTimeout;
+            set
+            {
+                if (value < 10 || value > 100000)
+                    SettingsIncapsuler.Instance.TranslationTimeout = 5000;
+                else
+                    SettingsIncapsuler.Instance.TranslationTimeout = value;
+            }
+        }
+
         public void RefreshData()
         {
             Translators.Clear();
@@ -46,9 +61,19 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             RaisePropertyChanged(nameof(OnlineTranslator));
         }
 
+        private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(SettingsIncapsuler.TranslationTimeout):
+                    RaisePropertyChanged(nameof(TranslationTimeout));
+                    break;
+            }
+        }
+
         public void Dispose()
         {
-            
+            SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

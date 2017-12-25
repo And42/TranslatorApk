@@ -1303,6 +1303,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Translation timeout:.
+        /// </summary>
+        public static string TranslationTimeout_Label {
+            get {
+                return ResourceManager.GetString("TranslationTimeout_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Uninstall.
         /// </summary>
         public static string Uninstall {

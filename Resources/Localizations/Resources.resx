@@ -561,4 +561,7 @@
   <data name="Dictionaries_Label" xml:space="preserve">
     <value>Dictionaries</value>
   </data>
+  <data name="TranslationTimeout_Label" xml:space="preserve">
+    <value>Translation timeout:</value>
+  </data>
 </root>
