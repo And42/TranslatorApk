@@ -16,12 +16,12 @@ namespace TranslatorApk.Windows
     {
         public SettingsWindow()
         {
-            ViewModel = SettingsViewModel.GetNewInstanse();
-
             InitializeComponent();
+
+            ViewModel = new SettingsViewModel();
         }
 
-        private SettingsViewModel ViewModel
+        public SettingsViewModel ViewModel
         {
             get => DataContext as SettingsViewModel;
             set => DataContext = value;
@@ -39,6 +39,11 @@ namespace TranslatorApk.Windows
             currentModel.RefreshData();
 
             NavigationFrame.Content.As<Page>().DataContext = currentModel;
+        }
+
+        private void SettingsWindow_OnClosed(object sender, EventArgs e)
+        {
+            ViewModel.UnsubscribeFromEvents();
         }
     }
 }

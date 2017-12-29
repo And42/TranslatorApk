@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -12,17 +11,12 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
-    public class AppSettingsPageViewModel : BindableBase, ISettingsPageViewModel
+    public class AppSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        public static Lazy<ISettingsPageViewModel> InstanseLazy { get; }
-            = new Lazy<ISettingsPageViewModel>(() => new AppSettingsPageViewModel());
-
-        public static AppSettingsPageViewModel Instanse => (AppSettingsPageViewModel)InstanseLazy.Value;
-
         private readonly ObservableRangeCollection<string> _themes;
         private readonly ObservableRangeCollection<string> _apktoolVersions;
 
-        private AppSettingsPageViewModel()
+        public AppSettingsPageViewModel()
         {
             _themes = new ObservableRangeCollection<string>();
             _apktoolVersions = new ObservableRangeCollection<string>();
@@ -170,7 +164,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
-        public void Dispose()
+        public override void UnsubscribeFromEvents()
         {
             SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }

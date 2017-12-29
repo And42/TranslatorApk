@@ -13,6 +13,7 @@
         Title="Apktools"
         
         Loaded="ApktoolCatalogWindow_OnLoaded"
+        Closed="ApktoolCatalogWindow_OnClosed"
         
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"

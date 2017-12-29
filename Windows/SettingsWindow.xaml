@@ -21,7 +21,9 @@
         
         d:DataContext="{d:DesignInstance settingsPages:SettingsViewModel}"
         
-        elements:WindowThemeParameters.CanMinimize="False">
+        elements:WindowThemeParameters.CanMinimize="False"
+        
+        Closed="SettingsWindow_OnClosed">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -31,7 +33,7 @@
         <DockPanel>
             <TreeView
                 Width="300"
-                ItemsSource="{Binding PagesRoot.Children, Mode=OneWay}"
+                ItemsSource="{Binding PagesRoot, Mode=OneWay}"
                 SelectedItemChanged="TreeView_OnSelectedItemChanged">
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
@@ -45,7 +47,11 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
                 <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}" d:DataContext="{d:DesignInstance treeViewModels:SettingsTreeViewNodeModel}">
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <d:Style.DataContext>
+                            <d:DesignInstance Type="{x:Type treeViewModels:SettingsTreeViewNodeModel}"/>
+                        </d:Style.DataContext>
+
                         <Style.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="2"/>

@@ -15,7 +15,7 @@ using TranslatorApk.Windows;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
-    public class PluginsWindowViewModel : BindableBase
+    public class PluginsWindowViewModel : ViewModelBase
     {
         public class TableItem : BindableBase
         {
@@ -56,51 +56,17 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             public List<TableItem> Items { get; set; }
         }
 
-        public static PluginsWindowViewModel Instanse => InstanseLazy.Value;
-
-        private static readonly Lazy<PluginsWindowViewModel> InstanseLazy
-            = new Lazy<PluginsWindowViewModel>(() => new PluginsWindowViewModel());
-
         private const string PluginsLink = "http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file=Plugins.xml";
 
         private readonly ObservableRangeCollection<TableItem> _tableItems;
-
-        private bool _isLoading;
-
-        private readonly ActionCommand<TableItem> _itemClickedCommand;
-
-        private PluginsWindowViewModel()
-        {
-            _tableItems = new ObservableRangeCollection<TableItem>();
-
-            TableItems = new ReadOnlyObservableCollection<TableItem>(_tableItems);
-
-            _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsLoading);
-        }
-
-        private async void ItemClickedCommand_Execute(TableItem item)
-        {
-            switch (item.Installed)
-            {
-                case InstallOptionsEnum.ToUninstall:
-                    await UninstallPlugin(item);
-                    break;
-                case InstallOptionsEnum.ToInstall:
-                    await InstallPlugin(item);
-                    break;
-                case InstallOptionsEnum.ToUpdate:
-                    await UninstallPlugin(item);
-                    await InstallPlugin(item);
-                    break;
-            }
-        }
-
         public ReadOnlyObservableCollection<TableItem> TableItems { get; }
 
         public int ProgressMax { get; } = 100;
 
+        private readonly ActionCommand<TableItem> _itemClickedCommand;
         public ICommand ItemClickedCommand => _itemClickedCommand;
 
+        private bool _isLoading;
         public bool IsLoading
         {
             get => _isLoading;
@@ -109,6 +75,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 if (SetProperty(ref _isLoading, value))
                     _itemClickedCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        public PluginsWindowViewModel()
+        {
+            _tableItems = new ObservableRangeCollection<TableItem>();
+
+            TableItems = new ReadOnlyObservableCollection<TableItem>(_tableItems);
+
+            _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsLoading);
         }
 
         public async Task LoadItems()
@@ -161,6 +136,23 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _tableItems.ReplaceRange(plugins.Items);
 
             IsLoading = false;
+        }
+
+        private async void ItemClickedCommand_Execute(TableItem item)
+        {
+            switch (item.Installed)
+            {
+                case InstallOptionsEnum.ToUninstall:
+                    await UninstallPlugin(item);
+                    break;
+                case InstallOptionsEnum.ToInstall:
+                    await InstallPlugin(item);
+                    break;
+                case InstallOptionsEnum.ToUpdate:
+                    await UninstallPlugin(item);
+                    await InstallPlugin(item);
+                    break;
+            }
         }
 
         private async Task InstallPlugin(TableItem item)
@@ -228,5 +220,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             IsLoading = false;
         }
+
+        public override void UnsubscribeFromEvents() { }
     }
 }

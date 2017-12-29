@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
@@ -12,18 +13,23 @@ namespace TranslatorApk.Windows
         {
             InitializeComponent();
 
-            ViewModel = ApktoolCatalogWindowViewModel.Instanse;
+            ViewModel = new ApktoolCatalogWindowViewModel();
         }
 
         public ApktoolCatalogWindowViewModel ViewModel
         {
             get => DataContext as ApktoolCatalogWindowViewModel;
-            private set => DataContext = value;
+            set => DataContext = value;
         }
 
         private async void ApktoolCatalogWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             await ViewModel.LoadItems();
+        }
+
+        private void ApktoolCatalogWindow_OnClosed(object sender, EventArgs e)
+        {
+            ViewModel.UnsubscribeFromEvents();
         }
     }
 }

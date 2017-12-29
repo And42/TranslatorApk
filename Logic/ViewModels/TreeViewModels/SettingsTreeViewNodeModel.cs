@@ -7,14 +7,12 @@ namespace TranslatorApk.Logic.ViewModels.TreeViewModels
     {
         public Uri PageUri { get; }
 
-        public ISettingsPageViewModel PageViewModel => _pageViewModelLazy?.Value;
+        public ISettingsPageViewModel PageViewModel { get; }
 
-        private readonly Lazy<ISettingsPageViewModel> _pageViewModelLazy;
-
-        public SettingsTreeViewNodeModel(Uri pageUri, Lazy<ISettingsPageViewModel> pageViewModel)
+        public SettingsTreeViewNodeModel(Uri pageUri, ISettingsPageViewModel pageViewModel)
         {
-            PageUri = pageUri;
-            _pageViewModelLazy = pageViewModel;
+            PageUri = pageUri ?? throw new ArgumentNullException(nameof(pageUri));
+            PageViewModel = pageViewModel ?? throw new ArgumentNullException(nameof(pageViewModel));
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace TranslatorApk.Logic.Interfaces.SettingsPages
+﻿namespace TranslatorApk.Logic.Interfaces.SettingsPages
 {
-    public interface ISettingsPageViewModel : IDisposable
+    public interface ISettingsPageViewModel : IViewModelBase
     {
         string PageTitle { get; }
 

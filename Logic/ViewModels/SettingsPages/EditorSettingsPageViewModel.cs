@@ -1,19 +1,13 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
-    public class EditorSettingsPageViewModel : BindableBase, ISettingsPageViewModel, IDisposable
+    public class EditorSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        public static Lazy<ISettingsPageViewModel> InstanseLazy { get; }
-            = new Lazy<ISettingsPageViewModel>(() => new EditorSettingsPageViewModel());
-
-        public static EditorSettingsPageViewModel Instanse => (EditorSettingsPageViewModel)InstanseLazy.Value;
-
-        private EditorSettingsPageViewModel()
+        public EditorSettingsPageViewModel()
         {
             RefreshData();
 
@@ -54,7 +48,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
-        public void Dispose()
+        public override void UnsubscribeFromEvents()
         {
             SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }

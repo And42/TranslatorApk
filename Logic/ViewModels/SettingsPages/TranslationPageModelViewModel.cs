@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
@@ -9,14 +8,9 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
-    public class TranslationPageViewModel : BindableBase, ISettingsPageViewModel
+    public class TranslationPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        public static Lazy<ISettingsPageViewModel> InstanseLazy { get; }
-            = new Lazy<ISettingsPageViewModel>(() => new TranslationPageViewModel());
-
-        public static TranslationPageViewModel Instanse => (TranslationPageViewModel)InstanseLazy.Value;
-
-        private TranslationPageViewModel()
+        public TranslationPageViewModel()
         {
             RefreshData();
 
@@ -71,7 +65,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
-        public void Dispose()
+        public override void UnsubscribeFromEvents()
         {
             SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }

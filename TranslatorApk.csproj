@@ -114,6 +114,9 @@
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -166,6 +169,9 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -201,6 +207,8 @@
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
+    <Compile Include="Logic\Classes\ViewModelBase.cs" />
+    <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />
@@ -233,6 +241,7 @@
     <Compile Include="Logic\ViewModels\NewLanguageViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />

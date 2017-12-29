@@ -1,29 +1,32 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для Plugins.xaml
-    /// </summary>
     public partial class PluginsWindow
     {
         public PluginsWindow()
         {
             InitializeComponent();
 
-            ViewModel = PluginsWindowViewModel.Instanse;
+            ViewModel = new PluginsWindowViewModel();
         }
 
         public PluginsWindowViewModel ViewModel
         {
             get => DataContext as PluginsWindowViewModel;
-            private set => DataContext = value;
+            set => DataContext = value;
         }
 
-        private async void Plugins_OnLoaded(object sender, RoutedEventArgs e)
+        private async void PluginsWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             await ViewModel.LoadItems();
+        }
+
+        private void PluginsWindow_OnClosed(object sender, EventArgs e)
+        {
+            ViewModel.UnsubscribeFromEvents();
         }
     }
 }

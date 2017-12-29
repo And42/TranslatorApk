@@ -18,26 +18,56 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
-    public class ApktoolCatalogWindowViewModel : BindableBase
+    public class ApktoolCatalogWindowViewModel : ViewModelBase
     {
-        public static ApktoolCatalogWindowViewModel Instanse => InstanseLazy.Value;
+        private class DownloadCompletedState
+        {
+            public string FilePath { get; }
+            public DownloadableApktool Item { get; }
 
-        private static readonly Lazy<ApktoolCatalogWindowViewModel> InstanseLazy 
-            = new Lazy<ApktoolCatalogWindowViewModel>(() => new ApktoolCatalogWindowViewModel());
-
-        private bool _isLoading;
-
-        private int _progress;
-        private Visibility _progressBarVisibility = Visibility.Collapsed;
+            public DownloadCompletedState(string filePath, DownloadableApktool item)
+            {
+                FilePath = filePath;
+                Item = item;
+            }
+        }
 
         private readonly WebClient _client;
-        private string _downloadingApktoolPath;
 
         private readonly ObservableRangeCollection<DownloadableApktool> _serverApktools;
+        public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            private set
+            {
+                if (SetProperty(ref _isLoading, value))
+                    _itemClickedCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private int _progress;
+        public int Progress
+        {
+            get => _progress;
+            private set => SetProperty(ref _progress, value);
+        }
+
+        public int ProgressMax { get; } = 100;
+
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            private set => SetProperty(ref _progressBarVisibility, value);
+        }
 
         private readonly ActionCommand<DownloadableApktool> _itemClickedCommand;
+        public ICommand ItemClickedCommand => _itemClickedCommand;
 
-        private ApktoolCatalogWindowViewModel()
+        public ApktoolCatalogWindowViewModel()
         {
             _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
 
@@ -50,34 +80,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsLoading);
         }
-
-        public bool IsLoading
-        {
-            get => _isLoading;
-            private set
-            {
-                if (SetProperty(ref _isLoading, value))
-                    _itemClickedCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public int Progress
-        {
-            get => _progress;
-            private set => SetProperty(ref _progress, value);
-        }
-
-        public int ProgressMax { get; } = 100;
-        
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            private set => SetProperty(ref _progressBarVisibility, value);
-        }
-
-        public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
-
-        public ICommand ItemClickedCommand => _itemClickedCommand;
 
         public async Task LoadItems()
         {
@@ -150,19 +152,19 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             IsLoading = true;
 
-            _downloadingApktoolPath = Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{item.Version}.jar");
+            string downloadingApktoolPath = Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{item.Version}.jar");
 
             if (item.Installed == InstallOptionsEnum.ToUninstall)
             {
                 try
                 {
-                    File.Delete(_downloadingApktoolPath);
+                    File.Delete(downloadingApktoolPath);
                     item.Installed = InstallOptionsEnum.ToInstall;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                        $"\"delete file|{_downloadingApktoolPath}\"", out Process process))
+                        $"\"delete file|{downloadingApktoolPath}\"", out Process process))
                     {
                         process.WaitForExit();
                         item.Installed = InstallOptionsEnum.ToInstall;
@@ -177,7 +179,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (!Utils.Utils.CheckRights())
             {
                 if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                    $"\"download|{item.Link}|{_downloadingApktoolPath}\"", out Process process))
+                    $"\"download|{item.Link}|{downloadingApktoolPath}\"", out Process process))
                 {
                     process.WaitForExit();
                     item.Installed = InstallOptionsEnum.ToUninstall;
@@ -191,7 +193,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             Progress = 0;
             ProgressBarVisibility = Visibility.Visible;
 
-            _client.DownloadFileAsync(new Uri(item.Link), _downloadingApktoolPath, item);
+            _client.DownloadFileAsync(
+                new Uri(item.Link),
+                downloadingApktoolPath,
+                new DownloadCompletedState(downloadingApktoolPath, item)
+            );
         }
 
         private void ClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
@@ -201,14 +207,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void ClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)
         {
+            var state = args.UserState.As<DownloadCompletedState>();
+
             if (args.Cancelled)
-            {
-                File.Delete(_downloadingApktoolPath);
-            }
+                File.Delete(state.FilePath);
             else
-            {
-                args.UserState.As<DownloadableApktool>().Installed = InstallOptionsEnum.ToUninstall;
-            }
+                state.Item.Installed = InstallOptionsEnum.ToUninstall;
 
             ProgressBarVisibility = Visibility.Collapsed;
 
@@ -219,5 +223,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             return Path.GetFileNameWithoutExtension(node.SelectSingleNode("td[@class=\"name\"]/a").InnerText.Split('_')[1]);
         }
+
+        public override void UnsubscribeFromEvents() { }
     }
 }
