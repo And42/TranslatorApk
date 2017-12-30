@@ -242,6 +242,7 @@
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\AddLanguageWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />

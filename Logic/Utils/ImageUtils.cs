@@ -98,7 +98,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="fileName">Файл</param>
         private static BitmapImage LoadThumbnailFromFile(string fileName)
         {
-            return new BitmapImage(new Uri(fileName));
+            return BitmapImageFromUri(new Uri(fileName)).FreezeIfCan();
         }
 
         /// <summary>
@@ -110,19 +110,35 @@ namespace TranslatorApk.Logic.Utils
             string file = Path.Combine(GlobalVariables.PathToFlags, $"{title}.png");
 
             if (File.Exists(file))
-                return new BitmapImage(new Uri(file));
+                return BitmapImageFromUri(new Uri(file)).FreezeIfCan();
 
             return null;
             //return GetImageFromApp($"/Resources/Flags/{title}.png");
         }
 
+        public static BitmapImage BitmapImageFromUri(Uri uri)
+        {
+            if (uri == null)
+                throw new ArgumentNullException(nameof(uri));
+
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.UriSource = uri;
+            image.EndInit();
+
+            return image;
+        }
+
         /// <summary>
         /// Возвращает изображение из ресурсов программы
         /// </summary>
-        /// <param name="pathInApp">Путь в ресурсах</param>
-        public static BitmapImage GetImageFromApp(string pathInApp)
+        /// <param name="relativePath">Путь в ресурсах</param>
+        public static BitmapImage GetImageFromApp(string relativePath)
         {
-            return new BitmapImage(new Uri(pathInApp, UriKind.Relative));
+            string uriString = "pack://application:,,,/TranslatorApk;component/" + relativePath;
+
+            return BitmapImageFromUri(new Uri(uriString));
         }
     }
 }

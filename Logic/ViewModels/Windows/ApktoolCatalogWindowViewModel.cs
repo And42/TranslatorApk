@@ -38,10 +38,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
 
         private bool _isLoading;
-        public bool IsLoading
+        public override bool IsLoading
         {
             get => _isLoading;
-            private set
+            set
             {
                 if (SetProperty(ref _isLoading, value))
                     _itemClickedCommand.RaiseCanExecuteChanged();
@@ -81,68 +81,68 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsLoading);
         }
 
-        public async Task LoadItems()
+        public override async Task LoadItems()
         {
             if (IsLoading)
                 return;
 
-            IsLoading = true;
-
-            string page;
-
-            try
+            using (new LoadingDisposable(this))
             {
-                page = await Utils.Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads", Utils.Utils.DefaultTimeout);
+                string page;
+
+                try
+                {
+                    page = await Utils.Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads",
+                        Utils.Utils.DefaultTimeout);
+                }
+                catch
+                {
+                    MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecieveApktoolsList,
+                        Resources.Localizations.Resources.ErrorLower);
+                    return;
+                }
+
+                var items = await Task.Factory.StartNew(() =>
+                {
+                    var installed =
+                        new HashSet<string>(
+                            Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
+                                .Select(Path.GetFileNameWithoutExtension)
+                                .Select(s => s.Split('_')[1])
+                        );
+
+                    var document = new HtmlDocument();
+                    document.LoadHtml(page);
+
+                    HtmlNodeCollection iterableItems = document.GetElementbyId("uploaded-files")
+                        .SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
+
+                    return iterableItems
+                        .Select(it =>
+                            new
+                            {
+                                Version = GetVersion(it),
+                                Size = it.SelectSingleNode("td[@class=\"size\"]").InnerText,
+                                Link = "https://bitbucket.org" +
+                                       it.SelectSingleNode("td[@class=\"name\"]/a").Attributes["href"].Value
+                            }
+                        )
+                        .Select(it =>
+                            new DownloadableApktool
+                            {
+                                Version = it.Version,
+                                Size = it.Size,
+                                Link = it.Link,
+                                Installed = installed.Contains(it.Version)
+                                    ? InstallOptionsEnum.ToUninstall
+                                    : InstallOptionsEnum.ToInstall
+                            }
+                        )
+                        .ToList();
+                });
+
+                _serverApktools.ReplaceRange(items);
             }
-            catch
-            {
-                MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecieveApktoolsList, Resources.Localizations.Resources.ErrorLower);
-                IsLoading = false;
-                return;
-            }
-
-            var items = await Task.Factory.StartNew(() =>
-            {
-                var installed =
-                    new HashSet<string>(
-                        Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
-                            .Select(Path.GetFileNameWithoutExtension)
-                            .Select(s => s.Split('_')[1])
-                    );
-
-                var document = new HtmlDocument();
-                document.LoadHtml(page);
-
-                HtmlNodeCollection iterableItems = document.GetElementbyId("uploaded-files")
-                    .SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
-
-                return iterableItems
-                    .Select(it =>
-                        new
-                        {
-                            Version = GetVersion(it),
-                            Size = it.SelectSingleNode("td[@class=\"size\"]").InnerText,
-                            Link = "https://bitbucket.org" +
-                                   it.SelectSingleNode("td[@class=\"name\"]/a").Attributes["href"].Value
-                        }
-                    )
-                    .Select(it =>
-                        new DownloadableApktool
-                        {
-                            Version = it.Version,
-                            Size = it.Size,
-                            Link = it.Link,
-                            Installed = installed.Contains(it.Version)
-                                ? InstallOptionsEnum.ToUninstall
-                                : InstallOptionsEnum.ToInstall
-                        }
-                    )
-                    .ToList();
-            });
-
-            _serverApktools.ReplaceRange(items);
-
-            IsLoading = false;
         }
 
         private void ItemClickedCommand_Execute(DownloadableApktool item)

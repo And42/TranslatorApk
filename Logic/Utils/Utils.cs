@@ -107,7 +107,7 @@ namespace TranslatorApk.Logic.Utils
             IEnumerable<string> files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
             IEnumerable<string> folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
 
-            List<FilesTreeViewNodeModel> itemsToAdd = new List<FilesTreeViewNodeModel>();
+            var itemsToAdd = new List<FilesTreeViewNodeModel>();
 
             try
             {

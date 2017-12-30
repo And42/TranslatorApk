@@ -9,9 +9,6 @@ using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для DownloadCS.xaml
-    /// </summary>
     public partial class DownloadWindow
     {
         public DownloadWindow()

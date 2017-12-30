@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
@@ -12,10 +13,15 @@ namespace TranslatorApk.Windows
             ViewModel = new AboutProgramWindowViewModel();
         }
 
-        internal AboutProgramWindowViewModel ViewModel
+        public AboutProgramWindowViewModel ViewModel
         {
             get => DataContext as AboutProgramWindowViewModel;
-            private set => DataContext = value;
+            set => DataContext = value;
+        }
+
+        private async void AboutProgramWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.LoadItems();
         }
 
         private void AboutProgramWindow_OnClosed(object sender, EventArgs e)

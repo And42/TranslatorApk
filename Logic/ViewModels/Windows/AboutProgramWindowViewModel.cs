@@ -1,16 +1,15 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.Expression.Interactivity.Core;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Windows;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
-    internal class AboutProgramWindowViewModel : ViewModelBase
+    public class AboutProgramWindowViewModel : ViewModelBase
     {
         /// <summary>
         /// Возвращает версию программы
@@ -20,7 +19,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         /// <summary>
         /// Иконка программы
         /// </summary>
-        public ImageSource ImgSrc { get; } = new BitmapImage(new Uri("pack://application:,,,/TranslatorApk;component/TranslatorApk.ico"));
+        public ImageSource ImgSrc { get; } = ImageUtils.GetImageFromApp("TranslatorApk.ico").FreezeIfCan();
 
         public ICommand WebMoneyClickedCommand { get; } = new ActionCommand(() =>
         {

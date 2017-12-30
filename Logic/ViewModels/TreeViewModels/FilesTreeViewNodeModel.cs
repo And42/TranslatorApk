@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Interfaces;
@@ -51,7 +52,9 @@ namespace TranslatorApk.Logic.Classes
             set
             {
                 if (SetProperty(ref _isExpanded, value) && value)
-                    Children.ForEach(ImageUtils.LoadIconForItem);
+                {
+                    Task.Factory.StartNew(() => Children.ForEach(ImageUtils.LoadIconForItem));
+                }
             }
         }
 

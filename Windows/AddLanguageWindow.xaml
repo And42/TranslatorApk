@@ -6,14 +6,19 @@
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:viewModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
 
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Height="105" Width="400" FontSize="14" SizeToContent="Height"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" Style="{DynamicResource WindowStyle}"
-        
+        Style="{DynamicResource WindowStyle}"
+        d:DataContext="{d:DesignInstance viewModels:AddLanguageWindowViewModel}"
+
         elements:WindowThemeParameters.CanMinimize="False"
-        elements:WindowThemeParameters.IsResizable="False">
+        elements:WindowThemeParameters.IsResizable="False"
+        
+        Loaded="AddLanguageWindow_OnLoaded"
+        Closed="AddLanguageWindow_OnClosed">
     <Grid Margin="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -26,14 +31,14 @@
             Text="{x:Static localization:Resources.NewLanguage}" />
         
         <ComboBox 
-                x:Name="TargetBox" 
                 Grid.Column="1" Margin="5,0" 
-                ItemsSource="{Binding TargetLanguages}">
+                ItemsSource="{Binding TargetLanguages}"
+                SelectedItem="{Binding NewLanguage}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
-                        <Image Source="{Binding LanguageIcon}" Width="24" RenderOptions.BitmapScalingMode="Linear"/>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding Title}" VerticalAlignment="Center"/>
+                        <Image Source="{Binding LanguageIcon, Mode=OneWay}" Width="24" RenderOptions.BitmapScalingMode="Linear"/>
+                        <TextBlock Margin="10,0,0,0" Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
@@ -42,6 +47,7 @@
         <Button 
             Grid.Column="2" 
             Content="{x:Static localization:Resources.Add}" 
-            Click="AddLangClick" Padding="5,3"/>
+            Padding="5,3"
+            Command="{Binding AddLanguageCommand}"/>
     </Grid>
 </Window>

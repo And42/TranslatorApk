@@ -4,9 +4,6 @@ using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для ApktoolCatalogWindow.xaml
-    /// </summary>
     public partial class ApktoolCatalogWindow
     {
         public ApktoolCatalogWindow()

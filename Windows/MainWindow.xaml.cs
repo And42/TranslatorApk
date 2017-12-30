@@ -385,7 +385,7 @@ namespace TranslatorApk.Windows
 
         private void AddNewLanguageClick(object sender = null, RoutedEventArgs e = null)
         {
-            new AddLanguageWindow(GlobalVariables.CurrentProjectFolder).ShowDialog();
+            new AddLanguageWindow().ShowDialog();
         }
 
         #endregion

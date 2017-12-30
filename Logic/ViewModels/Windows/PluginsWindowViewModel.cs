@@ -67,10 +67,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ICommand ItemClickedCommand => _itemClickedCommand;
 
         private bool _isLoading;
-        public bool IsLoading
+        public override bool IsLoading
         {
             get => _isLoading;
-            private set
+            set
             {
                 if (SetProperty(ref _isLoading, value))
                     _itemClickedCommand.RaiseCanExecuteChanged();
@@ -86,56 +86,56 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsLoading);
         }
 
-        public async Task LoadItems()
+        public override async Task LoadItems()
         {
             if (IsLoading)
                 return;
 
-            IsLoading = true;
-
-            string plugs;
-
-            try
+            using (new LoadingDisposable(this))
             {
-                plugs = await Utils.Utils.DownloadStringAsync(PluginsLink, Utils.Utils.DefaultTimeout);
-            }
-            catch (Exception)
-            {
-                MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecievePluginsList, Resources.Localizations.Resources.ErrorLower);
-                IsLoading = false;
-                return;
-            }
+                string plugs;
 
-            ServerPlugins plugins = await Task.Factory.StartNew(() =>
-            {
-                Dictionary<string, string> existingPlugins = Directory.Exists(GlobalVariables.PathToPlugins)
-                    ? Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll").ToDictionary(Path.GetFileNameWithoutExtension, it => it)
-                    : new Dictionary<string, string>();
-
-                var splugins = Utils.Utils.DeserializeXml<ServerPlugins>(plugs);
-
-                splugins.Items.ForEach(v =>
+                try
                 {
-                    string version = existingPlugins.ContainsKey(v.DllName)
-                        ? Utils.Utils.GetDllVersion(existingPlugins[v.DllName])
-                        : null;
+                    plugs = await Utils.Utils.DownloadStringAsync(PluginsLink, Utils.Utils.DefaultTimeout);
+                }
+                catch (Exception)
+                {
+                    MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecievePluginsList,
+                        Resources.Localizations.Resources.ErrorLower);
+                    return;
+                }
 
-                    v.Installed = version != null
-                        ? v.LatestVersion == null
-                            ? InstallOptionsEnum.ToUninstall
-                            : (Utils.Utils.CompareVersions(v.LatestVersion, version) == 1
-                                ? InstallOptionsEnum.ToUpdate
-                                : InstallOptionsEnum.ToUninstall)
-                        : InstallOptionsEnum.ToInstall;
-                    v.Version = version ?? "";
+                ServerPlugins plugins = await Task.Factory.StartNew(() =>
+                {
+                    Dictionary<string, string> existingPlugins = Directory.Exists(GlobalVariables.PathToPlugins)
+                        ? Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll")
+                            .ToDictionary(Path.GetFileNameWithoutExtension, it => it)
+                        : new Dictionary<string, string>();
+
+                    var splugins = Utils.Utils.DeserializeXml<ServerPlugins>(plugs);
+
+                    splugins.Items.ForEach(v =>
+                    {
+                        string version = existingPlugins.ContainsKey(v.DllName)
+                            ? Utils.Utils.GetDllVersion(existingPlugins[v.DllName])
+                            : null;
+
+                        v.Installed = version != null
+                            ? v.LatestVersion == null
+                                ? InstallOptionsEnum.ToUninstall
+                                : (Utils.Utils.CompareVersions(v.LatestVersion, version) == 1
+                                    ? InstallOptionsEnum.ToUpdate
+                                    : InstallOptionsEnum.ToUninstall)
+                            : InstallOptionsEnum.ToInstall;
+                        v.Version = version ?? "";
+                    });
+
+                    return splugins;
                 });
 
-                return splugins;
-            });
-
-            _tableItems.ReplaceRange(plugins.Items);
-
-            IsLoading = false;
+                _tableItems.ReplaceRange(plugins.Items);
+            }
         }
 
         private async void ItemClickedCommand_Execute(TableItem item)

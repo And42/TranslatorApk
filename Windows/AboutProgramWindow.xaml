@@ -23,6 +23,7 @@
 
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         
+        Loaded="AboutProgramWindow_OnLoaded"
         Closed="AboutProgramWindow_OnClosed">
     <Grid 
         Margin="7"
