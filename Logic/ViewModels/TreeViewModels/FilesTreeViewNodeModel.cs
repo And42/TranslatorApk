@@ -2,21 +2,15 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.Utils;
-using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using UsefulFunctionsLib;
 
-namespace TranslatorApk.Logic.Classes
+namespace TranslatorApk.Logic.ViewModels.TreeViewModels
 {
     public class FilesTreeViewNodeModel : TreeViewNodeModelBase<FilesTreeViewNodeModel>
     {
-        private ICommand _refreshFilesListCommand;
-        private BitmapSource _image;
-        private string _name;
-        private Options _options;
-        private bool _isExpanded;
-
         public FilesTreeViewNodeModel(ICommand refreshFilesListCommand, IHaveChildren<FilesTreeViewNodeModel> parent = null) : base(parent)
         {
             _refreshFilesListCommand = refreshFilesListCommand;
@@ -27,25 +21,29 @@ namespace TranslatorApk.Logic.Classes
             get => _refreshFilesListCommand;
             set => SetProperty(ref _refreshFilesListCommand, value);
         }
-        
+        private ICommand _refreshFilesListCommand;
+
         public BitmapSource Image
         {
             get => _image;
             set => SetProperty(ref _image, value);
         }
-        
+        private BitmapSource _image;
+
         public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
-        
+        private string _name;
+
         public Options Options
         {
             get => _options;
             set => SetProperty(ref _options, value);
         }
-        
+        private Options _options;
+
         public override bool IsExpanded
         {
             get => _isExpanded;
@@ -57,6 +55,7 @@ namespace TranslatorApk.Logic.Classes
                 }
             }
         }
+        private bool _isExpanded;
 
         public Action DoubleClicked { get; set; }
 

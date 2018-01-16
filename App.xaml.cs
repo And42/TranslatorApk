@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using HockeyApp;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Windows;
@@ -8,16 +7,11 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            CrashHandler.Instance.Configure(this, AppDomain.CurrentDomain, "8ed481f6b5074c5fa2236accea3c9229", "TranslatorApk", "Andrey");
-
-            /*AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.ToString());
                 MessageBox.Show("Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена");
@@ -30,7 +24,7 @@ namespace TranslatorApk
 #if !DEBUG
                 args.Handled = true;
 #endif
-            };*/
+            };
 
             if (e.Args.Length > 0 && e.Args[0] == "update")
             {

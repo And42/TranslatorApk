@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 
 namespace TranslatorApk.Logic.Converters
 {
-    public class InstallTextConverter : ConverterBase<InstallOptionsEnum>
+    public class InstallTextConverter : ConverterBase<InstallOptionsEnum, string>
     {
-        protected override object Convert(InstallOptionsEnum value, Type targetType, object parameter, CultureInfo culture)
+        public override string ConvertInternal(InstallOptionsEnum value, object parameter, CultureInfo culture)
         {
             switch (value)
             {

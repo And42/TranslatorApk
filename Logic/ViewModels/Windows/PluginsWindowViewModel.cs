@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.OrganisationItems;

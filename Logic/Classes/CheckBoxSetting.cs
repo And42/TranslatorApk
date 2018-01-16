@@ -1,4 +1,6 @@
-﻿namespace TranslatorApk.Logic.Classes
+﻿using MVVM_Tools.Code.Classes;
+
+namespace TranslatorApk.Logic.Classes
 {
     public class CheckBoxSetting : BindableBase
     {

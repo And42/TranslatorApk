@@ -26,6 +26,7 @@ using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;

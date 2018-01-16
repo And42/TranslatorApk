@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using MVVM_Tools.Code.Classes;
 
 namespace TranslatorApk.Logic.Classes
 {

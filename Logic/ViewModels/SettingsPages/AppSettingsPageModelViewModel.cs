@@ -130,7 +130,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             if (!ApktoolVersions.Contains(SettingsIncapsuler.Instance.ApktoolVersion))
                 SettingsIncapsuler.Instance.ApktoolVersion = ApktoolVersions[0];
             else
-                RaisePropertyChanged(nameof(CurrentApktoolVersion));
+                OnPropertyChanged(nameof(CurrentApktoolVersion));
         }
 
         private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -138,28 +138,28 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             switch (args.PropertyName)
             {
                 case nameof(SettingsIncapsuler.ApktoolVersion):
-                    RaisePropertyChanged(nameof(CurrentApktoolVersion));
+                    OnPropertyChanged(nameof(CurrentApktoolVersion));
                     break;
                 case nameof(SettingsIncapsuler.Theme):
-                    RaisePropertyChanged(nameof(CurrentTheme));
+                    OnPropertyChanged(nameof(CurrentTheme));
                     break;
                 case nameof(SettingsIncapsuler.ShowPreviews):
-                    RaisePropertyChanged(nameof(ShowPreviewsIndex));
+                    OnPropertyChanged(nameof(ShowPreviewsIndex));
                     break;
                 case nameof(SettingsIncapsuler.TopMost):
-                    RaisePropertyChanged(nameof(TopMostIndex));
+                    OnPropertyChanged(nameof(TopMostIndex));
                     break;
                 case nameof(SettingsIncapsuler.ShowNotifications):
-                    RaisePropertyChanged(nameof(ShowNotificationsIndex));
+                    OnPropertyChanged(nameof(ShowNotificationsIndex));
                     break;
                 case nameof(SettingsIncapsuler.AlternatingRows):
-                    RaisePropertyChanged(nameof(AlternateRowsIndex));
+                    OnPropertyChanged(nameof(AlternateRowsIndex));
                     break;
                 case nameof(SettingsIncapsuler.OtherExtensions):
-                    RaisePropertyChanged(nameof(OtherFileExts));
+                    OnPropertyChanged(nameof(OtherFileExts));
                     break;
                 case nameof(SettingsIncapsuler.ImageExtensions):
-                    RaisePropertyChanged(nameof(ImageFileExts));
+                    OnPropertyChanged(nameof(ImageFileExts));
                     break;
             }
         }

@@ -40,10 +40,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             switch (args.PropertyName)
             {
                 case nameof(SettingsIncapsuler.AlternativeEditingKeys):
-                    RaisePropertyChanged(nameof(AlternativeEditingKeysIndex));
+                    OnPropertyChanged(nameof(AlternativeEditingKeysIndex));
                     break;
                 case nameof(SettingsIncapsuler.SessionAutoTranslate):
-                    RaisePropertyChanged(nameof(SessionAutoTranslateIndex));
+                    OnPropertyChanged(nameof(SessionAutoTranslateIndex));
                     break;
             }
         }

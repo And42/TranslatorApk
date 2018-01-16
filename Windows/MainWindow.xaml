@@ -8,7 +8,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
+        xmlns:treeViewModels="clr-namespace:TranslatorApk.Logic.ViewModels.TreeViewModels"
 
         x:Class="TranslatorApk.Windows.MainWindow" 
     
@@ -273,7 +273,7 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <d:Style.DataContext>
-                            <x:Type Type="classes:FilesTreeViewNodeModel"/>
+                            <x:Type Type="treeViewModels:FilesTreeViewNodeModel"/>
                         </d:Style.DataContext>
 
                         <Style.Resources>

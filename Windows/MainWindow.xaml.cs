@@ -24,6 +24,7 @@ using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApkPluginLib;
 using UsefulClasses;
 using UsefulFunctionsLib;
@@ -40,9 +41,6 @@ using MButtons = TranslatorApk.Windows.MessBox.MessageButtons;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : IRaisePropertyChanged
     {
         #region Поля
@@ -111,8 +109,6 @@ namespace TranslatorApk.Windows
 
         public MainWindow(string[] args)
         {
-            //CrashHandler.Instance.HandleCrashes(false);
-
             _arguments = args;
 
             MainWindowSettings = new[]

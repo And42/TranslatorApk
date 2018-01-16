@@ -107,9 +107,6 @@
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="HockeySDK">
-      <HintPath>..\..\..\Libs\Dll_Libraries\HockeySDK.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -137,6 +134,9 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="MVVM_Tools">
+      <HintPath>..\..\..\Libs\MVVM Tools\MVVM Tools\bin\Debug\MVVM_Tools.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -202,7 +202,6 @@
     </ApplicationDefinition>
     <Compile Include="Logic\AttachedProperties\Grid.cs" />
     <Compile Include="Logic\Classes\ActionHost.cs" />
-    <Compile Include="Logic\Classes\BindableBase.cs" />
     <Compile Include="Logic\Classes\DownloadableApktool.cs" />
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
@@ -213,7 +212,6 @@
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\TreeViewNodeModelBase.cs" />
-    <Compile Include="Logic\Converters\ConverterBase.cs" />
     <Compile Include="Logic\Converters\EditorWindowFileNameConverter.cs" />
     <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\PercentageTextConverter.cs" />
@@ -315,7 +313,6 @@
     </Compile>
     <Compile Include="Windows\MessBox.xaml.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Logic\Converters\InvertBoolConverter.cs" />
     <Compile Include="Logic\Converters\StringToBoolConverter.cs" />
     <Compile Include="Logic\Converters\StringToIntConverter.cs" />
     <Compile Include="Resources\Localizations\Resources.Designer.cs">

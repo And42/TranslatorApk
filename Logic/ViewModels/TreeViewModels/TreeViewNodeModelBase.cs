@@ -1,4 +1,5 @@
-﻿using TranslatorApk.Logic.Classes;
+﻿using MVVM_Tools.Code.Classes;
+using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 
 namespace TranslatorApk.Logic.ViewModels.TreeViewModels

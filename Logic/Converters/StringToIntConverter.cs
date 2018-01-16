@@ -1,18 +1,18 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using MVVM_Tools.Code.Classes;
 
 namespace TranslatorApk.Logic.Converters
 {
-    class StringToIntConverter : ConverterBase<string>
+    class StringToIntConverter : ConverterBase<string, int>
     {
-        protected override object Convert(string value, Type targetType, object parameter, CultureInfo culture)
+        public override int ConvertInternal(string value, object parameter, CultureInfo culture)
         {
             return int.Parse(value);
         }
 
-        protected override string ConvertBackObj(object value, Type targetType, object parameter, CultureInfo culture)
+        public override string ConvertBackInternal(int value, object parameter, CultureInfo culture)
         {
-            return ((int)value).ToString();
+            return value.ToString();
         }
     }
 }

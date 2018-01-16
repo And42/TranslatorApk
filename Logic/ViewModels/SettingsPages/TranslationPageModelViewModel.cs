@@ -31,7 +31,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
                 GlobalVariables.CurrentTranslationService = value;
                 SettingsIncapsuler.Instance.OnlineTranslator = value.Guid;
-                RaisePropertyChanged(nameof(OnlineTranslator));
+                OnPropertyChanged(nameof(OnlineTranslator));
             }
         }
 
@@ -52,7 +52,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             Translators.Clear();
             Translators.AddRange(TranslateService.OnlineTranslators.Values);
 
-            RaisePropertyChanged(nameof(OnlineTranslator));
+            OnPropertyChanged(nameof(OnlineTranslator));
         }
 
         private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -60,7 +60,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             switch (args.PropertyName)
             {
                 case nameof(SettingsIncapsuler.TranslationTimeout):
-                    RaisePropertyChanged(nameof(TranslationTimeout));
+                    OnPropertyChanged(nameof(TranslationTimeout));
                     break;
             }
         }

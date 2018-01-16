@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 
 namespace TranslatorApk.Logic.Converters
 {
-    public class TranslateServiceToStringConverter : ConverterBase<KeyValuePair<Guid, OneTranslationService>>
+    public class TranslateServiceToStringConverter : ConverterBase<KeyValuePair<Guid, OneTranslationService>, string>
     {
-        protected override object Convert(KeyValuePair<Guid, OneTranslationService> value, Type targetType, object parameter, CultureInfo culture)
+        public override string ConvertInternal(KeyValuePair<Guid, OneTranslationService> value, object parameter, CultureInfo culture)
         {
             return value.Value.ToString();
         }

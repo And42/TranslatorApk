@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using MVVM_Tools.Code.Classes;
 
 namespace TranslatorApk.Logic.Converters
 {
-    public class PathModiferConverter : ConverterBase<string>
+    public class PathModiferConverter : ConverterBase<string, string>
     {
         public enum ConvertOptions
         {
@@ -13,7 +14,7 @@ namespace TranslatorApk.Logic.Converters
             Name
         }
 
-        protected override object Convert(string value, Type targetType, object parameter, CultureInfo culture)
+        public override string ConvertInternal(string value, object parameter, CultureInfo culture)
         {
             ConvertOptions param = parameter == null ? ConvertOptions.Name : (ConvertOptions) Enum.Parse(typeof(ConvertOptions), parameter.ToString());
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Interfaces;
 
 namespace TranslatorApk.Logic.Classes
@@ -33,13 +34,12 @@ namespace TranslatorApk.Logic.Classes
 
         protected static readonly Task EmptyTask = new Task(() => {});
 
-        private bool _isLoading;
-
         public virtual bool IsLoading
         {
             get => _isLoading;
             set => SetProperty(ref _isLoading, value);
         }
+        private bool _isLoading;
 
         public virtual Task LoadItems() => EmptyTask;
 

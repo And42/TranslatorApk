@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Runtime.CompilerServices;
-using TranslatorApk.Logic.Classes;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Properties;
 
@@ -269,7 +269,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             if (AutoFlush)
                 Save();
 
-            RaisePropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
 
         public T GetValue<T>(string settingName)
