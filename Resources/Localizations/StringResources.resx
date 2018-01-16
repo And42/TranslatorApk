@@ -456,4 +456,7 @@
   <data name="Dictionaries_Label" xml:space="preserve">
     <value>Словари</value>
   </data>
+  <data name="TranslationTimeout_Label" xml:space="preserve">
+    <value>Тайм-аут перевода:</value>
+  </data>
 </root>

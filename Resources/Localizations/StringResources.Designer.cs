@@ -22,14 +22,14 @@ namespace TranslatorApk.Resources.Localizations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class StringResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal StringResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace TranslatorApk.Resources.Localizations {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslatorApk.Resources.Localizations.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslatorApk.Resources.Localizations.StringResources", typeof(StringResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на About.
+        ///   Ищет локализованную строку, похожую на О программе.
         /// </summary>
         public static string AboutProgram {
             get {
@@ -70,7 +70,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Account number is copied to the clipboard.
+        ///   Ищет локализованную строку, похожую на Номер счёта скопирован в буфер обмена.
         /// </summary>
         public static string AccountNumberIsCopied {
             get {
@@ -79,7 +79,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Add.
+        ///   Ищет локализованную строку, похожую на Добавить.
         /// </summary>
         public static string Add {
             get {
@@ -88,7 +88,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Add language.
+        ///   Ищет локализованную строку, похожую на Добавить язык.
         /// </summary>
         public static string AddLanguage {
             get {
@@ -97,7 +97,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на All done!.
+        ///   Ищет локализованную строку, похожую на Готово!.
         /// </summary>
         public static string AllDone {
             get {
@@ -106,7 +106,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на All .smali.
+        ///   Ищет локализованную строку, похожую на Все .smali.
         /// </summary>
         public static string AllSmali {
             get {
@@ -115,7 +115,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на All .xml.
+        ///   Ищет локализованную строку, похожую на Все .xml.
         /// </summary>
         public static string AllXml {
             get {
@@ -124,7 +124,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Alternate rows in editor.
+        ///   Ищет локализованную строку, похожую на Чередующиеся строки в редакторе.
         /// </summary>
         public static string AlternateRowsInEditor {
             get {
@@ -133,7 +133,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Alternative editing keys:.
+        ///   Ищет локализованную строку, похожую на Альтернативные клавиши редактирования:.
         /// </summary>
         public static string AlternativeEditingKeys {
             get {
@@ -142,7 +142,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Android apps.
+        ///   Ищет локализованную строку, похожую на Андроид приложения.
         /// </summary>
         public static string AndroidApps {
             get {
@@ -151,7 +151,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Api key:.
+        ///   Ищет локализованную строку, похожую на Ключ api:.
         /// </summary>
         public static string ApiKey {
             get {
@@ -160,7 +160,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Api key is empty.
+        ///   Ищет локализованную строку, похожую на Ключ Api пуст.
         /// </summary>
         public static string ApiKeyIsEmpty {
             get {
@@ -169,7 +169,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Apktool is not found! Please, download apktool to &quot;Files\Resources\apktools&quot;.
+        ///   Ищет локализованную строку, похожую на Apktool не найден! Пожалуйста, загрузите apktool в &quot;Files\Resources\apktools&quot;.
         /// </summary>
         public static string ApktoolNotFound {
             get {
@@ -178,7 +178,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Apktool version:.
+        ///   Ищет локализованную строку, похожую на Версия apktool:.
         /// </summary>
         public static string ApktoolVersion {
             get {
@@ -187,7 +187,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Apply the changes?.
+        ///   Ищет локализованную строку, похожую на Применить изменения?.
         /// </summary>
         public static string ApplyTheChanges {
             get {
@@ -196,7 +196,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Build project.
+        ///   Ищет локализованную строку, похожую на Собрать проект.
         /// </summary>
         public static string BuildProject {
             get {
@@ -205,7 +205,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Cancel.
+        ///   Ищет локализованную строку, похожую на Отмена.
         /// </summary>
         public static string Cancel {
             get {
@@ -214,7 +214,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Can not recieve apktools list. Please, check your internet connection..
+        ///   Ищет локализованную строку, похожую на Не удается получить список версий apktools. Пожалуйста проверьте подключение к Интернету..
         /// </summary>
         public static string CanNotRecieveApktoolsList {
             get {
@@ -223,7 +223,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Can not recieve plugins list. Please, check your internet connection..
+        ///   Ищет локализованную строку, похожую на Не удается получить список плагинов. Пожалуйста, проверьте подключение к интернету..
         /// </summary>
         public static string CanNotRecievePluginsList {
             get {
@@ -232,7 +232,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error was occurred while translating!.
+        ///   Ищет локализованную строку, похожую на Ошибка при переводе!.
         /// </summary>
         public static string CantTranslate {
             get {
@@ -241,7 +241,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Can&apos;t update program.
+        ///   Ищет локализованную строку, похожую на Не удается обновить программу.
         /// </summary>
         public static string CantUpdateProgram {
             get {
@@ -250,7 +250,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Catalog.
+        ///   Ищет локализованную строку, похожую на Каталог.
         /// </summary>
         public static string Catalog {
             get {
@@ -259,7 +259,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Changes detector.
+        ///   Ищет локализованную строку, похожую на Обнаружение изменений.
         /// </summary>
         public static string ChangesDetector {
             get {
@@ -268,7 +268,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Many files creation.
+        ///   Ищет локализованную строку, похожую на Создание множества.
         /// </summary>
         public static string ChangesDetectorWindow_ManyFilesCreation {
             get {
@@ -277,7 +277,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Many files translation.
+        ///   Ищет локализованную строку, похожую на Перевод множества.
         /// </summary>
         public static string ChangesDetectorWindow_ManyFilesTranslation {
             get {
@@ -286,7 +286,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на One file creation.
+        ///   Ищет локализованную строку, похожую на Создание одного.
         /// </summary>
         public static string ChangesDetectorWindow_OneFileCreation {
             get {
@@ -295,7 +295,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на One file translation.
+        ///   Ищет локализованную строку, похожую на Перевод одного.
         /// </summary>
         public static string ChangesDetectorWindow_OneFileTranslation {
             get {
@@ -304,7 +304,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на One file translation with dictionary.
+        ///   Ищет локализованную строку, похожую на Перевод файла на основе словаря.
         /// </summary>
         public static string ChangesDetectorWindow_OneFileTranslation_ToolTip {
             get {
@@ -313,7 +313,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Choose cell or row!.
+        ///   Ищет локализованную строку, похожую на Выберите ячейку или строку!.
         /// </summary>
         public static string ChooseCellOrRow {
             get {
@@ -322,7 +322,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Choose file.
+        ///   Ищет локализованную строку, похожую на Выбрать файл.
         /// </summary>
         public static string ChooseFile {
             get {
@@ -331,7 +331,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Choose folder.
+        ///   Ищет локализованную строку, похожую на Выбрать папку.
         /// </summary>
         public static string ChooseFolder {
             get {
@@ -340,7 +340,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Clear.
+        ///   Ищет локализованную строку, похожую на Очистить.
         /// </summary>
         public static string Clear {
             get {
@@ -349,7 +349,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Collapse.
+        ///   Ищет локализованную строку, похожую на Свернуть.
         /// </summary>
         public static string Collapse {
             get {
@@ -358,7 +358,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Compilation finished.
+        ///   Ищет локализованную строку, похожую на Сборка завершена.
         /// </summary>
         public static string CompilationFinished {
             get {
@@ -367,7 +367,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Confirmation.
+        ///   Ищет локализованную строку, похожую на Подтверждение.
         /// </summary>
         public static string Confirmation {
             get {
@@ -376,7 +376,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Copy.
+        ///   Ищет локализованную строку, похожую на Копировать.
         /// </summary>
         public static string Copy {
             get {
@@ -385,7 +385,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Current dictionary.
+        ///   Ищет локализованную строку, похожую на Текущий словарь.
         /// </summary>
         public static string CurrentDictionary {
             get {
@@ -394,7 +394,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Decompilation finished.
+        ///   Ищет локализованную строку, похожую на Декомпиляция завершена.
         /// </summary>
         public static string DecompilationFinished {
             get {
@@ -403,7 +403,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Delete.
+        ///   Ищет локализованную строку, похожую на Удалить.
         /// </summary>
         public static string Delete {
             get {
@@ -412,7 +412,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Description.
+        ///   Ищет локализованную строку, похожую на Описание.
         /// </summary>
         public static string Description {
             get {
@@ -421,7 +421,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Dictionaries.
+        ///   Ищет локализованную строку, похожую на Словари.
         /// </summary>
         public static string Dictionaries_Label {
             get {
@@ -430,7 +430,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Folder with dictionaries.
+        ///   Ищет локализованную строку, похожую на Папки с словарями.
         /// </summary>
         public static string DictionariesFolder {
             get {
@@ -439,7 +439,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Dictionary.
+        ///   Ищет локализованную строку, похожую на Словарь.
         /// </summary>
         public static string Dictionary {
             get {
@@ -448,7 +448,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Dictionary files.
+        ///   Ищет локализованную строку, похожую на Файлы словарей.
         /// </summary>
         public static string DictionaryFiles {
             get {
@@ -457,7 +457,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Dictionary&apos;s folder.
+        ///   Ищет локализованную строку, похожую на Папка словаря.
         /// </summary>
         public static string DictionaryFolder {
             get {
@@ -466,7 +466,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Directory path (to clipboard).
+        ///   Ищет локализованную строку, похожую на Путь к директории файла (в буфер).
         /// </summary>
         public static string DirectoryPathToClipboard {
             get {
@@ -475,7 +475,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Editor.
+        ///   Ищет локализованную строку, похожую на Редактор.
         /// </summary>
         public static string Editor {
             get {
@@ -484,7 +484,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Empty folders.
+        ///   Ищет локализованную строку, похожую на Пустые папки.
         /// </summary>
         public static string EmptyFolders {
             get {
@@ -493,7 +493,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Empty smali.
+        ///   Ищет локализованную строку, похожую на Пустые smali.
         /// </summary>
         public static string EmptySmali {
             get {
@@ -502,7 +502,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Empty xml.
+        ///   Ищет локализованную строку, похожую на Пустые xml.
         /// </summary>
         public static string EmptyXml {
             get {
@@ -511,7 +511,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error.
+        ///   Ищет локализованную строку, похожую на Ошибка.
         /// </summary>
         public static string ErrorLower {
             get {
@@ -520,7 +520,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ERROR.
+        ///   Ищет локализованную строку, похожую на ОШИБКА.
         /// </summary>
         public static string ErrorUpper {
             get {
@@ -529,7 +529,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error while compiling!.
+        ///   Ищет локализованную строку, похожую на Ошибка при компиляции!.
         /// </summary>
         public static string ErrorWhileCompiling {
             get {
@@ -538,7 +538,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error while signing!.
+        ///   Ищет локализованную строку, похожую на Ошибка при подписи!.
         /// </summary>
         public static string ErrorWhileSigning {
             get {
@@ -547,7 +547,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Expand.
+        ///   Ищет локализованную строку, похожую на Развернуть.
         /// </summary>
         public static string Expand {
             get {
@@ -556,7 +556,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Are you really want to delete the file.
+        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить этот файл.
         /// </summary>
         public static string FileDeleteConfirmation {
             get {
@@ -565,7 +565,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The file may be in use (and thus locked) by another user or application: &quot;{0}&quot;.
+        ///   Ищет локализованную строку, похожую на Следующий файл уже используется (и поэтому недоступен) другим пользователем или приложением: &quot;{0}&quot;.
         /// </summary>
         public static string FileIsInUse {
             get {
@@ -574,7 +574,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на File is situated in.
+        ///   Ищет локализованную строку, похожую на Файл находится в.
         /// </summary>
         public static string FileIsSituatedIn {
             get {
@@ -583,7 +583,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Filename.
+        ///   Ищет локализованную строку, похожую на Название файла.
         /// </summary>
         public static string Filename {
             get {
@@ -592,7 +592,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на File name (to clipboard).
+        ///   Ищет локализованную строку, похожую на Имя файла (в буфер).
         /// </summary>
         public static string FileNameToClipboard {
             get {
@@ -601,7 +601,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Files with errors.
+        ///   Ищет локализованную строку, похожую на Файлы с ошибками.
         /// </summary>
         public static string FilesWithErrors {
             get {
@@ -610,7 +610,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Find.
+        ///   Ищет локализованную строку, похожую на Найти.
         /// </summary>
         public static string Find {
             get {
@@ -619,7 +619,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Find all.
+        ///   Ищет локализованную строку, похожую на Найти все.
         /// </summary>
         public static string FindAll {
             get {
@@ -628,7 +628,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Find next.
+        ///   Ищет локализованную строку, похожую на Искать далее.
         /// </summary>
         public static string FindNext {
             get {
@@ -637,7 +637,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Finished.
+        ///   Ищет локализованную строку, похожую на Готово.
         /// </summary>
         public static string Finished {
             get {
@@ -646,7 +646,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Are you really want to delete the folder.
+        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить эту папку.
         /// </summary>
         public static string FolderDeleteConfirmation {
             get {
@@ -655,7 +655,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на from.
+        ///   Ищет локализованную строку, похожую на из.
         /// </summary>
         public static string From {
             get {
@@ -664,7 +664,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Full file path (to clipboard).
+        ///   Ищет локализованную строку, похожую на Полный путь к файлу (в буфер).
         /// </summary>
         public static string FullFilePathToClipboard {
             get {
@@ -673,7 +673,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Visible file extensions:.
+        ///   Ищет локализованную строку, похожую на Расширения изображений:.
         /// </summary>
         public static string ImageExtensions {
             get {
@@ -682,7 +682,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Images.
+        ///   Ищет локализованную строку, похожую на Изображения.
         /// </summary>
         public static string Images {
             get {
@@ -691,7 +691,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Information.
+        ///   Ищет локализованную строку, похожую на Информация.
         /// </summary>
         public static string Information {
             get {
@@ -700,7 +700,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Install.
+        ///   Ищет локализованную строку, похожую на Установить.
         /// </summary>
         public static string Install {
             get {
@@ -709,7 +709,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Installed.
+        ///   Ищет локализованную строку, похожую на Установлено.
         /// </summary>
         public static string Installed {
             get {
@@ -718,7 +718,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Java wasn&apos;t found! Please, download it from official site or use portable version of program.
+        ///   Ищет локализованную строку, похожую на Java не найдена! Пожалуйста, загрузите её с официального сайта или используйте портативную версию программы.
         /// </summary>
         public static string JavaNotFoundError {
             get {
@@ -727,7 +727,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Language: .
+        ///   Ищет локализованную строку, похожую на Язык: .
         /// </summary>
         public static string Language {
             get {
@@ -736,7 +736,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Language is not selected!.
+        ///   Ищет локализованную строку, похожую на Язык не выбран!.
         /// </summary>
         public static string LanguageIsNotSelected {
             get {
@@ -745,7 +745,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Language of app:.
+        ///   Ищет локализованную строку, похожую на Язык приложения:.
         /// </summary>
         public static string LanguageOfApp {
             get {
@@ -754,7 +754,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Latest version.
+        ///   Ищет локализованную строку, похожую на Последняя версия.
         /// </summary>
         public static string LatestVersion {
             get {
@@ -763,7 +763,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Loading....
+        ///   Ищет локализованную строку, похожую на Загрузка....
         /// </summary>
         public static string Loading {
             get {
@@ -772,7 +772,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Load with text strings.
+        ///   Ищет локализованную строку, похожую на Загрузить с текстовыми строками.
         /// </summary>
         public static string LoadWithTextStrings {
             get {
@@ -781,7 +781,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Match case.
+        ///   Ищет локализованную строку, похожую на Учитывать регистр.
         /// </summary>
         public static string MatchCase {
             get {
@@ -790,7 +790,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Name.
+        ///   Ищет локализованную строку, похожую на Название.
         /// </summary>
         public static string Name {
             get {
@@ -799,7 +799,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на English (UK)|Arabic|Afrikaans|Belarusian|Bulgarian|Bosnian|Hungarian|Vietnamese|Dutch|Greek|Danish|Zulu|Hebrew|Indonesian|Spanish|Italian|Catalan|Chinese|Chinese (Simplified)|Chinese (Traditional)|Latvian|Lithuanian|Malay|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Swahili|Tagalog|Thai|Turkish|Ukrainian|Finnish|French|Hindi|Czech|Swedish|Estonian|Japanese.
+        ///   Ищет локализованную строку, похожую на Английский (Великобритания)|Арабский|Африкаанс|Белорусский|Болгарский|Боснийский|Венгерский|Вьетнамский|Голландский|Греческий|Датский|Зулу|Иврит|Индонезийский|Испанский|Итальянский|Каталанский|Китайский|Китайский (Упрощённый)|Китайский (Традиционный)|Латышский|Литовский|Малайский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Словенский|Суахили|Тагальский|Тайский|Турецкий|Украинский|Финский|Французский|Хинди|Чешский|Шведский|Эстонский|Японский.
         /// </summary>
         public static string NamesOfFolderLanguages {
             get {
@@ -808,7 +808,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на New language:.
+        ///   Ищет локализованную строку, похожую на Новый язык:.
         /// </summary>
         public static string NewLanguage {
             get {
@@ -817,7 +817,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на New text.
+        ///   Ищет локализованную строку, похожую на Новый текст.
         /// </summary>
         public static string NewText {
             get {
@@ -826,7 +826,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на No.
+        ///   Ищет локализованную строку, похожую на Нет.
         /// </summary>
         public static string No {
             get {
@@ -835,7 +835,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error while connecting to the internet! Online translation is disabled.
+        ///   Ищет локализованную строку, похожую на Отсутствует интернет соединение! Онлайн перевод недоступен.
         /// </summary>
         public static string NoInternetCantTranslate {
             get {
@@ -844,7 +844,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Old text.
+        ///   Ищет локализованную строку, похожую на Старый текст.
         /// </summary>
         public static string OldText {
             get {
@@ -853,7 +853,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Albanian|English|Arabic|Armenian|Azerbaijan|Afrikaans|Basque|Belarusian|Bulgarian|Bosnian|Welsh|Vietnamese|Hungarian|Haitian(Creole)|Galician|Dutch|Greek|Georgian|Danish|Yiddish|Indonesian|Irish|Italian|Icelandic|Spanish|Kazakh|Catalan|Kyrgyz|Chinese|Korean|Latin|Latvian|Lithuanian|Malagasy|Malay|Maltese|Macedonian|Mongolian|German|Norwegian|Persian|Polish|Portuguese|Romanian|Russian|Serbian|Slovakian|Slovenian|Swahili|Tajik|Thai|Tagalog|Tatar|Turkish|Uzbek|Ukrainian|Finish|French|Croatian|Czech|Swedish|Est [остаток строки не уместился]&quot;;.
+        ///   Ищет локализованную строку, похожую на Албанский|Английский|Арабский|Армянский|Азербайджан|Африкаанс|Басков|Белорусский|Болгарский|Боснийский|Валлийский|Вьетнамский|Венгерский|Гаитянский (Креольский)|Галицкая|Голландский|Греческий|Грузинский|Датский|Идиш|Индонезийский|Ирландский|Итальянский|Исландский|Испанский|Казахский|Каталонский|Кыргызский|Китайский|Корейский|Латинский|Латвийский|Литовский|Малагасийский|Малайский|Мальтийский|Македонский|Монгольский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Сло [остаток строки не уместился]&quot;;.
         /// </summary>
         public static string OnlineTranslationsLongLanguages {
             get {
@@ -862,7 +862,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Online translator:.
+        ///   Ищет локализованную строку, похожую на Онлайн переводчик:.
         /// </summary>
         public static string OnlineTranslator {
             get {
@@ -871,7 +871,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Match whole word only.
+        ///   Ищет локализованную строку, похожую на Только целые слова.
         /// </summary>
         public static string OnlyFullWords {
             get {
@@ -880,7 +880,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Only resources.
+        ///   Ищет локализованную строку, похожую на Только ресурсы.
         /// </summary>
         public static string OnlyResources {
             get {
@@ -889,7 +889,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Only xml.
+        ///   Ищет локализованную строку, похожую на Только xml.
         /// </summary>
         public static string OnlyXml {
             get {
@@ -898,7 +898,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Open.
+        ///   Ищет локализованную строку, похожую на Открыть.
         /// </summary>
         public static string Open {
             get {
@@ -907,7 +907,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Open in explorer.
+        ///   Ищет локализованную строку, похожую на Открыть в проводнике.
         /// </summary>
         public static string OpenInExplorer {
             get {
@@ -916,7 +916,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Open with.
+        ///   Ищет локализованную строку, похожую на Открыть с помощью.
         /// </summary>
         public static string OpenWith {
             get {
@@ -925,7 +925,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Options.
+        ///   Ищет локализованную строку, похожую на Опции.
         /// </summary>
         public static string Options {
             get {
@@ -934,7 +934,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Other extensions:.
+        ///   Ищет локализованную строку, похожую на Расширения других файлов:.
         /// </summary>
         public static string OtherExtensions {
             get {
@@ -943,7 +943,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Other files.
+        ///   Ищет локализованную строку, похожую на Другие файлы.
         /// </summary>
         public static string OtherFiles {
             get {
@@ -952,7 +952,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Paste.
+        ///   Ищет локализованную строку, похожую на Вставить.
         /// </summary>
         public static string Paste {
             get {
@@ -961,7 +961,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Plugins.
+        ///   Ищет локализованную строку, похожую на Плагины.
         /// </summary>
         public static string Plugins {
             get {
@@ -970,7 +970,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Refresh.
+        ///   Ищет локализованную строку, похожую на Обновить.
         /// </summary>
         public static string Refresh {
             get {
@@ -979,7 +979,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Replace.
+        ///   Ищет локализованную строку, похожую на Заменить.
         /// </summary>
         public static string Replace {
             get {
@@ -988,7 +988,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Replace Unicode sequences.
+        ///   Ищет локализованную строку, похожую на Заменять последовательности Юникода.
         /// </summary>
         public static string ReplaceUnicodeSequences {
             get {
@@ -997,7 +997,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Restart program to apply language setting?.
+        ///   Ищет локализованную строку, похожую на Перезапустить программу для смены языка?.
         /// </summary>
         public static string RestartProgramToApplyLanguage {
             get {
@@ -1006,7 +1006,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Result folder.
+        ///   Ищет локализованную строку, похожую на Папка с результатом.
         /// </summary>
         public static string ResultFolder {
             get {
@@ -1015,7 +1015,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Save.
+        ///   Ищет локализованную строку, похожую на Сохранить.
         /// </summary>
         public static string Save {
             get {
@@ -1024,7 +1024,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Save and exit.
+        ///   Ищет локализованную строку, похожую на Сохранить и выйти.
         /// </summary>
         public static string SaveAndExit {
             get {
@@ -1033,7 +1033,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Search.
+        ///   Ищет локализованную строку, похожую на Поиск.
         /// </summary>
         public static string Search {
             get {
@@ -1042,7 +1042,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Editor window was closed. Search will not work.
+        ///   Ищет локализованную строку, похожую на Окно редактора было закрыто. Поиск работать не будет.
         /// </summary>
         public static string SearchEditorClosed {
             get {
@@ -1051,7 +1051,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Search options.
+        ///   Ищет локализованную строку, похожую на Опции поиска.
         /// </summary>
         public static string SearchOptions {
             get {
@@ -1060,7 +1060,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You must select a folder to search!.
+        ///   Ищет локализованную строку, похожую на Необходимо выбрать папку перед поиском!.
         /// </summary>
         public static string SearchWindow_FolderIsNotSelected {
             get {
@@ -1069,7 +1069,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Select a folder:.
+        ///   Ищет локализованную строку, похожую на Выберите папку:.
         /// </summary>
         public static string SelectAFolder {
             get {
@@ -1078,7 +1078,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Auto translation with session dictionary:.
+        ///   Ищет локализованную строку, похожую на Автоперевод по словарю сессии:.
         /// </summary>
         public static string SessionAutoTranslation {
             get {
@@ -1087,7 +1087,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Settings.
+        ///   Ищет локализованную строку, похожую на Настройки.
         /// </summary>
         public static string Settings {
             get {
@@ -1096,7 +1096,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Show in explorer.
+        ///   Ищет локализованную строку, похожую на Показать в проводнике.
         /// </summary>
         public static string ShowInExplorer {
             get {
@@ -1105,7 +1105,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Show notifications:.
+        ///   Ищет локализованную строку, похожую на Показывать уведомления:.
         /// </summary>
         public static string ShowNotifications {
             get {
@@ -1114,7 +1114,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Show preview:.
+        ///   Ищет локализованную строку, похожую на Показывать превью изображений:.
         /// </summary>
         public static string ShowPreview {
             get {
@@ -1123,7 +1123,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Sign.
+        ///   Ищет локализованную строку, похожую на Подписать.
         /// </summary>
         public static string Sign {
             get {
@@ -1132,7 +1132,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Size.
+        ///   Ищет локализованную строку, похожую на Размер.
         /// </summary>
         public static string Size {
             get {
@@ -1141,7 +1141,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Source folder.
+        ///   Ищет локализованную строку, похожую на Исходная папка.
         /// </summary>
         public static string SourceFolder {
             get {
@@ -1150,7 +1150,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Start.
+        ///   Ищет локализованную строку, похожую на Начать.
         /// </summary>
         public static string Start {
             get {
@@ -1159,7 +1159,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Stop.
+        ///   Ищет локализованную строку, похожую на Остановить.
         /// </summary>
         public static string Stop {
             get {
@@ -1168,7 +1168,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Next.
+        ///   Ищет локализованную строку, похожую на Следующая.
         /// </summary>
         public static string StringEditorWindow_NextStringLabel {
             get {
@@ -1177,7 +1177,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Previous.
+        ///   Ищет локализованную строку, похожую на Предыдущая.
         /// </summary>
         public static string StringEditorWindow_PreviousStringLabel {
             get {
@@ -1186,7 +1186,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Strings translated:.
+        ///   Ищет локализованную строку, похожую на Переведено строк:.
         /// </summary>
         public static string StringsTranslated {
             get {
@@ -1195,7 +1195,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Target language.
+        ///   Ищет локализованную строку, похожую на Целевой язык.
         /// </summary>
         public static string TargetLanguage {
             get {
@@ -1204,7 +1204,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Text.
+        ///   Ищет локализованную строку, похожую на Текст.
         /// </summary>
         public static string Text {
             get {
@@ -1213,7 +1213,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Text is not found.
+        ///   Ищет локализованную строку, похожую на Заданный текст не найден.
         /// </summary>
         public static string TextNotFound {
             get {
@@ -1222,7 +1222,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The file is corrupted!.
+        ///   Ищет локализованную строку, похожую на Файл повреждён!.
         /// </summary>
         public static string TheFileIsCorrupted {
             get {
@@ -1231,7 +1231,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The following files have been already added.
+        ///   Ищет локализованную строку, похожую на Следующие файлы уже добавлены.
         /// </summary>
         public static string TheFollowingFilesHaveBeenAlreadyAdded {
             get {
@@ -1240,7 +1240,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Theme:.
+        ///   Ищет локализованную строку, похожую на Тема:.
         /// </summary>
         public static string Theme {
             get {
@@ -1249,7 +1249,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Dark.
+        ///   Ищет локализованную строку, похожую на Темная.
         /// </summary>
         public static string Theme_Dark {
             get {
@@ -1258,7 +1258,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Light.
+        ///   Ищет локализованную строку, похожую на Светлая.
         /// </summary>
         public static string Theme_Light {
             get {
@@ -1267,7 +1267,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Title.
+        ///   Ищет локализованную строку, похожую на Название.
         /// </summary>
         public static string Title {
             get {
@@ -1276,7 +1276,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на On top of all windows:.
+        ///   Ищет локализованную строку, похожую на Поверх всех окон:.
         /// </summary>
         public static string TopMost {
             get {
@@ -1285,7 +1285,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Translate all.
+        ///   Ищет локализованную строку, похожую на Перевести всё.
         /// </summary>
         public static string TranslateAll {
             get {
@@ -1294,7 +1294,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Folder with translations.
+        ///   Ищет локализованную строку, похожую на Папка с переводами.
         /// </summary>
         public static string TranslatedFolder {
             get {
@@ -1303,7 +1303,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Translation timeout:.
+        ///   Ищет локализованную строку, похожую на Тайм-аут перевода:.
         /// </summary>
         public static string TranslationTimeout_Label {
             get {
@@ -1312,7 +1312,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Uninstall.
+        ///   Ищет локализованную строку, похожую на Удалить.
         /// </summary>
         public static string Uninstall {
             get {
@@ -1321,7 +1321,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Update.
+        ///   Ищет локализованную строку, похожую на Обновить.
         /// </summary>
         public static string Update {
             get {
@@ -1330,7 +1330,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на New version is available. Update?.
+        ///   Ищет локализованную строку, похожую на Доступна новая версия. Обновить?.
         /// </summary>
         public static string UpdateNewVersion {
             get {
@@ -1339,7 +1339,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Use.
+        ///   Ищет локализованную строку, похожую на Использовать.
         /// </summary>
         public static string Use {
             get {
@@ -1348,7 +1348,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Version.
+        ///   Ищет локализованную строку, похожую на Версия.
         /// </summary>
         public static string Version {
             get {
@@ -1357,7 +1357,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Waiting for completion of the operation....
+        ///   Ищет локализованную строку, похожую на Ожидание завершения операции....
         /// </summary>
         public static string WaitingOperation {
             get {
@@ -1366,7 +1366,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Xml files.
+        ///   Ищет локализованную строку, похожую на Файлы xml.
         /// </summary>
         public static string XmlFiles {
             get {
@@ -1375,7 +1375,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на XmlRulesEditor.
+        ///   Ищет локализованную строку, похожую на Редактор правил xml.
         /// </summary>
         public static string XmlRulesEditor {
             get {
@@ -1384,7 +1384,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Yes.
+        ///   Ищет локализованную строку, похожую на Да.
         /// </summary>
         public static string Yes {
             get {
@@ -1393,7 +1393,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You need to choose dictionary!.
+        ///   Ищет локализованную строку, похожую на Необходимо выбрать словарь!.
         /// </summary>
         public static string YouNeedToChooseDictionary {
             get {

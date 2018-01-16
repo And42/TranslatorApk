@@ -6,7 +6,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
-        Title="{x:Static localizations:Resources.Search}"
+        Title="{x:Static localizations:StringResources.Search}"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         
@@ -41,17 +41,17 @@
 
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
                 <TextBlock.Text>
-                    <Binding StringFormat="{}{0}:" Source="{x:Static localizations:Resources.Text}"/>
+                    <Binding StringFormat="{}{0}:" Source="{x:Static localizations:StringResources.Text}"/>
                 </TextBlock.Text>
             </TextBlock>
             <ComboBox x:Name="SearchBox" Grid.Row="0" Grid.Column="1" TabIndex="0" Text="{Binding TextToSearch}" ItemsSource="{Binding SearchAdds}" IsTextSearchEnabled="False" 
                   MaxDropDownHeight="300" IsEditable="True" Margin="3"/>
 
-            <CheckBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:Resources.OnlyFullWords}" IsChecked="{Binding OnlyFullWords}"/>
-            <Button Grid.Row="1" Grid.Column="1" TabIndex="1" Content="{x:Static localizations:Resources.FindNext}" Click="FindNextClick" Margin="3" Padding="2"/>
+            <CheckBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:StringResources.OnlyFullWords}" IsChecked="{Binding OnlyFullWords}"/>
+            <Button Grid.Row="1" Grid.Column="1" TabIndex="1" Content="{x:Static localizations:StringResources.FindNext}" Click="FindNextClick" Margin="3" Padding="2"/>
 
-            <CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:Resources.MatchCase}" IsChecked="{Binding MatchCase}"  />
-            <Button Grid.Row="2" Grid.Column="1" TabIndex="2" Content="{x:Static localizations:Resources.FindAll}" Click="FindAllClick" Margin="3" Padding="2"/>
+            <CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="{x:Static localizations:StringResources.MatchCase}" IsChecked="{Binding MatchCase}"  />
+            <Button Grid.Row="2" Grid.Column="1" TabIndex="2" Content="{x:Static localizations:StringResources.FindAll}" Click="FindAllClick" Margin="3" Padding="2"/>
         </Grid>
 
         <syncfusion:SfDataGrid x:Name="FoundItemsGrid" 
@@ -73,11 +73,11 @@
             
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn 
-                    HeaderText="{x:Static localizations:Resources.Filename}" 
+                    HeaderText="{x:Static localizations:StringResources.Filename}" 
                     MappingName="FormattedName" 
                     MinimumWidth="50" Width="300" AllowResizing="True"/>
                 <syncfusion:GridTextColumn 
-                    HeaderText="{x:Static localizations:Resources.Text}" 
+                    HeaderText="{x:Static localizations:StringResources.Text}" 
                     MappingName="Text"
                     MinimumWidth="50" HorizontalHeaderContentAlignment="Left"/>
             </syncfusion:SfDataGrid.Columns>

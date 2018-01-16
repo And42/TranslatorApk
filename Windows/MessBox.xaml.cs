@@ -4,9 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
-
-using StringResources = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {

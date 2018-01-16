@@ -17,9 +17,8 @@ using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
-
-using StringResources = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {

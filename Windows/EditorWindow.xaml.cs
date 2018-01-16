@@ -27,11 +27,11 @@ using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
 
 using static TranslatorApk.Logic.Utils.Utils;
 
-using Res = TranslatorApk.Resources.Localizations.Resources;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
@@ -355,7 +355,7 @@ namespace TranslatorApk.Windows
                 EnsureFileExists = true,
                 EnsurePathExists = true,
                 DefaultExtension = ".xml",
-                Filters = { new CommonFileDialogFilter(Res.DictionaryFiles + @" (*.xml)", "*.xml") },
+                Filters = { new CommonFileDialogFilter(StringResources.DictionaryFiles + @" (*.xml)", "*.xml") },
                 Multiselect = true
             };
 
@@ -371,7 +371,7 @@ namespace TranslatorApk.Windows
 
             if (dictsToUse.Length == 0)
             {
-                MessBox.ShowDial(Res.YouNeedToChooseDictionary, Res.ErrorLower);
+                MessBox.ShowDial(StringResources.YouNeedToChooseDictionary, StringResources.ErrorLower);
                 return;
             }
 
@@ -415,7 +415,7 @@ namespace TranslatorApk.Windows
             {
                 IsEnabled = true;
                 WindowManager.EnableWindow<MainWindow>();
-                MessBox.ShowDial(Res.StringsTranslated + " " + translated, Res.Finished);
+                MessBox.ShowDial(StringResources.StringsTranslated + " " + translated, StringResources.Finished);
             }, Visibility.Collapsed);
         }
 
@@ -442,7 +442,7 @@ namespace TranslatorApk.Windows
             if (TryFunc(() => new DictionaryFile(dictionaryFile), out _))
                 GlobalVariables.SourceDictionaries.Add(new CheckableString(dictionaryFile, true));
             else
-                MessBox.ShowDial(dictionaryFile + "\n" + Res.TheFileIsCorrupted, Res.ErrorLower);
+                MessBox.ShowDial(dictionaryFile + "\n" + StringResources.TheFileIsCorrupted, StringResources.ErrorLower);
         }
 
         private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
@@ -467,7 +467,7 @@ namespace TranslatorApk.Windows
                 EnsureFileExists = true,
                 EnsurePathExists = true,
                 DefaultExtension = ".xml",
-                Filters = { new CommonFileDialogFilter(Res.DictionaryFiles + @" (*.xml)", "*.xml") },
+                Filters = { new CommonFileDialogFilter(StringResources.DictionaryFiles + @" (*.xml)", "*.xml") },
                 Multiselect = true
             };
 
@@ -486,7 +486,7 @@ namespace TranslatorApk.Windows
             }
             catch (Exception)
             {
-                MessBox.ShowDial(Res.TheFileIsCorrupted, Res.ErrorLower);
+                MessBox.ShowDial(StringResources.TheFileIsCorrupted, StringResources.ErrorLower);
             }
 #endif
         }
@@ -518,7 +518,7 @@ namespace TranslatorApk.Windows
             }
             catch (Exception)
             {
-                MessBox.ShowDial(Res.TheFileIsCorrupted, Res.ErrorLower);
+                MessBox.ShowDial(StringResources.TheFileIsCorrupted, StringResources.ErrorLower);
             }
         }
 
@@ -543,8 +543,8 @@ namespace TranslatorApk.Windows
             {
                 Items =
                 {
-                    CreateItem(Res.Expand, Expand_Click),
-                    CreateItem(Res.Collapse, Collapse_Click)
+                    CreateItem(StringResources.Expand, Expand_Click),
+                    CreateItem(StringResources.Collapse, Collapse_Click)
                 },
                 FontSize = (double) FindResource("Window_FontSize")
             };
@@ -555,11 +555,11 @@ namespace TranslatorApk.Windows
             {
                 var items = new List<(string header, RoutedEventHandler handler, string gesture)>
                 {
-                    ( Res.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName), default ),
-                    ( Res.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName), default ),
-                    ( Res.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty), default ),
-                    ( Res.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty), default ),
-                    ( Res.Delete, (o, args) => StringFiles.Remove(selectedFile), "Delete" )
+                    ( StringResources.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName), default ),
+                    ( StringResources.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName), default ),
+                    ( StringResources.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty), default ),
+                    ( StringResources.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty), default ),
+                    ( StringResources.Delete, (o, args) => StringFiles.Remove(selectedFile), "Delete" )
                 };
 
                 items.ForEach(it => menu.Items.Add(CreateItem(it.header, it.handler, it.gesture)));
@@ -569,7 +569,7 @@ namespace TranslatorApk.Windows
 
             if (selectedString != null)
             {
-                menu.Items.Add(CreateItem(Res.Copy, (o, args) =>
+                menu.Items.Add(CreateItem(StringResources.Copy, (o, args) =>
                 {
                     switch (rowColumn.ColumnIndex)
                     {
@@ -587,7 +587,7 @@ namespace TranslatorApk.Windows
 
                 if (rowColumn.ColumnIndex == 2 && !selectedString.IsOldTextReadOnly)
                 {
-                    menu.Items.Add(CreateItem(Res.Paste, (o, args) =>
+                    menu.Items.Add(CreateItem(StringResources.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
@@ -598,7 +598,7 @@ namespace TranslatorApk.Windows
 
                 if (rowColumn.ColumnIndex == 3 && !selectedString.IsNewTextReadOnly)
                 {
-                    menu.Items.Add(CreateItem(Res.Paste, (o, args) =>
+                    menu.Items.Add(CreateItem(StringResources.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
@@ -691,7 +691,7 @@ namespace TranslatorApk.Windows
 
                     if (dictsToUse.Count == 0)
                     {
-                        MessBox.ShowDial(Res.YouNeedToChooseDictionary, Res.ErrorLower);
+                        MessBox.ShowDial(StringResources.YouNeedToChooseDictionary, StringResources.ErrorLower);
                         return;
                     }
 
@@ -942,7 +942,7 @@ namespace TranslatorApk.Windows
 
             if (alreadyAddedFiles.Count > 0)
             {
-                MessBox.ShowDial($"{Res.TheFollowingFilesHaveBeenAlreadyAdded}: {Environment.NewLine}{alreadyAddedFiles.Select(it => "  - " + it).JoinStr(Environment.NewLine)}", Res.ErrorLower);
+                MessBox.ShowDial($"{StringResources.TheFollowingFilesHaveBeenAlreadyAdded}: {Environment.NewLine}{alreadyAddedFiles.Select(it => "  - " + it).JoinStr(Environment.NewLine)}", StringResources.ErrorLower);
             }
 
             if (firstAdded != null)
@@ -1126,7 +1126,7 @@ namespace TranslatorApk.Windows
                     vals.source.NewText = vals.translatedValue;
 
                 if (errorMessage != null)
-                    MessBox.ShowDial(Res.CantTranslate + Environment.NewLine + errorMessage, Res.ErrorLower);
+                    MessBox.ShowDial(StringResources.CantTranslate + Environment.NewLine + errorMessage, StringResources.ErrorLower);
 
                 Enable();
                 WindowManager.EnableWindow<MainWindow>();
@@ -1265,7 +1265,7 @@ namespace TranslatorApk.Windows
                     str.source.NewText = str.translated;
 
                 if (errorMessage != null)
-                    MessBox.ShowDial(string.Concat(Res.CantTranslate, Environment.NewLine, errorMessage), Res.ErrorLower);
+                    MessBox.ShowDial(string.Concat(StringResources.CantTranslate, Environment.NewLine, errorMessage), StringResources.ErrorLower);
 
                 Enable();
                 EditorGrid.Focus();
@@ -1293,7 +1293,7 @@ namespace TranslatorApk.Windows
         {
             if (StringFiles?.Any(f => f.IsChanged) == true)
             {
-                string result = MessBox.ShowDial(Res.ApplyTheChanges, "", MessBox.MessageButtons.Yes,
+                string result = MessBox.ShowDial(StringResources.ApplyTheChanges, "", MessBox.MessageButtons.Yes,
                     MessBox.MessageButtons.No, MessBox.MessageButtons.Cancel);
 
                 if (result == MessBox.MessageButtons.Yes)

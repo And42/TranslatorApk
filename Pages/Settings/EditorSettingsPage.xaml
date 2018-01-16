@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
-      xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+      xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
       xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
       mc:Ignorable="d" 
       d:DesignHeight="200" d:DesignWidth="600"
@@ -28,10 +28,10 @@
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static localization:Resources.AlternativeEditingKeys}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static localizations:StringResources.AlternativeEditingKeys}"/>
             <ComboBox Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding AlternativeEditingKeysIndex}" ItemsSource="{Binding YesNoItems}"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localization:Resources.SessionAutoTranslation}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localizations:StringResources.SessionAutoTranslation}"/>
             <ComboBox Grid.Row="2" Grid.Column="1" SelectedIndex="{Binding SessionAutoTranslateIndex}" ItemsSource="{Binding YesNoItems}"/>
         </Grid>
     </Border>

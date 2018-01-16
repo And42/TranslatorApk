@@ -13,6 +13,7 @@ using HtmlAgilityPack;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;
 
@@ -97,8 +98,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 }
                 catch
                 {
-                    MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecieveApktoolsList,
-                        Resources.Localizations.Resources.ErrorLower);
+                    MessBox.ShowDial(StringResources.CanNotRecieveApktoolsList, StringResources.ErrorLower);
                     return;
                 }
 

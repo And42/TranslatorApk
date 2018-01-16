@@ -9,10 +9,9 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;
-
-using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
@@ -60,7 +59,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             if (NewLanguage == null)
             {
-                MessBox.ShowDial(Res.LanguageIsNotSelected, Res.ErrorLower);
+                MessBox.ShowDial(StringResources.LanguageIsNotSelected, StringResources.ErrorLower);
                 return;
             }
 
@@ -85,7 +84,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _sourceLanguages.Add(NewLanguage.Title);
             _targetLanguages.RemoveAt(TargetLanguages.FindIndex(it => it.Title == NewLanguage.Title));
 
-            MessBox.ShowDial(Res.AllDone);
+            MessBox.ShowDial(StringResources.AllDone);
         }
 
         public override async Task LoadItems()

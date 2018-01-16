@@ -12,6 +12,7 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
@@ -102,8 +103,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 }
                 catch (Exception)
                 {
-                    MessBox.ShowDial(Resources.Localizations.Resources.CanNotRecievePluginsList,
-                        Resources.Localizations.Resources.ErrorLower);
+                    MessBox.ShowDial(StringResources.CanNotRecievePluginsList, StringResources.ErrorLower);
                     return;
                 }
 

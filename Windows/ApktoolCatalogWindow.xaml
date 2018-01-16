@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         Style="{StaticResource WindowStyle}"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
@@ -43,13 +43,13 @@
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn
                     MappingName="Version"
-                    HeaderText="{x:Static localization:Resources.Version}"
+                    HeaderText="{x:Static localizations:StringResources.Version}"
                     AllowResizing="False"
                     Width="100"
                     AllowSorting="False"/>
                 <syncfusion:GridTextColumn
                     MappingName="Size"
-                    HeaderText="{x:Static localization:Resources.Size}"
+                    HeaderText="{x:Static localizations:StringResources.Size}"
                     AllowResizing="False"
                     Width="100"
                     AllowSorting="False"/>

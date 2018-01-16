@@ -5,6 +5,7 @@ using Microsoft.Expression.Interactivity.Core;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
@@ -24,7 +25,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ICommand WebMoneyClickedCommand { get; } = new ActionCommand(() =>
         {
             Clipboard.SetText("R897735207346");
-            MessBox.ShowDial(Resources.Localizations.Resources.AccountNumberIsCopied);
+            MessBox.ShowDial(StringResources.AccountNumberIsCopied);
         });
 
         public override void UnsubscribeFromEvents() { }

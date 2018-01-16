@@ -34,12 +34,12 @@
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button
                 Style="{StaticResource NavigationButtonStyle}"
-                Content="{x:Static localizations:Resources.StringEditorWindow_PreviousStringLabel}"
+                Content="{x:Static localizations:StringResources.StringEditorWindow_PreviousStringLabel}"
                 Command="{Binding GoToPreviousStringCommand}"/>
             <Button
                 Margin="5,0,0,0"
                 Style="{StaticResource NavigationButtonStyle}"
-                Content="{x:Static localizations:Resources.StringEditorWindow_NextStringLabel}"
+                Content="{x:Static localizations:StringResources.StringEditorWindow_NextStringLabel}"
                 Command="{Binding GoToNextStringCommand}"/>
         </StackPanel>
 

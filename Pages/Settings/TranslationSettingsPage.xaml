@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
-      xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+      xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
       xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
@@ -28,7 +28,7 @@
             </Grid.Resources>
 
             <TextBlock Grid.Row="0"  Grid.Column="0"
-                       Text="{x:Static localization:Resources.OnlineTranslator}"/>
+                       Text="{x:Static localizations:StringResources.OnlineTranslator}"/>
             <ComboBox Grid.Row="0"  Grid.Column="1"
                       ItemsSource="{Binding Translators}" 
                       SelectedItem="{Binding OnlineTranslator}">
@@ -39,10 +39,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localization:Resources.ApiKey}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localizations:StringResources.ApiKey}"/>
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding OnlineTranslator.ApiKey, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static localization:Resources.TranslationTimeout_Label}"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static localizations:StringResources.TranslationTimeout_Label}"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding TranslationTimeout}"/>
         </Grid>
     </Border>

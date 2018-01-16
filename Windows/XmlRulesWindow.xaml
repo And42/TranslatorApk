@@ -5,7 +5,7 @@
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
 
-        Title="{x:Static localizations:Resources.XmlRulesEditor}"
+        Title="{x:Static localizations:StringResources.XmlRulesEditor}"
         
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -25,9 +25,9 @@
     
     <DockPanel Margin="5">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-            <Button Content="{x:Static localizations:Resources.ChooseFile}" Margin="0,0,5,0"
+            <Button Content="{x:Static localizations:StringResources.ChooseFile}" Margin="0,0,5,0"
                 Click="ChooseFileClick"/>
-            <Button Content="{x:Static localizations:Resources.Save}"
+            <Button Content="{x:Static localizations:StringResources.Save}"
                 Click="SaveChangesClick"/>
         </StackPanel>
 

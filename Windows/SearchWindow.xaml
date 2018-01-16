@@ -1,10 +1,10 @@
 ﻿<Window x:Class="TranslatorApk.Windows.SearchWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        Title="{x:Static localization:Resources.Search}" Height="500" Width="700"
+        Title="{x:Static localizations:StringResources.Search}" Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         Loaded="SearchWindow_OnLoaded"
         Closing="SearchWindow_OnClosing"
@@ -21,15 +21,15 @@
         
         <Menu HorizontalAlignment="Stretch"
               FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
-            <MenuItem Header="{x:Static localization:Resources.SearchOptions}">
+            <MenuItem Header="{x:Static localizations:StringResources.SearchOptions}">
                 <MenuItem>
                     <MenuItem.Header>
-                        <CheckBox IsChecked="{Binding OnlyFullWords.Value}" Content="{x:Static localization:Resources.OnlyFullWords}"/>
+                        <CheckBox IsChecked="{Binding OnlyFullWords.Value}" Content="{x:Static localizations:StringResources.OnlyFullWords}"/>
                     </MenuItem.Header>
                 </MenuItem>
                 <MenuItem>
                     <MenuItem.Header>
-                        <CheckBox IsChecked="{Binding MatchCase.Value}" Content="{x:Static localization:Resources.MatchCase}"/>
+                        <CheckBox IsChecked="{Binding MatchCase.Value}" Content="{x:Static localizations:StringResources.MatchCase}"/>
                     </MenuItem.Header>
                 </MenuItem>
             </MenuItem>
@@ -44,7 +44,7 @@
 
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
-                    <Binding StringFormat="{}{0}:" Source="{x:Static localization:Resources.Text}"/>
+                    <Binding StringFormat="{}{0}:" Source="{x:Static localizations:StringResources.Text}"/>
                 </TextBlock.Text>
             </TextBlock>
             <ComboBox 
@@ -64,7 +64,7 @@
                 TabIndex="1" 
                 Click="FindFilesClick" 
                 Padding="5,3,5,3"
-                Content="{x:Static localization:Resources.Find}"/>
+                Content="{x:Static localizations:StringResources.Find}"/>
         </Grid>
 
         <ListView x:Name="FilesView" Grid.Row="2" ItemsSource="{Binding Files}" MouseDoubleClick="ListView_MouseDoubleClick" KeyUp="FilesView_OnKeyUp">

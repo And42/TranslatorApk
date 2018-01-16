@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Resources.Localizations;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable CollectionNeverUpdated.Local
@@ -36,7 +37,7 @@ namespace TranslatorApk.Logic.WebServices
         public static string TranslateApi(string text, string targetLanguage, string apiKey)
         {
             if (string.IsNullOrEmpty(apiKey))
-                throw new Exception(Resources.Localizations.Resources.ApiKeyIsEmpty);
+                throw new Exception(StringResources.ApiKeyIsEmpty);
 
             string link = "https://" + $"translate.yandex.net/api/v1.5/tr.json/translate?key={apiKey}&lang={targetLanguage}&text={text}";
             string downloaded = Utils.Utils.DownloadString(link, SettingsIncapsuler.Instance.TranslationTimeout);

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
         xmlns:treeViewModels="clr-namespace:TranslatorApk.Logic.ViewModels.TreeViewModels"
@@ -16,7 +16,7 @@
         Width="900" Height="500"
         
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        Title="{x:Static localization:Resources.Settings}" 
+        Title="{x:Static localizations:StringResources.Settings}" 
         Style="{DynamicResource WindowStyle}"
         
         d:DataContext="{d:DesignInstance settingsPages:SettingsViewModel}"

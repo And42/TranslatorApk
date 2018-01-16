@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         
         SizeToContent="Height"
@@ -30,7 +30,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.ColumnSpan="3" Text="{x:Static localization:Resources.Loading}" Margin="0,9,0,15" FontSize="15" HorizontalAlignment="Center"/>
+        <TextBlock Grid.ColumnSpan="3" Text="{x:Static localizations:StringResources.Loading}" Margin="0,9,0,15" FontSize="15" HorizontalAlignment="Center"/>
         
         <ProgressBar Grid.Row="1" Grid.Column="0" Height="25" Value="{Binding ProcessValue}" Maximum="{Binding ProcessMax}" IsIndeterminate="{Binding IsIndeterminate}"/>
         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -47,13 +47,13 @@
                 <MultiBinding StringFormat="{}{0} {2} {1}">
                     <Binding Path="ProcessValue"/>
                     <Binding Path="ProcessMax"/>
-                    <Binding Source="{x:Static localization:Resources.From}"/>
+                    <Binding Source="{x:Static localizations:StringResources.From}"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
         <Button
             Grid.Row="1"
             shell:WindowChrome.IsHitTestVisibleInChrome="True"
-            Margin="5,0,0,0" Visibility="{Binding CancelVisibility}" Click="StopClicked" Grid.Column="2" Content="{x:Static localization:Resources.Stop}" Padding="5,4"/>
+            Margin="5,0,0,0" Visibility="{Binding CancelVisibility}" Click="StopClicked" Grid.Column="2" Content="{x:Static localizations:StringResources.Stop}" Padding="5,4"/>
     </Grid>
 </Window>

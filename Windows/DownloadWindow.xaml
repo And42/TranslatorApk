@@ -11,7 +11,7 @@
         Closing="Window_Closing"
         
         Style="{DynamicResource WindowStyle}"
-        Title="{x:Static localizations:Resources.Loading}"
+        Title="{x:Static localizations:StringResources.Loading}"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         
         elements:WindowThemeParameters.CanMinimize="False"

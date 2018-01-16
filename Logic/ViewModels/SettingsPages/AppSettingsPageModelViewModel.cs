@@ -6,6 +6,7 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;
 
@@ -93,7 +94,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                 if (value == null)
                     Utils.Utils.IgnoreComboBoxChange();
 
-                if (value == Resources.Localizations.Resources.Catalog)
+                if (value == StringResources.Catalog)
                 {
                     new ApktoolCatalogWindow().ShowDialog();
 
@@ -108,7 +109,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public void RefreshData()
         {
-            YesNoItems = new[] { Resources.Localizations.Resources.Yes, Resources.Localizations.Resources.No };
+            YesNoItems = new[] { StringResources.Yes, StringResources.No };
 
             _themes.ReplaceRange(GlobalVariables.ThemesMap.Select(it => it.Value));
 
@@ -125,7 +126,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                     .Select(split => split[1])
             );
 
-            _apktoolVersions.Add(Resources.Localizations.Resources.Catalog);
+            _apktoolVersions.Add(StringResources.Catalog);
 
             if (!ApktoolVersions.Contains(SettingsIncapsuler.Instance.ApktoolVersion))
                 SettingsIncapsuler.Instance.ApktoolVersion = ApktoolVersions[0];

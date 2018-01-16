@@ -25,11 +25,11 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApkPluginLib;
 using UsefulClasses;
 using UsefulFunctionsLib;
 
-using StringResources = TranslatorApk.Resources.Localizations.Resources;
 using DataFormats = System.Windows.DataFormats;
 using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;

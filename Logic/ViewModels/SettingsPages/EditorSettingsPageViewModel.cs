@@ -2,6 +2,7 @@
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
@@ -32,7 +33,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public void RefreshData()
         {
-            YesNoItems = new[] { Resources.Localizations.Resources.Yes, Resources.Localizations.Resources.No };
+            YesNoItems = new[] { StringResources.Yes, StringResources.No };
         }
 
         private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)

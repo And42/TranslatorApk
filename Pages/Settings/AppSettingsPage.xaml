@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
-      xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+      xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
       xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
       xmlns:webServices="clr-namespace:TranslatorApk.Logic.WebServices"
       mc:Ignorable="d" 
@@ -28,34 +28,34 @@
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Text="{x:Static localization:Resources.LanguageOfApp}"/>
+            <TextBlock Text="{x:Static localizations:StringResources.LanguageOfApp}"/>
             <ComboBox Grid.Row="0" Grid.Column="1"
                       ItemsSource="{x:Static webServices:TranslateService.SupportedProgramLangsFullNames}" 
                       SelectedIndex="{Binding LanguageOfAppIndex}" />
 
-            <TextBlock Grid.Row="2"  Grid.Column="0" Text="{x:Static localization:Resources.Theme}"/>
+            <TextBlock Grid.Row="2"  Grid.Column="0" Text="{x:Static localizations:StringResources.Theme}"/>
             <ComboBox  Grid.Row="2"  Grid.Column="1"
                        SelectedItem="{Binding CurrentTheme}"
                        ItemsSource="{Binding Themes, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="4"  Grid.Column="0" Text="{x:Static localization:Resources.ApktoolVersion}"/>
+            <TextBlock Grid.Row="4"  Grid.Column="0" Text="{x:Static localizations:StringResources.ApktoolVersion}"/>
             <ComboBox  Grid.Row="4"  Grid.Column="1" x:Name="ApktoolVersionBox"
                        SelectedItem="{Binding CurrentApktoolVersion, Mode=TwoWay}"
                        ItemsSource="{Binding ApktoolVersions, Mode=OneWay}"/>
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="{x:Static localization:Resources.ShowPreview}"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="{x:Static localizations:StringResources.ShowPreview}"/>
             <ComboBox  Grid.Row="6" Grid.Column="1" SelectedIndex="{Binding ShowPreviewsIndex}" ItemsSource="{Binding YesNoItems}"/>
 
-            <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static localization:Resources.TopMost}"/>
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static localizations:StringResources.TopMost}"/>
             <ComboBox  Grid.Row="8" Grid.Column="1" SelectedIndex="{Binding TopMostIndex}" ItemsSource="{Binding YesNoItems}"/>
 
-            <TextBlock Grid.Row="10" Grid.Column="0" Text="{x:Static localization:Resources.ShowNotifications}"/>
+            <TextBlock Grid.Row="10" Grid.Column="0" Text="{x:Static localizations:StringResources.ShowNotifications}"/>
             <ComboBox  Grid.Row="10" Grid.Column="1" SelectedIndex="{Binding ShowNotificationsIndex}" ItemsSource="{Binding YesNoItems}"/>
 
-            <TextBlock Grid.Row="12" Grid.Column="0" Text="{x:Static localization:Resources.ImageExtensions}"/>
+            <TextBlock Grid.Row="12" Grid.Column="0" Text="{x:Static localizations:StringResources.ImageExtensions}"/>
             <TextBox   Grid.Row="12" Grid.Column="1" Text="{Binding ImageFileExts}"/>
 
-            <TextBlock Grid.Row="14" Grid.Column="0" Text="{x:Static localization:Resources.OtherExtensions}"/>
+            <TextBlock Grid.Row="14" Grid.Column="0" Text="{x:Static localizations:StringResources.OtherExtensions}"/>
             <TextBox   Grid.Row="14" Grid.Column="1" Text="{Binding OtherFileExts}"/>
         </Grid>
     </Border>

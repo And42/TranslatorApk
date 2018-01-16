@@ -28,10 +28,10 @@ using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.WebServices;
+using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;
 
-using LocRes = TranslatorApk.Resources.Localizations.Resources;
 using Settings = TranslatorApk.Properties.Settings;
 using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
@@ -321,7 +321,7 @@ namespace TranslatorApk.Logic.Utils
 
             ChangeTheme(SetInc.Instance.Theme);
 
-            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(LocRes.OnlineTranslationsLongLanguages.Split('|'));
+            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
 
             string apktoolVersion = SetInc.Instance.ApktoolVersion;
 
@@ -435,7 +435,7 @@ namespace TranslatorApk.Logic.Utils
             catch (IOException ex)
             {
                 // todo: add to string resources
-                MessBox.ShowDial($"Не удалось загрузить файл из-за ошибки системы.\nСообщение: {ex.Message}", Resources.Localizations.Resources.ErrorLower);
+                MessBox.ShowDial($"Не удалось загрузить файл из-за ошибки системы.\nСообщение: {ex.Message}", StringResources.ErrorLower);
                 return;
             }
 
@@ -470,7 +470,7 @@ namespace TranslatorApk.Logic.Utils
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(language);
             SetInc.Instance.LanguageOfApp = language;
             
-            if (showDialog && MessBox.ShowDial(LocRes.RestartProgramToApplyLanguage, null,
+            if (showDialog && MessBox.ShowDial(StringResources.RestartProgramToApplyLanguage, null,
                 MessBox.MessageButtons.Yes, MessBox.MessageButtons.No) ==
                 MessBox.MessageButtons.Yes)
             {
@@ -478,7 +478,7 @@ namespace TranslatorApk.Logic.Utils
                 Environment.Exit(0);
             }
 
-            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(LocRes.OnlineTranslationsLongLanguages.Split('|'));
+            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
         }
 
         /// <summary>

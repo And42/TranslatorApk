@@ -7,6 +7,7 @@ using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Properties;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.OrganisationItems
@@ -42,8 +43,8 @@ namespace TranslatorApk.Logic.OrganisationItems
             ProgramVersion          = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Portable                = File.Exists(Path.Combine(PathToStartFolder, "isportable"));
 
-            ThemesMap.Add("Light", Resources.Localizations.Resources.Theme_Light);
-            ThemesMap.Add("Dark", Resources.Localizations.Resources.Theme_Dark);
+            ThemesMap.Add("Light", StringResources.Theme_Light);
+            ThemesMap.Add("Dark", StringResources.Theme_Dark);
 
             SourceDictionaries = 
                 Settings.Default.SourceDictionaries != null 
@@ -207,7 +208,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Settings.Default.NamesOfFolderLanguages as list
         /// </summary>
-        public static List<string> SettingsNamesOfFolderLanguages { get; set; } = Resources.Localizations.Resources.NamesOfFolderLanguages.Split('|').ToList();
+        public static List<string> SettingsNamesOfFolderLanguages { get; set; } = StringResources.NamesOfFolderLanguages.Split('|').ToList();
 
         #endregion
     }

@@ -9,13 +9,10 @@ using Microsoft.Win32;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
-using Res = TranslatorApk.Resources.Localizations.Resources;
+using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для XmlRulesWindow.xaml
-    /// </summary>
     public partial class XmlRulesWindow
     {
         public ObservableCollection<CheckBoxSetting> Items { get; }
@@ -36,7 +33,7 @@ namespace TranslatorApk.Windows
             {
                 CheckFileExists = true,
                 CheckPathExists = true,
-                Filter = Res.XmlFiles + " (*.xml)|*.xml",
+                Filter = StringResources.XmlFiles + " (*.xml)|*.xml",
                 Multiselect = false
             };
             
@@ -51,8 +48,8 @@ namespace TranslatorApk.Windows
                 catch (XmlException ex)
                 {
                     // todo: Localize
-                    MessBox.ShowDial(Res.ErrorLower,
-                        $"Can't open file '{dialog.FileName}'{Environment.NewLine}Error: {ex}");
+                    MessBox.ShowDial(StringResources.ErrorLower,
+                        $"Can't open file '{dialog.FileName}'{Environment.NewLine}{StringResources.ErrorLower}: {ex}");
                     return;
                 }
 
@@ -72,7 +69,7 @@ namespace TranslatorApk.Windows
 
             XmlFile.XmlRules = items.ToList();
 
-            MessBox.ShowDial(Res.Finished);
+            MessBox.ShowDial(StringResources.Finished);
         }
     }
 }

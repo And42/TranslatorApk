@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
 
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" Style="{StaticResource WindowStyle}"
-        Title="{x:Static localization:Resources.Plugins}" 
+        Title="{x:Static localizations:StringResources.Plugins}" 
         MinHeight="300" MinWidth="300" Width="830" Height="500" WindowStartupLocation="CenterScreen"
         
         Loaded="PluginsWindow_OnLoaded"
@@ -35,18 +35,18 @@
                 RowHeight="35"
                 SelectionMode="None">
         <syncfusion:SfDataGrid.Columns>
-            <syncfusion:GridTextColumn MappingName="Title" HeaderText="{x:Static localization:Resources.Title}" MinimumWidth="120" Width="170" AllowResizing="True"/>
+            <syncfusion:GridTextColumn MappingName="Title" HeaderText="{x:Static localizations:StringResources.Title}" MinimumWidth="120" Width="170" AllowResizing="True"/>
             <syncfusion:GridTextColumn
                     MappingName="Description"
-                    HeaderText="{x:Static localization:Resources.Description}"
+                    HeaderText="{x:Static localizations:StringResources.Description}"
                    MinimumWidth="240" AllowSorting="False" AllowResizing="True"/>
             <syncfusion:GridTextColumn
                     MappingName="Version"
-                    HeaderText="{x:Static localization:Resources.Version}"
+                    HeaderText="{x:Static localizations:StringResources.Version}"
                     MinimumWidth="120" AllowResizing="True" AllowSorting="False"/>
             <syncfusion:GridTextColumn
                     MappingName="LatestVersion"
-                    HeaderText="{x:Static localization:Resources.LatestVersion}"
+                    HeaderText="{x:Static localizations:StringResources.LatestVersion}"
                     MinimumWidth="120" Width="140" AllowResizing="True" AllowSorting="False"/>
             <syncfusion:GridTemplateColumn MappingName="Installed" HeaderText=" " MinimumWidth="120" AllowResizing="False" AllowSorting="False" HorizontalAlignment="Stretch" AllowEditing="False">
                 <syncfusion:GridTemplateColumn.CellTemplate>

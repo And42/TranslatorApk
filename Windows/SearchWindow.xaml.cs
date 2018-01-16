@@ -16,15 +16,11 @@ using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
-
-using Res = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для SearchWindow.xaml
-    /// </summary>
     public sealed partial class SearchWindow : IRaisePropertyChanged
     {
         public class FoundItem
@@ -71,8 +67,8 @@ namespace TranslatorApk.Windows
         public SearchWindow()
         {
             SearchAdds = new ObservableCollection<string>(SettingsIncapsuler.Instance.FullSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>());
-            OnlyFullWords = new Setting<bool>(nameof(SettingsIncapsuler.OnlyFullWords), Res.OnlyFullWords);
-            MatchCase = new Setting<bool>(nameof(SettingsIncapsuler.MatchCase), Res.MatchCase);
+            OnlyFullWords = new Setting<bool>(nameof(SettingsIncapsuler.OnlyFullWords), StringResources.OnlyFullWords);
+            MatchCase = new Setting<bool>(nameof(SettingsIncapsuler.MatchCase), StringResources.MatchCase);
 
             InitializeComponent();
             SearchBoxIndex = -1;
@@ -92,7 +88,7 @@ namespace TranslatorApk.Windows
         {
             if (GlobalVariables.CurrentProjectFolder == null)
             {
-                MessBox.ShowDial(Res.SearchWindow_FolderIsNotSelected);
+                MessBox.ShowDial(StringResources.SearchWindow_FolderIsNotSelected);
                 return;
             }
 
@@ -168,7 +164,7 @@ namespace TranslatorApk.Windows
 
                     if (filesToAdd.Count == 0)
                     {
-                        MessBox.ShowDial(Res.TextNotFound);
+                        MessBox.ShowDial(StringResources.TextNotFound);
                     }
                     else
                     {

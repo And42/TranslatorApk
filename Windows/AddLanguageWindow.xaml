@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:viewModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
 
@@ -28,7 +28,7 @@
 
         <TextBlock 
             VerticalAlignment="Center"
-            Text="{x:Static localization:Resources.NewLanguage}" />
+            Text="{x:Static localizations:StringResources.NewLanguage}" />
         
         <ComboBox 
                 Grid.Column="1" Margin="5,0" 
@@ -46,7 +46,7 @@
 
         <Button 
             Grid.Column="2" 
-            Content="{x:Static localization:Resources.Add}" 
+            Content="{x:Static localizations:StringResources.Add}" 
             Padding="5,3"
             Command="{Binding AddLanguageCommand}"/>
     </Grid>

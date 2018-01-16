@@ -5,7 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:localization="clr-namespace:TranslatorApk.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:attached="clr-namespace:TranslatorApk.Logic.AttachedProperties"
@@ -18,7 +18,7 @@
         elements:WindowThemeParameters.IsResizable="False"
         
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        Title="{x:Static localization:Resources.AboutProgram}" Height="300" Width="300" Style="{DynamicResource WindowStyle}"
+        Title="{x:Static localizations:StringResources.AboutProgram}" Height="300" Width="300" Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:AboutProgramWindowViewModel}"
 
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
@@ -33,7 +33,7 @@
         <TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,7">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0}: {1}" Mode="OneWay">
-                    <Binding Source="{x:Static localization:Resources.Version}" Mode="OneWay"/>
+                    <Binding Source="{x:Static localizations:StringResources.Version}" Mode="OneWay"/>
                     <Binding Path="Version" Mode="OneWay"/>
                 </MultiBinding>
             </TextBlock.Text>

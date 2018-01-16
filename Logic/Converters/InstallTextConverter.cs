@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.Converters
 {
@@ -11,11 +12,11 @@ namespace TranslatorApk.Logic.Converters
             switch (value)
             {
                 case InstallOptionsEnum.ToUninstall:
-                    return Resources.Localizations.Resources.Uninstall;
+                    return StringResources.Uninstall;
                 case InstallOptionsEnum.ToInstall:
-                    return Resources.Localizations.Resources.Install;
+                    return StringResources.Install;
                 case InstallOptionsEnum.ToUpdate:
-                    return Resources.Localizations.Resources.Update;
+                    return StringResources.Update;
             }
 
             return "Not found";

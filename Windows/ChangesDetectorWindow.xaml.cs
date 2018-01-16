@@ -17,16 +17,13 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
 
 using MessageBox = System.Windows.Forms.MessageBox;
-using Strings = TranslatorApk.Resources.Localizations.Resources;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для ChangesDetectorWindow.xaml
-    /// </summary>
     public partial class ChangesDetectorWindow : IRaisePropertyChanged
     {
         public ChangesDetectorWindow()
@@ -751,7 +748,7 @@ namespace TranslatorApk.Windows
         {
             var fd = new CommonOpenFileDialog
             {
-                Title = Strings.ChooseFolder,
+                Title = StringResources.ChooseFolder,
                 Multiselect = false,
                 IsFolderPicker = true
             };

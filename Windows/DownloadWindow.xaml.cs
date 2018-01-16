@@ -4,8 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using TranslatorApk.Logic.OrganisationItems;
-
-using Res = TranslatorApk.Resources.Localizations.Resources;
+using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Windows
 {
@@ -53,7 +52,7 @@ namespace TranslatorApk.Windows
             }
             catch (Exception)
             {
-                MessBox.ShowDial(Res.CantUpdateProgram, Res.ErrorLower);
+                MessBox.ShowDial(StringResources.CantUpdateProgram, StringResources.ErrorLower);
                 Close();
             }
         }
