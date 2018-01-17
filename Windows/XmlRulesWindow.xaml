@@ -71,7 +71,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center" IsChecked="{Binding Value}"/>
-                            <userControls:EditableTextBlock Margin="5,0,0,0" MinWidth="100" Text="{Binding Text}"/>
+                            <userControls:EditableTextBlock Margin="5,0,0,0" MinWidth="100" Text="{Binding Text, Mode=TwoWay}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
