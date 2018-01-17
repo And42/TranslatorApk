@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -304,7 +305,9 @@ namespace TranslatorApk.Logic.Utils
                 SetInc.Instance.OtherExtensions = new string[0];
             }
 
-            XmlFile.XmlRules = SetInc.Instance.XmlRules.ToList();
+            if (SetInc.Instance.XmlRules != null)
+                XmlFile.XmlRules = SetInc.Instance.XmlRules.Select(it => new Regex(it)).ToList();
+
             EditorWindow.Languages = TranslateService.LongTargetLanguages;
 
             // todo: Убрать в будущих версиях

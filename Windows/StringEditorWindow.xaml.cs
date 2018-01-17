@@ -101,7 +101,12 @@ namespace TranslatorApk.Windows
         {
             if (editStringEvent.ContainerFile != null)
             {
-                Title = $"...{editStringEvent.ContainerFile.FileName.Substring(GlobalVariables.CurrentProjectFolder.Length)}: {editStringEvent.StringToEdit.Name}";
+                var file = editStringEvent.ContainerFile.FileName;
+
+                if (GlobalVariables.CurrentProjectFolder != null)
+                    file = $"...{file.Substring(GlobalVariables.CurrentProjectFolder.Length)}";
+
+                Title = $"{file}: {editStringEvent.StringToEdit.Name}";
             }
 
             Str = editStringEvent.StringToEdit;

@@ -92,10 +92,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libs\Android\bin\Release\AndroidLibs.dll</HintPath>
     </Reference>
-    <Reference Include="AndroidTranslator, Version=1.2.6190.821, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll</HintPath>
-      <Aliases>global</Aliases>
+    <Reference Include="AndroidTranslator">
+      <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Debug\AndroidTranslator.dll</HintPath>
     </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
@@ -147,6 +145,7 @@
       <HintPath>C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.Shared.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
@@ -171,8 +170,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TranslatorApkPluginLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TranslatorApkPluginLib">
       <HintPath>..\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll</HintPath>
     </Reference>
     <Reference Include="UsefulClasses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -202,6 +200,9 @@
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
+    <Compile Include="Logic\UserControls\EditableTextBlock.xaml.cs">
+      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Logic\ViewModels\Windows\AddLanguageWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\XmlRulesWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
     <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
@@ -333,6 +335,10 @@
     <Compile Include="Windows\XmlRulesWindow.xaml.cs">
       <DependentUpon>XmlRulesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Logic\UserControls\EditableTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Settings\AppSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -837,7 +843,12 @@
   <ItemGroup>
     <SplashScreen Include="Splash.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\bullet_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\bullet_add.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
