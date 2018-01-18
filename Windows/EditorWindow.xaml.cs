@@ -464,11 +464,11 @@ namespace TranslatorApk.Windows
         {
             var dialog = new CommonOpenFileDialog
             {
-                EnsureFileExists = true,
+                EnsureFileExists = false,
                 EnsurePathExists = true,
                 DefaultExtension = ".xml",
                 Filters = { new CommonFileDialogFilter(StringResources.DictionaryFiles + @" (*.xml)", "*.xml") },
-                Multiselect = true
+                Multiselect = false
             };
 
             if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
