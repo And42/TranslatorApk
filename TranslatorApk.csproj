@@ -88,11 +88,13 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AndroidLibs">
-      <HintPath>..\..\..\Libs\Android\bin\Release\AndroidLibs.dll</HintPath>
+    <Reference Include="AndroidLibs, Version=1.3.6591.38852, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\AndroidLibs.dll</HintPath>
     </Reference>
-    <Reference Include="AndroidTranslator">
-      <HintPath>..\..\..\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll</HintPath>
+    <Reference Include="AndroidTranslator, Version=1.4.6591.38816, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\AndroidTranslator.dll</HintPath>
     </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
@@ -126,25 +128,26 @@
       <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MVVM_Tools">
-      <HintPath>..\..\..\Libs\MVVM Tools\MVVM Tools\bin\Debug\MVVM_Tools.dll</HintPath>
+    <Reference Include="MVVM_Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\MVVM_Tools.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Data.WPF, Version=14.3400.0.49, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Data.WPF, Version=15.4400.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.Data.WPF.dll</HintPath>
+      <HintPath>Libraries\Syncfusion.Data.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfGrid.WPF, Version=14.3400.0.49, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4400.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.SfGrid.WPF.dll</HintPath>
+      <HintPath>Libraries\Syncfusion.SfGrid.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.WPF">
-      <HintPath>C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.Shared.WPF.dll</HintPath>
+    <Reference Include="Syncfusion.Shared.WPF, Version=15.4400.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Syncfusion.Shared.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Activities" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
@@ -169,16 +172,17 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TranslatorApkPluginLib">
-      <HintPath>..\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll</HintPath>
-    </Reference>
-    <Reference Include="UsefulClasses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TranslatorApkPluginLib, Version=1.1.6190.856, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\UsefulClasses\bin\Release\UsefulClasses.dll</HintPath>
+      <HintPath>Libraries\TranslatorApkPluginLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UsefulClasses, Version=1.1.6419.29346, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\UsefulClasses.dll</HintPath>
     </Reference>
     <Reference Include="UsefulFunctionsLib, Version=1.4.6537.36668, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libs\UsefulFunctionsLib\UsefulFunctions\bin\Release\UsefulFunctionsLib.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\UsefulFunctionsLib.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -767,6 +771,8 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Libraries\zzz_refresh_references.ps1" />
+    <None Include="Libraries\zzz_refresh_references_pause.ps1" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -847,6 +853,38 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\bullet_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\zzz_dependencies.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\AlphaFS.dll" />
+    <None Include="Libraries\AlphaFS.xml" />
+    <None Include="Libraries\AndroidLibs.dll" />
+    <None Include="Libraries\AndroidLibs.xml" />
+    <None Include="Libraries\AndroidTranslator.dll" />
+    <None Include="Libraries\AndroidTranslator.xml" />
+    <None Include="Libraries\ICSharpCode.SharpZipLib.dll" />
+    <None Include="Libraries\ICSharpCode.SharpZipLib.xml" />
+    <None Include="Libraries\MVVM_Tools.dll" />
+    <None Include="Libraries\MVVM_Tools.xml" />
+    <None Include="Libraries\SharpCompress.dll" />
+    <None Include="Libraries\SmaliParser.dll" />
+    <None Include="Libraries\SmaliParser.xml" />
+    <None Include="Libraries\TranslatorApkPluginLib.dll" />
+    <None Include="Libraries\TranslatorApkPluginLib.xml" />
+    <None Include="Libraries\UsefulClasses.dll" />
+    <None Include="Libraries\UsefulClasses.xml" />
+    <None Include="Libraries\UsefulFunctionsLib.dll" />
+    <None Include="Libraries\UsefulFunctionsLib.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\Syncfusion.Data.WPF.dll" />
+    <None Include="Libraries\Syncfusion.Data.WPF.xml" />
+    <None Include="Libraries\Syncfusion.SfGrid.WPF.dll" />
+    <None Include="Libraries\Syncfusion.SfGrid.WPF.xml" />
+    <None Include="Libraries\Syncfusion.Shared.WPF.dll" />
+    <None Include="Libraries\Syncfusion.Shared.WPF.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

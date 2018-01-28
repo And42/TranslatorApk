@@ -1,0 +1,620 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UsefulFunctionsLib</name>
+    </assembly>
+    <members>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions">
+            <summary>
+            Класс с полезными функциями
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.DistinctByGrouping``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Удаляет повторяющиеся элементы в последовательности, используя группировку
+            </summary>
+            <param name="source">Последовательность</param>
+            <param name="groupValFunc">Выбор значения для группировки</param>
+            <returns>Последовательность с уникальными элементами, выбранными по заданной функции</returns>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.FindIndex``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>Находит первый элемент, удовлетворяющий указанному условию</summary>
+            <param name="items">Коллекция для поиска</param>
+            <param name="predicate">Условие для проверки</param>
+            <returns>Индекс первого подходящего под условия элемента или -1, если элемент не найдён</returns>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.As``1(System.Object)">
+            <summary>
+            = (T)obj
+            </summary>
+            <param name="obj">Объект</param>
+            <typeparam name="T">Новый тип</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.NE(System.String)">
+            <summary>
+            string.IsNullOrEmpty(str)
+            </summary>
+            <param name="str">Строка</param>
+            <returns></returns>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Добавляет множество элементов в коллекцию
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="values">Значения для добавления</param>
+            <typeparam name="T">Тип коллекции</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InsertRange``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Добавляет множество элементов в список по указанному индексу
+            </summary>
+            <param name="list">Список</param>
+            <param name="values">Значения для добавления</param>
+            <param name="index">Индекс</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitMatrix``1(``0[][],System.Int32)">
+            <summary>
+            Инициализирует двухмерный массив значениями по умолчанию
+            </summary>
+            <param name="array">Двумерный массив</param>
+            <param name="width">Длина внутренних массивов</param>
+            <typeparam name="T">Тип элементов</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitMatrix``1(``0[0:,0:],``0)">
+            <summary>
+            Инициализирует матрицу
+            </summary>
+            <param name="matrix">Матрица</param>
+            <param name="initValue">Значение инициализации</param>
+            <typeparam name="T">Тип элементов матрицы</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitMatrix``1(``0[0:,0:],System.Func{``0})">
+            <summary>
+            Инициализирует матрицу
+            </summary>
+            <param name="matrix">Матрица</param>
+            <param name="initFunc">Функция созджания нового объекта</param>
+            <typeparam name="T">Тип элементов матрицы</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitMatrix``1(``0[0:,0:])">
+            <summary>
+            Инициализирует матрицу новыми объектами
+            </summary>
+            <param name="matrix">Матрица</param>
+            <typeparam name="T">Тип элементов матрицы</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitArray``1(``0[],``0)">
+            <summary>
+            Инициализирует массив
+            </summary>
+            <param name="source">Массив</param>
+            <param name="initValue">Значение инициализации</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitArray``1(``0[])">
+            <summary>
+            Инициализирует массив
+            </summary>
+            <param name="source">Массив</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.InitArray``1(``0[],System.Func{``0})">
+            <summary>
+            Инициализирует массив
+            </summary>
+            <param name="source">Массив</param>
+            <param name="initFunc">Функция иницилизации</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Применяет функцию ко всем элементам последовательности
+            </summary>
+            <param name="collection">Коллекция объектов</param>
+            <param name="action">Функция</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Применяет функцию ко всем элементам последовательности
+            </summary>
+            <param name="collection">Коллекция объектов</param>
+            <param name="action">Функция</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.SplitFN(System.String,System.String[])">
+            <summary>
+            = string.Split() with StringSplitOptions.None
+            </summary>
+            <param name="str">Строка для разбиения</param>
+            <param name="splitStrings">Разделители</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.SplitFR(System.String,System.String[])">
+            <summary>
+            = string.Split() with StringSplitOptions.RemoveEmptyEntries
+            </summary>
+            <param name="str">Строка для разбиения</param>
+            <param name="splitStrings">Разделители</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.JoinStr(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            = string.Join()
+            </summary>
+            <param name="items">Объекты</param>
+            <param name="separator">Разделитель</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.JoinStr``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            = string.Join()
+            </summary>
+            <param name="items">Объекты</param>
+            <param name="separator">Разделитель</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.UnionWOEqCheck``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Возвращает объединение списков в один без проверки на уникальность
+            </summary>
+            <param name="first">Первый список</param>
+            <param name="second">Второй списко</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.UnionWOEqCheck``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Возвращает объединение всех списков в один без проверки на уникальность
+            </summary>
+            <param name="items">Списки</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.UnionArrays``1(``0[][])">
+            <summary>
+            Объеденяет переданные массивы в один
+            </summary>
+            <param name="arrays">Массивы</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.UnionArrays``1(System.Collections.Generic.IList{``0}[])">
+            <summary>
+            Объеденяет переданные массивы в один
+            </summary>
+            <param name="arrays">Массивы</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.FirstOrNull``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns first element of collection or null if collection is empty
+            </summary>
+            <param name="collection">Collection o elements</param>
+            <typeparam name="T">Element type</typeparam>
+            <exception cref="T:System.ArgumentNullException">Throws if collection is null</exception>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions.FirstOrNull``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>
+            Returns first element of collection or null if collection is empty
+            </summary>
+            <param name="collection">Collection o elements</param>
+            <param name="filter">Filter for collection</param>
+            <typeparam name="T">Element type</typeparam>
+            <exception cref="T:System.ArgumentNullException">Throws if collection is null</exception>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFNWithoutExt(System.IO.FileInfo)">
+            <summary>
+            Возвращает полное название файла без расширения
+            </summary>
+            <param name="fileInfo">Информация о файле</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFullFNWithoutExt(System.IO.FileInfo)">
+            <summary>
+            Возвращает полное название файла без расширения
+            </summary>
+            <param name="fileInfo">Информация о файле</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFullFNWithoutExt(System.String)">
+            <summary>
+            Возвращает полное название файла без расширения
+            </summary>
+            <param name="file">Информация о файле</param>
+        </member>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions_MinMaxElement">
+            <summary>
+            Функции нахождения мин/макс элемента в коллекциях
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Возвращает наименьший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``1(System.Collections.Generic.IList{``0},System.Collections.Generic.Comparer{``0})">
+            <summary>
+            Возвращает наименьший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary>
+            Возвращает наименьший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="index">Индекс элемента</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``2(System.Collections.Generic.IList{``0},System.Func{``0,``1})">
+            <summary>
+            Возвращает наименьший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``2(System.Collections.Generic.IList{``0},System.Func{``0,``1},System.Int32@)">
+            <summary>
+            Возвращает наименьший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+            <param name="index">Индекс элемента</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Возвращает наибольший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``1(System.Collections.Generic.IList{``0},System.Collections.Generic.Comparer{``0})">
+            <summary>
+            Возвращает наибольший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary>
+            Возвращает наибольший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="index">Индекс элемента</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``2(System.Collections.Generic.IList{``0},System.Func{``0,``1})">
+            <summary>
+            Возвращает наибольший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``2(System.Collections.Generic.IList{``0},System.Func{``0,``1},System.Int32@)">
+            <summary>
+            Возвращает наибольший элемент списка
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+            <param name="index">Индекс элемента</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.Comparer{System.Collections.Generic.KeyValuePair{``0,``1}})">
+            <summary>
+            Возвращает наименьший элемент словаря
+            </summary>
+            <param name="elements">Список</param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MinElement``3(System.Collections.Generic.IDictionary{``0,``1},System.Func{System.Collections.Generic.KeyValuePair{``0,``1},``2})">
+            <summary>
+            Возвращает наименьший элемент словаря
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.Comparer{System.Collections.Generic.KeyValuePair{``0,``1}})">
+            <summary>
+            Возвращает наибольший элемент словаря
+            </summary>
+            <param name="elements">Список</param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_MinMaxElement.MaxElement``3(System.Collections.Generic.IDictionary{``0,``1},System.Func{System.Collections.Generic.KeyValuePair{``0,``1},``2})">
+            <summary>
+            Возвращает наибольший элемент словаря
+            </summary>
+            <param name="elements">Список</param>
+            <param name="selector"></param>
+        </member>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions_Print">
+            <summary>
+            Функции вывода коллекций
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.Print(System.Collections.IEnumerable,System.IO.TextWriter)">
+            <summary>
+            Записывает коллекцию в Writer
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="writer">Writer</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.Print(System.Collections.IEnumerable,System.Action{System.String})">
+            <summary>
+            Записывает коллекцию
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="writeAction">Действие записи</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.PrintConsole(System.Collections.IEnumerable)">
+            <summary>
+            Записывает коллекцию в консоль
+            </summary>
+            <param name="collection">Коллекция</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.Print``1(System.Collections.Generic.IEnumerable{``0},System.IO.TextWriter,System.Func{``0,System.String})">
+            <summary>
+            Записывает коллекцию в Writer
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="writer">Writer</param>
+            <param name="itemConverter">Конвертер item => string</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.Print``1(System.Collections.Generic.IEnumerable{``0},System.Action{System.String},System.Func{``0,System.String})">
+            <summary>
+            Записывает коллекцию в Writer
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="writeAction">Действие записи</param>
+            <param name="itemConverter">Конвертер item => string</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_Print.PrintConsole``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String})">
+            <summary>
+            Записывает коллекцию в консоль
+            </summary>
+            <param name="collection">Коллекция</param>
+            <param name="itemConverter">Конвертер item => string</param>
+        </member>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions_BinSearch">
+            <summary>
+            Функции бинарного поиска
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearchIndex``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Возвращает позицию элемента в отсортированном списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearchIndex``1(System.Collections.Generic.IList{``0},``0,System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Возвращает позицию элемента в отсортированном списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearchIndex``2(System.Collections.Generic.IList{``0},``1,System.Func{``0,``1})">
+            <summary>
+            Возвращает позицию элемента в отсортированном по K списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+            <param name="selector">Функция выбора сравниваемых значений</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearchIndex``2(System.Collections.Generic.IList{``0},``1,System.Func{``0,``1,System.Int32})">
+            <summary>
+            Возвращает позицию элемента в отсортированном по K списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+            <param name="comparator"></param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearch``2(System.Collections.Generic.IList{``0},``1,System.Func{``0,``1})">
+            <summary>
+            Возвращает элемент в отсортированном по K списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+            <param name="selector">Функция выбора сравниваемых значений</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearch``2(System.Collections.Generic.IList{``0},``0,System.Func{``0,``1})">
+            <summary>
+            Возвращает элемент в отсортированном по K списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="inSearchItem">Элемент, содержащий значение для поиска</param>
+            <param name="selector">Функция выбора сравниваемых значений</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_BinSearch.BinSearch``2(System.Collections.Generic.IList{``0},``1,System.Func{``0,``1,System.Int32})">
+            <summary>
+            Возвращает позицию элемента в отсортированном по K списке
+            </summary>
+            <param name="source">Список</param>
+            <param name="searchItem">Значение для поиска</param>
+            <param name="comparator"></param>
+        </member>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions_StreamValues">
+            <summary>
+            Функции для работы с потоками
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadBytes(System.IO.Stream,System.Int32)">
+            <summary>
+            Читает массив байтов
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="count">Количество значений</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadShort(System.IO.Stream)">
+            <summary>
+            Читает Int16 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadInt(System.IO.Stream)">
+            <summary>
+            Читает Int32 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadLong(System.IO.Stream)">
+            <summary>
+            Читает Int64 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadUShort(System.IO.Stream)">
+            <summary>
+            Читает UInt16 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadUInt(System.IO.Stream)">
+            <summary>
+            Читает UInt32 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadULong(System.IO.Stream)">
+            <summary>
+            Читает UInt64 из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadRByte(System.IO.Stream)">
+            <summary>
+            Читает байт из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.ReadBool(System.IO.Stream)">
+            <summary>
+            Читает bool из потока
+            </summary>
+            <param name="stream">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.Write(System.IO.Stream,System.Byte[])">
+            <summary>
+            Записывает массив байт в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="bytes">Байты для записи</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.Write(System.IO.Stream,System.Int16)">
+            <summary>
+            Записывает Int16 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.WriteInt(System.IO.Stream,System.Int32)">
+            <summary>
+            Записывает Int32 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.Write(System.IO.Stream,System.Int64)">
+            <summary>
+            Записывает Int64 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.Write(System.IO.Stream,System.UInt16)">
+            <summary>
+            Записывает UInt16 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.WriteUInt(System.IO.Stream,System.UInt32)">
+            <summary>
+            Записывает UInt32 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.WriteULong(System.IO.Stream,System.UInt64)">
+            <summary>
+            Записывает UInt64 в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_StreamValues.WriteBool(System.IO.Stream,System.Boolean)">
+            <summary>
+            Записывает bool в поток
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="value">Значение</param>
+        </member>
+        <member name="T:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker">
+            <summary>
+            Класс для работы с потоком чтения
+            </summary>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadInt(System.IO.TextReader)">
+            <summary>
+            Читает целое число из строки потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadInts(System.IO.TextReader)">
+            <summary>
+            Читает массив целых чисел из строки потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadDouble(System.IO.TextReader)">
+            <summary>
+            Читает число с плавающей запятой из строки потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadDoubles(System.IO.TextReader)">
+            <summary>
+            Читает массив чисел с плавающей запятой из строки потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadValue``1(System.IO.TextReader,System.Func{System.String,``0})">
+            <summary>
+            Читает значение из строки потока
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="conv">Коевертер строки в необходимое значение</param>
+            <typeparam name="T">Тип конечного значения</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadValues``1(System.IO.TextReader,System.Func{System.String,``0})">
+            <summary>
+            Читает массив значений из строки потока
+            </summary>
+            <param name="stream">Поток</param>
+            <param name="conv">Коевертер строки в необходимое значение</param>
+            <typeparam name="T">Тип конечных значений</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadPartInt(System.IO.TextReader)">
+            <summary>
+            Читает целое число из потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadPartDouble(System.IO.TextReader)">
+            <summary>
+            Читает число с плавающей запятой из потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadPartItem``1(System.IO.TextReader,System.Func{System.String,``0})">
+            <summary>
+            Читает значение из потока
+            </summary>
+            <param name="reader">Поток</param>
+            <param name="selector">Конвертер в значение</param>
+            <typeparam name="T">Тип конечного значения</typeparam>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_TextReaderWorker.ReadPartItem(System.IO.TextReader)">
+            <summary>
+            Читает значение из потока
+            </summary>
+            <param name="reader">Поток</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFile(System.String)">
+            <summary>
+            Удаляет файл
+            </summary>
+            <param name="fileName">Путь к файлу</param>
+        </member>
+        <member name="M:UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFolder(System.String)">
+            <summary>
+            Удаляет папку c файлами
+            </summary>
+            <param name="dir">Путь к папке</param>
+        </member>
+    </members>
+</doc>

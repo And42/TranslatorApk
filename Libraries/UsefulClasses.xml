@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UsefulClasses</name>
+    </assembly>
+    <members>
+        <member name="T:UsefulClasses.ShellIcon">
+            <summary>
+            Summary description for ShellIcon.  Get a small or large Icon with an easy C# function call
+            that returns a 32x32 or 16x16 System.Drawing.Icon depending on which function you call
+            either GetSmallIcon(string fileName) or GetLargeIcon(string fileName)
+            </summary>
+        </member>
+        <member name="M:UsefulClasses.ShellIcon.GetSmallIcon(System.String)">
+            <summary>
+            Возвращяет маленькую иконку для файла
+            </summary>
+            <param name="fileName">Путь к файлу</param>
+        </member>
+        <member name="M:UsefulClasses.ShellIcon.GetLargeIcon(System.String)">
+            <summary>
+            Возвращяет большую иконку для файла
+            </summary>
+            <param name="fileName">Путь к файлу</param>
+        </member>
+        <member name="M:UsefulClasses.ShellIcon.IconToBitmapSource(System.Drawing.Icon)">
+            <summary>
+            Преобразует Icon в ImageSource
+            </summary>
+            <param name="icon">Иконка</param>
+            <exception cref="T:System.ComponentModel.Win32Exception"></exception>
+        </member>
+        <member name="T:UsefulClasses.Logger">
+            <summary>
+            Класс для ведения логов
+            </summary>
+        </member>
+        <member name="P:UsefulClasses.Logger.LogsFolder">
+            <summary>
+            Возвращает путь к папке с логами
+            </summary>
+        </member>
+        <member name="P:UsefulClasses.Logger.CurrentLogPath">
+            <summary>
+            Возвращает путь к текущему логу
+            </summary>
+        </member>
+        <member name="P:UsefulClasses.Logger.Encoding">
+            <summary>
+            Возвращает или задаёт кодировку лога
+            </summary>
+        </member>
+        <member name="P:UsefulClasses.Logger.GetFormattedName">
+            <summary>
+            Возвращает или задаёт функцию для генератора имени лога
+            </summary>
+        </member>
+        <member name="M:UsefulClasses.Logger.#ctor(System.String,System.Boolean)">
+            <summary>
+            Инициализирует новый экземпляр класса <b>Logger</b> на основании пути к папке
+            </summary>
+            <param name="pathToLogsFolder">Путь к папке</param>
+            <param name="callStart">Вызвать ли Start() после создания</param>
+        </member>
+        <member name="M:UsefulClasses.Logger.Start">
+            <summary>
+            Запускает запись в лог
+            </summary>
+        </member>
+        <member name="M:UsefulClasses.Logger.Stop">
+            <summary>
+            Останавливает запись в лог
+            </summary>
+        </member>
+        <member name="M:UsefulClasses.Logger.NewLog(System.Boolean,System.String)">
+            <summary>
+            Закрывает предыдущий (если есть) и открывает новый лог
+            </summary>
+            <param name="callStart">Вызвать ли Start() после открытия</param>
+            <param name="logName">Путь к файлу лога</param>
+        </member>
+        <member name="M:UsefulClasses.Logger.GetLogName">
+            <summary>
+            Возвращает сгенерированное название лога (на основе текущей даты/времени)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UsefulClasses.Logger.Log(System.String)">
+            <summary>
+            Записывает текст в текущий лог
+            </summary>
+            <param name="text">Текст для записи</param>
+        </member>
+        <member name="M:UsefulClasses.Logger.Log(System.String,System.String,System.Boolean)">
+            <summary>
+            Записывает текст в файл
+            </summary>
+            <param name="text">Текст для записи</param>
+            <param name="pathToLog">Путь к логу</param>
+            <param name="append">Добавить текст</param>
+        </member>
+        <member name="M:UsefulClasses.Logger.Dispose">
+            <summary>
+            Dispose() = Stop()
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TranslatorApkPluginLib</name>
+    </assembly>
+    <members>
+        <member name="T:TranslatorApkPluginLib.AdditionalActionAttribute">
+            <summary>
+            Атрибут плагина
+            </summary>
+        </member>
+        <member name="T:TranslatorApkPluginLib.IAdditionalAction">
+            <summary>
+            Интерфейс нового плагина
+            </summary>
+        </member>
+        <member name="M:TranslatorApkPluginLib.IAdditionalAction.GetActionTitle">
+            <summary>
+            Возвращает название плагина
+            </summary>
+        </member>
+        <member name="P:TranslatorApkPluginLib.IAdditionalAction.Guid">
+            <summary>
+            Возвращает guid плагина
+            </summary>
+        </member>
+        <member name="M:TranslatorApkPluginLib.IAdditionalAction.Process(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Выполняется при нажатии на кнопку плагина в окне программы
+            </summary>
+            <param name="pathToApk">Путь к текущему apk</param>
+            <param name="pathToProjectFolder">Путь к папке текущего проекта</param>
+            <param name="pathToCompiledApk">Путь к скомпилированному файлу</param>
+            <param name="pathToSignedApk">Путь к подписанному файлу</param>
+            <param name="pathToResourcesFolder">Путь к папке с ресурсами основной программы (StartFolder\Files\Resources)</param>
+            <param name="pathToFilesFolder">Путь к папке с файлами основной программы (StartFolder\Files)</param>
+            <param name="pathToPortableJava">Путь к портативной java</param>
+            <param name="pathToApktool"></param>
+            <param name="pathToPluginFolder">Путь к папке плагина</param>
+        </member>
+        <member name="T:TranslatorApkPluginLib.ITranslateService">
+            <summary>
+            Интерфейс нового сервися перевода
+            </summary>
+        </member>
+        <member name="M:TranslatorApkPluginLib.ITranslateService.GetServiceName">
+            <summary>
+            Возвращает название сервиса
+            </summary>
+        </member>
+        <member name="P:TranslatorApkPluginLib.ITranslateService.Guid">
+            <summary>
+            Возвращает guid сервиса перевода
+            </summary>
+        </member>
+        <member name="M:TranslatorApkPluginLib.ITranslateService.Translate(System.String,System.String,System.String)">
+            <summary>
+            Переводит текст на требуемый язык
+            </summary>
+            <param name="text">Текст</param>
+            <param name="targetLanguage">Язык в двубуквенном формате</param>
+            <param name="apiKey">Ключ api</param>
+        </member>
+        <member name="T:TranslatorApkPluginLib.TranslateServiceAttribute">
+            <summary>
+            Атрибут сервиса перевода
+            </summary>
+        </member>
+    </members>
+</doc>

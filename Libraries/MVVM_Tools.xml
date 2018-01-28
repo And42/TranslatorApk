@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MVVM_Tools</name>
+    </assembly>
+    <members>
+        <member name="T:MVVM_Tools.Code.Classes.BindableBase">
+            <summary>
+            Base class for property changes notifications
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.BindableBase.SetProperty``1(``0@,``0,System.String)">
+            <summary>
+            Sets the value of a specified property if it is different from the current one (checking using <see cref="P:System.Collections.Generic.EqualityComparer`1.Default"/>)
+            </summary>
+            <typeparam name="T">Value type</typeparam>
+            <param name="storage">Property's backing field</param>
+            <param name="value">New value</param>
+            <param name="propertyName">Property name</param>
+            <returns><code>True</code> if <see cref="!:storage"/> value is changed; otherwise, <code>False</code></returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.BindableBase.SetPropertyRef``1(``0@,``0,System.String)">
+            <summary>
+            Sets the value of a specified property if it is different from the current one (checking using <see cref="M:System.Object.ReferenceEquals(System.Object,System.Object)"/>)
+            </summary>
+            <typeparam name="T">Value type</typeparam>
+            <param name="storage">Property's backing field</param>
+            <param name="value">New value</param>
+            <param name="propertyName">Property name</param>
+            <returns><code>True</code> if <see cref="!:storage"/> value is changed; otherwise, <code>False</code></returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.BindableBase.CreateProviderWithNotify``1(System.String,``0)">
+            <summary>
+            Creates <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> and tunnels <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/>.PropertyChanged to the current object
+            </summary>
+            <param name="targetPropertyName">Property name to notify</param>
+            <param name="initialValue">Initial property value</param>
+            <typeparam name="TPropertyType">Property value type</typeparam>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.BindableBase.CreateRefProviderWithNotify``1(System.String,``0)">
+            <summary>
+            Creates <see cref="T:MVVM_Tools.Code.Providers.PropertyRefProvider`1"/> and tunnels <see cref="T:MVVM_Tools.Code.Providers.PropertyRefProvider`1"/>.PropertyChanged to the current object
+            </summary>
+            <param name="targetPropertyName">Property name to notify</param>
+            <param name="initialValue">Initial property value</param>
+            <typeparam name="TPropertyType">Property value type</typeparam>
+        </member>
+        <member name="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged">
+            <summary>
+            Occurs on property changes
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.BindableBase.OnPropertyChanged(System.String)">
+            <summary>
+            Used to call <see cref="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged"/> event on a specified property
+            </summary>
+            <param name="propertyName">Property to use while raising <see cref="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged"/> event</param>
+        </member>
+        <member name="T:MVVM_Tools.Code.Classes.ConverterBase`2">
+            <summary>
+            Base class for handling converting values with a parameter of the <see cref="T:System.Object"/> type
+            </summary>
+            <typeparam name="TSource">Source value tape</typeparam>
+            <typeparam name="TTarget">Target value property</typeparam>
+        </member>
+        <member name="T:MVVM_Tools.Code.Classes.ConverterBase`3">
+            <summary>
+            Base class for handling converting values
+            </summary>
+            <typeparam name="TSource">Source value tape</typeparam>
+            <typeparam name="TParameter">Parameter value type</typeparam>
+            <typeparam name="TTarget">Target value property</typeparam>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.ConvertInternal(`0,`1,System.Globalization.CultureInfo)">
+            <summary>
+            Converts provided value to the target type
+            </summary>
+            <param name="value">Source value</param>
+            <param name="parameter">Parameter value</param>
+            <param name="culture">Converting culture</param>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.ConvertBackInternal(`2,`1,System.Globalization.CultureInfo)">
+            <summary>
+            Converts provided value to the source type
+            </summary>
+            <param name="value">Target value</param>
+            <param name="parameter">Parameter value</param>
+            <param name="culture">Converting culture</param>
+            <returns>Converted value</returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.GetSourceIfNull">
+            <summary>
+            Returns source value linked to the <code>null</code> variant
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.GetParameterIfNull">
+            <summary>
+            Returns parameter value linked to the <code>null</code> variant
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ConverterBase`3.GetTargetIfNull">
+            <summary>
+            Returns target value linked to the <code>null</code> variant
+            </summary>
+        </member>
+        <member name="T:MVVM_Tools.Code.Classes.ValidationableBase">
+            <summary>
+            Base class for handling property binding errors
+            </summary>
+        </member>
+        <member name="P:MVVM_Tools.Code.Classes.ValidationableBase.Item(System.String)">
+            <summary>
+            Performs checks and returns the first error related to the property
+            </summary>
+            <param name="propertyName">Property name used for checking</param>
+            <returns>Error text if there is at least one error; otherwise, <see cref="F:System.String.Empty"/></returns>
+        </member>
+        <member name="P:MVVM_Tools.Code.Classes.ValidationableBase.Error">
+            <summary>
+            Unused, throws <see cref="T:System.NotSupportedException"/>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ValidationableBase.HasErrors">
+            <summary>
+            Returns whether this object has any errors
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ValidationableBase.HasErrors``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Returns whether specified property has errors
+            </summary>
+            <typeparam name="TProperty">Property value type</typeparam>
+            <param name="propertyExpression">Property expression</param>
+            <returns><code>True</code> if has; otherwise (including when property is not found), <code>False</code></returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ValidationableBase.HasErrors(System.String)">
+            <summary>
+            Returns whether specified property has errors
+            </summary>
+            <param name="propertyName">Property name</param>
+            <returns><code>True</code> if has; otherwise (including when property is not found), <code>False</code></returns>
+        </member>
+        <member name="M:MVVM_Tools.Code.Classes.ValidationableBase.AddValidationRule``1(System.Linq.Expressions.Expression{System.Func{``0}},System.Func{System.String})">
+            <summary>
+            Adds validation rule to provided property
+            </summary>
+            <typeparam name="TProperty">Property value type</typeparam>
+            <param name="propertyExpression">Property expression</param>
+            <param name="errorChecker">Function that checks property for errors and returns result message (<code>null</code> or <see cref="F:System.String.Empty"/> if there are no errors)</param>
+        </member>
+        <member name="T:MVVM_Tools.Code.Commands.ActionCommand">
+            <summary>
+            Command that implements <see cref="T:System.Windows.Input.ICommand"/> interface. Parameters is of the <see cref="T:System.Object"/> type
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Commands.ActionCommand"/>
+            </summary>
+            <param name="executeAction">Action that is called when a command is executed (after <see cref="!:canExecuteAction"/> is called)</param>
+            <param name="canExecuteAction">Action that checks parameter reters whether the command can execute</param>
+            <exception cref="T:System.ArgumentNullException">Is thrown if <see cref="!:executeAction"/> is null</exception>
+        </member>
+        <member name="T:MVVM_Tools.Code.Commands.ActionCommand`1">
+            <summary>
+            Command that implements <see cref="T:System.Windows.Input.ICommand"/> interface
+            </summary>
+            <typeparam name="TParameter">Parameter value type</typeparam>
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Commands.ActionCommand"/>
+            </summary>
+            <param name="executeAction">Action that is called when a command is executed (after <see cref="!:canExecuteAction"/> is called)</param>
+            <param name="canExecuteAction">Action that checks parameter reters whether the command can execute</param>
+            <exception cref="T:System.ArgumentNullException">Is thrown if <see cref="!:executeAction"/> is null</exception>
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand`1.CanExecute(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand`1.Execute(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand`1.RaiseCanExecuteChanged">
+            <summary>
+            Raises <see cref="E:MVVM_Tools.Code.Commands.ActionCommand`1.CanExecuteChanged"/> event
+            </summary>
+        </member>
+        <member name="E:MVVM_Tools.Code.Commands.ActionCommand`1.CanExecuteChanged">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Converters.FalseToVisibleConverter">
+            <summary>
+            Class that converts <code>False</code> to <see cref="F:System.Windows.Visibility.Visible"/> and <code>True</code> to <see cref="F:System.Windows.Visibility.Collapsed"/>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.FalseToVisibleConverter.ConvertInternal(System.Boolean,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.FalseToVisibleConverter.ConvertBackInternal(System.Windows.Visibility,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Converters.InvertBoolConverter">
+            <summary>
+            Class that converts <code>False</code> to <code>True</code> and <code>True</code> to <code>False</code>/>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.InvertBoolConverter.ConvertInternal(System.Boolean,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.InvertBoolConverter.ConvertBackInternal(System.Boolean,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Converters.NullToCollapsedConverter">
+            <summary>
+            Converts <code>null</code> to <see cref="F:System.Windows.Visibility.Collapsed"/> and other values to <see cref="F:System.Windows.Visibility.Visible"/>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.NullToCollapsedConverter.ConvertInternal(System.Object,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Converters.NullToFalseConverter">
+            <summary>
+            Converts <code>null</code> to <code>False</code> and other values to <code>True</code>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.NullToFalseConverter.ConvertInternal(System.Object,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Converters.TrueToVisibleConverter">
+            <summary>
+            Converts <code>True</code> to <see cref="F:System.Windows.Visibility.Visible"/> and other values to <see cref="F:System.Windows.Visibility.Collapsed"/>
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.TrueToVisibleConverter.ConvertInternal(System.Boolean,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Converters.TrueToVisibleConverter.ConvertBackInternal(System.Windows.Visibility,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Providers.PropertyProvider`1">
+            <summary>
+            Provider for the properties (use <see cref="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged"/> to subscribe for changes).
+            Uses <see cref="M:MVVM_Tools.Code.Classes.BindableBase.SetProperty``1(``0@,``0,System.String)"/> when setting new value
+            </summary>
+            <typeparam name="TPropertyType">Property type</typeparam>
+        </member>
+        <member name="M:MVVM_Tools.Code.Providers.PropertyProvider`1.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Providers.PropertyProvider`1.#ctor(`0)">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            </summary>
+            <param name="initialValue">Initial value for the backing field</param>
+        </member>
+        <member name="P:MVVM_Tools.Code.Providers.PropertyProvider`1.Value">
+            <summary>
+            Current value of the provider
+            </summary>
+        </member>
+        <member name="T:MVVM_Tools.Code.Providers.PropertyRefProvider`1">
+            <summary>
+            Provider for the properties (use <see cref="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged"/> to subscribe for changes).
+            Uses <see cref="M:MVVM_Tools.Code.Classes.BindableBase.SetPropertyRef``1(``0@,``0,System.String)"/> when setting new value
+            </summary>
+            <typeparam name="TPropertyType">Property type</typeparam>
+        </member>
+        <member name="M:MVVM_Tools.Code.Providers.PropertyRefProvider`1.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyRefProvider`1"/> class
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Providers.PropertyRefProvider`1.#ctor(`0)">
+            <summary>
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            </summary>
+            <param name="initialValue">Initial value for the backing field</param>
+        </member>
+        <member name="P:MVVM_Tools.Code.Providers.PropertyRefProvider`1.Value">
+            <summary>
+            Current value of the provider
+            </summary>
+        </member>
+        <member name="T:MVVM_Tools.Code.Utils.CommonUtils">
+            <summary>
+            Provides common functions
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Utils.CommonUtils.CheckValueTypeAndCast``1(System.Object)">
+            <summary>
+            Casts value to the target type throwing errors on incorrect values
+            </summary>
+            <param name="value">Value to cast</param>
+            <typeparam name="TValidType">Target value type</typeparam>
+            <exception cref="T:System.ArgumentException">Is thrown then value can not be cast</exception>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>
