@@ -20,8 +20,6 @@ using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
 
-using MessageBox = System.Windows.Forms.MessageBox;
-
 namespace TranslatorApk.Windows
 {
     public partial class ChangesDetectorWindow : IRaisePropertyChanged
@@ -393,7 +391,7 @@ namespace TranslatorApk.Windows
                 
                 foldersFileWriter.WriteLine(part);
 
-                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder, Path.Combine(languagesFolder, part), true);
+                IOUtils.CopyFilesRecursively(folder, Path.Combine(languagesFolder, part));
             }
 
             if (log)
@@ -482,7 +480,10 @@ namespace TranslatorApk.Windows
                 if (log)
                     LogWrite("  -- " + language);
 
-                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(Path.Combine(dictionaryFolder, "Languages", language), Path.Combine(fileFolder, "res", language), true);
+                IOUtils.CopyFilesRecursively(
+                    Path.Combine(dictionaryFolder, "Languages", language),
+                    Path.Combine(fileFolder, "res", language)
+                );
             }
         }
 
