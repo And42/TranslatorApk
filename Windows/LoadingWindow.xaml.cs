@@ -7,15 +7,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
 using System.Windows.Threading;
-using TranslatorApk.Logic.CustomCommandContainers;
+using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для LoadingWindow.xaml
-    /// </summary>
     public partial class LoadingWindow : IRaisePropertyChanged
     {
         public Visibility CancelVisibility
@@ -38,7 +35,7 @@ namespace TranslatorApk.Windows
             InitializeComponent();
             TaskbarItemInfo = new TaskbarItemInfo();
 
-            CancelCommand = new ActionCommand(_ => _cancellationToken.Cancel());
+            CancelCommand = new ActionCommand(_cancellationToken.Cancel);
         }
 
         public static void ShowWindow(Action beforeStarting, Action<CancellationTokenSource> threadActions, Action finishActions, Visibility cancelVisibility = Visibility.Visible)

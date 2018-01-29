@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using AndroidTranslator.Interfaces.Strings;
-using TranslatorApk.Logic.CustomCommandContainers;
+using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
@@ -41,7 +41,7 @@ namespace TranslatorApk.Windows
             ManualEventManager.GetEvent<EditStringEvent>().Subscribe(EditStringEventHandler);
         }
 
-        private bool GoToPreviousCanExecute(object o)
+        private bool GoToPreviousCanExecute()
         {
             if (Str == null)
                 return false;
@@ -53,7 +53,7 @@ namespace TranslatorApk.Windows
             return nextString.str != null;
         }
 
-        private void GoToPreviousExecute(object o)
+        private void GoToPreviousExecute()
         {
             var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
 
@@ -69,7 +69,7 @@ namespace TranslatorApk.Windows
                 .Publish(new EditStringEvent(previousString.str, previousString.container));
         }
 
-        private bool GoToNextCanExecute(object o)
+        private bool GoToNextCanExecute()
         {
             if (Str == null)
                 return false;
@@ -81,7 +81,7 @@ namespace TranslatorApk.Windows
             return nextString.str != null;
         }
 
-        private void GoToNextExecute(object o)
+        private void GoToNextExecute()
         {
             var editorWindow = WindowManager.GetActiveWindow<EditorWindow>();
 

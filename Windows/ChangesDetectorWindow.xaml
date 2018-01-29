@@ -3,108 +3,131 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:windows="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
+        xmlns:controls="clr-namespace:TranslatorApk.Logic.Controls"
+        mc:Ignorable="d"
+
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        Height="500" Width="900" Style="{DynamicResource WindowStyle}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" FontSize="14"
-        MinWidth="700" MinHeight="500" WindowStartupLocation="CenterScreen" Title="{x:Static localizations:StringResources.ChangesDetector}">
+        MinWidth="700" MinHeight="500"
+        Height="500" Width="900"
+        Style="{DynamicResource WindowStyle}"
+        FontSize="14"
+        WindowStartupLocation="CenterScreen"
+        Title="{x:Static localizations:StringResources.ChangesDetector}"
+        
+        d:DataContext="{d:DesignInstance windows:ChangesDetectorWindowViewModel}">
+    
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" IsEnabled="{Binding ButtonsEnabled}">
+
+        <TabControl
+            IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}">
+
             <TabItem Header="{x:Static localizations:StringResources.ChangesDetectorWindow_OneFileCreation}">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Button Content="{x:Static localizations:StringResources.SourceFolder}" Padding="5" Click="CreateChooseFirstClick"/>
-                    <Button Content="{x:Static localizations:StringResources.TranslatedFolder}" Padding="5" Margin="5,0" Grid.Row="0" Grid.Column="1" Click="CreateChooseSecondClick"/>
-                    <Button Content="{x:Static localizations:StringResources.ResultFolder}" Padding="5" Grid.Column="2" Grid.Row="0" Margin="0,0,5,0" Click="CreateChooseResultFolderClick"/>
-                    <Button Content="{x:Static localizations:StringResources.Start}" Padding="5" Grid.Column="3" Grid.Row="0" Click="CreateStartClick"/>
-                </Grid>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Button
+                        Content="{x:Static localizations:StringResources.SourceFolder}"
+                        Command="{Binding CreateChooseFirstCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.TranslatedFolder}"
+                        Command="{Binding CreateChooseSecondCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.ResultFolder}"
+                        Command="{Binding CreateChooseResultFolderCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.Start}"
+                        Command="{Binding CreateStartCommand}"/>
+                </StackPanel>
             </TabItem>
+            
             <TabItem Header="{x:Static localizations:StringResources.ChangesDetectorWindow_OneFileTranslation}">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Button Content="{x:Static localizations:StringResources.SourceFolder}" Padding="5" Click="TranslateChooseFolder"/>
-                    <Button Content="{x:Static localizations:StringResources.DictionaryFolder}" Padding="5" Grid.Column="1" Grid.Row="0" Margin="5,0" Click="TranslateDictionaryFolderClick"/>
-                    <Button Content="{x:Static localizations:StringResources.Start}" Padding="5" Grid.Column="2" Grid.Row="0" Click="TranslateStartClick"/>
-                    
-                </Grid>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Button
+                        Content="{x:Static localizations:StringResources.SourceFolder}"
+                        Command="{Binding TranslateChooseFolderCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.DictionaryFolder}"
+                        Command="{Binding TranslateDictionaryFolderCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.Start}"
+                        Command="{Binding TranslateStartCommand}"/>
+                </StackPanel>
             </TabItem>
+            
             <TabItem Header="{x:Static localizations:StringResources.ChangesDetectorWindow_ManyFilesCreation}">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Button Content="{x:Static localizations:StringResources.SourceFolder}" Padding="5" Click="CreateMoreChooseFirstClick"/>
-                    <Button Content="{x:Static localizations:StringResources.TranslatedFolder}" Padding="5" Margin="5,0" Grid.Row="0" Grid.Column="1" Click="CreateMoreChooseSecondClick"/>
-                    <Button Content="{x:Static localizations:StringResources.ResultFolder}" Padding="5" Grid.Column="2" Grid.Row="0" Margin="0,0,5,0" Click="CreateMoreChooseResultFolderClick"/>
-                    <Button Content="{x:Static localizations:StringResources.Start}" Padding="5" Grid.Column="3" Grid.Row="0" Click="CreateMoreStartClick"/>
-                </Grid>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Button
+                        Content="{x:Static localizations:StringResources.SourceFolder}"
+                        Command="{Binding CreateMoreChooseFirstCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.TranslatedFolder}"
+                        Command="{Binding CreateMoreChooseSecondCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.ResultFolder}"
+                        Command="{Binding CreateMoreChooseResultFolderCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.Start}"
+                        Command="{Binding CreateMoreStartCommand}"/>
+                </StackPanel>
             </TabItem>
+            
             <TabItem Header="{x:Static localizations:StringResources.ChangesDetectorWindow_ManyFilesTranslation}">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Button Content="{x:Static localizations:StringResources.SourceFolder}" Padding="5" Click="TranslateMoreChooseFolder"/>
-                    <Button Content="{x:Static localizations:StringResources.DictionariesFolder}" Padding="5" Grid.Column="1" Grid.Row="0" Margin="5,0" Click="TranslateMoreDictionaryFolderClick"/>
-                    <Button Content="{x:Static localizations:StringResources.Start}" Padding="5" Grid.Column="2" Grid.Row="0" Click="TranslateMoreStartClick"/>
-                </Grid>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Button
+                        Content="{x:Static localizations:StringResources.SourceFolder}"
+                        Command="{Binding TranslateMoreChooseCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.DictionariesFolder}"
+                        Command="{Binding TranslateMoreDictionaryFolderCommand}"/>
+                    <Button
+                        Margin="5,0,0,0"
+                        Content="{x:Static localizations:StringResources.Start}"
+                        Command="{Binding TranslateMoreStartCommand}"/>
+                </StackPanel>
             </TabItem>
+        
         </TabControl>
-        <TextBox x:Name="LogBox" Text="{Binding Log}" Margin="0,5" Grid.Row="1" Grid.Column="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
-        <Grid Grid.Column="0" Grid.Row="2">
+
+        <controls:ScrollingTextBox
+            Grid.Row="1"
+            Margin="0,5,0,0"
+            Text="{Binding LogText, Mode=OneWay}"
+            IsReadOnly="True"/>
+
+        <Grid Grid.Row="2" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <ProgressBar Margin="0,0,5,0" Value="{Binding ProgressValue}" Maximum="{Binding ProgressMax}"/>
+
+            <ProgressBar Margin="0,0,5,0" Value="{Binding ProgressValue.Value}" Maximum="{Binding ProgressMax.Value}"/>
             <TextBlock Grid.Column="1">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} {1} {2}">
-                        <Binding Path="ProgressValue"/>
+                        <Binding Path="ProgressValue.Value"/>
                         <Binding Source="{x:Static localizations:StringResources.From}"/>
-                        <Binding Path="ProgressMax"/>
+                        <Binding Path="ProgressMax.Value"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

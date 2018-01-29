@@ -15,12 +15,12 @@ using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using AndroidTranslator.Interfaces.Strings;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using MVVM_Tools.Code.Commands;
 using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.ScrollAxis;
 using TranslatorApk.Logic.Classes;
-using TranslatorApk.Logic.CustomCommandContainers;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
 using TranslatorApk.Logic.Interfaces;
@@ -124,11 +124,11 @@ namespace TranslatorApk.Windows
 
         public EditorWindow()
         {
-            TranslateAllFilesCommand = new ActionCommand(_ => TranslateAllFiles());
-            SaveCommand = new ActionCommand(_ => Save());
-            SaveAndCloseCommand = new ActionCommand(_ => Save(Close));
-            SearchCommand = new ActionCommand(_ => WindowManager.ActivateWindow<EditorSearchWindow>());
-            ClearSourceDictionariesListCommand = new ActionCommand(_ => GlobalVariables.SourceDictionaries.Clear());
+            TranslateAllFilesCommand = new ActionCommand(TranslateAllFiles);
+            SaveCommand = new ActionCommand(() => Save());
+            SaveAndCloseCommand = new ActionCommand(() => Save(Close));
+            SearchCommand = new ActionCommand(() => WindowManager.ActivateWindow<EditorSearchWindow>());
+            ClearSourceDictionariesListCommand = new ActionCommand(GlobalVariables.SourceDictionaries.Clear);
 
             SubscribeToEvents();
 
