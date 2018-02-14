@@ -887,11 +887,6 @@ namespace TranslatorApk.Logic.Utils
             return type.GetMethod(name).Invoke(obj, parameters).As<T>();
         }
 
-        public static bool Contains<T>(this T[] array, T value)
-        {
-            return Array.IndexOf(array, value) != -1;
-        }
-
         public static bool SetProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged
         {
             if (EqualityComparer<TPropType>.Default.Equals(storage, value))

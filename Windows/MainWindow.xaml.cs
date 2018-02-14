@@ -66,6 +66,8 @@ namespace TranslatorApk.Windows
         public ICommand OpenPluginsCommand { get; }
         public ICommand OpenAboutCommand { get; }
 
+        public ICommand RemoveLanguagesCommand { get; }
+
         public Setting<bool>[] MainWindowSettings { get; }
 
         public string LogBoxText => _logTextBuilder.ToString();
@@ -137,6 +139,8 @@ namespace TranslatorApk.Windows
             OpenChangesDetectorCommand = new ActionCommand(OpenChangesDetectorCommand_Execute);
             OpenPluginsCommand = new ActionCommand(OpenPluginsCommand_Execute);
             OpenAboutCommand = new ActionCommand(OpenAboutCommand_Execute);
+
+            RemoveLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute);
 
             InitializeComponent();
 
@@ -382,6 +386,11 @@ namespace TranslatorApk.Windows
         private void AddNewLanguageClick(object sender = null, RoutedEventArgs e = null)
         {
             new AddLanguageWindow().ShowDialog();
+        }
+
+        private void RemoveLanguagesCommand_Execute()
+        {
+            new RemoveLanguagesWindow().ShowDialog();
         }
 
         #endregion

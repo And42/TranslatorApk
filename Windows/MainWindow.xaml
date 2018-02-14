@@ -159,6 +159,12 @@
                                 <Image Source="/Resources/Icons/change_language.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Header="{x:Static localizations:StringResources.RemoveLanguages_Caption}" 
+                                  Command="{Binding RemoveLanguagesCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/Icons/change_language.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </ContextMenu>
                 </TreeView.ContextMenu>
                 

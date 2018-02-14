@@ -41,6 +41,11 @@ namespace TranslatorApk.Logic.Classes
         }
         private bool _isLoading;
 
+        protected LoadingDisposable LoadingDiposable()
+        {
+            return new LoadingDisposable(this);
+        }
+
         public virtual Task LoadItems() => EmptyTask;
 
         public abstract void UnsubscribeFromEvents();

@@ -549,6 +549,11 @@ namespace TranslatorApk.Windows
                 FontSize = (double) FindResource("Window_FontSize")
             };
 
+            void Add(string header, RoutedEventHandler clicked, string gesture = null)
+            {
+                menu.Items.Add(CreateItem(header, clicked, gesture));
+            }
+
             IEditableFile selectedFile = GetSelectedFile();
 
             if (selectedFile != null)
@@ -562,43 +567,44 @@ namespace TranslatorApk.Windows
                     ( StringResources.Delete, (o, args) => StringFiles.Remove(selectedFile), "Delete" )
                 };
 
-                items.ForEach(it => menu.Items.Add(CreateItem(it.header, it.handler, it.gesture)));
+                items.ForEach(it => Add(it.header, it.handler, it.gesture));
             }
 
             IOneString selectedString = GetSelectedString(out RowColumnIndex rowColumn);
 
             if (selectedString != null)
             {
-                menu.Items.Add(CreateItem(StringResources.Copy, (o, args) =>
+                Add(StringResources.Copy, (o, args) =>
                 {
                     switch (rowColumn.ColumnIndex)
                     {
                         case 1:
-                            Clipboard.SetText(selectedString.Name ?? "");
+                            Clipboard.SetText(selectedString.Name ?? string.Empty);
                             break;
                         case 2:
-                            Clipboard.SetText(selectedString.OldText ?? "");
+                            Clipboard.SetText(selectedString.OldText ?? string.Empty);
                             break;
                         case 3:
-                            Clipboard.SetText(selectedString.NewText ?? "");
+                            Clipboard.SetText(selectedString.NewText ?? string.Empty);
                             break;
                     }
-                }));
+                });
 
                 if (rowColumn.ColumnIndex == 2 && !selectedString.IsOldTextReadOnly)
                 {
-                    menu.Items.Add(CreateItem(StringResources.Paste, (o, args) =>
+                    Add(StringResources.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
                         if (!text.NE())
                             selectedString.OldText = text;
-                    }));
+                    });
+                    Add(StringResources.Clear, (o, args) => selectedString.OldText = string.Empty);
                 }
 
                 if (rowColumn.ColumnIndex == 3 && !selectedString.IsNewTextReadOnly)
                 {
-                    menu.Items.Add(CreateItem(StringResources.Paste, (o, args) =>
+                    Add(StringResources.Paste, (o, args) =>
                     {
                         string text = Clipboard.GetText();
 
@@ -613,7 +619,8 @@ namespace TranslatorApk.Windows
                                 TranslateWithSessionDictIfNeeded(selectedString.OldText, selectedString.NewText);
                             }
                         }
-                    }));
+                    });
+                    Add(StringResources.Clear, (o, args) => selectedString.NewText = string.Empty);
                 }
             }
 
@@ -855,6 +862,22 @@ namespace TranslatorApk.Windows
                 dict?.Remove(str);
             }
 
+            void ClearCell()
+            {
+                RowColumnIndex coords;
+                var cell = GetSelectedString(out coords);
+
+                if (cell == null)
+                    return;
+
+                // old text
+                if (coords.ColumnIndex == 2 && !cell.IsOldTextReadOnly)
+                    cell.OldText = string.Empty;
+                // new text
+                else if (coords.ColumnIndex == 3 && !cell.IsNewTextReadOnly)
+                    cell.NewText = string.Empty;
+            }
+
             // Свернуть всё
             AddGridKeyEvent(Key.C, CollapseAll, Ctrls, Shifts);
 
@@ -889,7 +912,10 @@ namespace TranslatorApk.Windows
             AddGridKeyEvent(Key.A, AddEmpty, Ctrls);
 
             // Удалить строку из словаря
-            AddGridKeyEvent(Key.Delete, RemoveRow);
+            AddGridKeyEvent(Key.Delete, RemoveRow, Ctrls);
+
+            // Очистить ячейку
+            AddGridKeyEvent(Key.Delete, ClearCell);
         }
 
         private readonly List<(Key key, Key[][] modifers, Action action)> _editorGridKeyEvents = new List<(Key, Key[][], Action)>();

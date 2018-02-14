@@ -444,6 +444,12 @@
   <data name="Clear" xml:space="preserve">
     <value>Очистити</value>
   </data>
+  
+<!--
+<data name="FileIsInUse" xml:space="preserve">
+    <value>Следующий файл уже используется (и поэтому недоступен) другим пользователем или приложением: "{0}"</value>
+  </data>
+-->
   <data name="StringEditorWindow_NextStringLabel" xml:space="preserve">
     <value>Далі</value>
   </data>
@@ -453,4 +459,11 @@
   <data name="Dictionaries_Label" xml:space="preserve">
     <value>Словники</value>
   </data>
+  
+<!--
+<data name="TranslationTimeout_Label" xml:space="preserve">
+    <value>Тайм-аут перевода:</value>
+  </data>
+-->
+
 </root>

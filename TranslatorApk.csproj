@@ -100,6 +100,9 @@
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -203,9 +206,13 @@
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
+    <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
+      <DependentUpon>BusyContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\UserControls\EditableTextBlock.xaml.cs">
       <DependentUpon>EditableTextBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Utils\CollectionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
@@ -238,6 +245,7 @@
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\RemoveLanguagesWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AddLanguageWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ChangesDetectorWindowViewModel.cs" />
@@ -298,6 +306,9 @@
     <Compile Include="Windows\AboutProgramWindow.xaml.cs">
       <DependentUpon>AboutProgramWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RemoveLanguagesWindow.xaml.cs">
+      <DependentUpon>RemoveLanguagesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddLanguageWindow.xaml.cs">
       <DependentUpon>AddLanguageWindow.xaml</DependentUpon>
     </Compile>
@@ -339,6 +350,10 @@
     <Compile Include="Windows\XmlRulesWindow.xaml.cs">
       <DependentUpon>XmlRulesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Logic\UserControls\BusyContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Logic\UserControls\EditableTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -655,6 +670,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\RemoveLanguagesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\AddLanguageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -758,16 +777,14 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localizations\StringResources.de.resx" />
+    <EmbeddedResource Include="Resources\Localizations\StringResources.en-US.resx" />
     <EmbeddedResource Include="Resources\Localizations\StringResources.lt.resx" />
-    <EmbeddedResource Include="Resources\Localizations\StringResources.en.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localizations\StringResources.resx">
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.uk.resx" />
+    <EmbeddedResource Include="Resources\Localizations\StringResources.uk-UA.resx" />
     <EmbeddedResource Include="Resources\Localizations\StringResources.vi-VN.resx" />
     <None Include="app.manifest">
       <SubType>Designer</SubType>
