@@ -77,7 +77,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="action">Действие</param>
         public static void AddAction(PluginHost host, IAdditionalAction action)
         {
-            WindowManager.GetActiveWindow<MainWindow>()?.AddActionToMenu(new PluginPart<IAdditionalAction>(host, action));
+            WindowManager.GetActiveWindow<MainWindow>()?.ViewModel.AddActionToMenu(new PluginPart<IAdditionalAction>(host, action));
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="action"></param>
         public static void RemoveAction(IAdditionalAction action)
         {
-            WindowManager.GetActiveWindow<MainWindow>()?.RemoveActionFromMenu(action.Guid);
+            WindowManager.GetActiveWindow<MainWindow>()?.ViewModel.RemoveActionFromMenu(action.Guid);
         }
 
         /// <summary>

@@ -96,12 +96,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\AndroidTranslator.dll</HintPath>
     </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\CommonServiceLocator.2.0.2\lib\net40\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=0e453835af4ee6ce, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1\lib\net40\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=f46ff315b1088208, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1\lib\net40\GalaSoft.MvvmLight.Extras.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
@@ -167,7 +176,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>packages\MvvmLightLibs.5.4.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -199,6 +208,7 @@
     </ApplicationDefinition>
     <Compile Include="Logic\AttachedProperties\Grid.cs" />
     <Compile Include="Logic\Classes\ActionHost.cs" />
+    <Compile Include="Logic\Classes\ContextMenuBuilder.cs" />
     <Compile Include="Logic\Classes\DownloadableApktool.cs" />
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
@@ -246,6 +256,11 @@
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.MainButtons.cs" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Functions.cs" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Menu.cs" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.TreeView.cs" />
     <Compile Include="Logic\ViewModels\Windows\RemoveLanguagesWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AddLanguageWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
@@ -287,7 +302,6 @@
     <Compile Include="Logic\OrganisationItems\GlobalResources.cs" />
     <Compile Include="Logic\OrganisationItems\GlobalVariables.cs" />
     <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
-    <Compile Include="Logic\Converters\OptionsToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\InstallTextConverter.cs" />
     <Compile Include="Pages\Settings\AppSettingsPage.xaml.cs">
       <DependentUpon>AppSettingsPage.xaml</DependentUpon>
@@ -792,6 +806,7 @@
     </None>
     <None Include="Libraries\zzz_refresh_references.ps1" />
     <None Include="Libraries\zzz_refresh_references_pause.ps1" />
+    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Common.cs" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

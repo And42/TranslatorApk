@@ -564,7 +564,7 @@
   <data name="TranslationTimeout_Label" xml:space="preserve">
     <value>Тайм-аут перевода:</value>
   </data>
-  <data name="RemoveLanguages_Caption" xml:space="preserve">
+  <data name="RemoveLanguages" xml:space="preserve">
     <value>Удалить языки</value>
   </data>
 </root>

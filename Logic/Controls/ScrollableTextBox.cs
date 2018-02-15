@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace TranslatorApk.Logic.Controls
 {
-    public class ScrollingTextBox : TextBox
+    public class ScrollableTextBox : TextBox
     {
         protected override void OnInitialized(EventArgs e)
         {

@@ -109,7 +109,8 @@
         
         </TabControl>
 
-        <controls:ScrollingTextBox
+        <controls:ScrollableTextBox
+            Style="{DynamicResource {x:Type TextBox}}"
             Grid.Row="1"
             Margin="0,5,0,0"
             Text="{Binding LogText, Mode=OneWay}"

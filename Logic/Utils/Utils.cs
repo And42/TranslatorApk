@@ -7,14 +7,12 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -85,7 +83,7 @@ namespace TranslatorApk.Logic.Utils
             return true;
         }
 
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
         {
             var flagFiles =
                 new HashSet<string>(
@@ -93,10 +91,10 @@ namespace TranslatorApk.Logic.Utils
                         .Select(Path.GetFileNameWithoutExtension)
                 );
 
-            LoadFilesToTreeViewInternal(dispatcher, pathToFolder, refreshFilesListCommand, root, showEmptyFolders, cts, oneFileAdded, flagFiles);
+            LoadFilesToTreeViewInternal(dispatcher, pathToFolder, root, showEmptyFolders, cts, oneFileAdded, flagFiles);
         }
 
-        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, ICommand refreshFilesListCommand, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
+        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
         {
             if (cts?.IsCancellationRequested == true)
                 return;
@@ -117,7 +115,7 @@ namespace TranslatorApk.Logic.Utils
                     if (!CheckFilePath(folder))
                         continue;
 
-                    var item = new FilesTreeViewNodeModel(refreshFilesListCommand, root)
+                    var item = new FilesTreeViewNodeModel(root)
                     {
                         Name = Path.GetFileName(folder),
                         Options = new Options(folder, true)
@@ -155,7 +153,7 @@ namespace TranslatorApk.Logic.Utils
                             item.Name += $" ({source.Substring(languageFolder.Length).TrimStart('-').TrimStart('r')})";
                     }
 
-                    LoadFilesToTreeViewInternal(dispatcher, folder, refreshFilesListCommand, item, showEmptyFolders,
+                    LoadFilesToTreeViewInternal(dispatcher, folder, item, showEmptyFolders,
                         cts, oneFileAdded, flagFiles);
 
                     if (item.Children.Count != 0 || showEmptyFolders)
@@ -175,7 +173,7 @@ namespace TranslatorApk.Logic.Utils
                     if (!CheckFileWithSettings(file, Path.GetExtension(file)))
                         continue;
 
-                    var item = new FilesTreeViewNodeModel(refreshFilesListCommand, root)
+                    var item = new FilesTreeViewNodeModel(root)
                     {
                         Name = Path.GetFileName(file),
                         Options = new Options(file, false)

@@ -5,6 +5,16 @@ namespace TranslatorApk.Logic.Utils
     // ReSharper disable once InconsistentNaming
     internal static class IOUtils
     {
+        public static bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
+        public static bool FolderExists(string path)
+        {
+            return Directory.Exists(path);
+        }
+
         public static void DeleteFile(string path)
         {
             UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFile(path);

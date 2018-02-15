@@ -981,9 +981,9 @@ namespace TranslatorApk.Resources.Localizations {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Удалить языки.
         /// </summary>
-        public static string RemoveLanguages_Caption {
+        public static string RemoveLanguages {
             get {
-                return ResourceManager.GetString("RemoveLanguages_Caption", resourceCulture);
+                return ResourceManager.GetString("RemoveLanguages", resourceCulture);
             }
         }
         

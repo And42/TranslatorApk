@@ -100,12 +100,12 @@
                                             FontSize="{x:Static SystemFonts.CaptionFontSize}"
                                             FontStyle="{x:Static SystemFonts.CaptionFontStyle}"
                                             Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Visibility="{Binding Path=Title, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+                                            Visibility="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                                         <Button
                                                 shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                                 x:Name="MinButton" 
                                                 Visibility="{Binding Path=(elements:WindowThemeParameters.CanMinimize), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
                                                 Grid.Column="2"
                                                 Style="{StaticResource VsWindowStyleTitleBarButton}"
                                                 Click="MinButtonClick">
@@ -123,7 +123,7 @@
                                                 Grid.Column="3"
                                                 x:Name="MaxButton"
                                                 Visibility="{Binding Path=(elements:WindowThemeParameters.IsResizable), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
                                                 Style="{StaticResource VsWindowStyleTitleBarButton}"
                                                 Click="MaxButtonClick">
                                             <Grid MaxHeight="9" MaxWidth="9">
@@ -141,7 +141,7 @@
                                                 Grid.Column="4"
                                                 x:Name="CloseButton"
                                                 Visibility="{Binding Path=(elements:WindowThemeParameters.CanClose), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
                                                 Style="{StaticResource VsWindowStyleTitleBarButton}"
                                                 Click="CloseButtonClick" >
                                             <Grid MaxHeight="9" MaxWidth="9">

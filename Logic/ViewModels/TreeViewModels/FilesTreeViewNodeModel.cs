@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
@@ -11,17 +10,8 @@ namespace TranslatorApk.Logic.ViewModels.TreeViewModels
 {
     public class FilesTreeViewNodeModel : TreeViewNodeModelBase<FilesTreeViewNodeModel>
     {
-        public FilesTreeViewNodeModel(ICommand refreshFilesListCommand, IHaveChildren<FilesTreeViewNodeModel> parent = null) : base(parent)
-        {
-            _refreshFilesListCommand = refreshFilesListCommand;
-        }
-
-        public ICommand RefreshFilesListCommand
-        {
-            get => _refreshFilesListCommand;
-            set => SetProperty(ref _refreshFilesListCommand, value);
-        }
-        private ICommand _refreshFilesListCommand;
+        public FilesTreeViewNodeModel(IHaveChildren<FilesTreeViewNodeModel> parent = null) : base(parent)
+        { }
 
         public BitmapSource Image
         {

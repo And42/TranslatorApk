@@ -6,18 +6,16 @@
         <ResourceDictionary Source="/MVVM_Tools;component/Resources/ResourceDictionaries/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
-    <converters:StringToIntConverter x:Key="StringToIntConverter" />
-    <converters:OptionsToVisibilityConverter x:Key="OptionsToVisibilityConverter"/>
     <converters:WindowTitleConverter x:Key="WindowTitleConverter"/>
+    <converters:StringToIntConverter x:Key="StringToIntConverter"/>
+    <converters:PathModiferConverter x:Key="PathModiferConverter"/>
+    <converters:InstallTextConverter x:Key="InstallTextConverter"/>
+    <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+    <converters:PercentageTextConverter x:Key="PercentageTextConverter"/>
     <converters:DoubleToMbSizeConverter x:Key="DoubleToMbSizeConverter"/>
     <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter"/>
-    <converters:TranslateServiceToStringConverter x:Key="TranslateServiceToStringConverter"/>
-    <converters:PathModiferConverter x:Key="PathModiferConverter"/>
     <converters:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
-    <converters:InstallTextConverter x:Key="InstallTextConverter"/>
-    <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
     <converters:EditorWindowFileNameConverter x:Key="EditorWindowFileNameConverter"/>
-    <converters:PercentageTextConverter x:Key="PercentageTextConverter"/>
+    <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+    <converters:TranslateServiceToStringConverter x:Key="TranslateServiceToStringConverter"/>
 </ResourceDictionary>
