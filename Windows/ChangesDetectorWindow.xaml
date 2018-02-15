@@ -13,7 +13,7 @@
         MinWidth="700" MinHeight="500"
         Height="500" Width="900"
         Style="{DynamicResource WindowStyle}"
-        FontSize="14"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         WindowStartupLocation="CenterScreen"
         Title="{x:Static localizations:StringResources.ChangesDetector}"
         

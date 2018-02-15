@@ -9,7 +9,13 @@
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
-        mc:Ignorable="d" MinHeight="300" MinWidth="300" Width="450" Height="400" WindowStartupLocation="CenterScreen"
+        xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        mc:Ignorable="d"
+        
+        MinHeight="300" MinWidth="300"
+        Width="450" Height="400"
+        WindowStartupLocation="CenterScreen"
+
         Title="Apktools"
         
         Loaded="ApktoolCatalogWindow_OnLoaded"
@@ -20,26 +26,29 @@
         
         d:DataContext="{d:DesignInstance windowModels:ApktoolCatalogWindowViewModel}">
     <Grid Margin="5">
-        <Grid.Resources>
-            <Style x:Key="GridHeaderStyle" TargetType="syncfusion:GridHeaderCellControl">
-                <Setter Property="FontSize" Value="15"/>
-            </Style>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <syncfusion:SfDataGrid
                 DockPanel.Dock="Top"
-                HeaderStyle="{StaticResource GridHeaderStyle}"
                 HeaderRowHeight="30"
-                RowHeight="35" FontSize="15"
+                RowHeight="35"
                 VerticalAlignment="Top"
                 ItemsSource="{Binding ServerApktools, Mode=OneWay}"
                 ColumnSizer="AutoLastColumnFill"
                 SelectionMode="None"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                AutoGenerateColumns="False">
+                AutoGenerateColumns="False"
+                FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}">
+
+            <syncfusion:SfDataGrid.Resources>
+                <Style TargetType="syncfusion:GridHeaderCellControl">
+                    <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
+                </Style>
+            </syncfusion:SfDataGrid.Resources>
+
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn
                     MappingName="Version"
@@ -47,18 +56,21 @@
                     AllowResizing="False"
                     Width="100"
                     AllowSorting="False"/>
+
                 <syncfusion:GridTextColumn
                     MappingName="Size"
                     HeaderText="{x:Static localizations:StringResources.Size}"
                     AllowResizing="False"
                     Width="100"
                     AllowSorting="False"/>
+
                 <syncfusion:GridTemplateColumn
-                        MappingName="Installed"
-                        HeaderText=" "
-                        AllowResizing="False"
-                        AllowSorting="False"
-                        HorizontalAlignment="Stretch">
+                    MappingName="Installed"
+                    HeaderText=" "
+                    AllowResizing="False"
+                    AllowSorting="False"
+                    HorizontalAlignment="Stretch">
+
                     <syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button 

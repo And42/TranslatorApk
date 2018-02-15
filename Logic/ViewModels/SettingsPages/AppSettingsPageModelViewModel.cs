@@ -76,6 +76,18 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             set => SettingsIncapsuler.Instance.ImageExtensions = value.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
         }
 
+        public int FontSize
+        {
+            get => SettingsIncapsuler.Instance.FontSize;
+            set => SettingsIncapsuler.Instance.FontSize = value;
+        }
+
+        public int GridFontSize
+        {
+            get => SettingsIncapsuler.Instance.GridFontSize;
+            set => SettingsIncapsuler.Instance.GridFontSize = value;
+        }
+
         public ReadOnlyObservableCollection<string> Themes { get; }
 
         public ReadOnlyObservableCollection<string> ApktoolVersions { get; }

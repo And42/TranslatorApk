@@ -230,7 +230,17 @@ namespace TranslatorApk.Logic.OrganisationItems
             set => SetValueInternal(value);
         }
 
+        public int FontSize
+        {
+            get => GetValueInternal<int>();
+            set => SetValueInternal(value);
+        }
 
+        public int GridFontSize
+        {
+            get => GetValueInternal<int>();
+            set => SetValueInternal(value);
+        }
 
         private T GetValueInternal<T>([CallerMemberName] string propertyName = null)
         {

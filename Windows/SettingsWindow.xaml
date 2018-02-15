@@ -9,8 +9,9 @@
         xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
         xmlns:treeViewModels="clr-namespace:TranslatorApk.Logic.ViewModels.TreeViewModels"
         mc:Ignorable="d"
+
         WindowStartupLocation="CenterScreen"
-        FontSize="14"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         
         MinWidth="900" MinHeight="500"
         Width="900" Height="500"
@@ -35,10 +36,12 @@
                 Width="300"
                 ItemsSource="{Binding PagesRoot, Mode=OneWay}"
                 SelectedItemChanged="TreeView_OnSelectedItemChanged">
+
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
                                      Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
                 </TreeView.Resources>
+
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock
@@ -46,6 +49,7 @@
                             Text="{Binding PageViewModel.PageTitle, Mode=OneWay}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
+
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <d:Style.DataContext>
@@ -64,9 +68,11 @@
                 </TreeView.ItemContainerStyle>
             </TreeView>
         </DockPanel>
+
         <DockPanel
             Grid.Column="1"
             Margin="5,0,0,0">
+
             <Border DockPanel.Dock="Top" Background="{DynamicResource SettingsTitleBackground_Brush}">
                 <TextBlock
                     Foreground="{DynamicResource SettingsTitleForeground_Brush}"
@@ -76,16 +82,19 @@
                     Text="{Binding CurrentPage.PageViewModel.PageTitle, Mode=OneWay, FallbackValue=None}"
                     Margin="15,2"/>
             </Border>
+
             <ScrollViewer
                     Margin="0,5,0,0"
-                    HorizontalScrollBarVisibility="Disabled"
+                    HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto">
+
                 <Frame
                     x:Name="NavigationFrame"
                     DockPanel.Dock="Top"
                     NavigationUIVisibility="Hidden"
                     Source="{Binding CurrentPage.PageUri, Mode=OneWay}"
                     Navigated="Frame_OnNavigated"/>
+
             </ScrollViewer>
         </DockPanel>
     </Grid>

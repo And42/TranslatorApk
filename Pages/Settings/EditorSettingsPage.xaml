@@ -8,10 +8,11 @@
       xmlns:settingsPages="clr-namespace:TranslatorApk.Logic.ViewModels.SettingsPages"
       xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
       xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
+      xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
       mc:Ignorable="d" 
       d:DesignHeight="200" d:DesignWidth="600"
       Title="TranslationSettingsPage"
-      FontSize="14"
+      FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
       
       d:DataContext="{d:DesignInstance settingsPages:EditorSettingsPageViewModel}">
 

@@ -655,6 +655,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Размер шрифта:.
+        /// </summary>
+        public static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на из.
         /// </summary>
         public static string From {
@@ -669,6 +678,15 @@ namespace TranslatorApk.Resources.Localizations {
         public static string FullFilePathToClipboard {
             get {
                 return ResourceManager.GetString("FullFilePathToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Размер шрифта таблиц:.
+        /// </summary>
+        public static string GridFontSize {
+            get {
+                return ResourceManager.GetString("GridFontSize", resourceCulture);
             }
         }
         

@@ -10,7 +10,9 @@
 
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Height="105" Width="400" FontSize="14" SizeToContent="Height"
+        Height="105" Width="400"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        SizeToContent="Height"
         Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:AddLanguageWindowViewModel}"
 

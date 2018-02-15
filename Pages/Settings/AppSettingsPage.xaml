@@ -9,16 +9,17 @@
       xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
       xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
       xmlns:webServices="clr-namespace:TranslatorApk.Logic.WebServices"
+      xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="600"
-      FontSize="14"
-      
+      FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+
       d:DataContext="{d:DesignInstance settingsPages:AppSettingsPageViewModel}">
 
     <Border BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
         <Grid
             Margin="5"
-            attachedProperties:Grid.Rows="Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto"
+            attachedProperties:Grid.Rows="A,5,A,5,A,5,A,5,A,5,A,5,A,5,A,5,A,5,A"
             attachedProperties:Grid.Columns="A,*">
 
             <Grid.Resources>
@@ -57,6 +58,12 @@
 
             <TextBlock Grid.Row="14" Grid.Column="0" Text="{x:Static localizations:StringResources.OtherExtensions}"/>
             <TextBox   Grid.Row="14" Grid.Column="1" Text="{Binding OtherFileExts}"/>
+
+            <TextBlock Grid.Row="16" Grid.Column="0" Text="{x:Static localizations:StringResources.FontSize}"/>
+            <TextBox   Grid.Row="16" Grid.Column="1" Text="{Binding FontSize}"/>
+
+            <TextBlock Grid.Row="18" Grid.Column="0" Text="{x:Static localizations:StringResources.GridFontSize}"/>
+            <TextBox   Grid.Row="18" Grid.Column="1" Text="{Binding GridFontSize}"/>
         </Grid>
     </Border>
 </Page>

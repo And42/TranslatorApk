@@ -16,7 +16,7 @@
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource WindowStyle}"
         
-        FontSize="14"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         Height="500" Width="500"
         MinWidth="300" MinHeight="200"
         

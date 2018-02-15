@@ -10,7 +10,8 @@
         WindowStartupLocation="CenterScreen"
         
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        FontSize="14" Style="{DynamicResource WindowStyle}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Style="{DynamicResource WindowStyle}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         
         elements:WindowThemeParameters.CanMinimize="False">

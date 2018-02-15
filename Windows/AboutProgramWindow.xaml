@@ -17,6 +17,7 @@
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"
         
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         Title="{x:Static localizations:StringResources.AboutProgram}" Height="300" Width="300" Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:AboutProgramWindowViewModel}"
@@ -30,7 +31,7 @@
         attached:Grid.Rows="Auto,Auto,*,Auto">
 
         <TextBlock Text="TranslatorApk" HorizontalAlignment="Center" FontSize="16" Margin="0,5"/>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,7">
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,7">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0}: {1}" Mode="OneWay">
                     <Binding Source="{x:Static localizations:StringResources.Version}" Mode="OneWay"/>
@@ -43,8 +44,7 @@
             Grid.Row="3"
             Margin="0,5"
             HorizontalAlignment="Center"
-            Cursor="Hand"
-            FontSize="14">
+            Cursor="Hand">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding WebMoneyClickedCommand}"/>

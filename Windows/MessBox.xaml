@@ -4,8 +4,10 @@
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        MinHeight="170" MinWidth="250" Width="350" Height="200"
+        MinHeight="170" MinWidth="250"
+        Width="350" Height="200"
         WindowStartupLocation="CenterScreen" 
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
         
         Loaded="MessBox_OnLoaded" 
         Closing="MessBox_OnClosing"
@@ -23,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Margin="10,10,10,5" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="MessLabel" FontSize="14" Margin="5,0" TextWrapping="Wrap"/>
+            <TextBlock x:Name="MessLabel" Margin="5,0" TextWrapping="Wrap"/>
         </ScrollViewer>
 
         <Grid x:Name="ButtonsGrid" Grid.Row="1">
