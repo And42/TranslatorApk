@@ -128,7 +128,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             switch (args.PropertyName)
             {
-                case nameof(IsLoading):
+                case nameof(IsBusy):
                     RaiseCommandCanExecute();
                     break;
             }
@@ -136,7 +136,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public override void UnsubscribeFromEvents() { }
 
-        private bool NotLoading() => !IsLoading;
+        private bool NotLoading() => !IsBusy;
 
         #region CreateClicks
 
@@ -298,7 +298,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private CustomBoolDisposable BusyDisposable()
         {
-            return new CustomBoolDisposable(val => IsLoading = val);
+            return new CustomBoolDisposable(val => IsBusy = val);
         }
 
         private void Log(string contents = "", bool writeNewLine = true)

@@ -89,12 +89,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public override async Task LoadItems()
         {
-            if (IsLoading || GlobalVariables.CurrentProjectFolder == null)
+            if (IsBusy || GlobalVariables.CurrentProjectFolder == null)
                 return;
 
             _currentProjectFolder = GlobalVariables.CurrentProjectFolder;
 
-            using (new LoadingDisposable(this))
+            using (BusyDisposable())
             {
                 var items = await Task.Factory.StartNew(() =>
                 {

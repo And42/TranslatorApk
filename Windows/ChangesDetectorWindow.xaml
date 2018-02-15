@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
 
         <TabControl
-            IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}">
+            IsEnabled="{Binding IsBusy, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}">
 
             <TabItem Header="{x:Static localizations:StringResources.ChangesDetectorWindow_OneFileCreation}">
                 <StackPanel Margin="5" Orientation="Horizontal">

@@ -1,49 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MVVM_Tools.Code.Classes;
+using MVVM_Tools.Code.Disposables;
 using TranslatorApk.Logic.Interfaces;
 
 namespace TranslatorApk.Logic.Classes
 {
     public abstract class ViewModelBase : BindableBase, IViewModelBase
     {
-        protected class LoadingDisposable : IDisposable
-        {
-            private IViewModelBase _model;
-
-            public LoadingDisposable(IViewModelBase model)
-            {
-                if (model == null)
-                    throw new ArgumentNullException(nameof(model));
-                if (model.IsLoading)
-                    throw new InvalidOperationException(nameof(model) + " is loading at the moment");
-
-                _model = model;
-                _model.IsLoading = true;
-            }
-
-            public void Dispose()
-            {
-                if (_model == null)
-                    throw new ObjectDisposedException(nameof(LoadingDisposable));
-
-                _model.IsLoading = false;
-                _model = null;
-            }
-        }
-
         protected static readonly Task EmptyTask = new Task(() => {});
 
-        public virtual bool IsLoading
+        public virtual bool IsBusy
         {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
-        private bool _isLoading;
+        private bool _isBusy;
 
-        protected LoadingDisposable LoadingDiposable()
+        protected CustomBoolDisposable BusyDisposable()
         {
-            return new LoadingDisposable(this);
+            return new CustomBoolDisposable(val => IsBusy = val);
         }
 
         public virtual Task LoadItems() => EmptyTask;

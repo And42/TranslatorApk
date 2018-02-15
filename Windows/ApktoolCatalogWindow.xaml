@@ -74,11 +74,13 @@
                 </syncfusion:GridTemplateColumn>
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
+
         <ProgressBar
             Grid.Row="1"
             Margin="0,5,0,0" Height="23"
-            Value="{Binding Progress, Mode=OneWay}"
-            Maximum="{Binding ProgressMax, Mode=OneWay}"
-            Visibility="{Binding ProgressBarVisibility, Mode=OneWay}"/>
+            Value="{Binding Progress.Value, Mode=OneWay}"
+            Maximum="{Binding ProgressMax.Value, Mode=OneWay}"
+            Visibility="{Binding ProgressBarVisibility.Value, Mode=OneWay}"/>
+
     </Grid>
 </Window>

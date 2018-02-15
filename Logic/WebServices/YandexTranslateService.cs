@@ -40,7 +40,7 @@ namespace TranslatorApk.Logic.WebServices
                 throw new Exception(StringResources.ApiKeyIsEmpty);
 
             string link = "https://" + $"translate.yandex.net/api/v1.5/tr.json/translate?key={apiKey}&lang={targetLanguage}&text={text}";
-            string downloaded = Utils.Utils.DownloadString(link, SettingsIncapsuler.Instance.TranslationTimeout);
+            string downloaded = Utils.WebUtils.DownloadString(link, SettingsIncapsuler.Instance.TranslationTimeout);
 
             return TranslateService.GetResponseFromJson<YandexTranslateResponse>(downloaded).ToString();
         }

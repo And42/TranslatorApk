@@ -13,10 +13,10 @@ namespace TranslatorApk.Windows
             ViewModel = new ApktoolCatalogWindowViewModel();
         }
 
-        public ApktoolCatalogWindowViewModel ViewModel
+        internal ApktoolCatalogWindowViewModel ViewModel
         {
             get => DataContext as ApktoolCatalogWindowViewModel;
-            set => DataContext = value;
+            private set => DataContext = value;
         }
 
         private async void ApktoolCatalogWindow_OnLoaded(object sender, RoutedEventArgs e)

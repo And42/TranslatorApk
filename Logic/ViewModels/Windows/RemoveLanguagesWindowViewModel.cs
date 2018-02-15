@@ -64,7 +64,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _languages = new ObservableRangeCollection<SourceLanguageModel>();
             Languages = new ReadOnlyObservableCollection<SourceLanguageModel>(_languages);
 
-            _removeLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute, () => !IsLoading);
+            _removeLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute, () => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -76,7 +76,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (!Directory.Exists(sourcedir))
                 return;
 
-            using (LoadingDiposable())
+            using (BusyDisposable())
             {
                 List<SourceLanguageModel> toDelete = Languages.Where(it => it.IsSelected).ToList();
 
@@ -99,7 +99,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (GlobalVariables.CurrentProjectFolder == null)
                 return;
 
-            using (LoadingDiposable())
+            using (BusyDisposable())
             {
                 List<SourceLanguageModel> languages = await GetLanguageFoldersAsync(CancellationToken.None);
                 _languages.ReplaceRange(languages);
@@ -153,7 +153,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             switch (args.PropertyName)
             {
-                case nameof(IsLoading):
+                case nameof(IsBusy):
                     RefreshCommandsCanExecute();
                     break;
             }

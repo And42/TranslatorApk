@@ -4,7 +4,7 @@ namespace TranslatorApk.Logic.Interfaces
 {
     public interface IViewModelBase
     {
-        bool IsLoading { get; set; }
+        bool IsBusy { get; set; }
 
         Task LoadItems();
 

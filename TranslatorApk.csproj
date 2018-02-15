@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="Logic\Utils\CollectionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
+    <Compile Include="Logic\Utils\WebUtils.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />

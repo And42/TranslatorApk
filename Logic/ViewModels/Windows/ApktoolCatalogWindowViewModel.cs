@@ -11,219 +11,206 @@ using System.Windows;
 using System.Windows.Input;
 using HtmlAgilityPack;
 using MVVM_Tools.Code.Commands;
+using MVVM_Tools.Code.Disposables;
+using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
-    public class ApktoolCatalogWindowViewModel : ViewModelBase
+    internal class ApktoolCatalogWindowViewModel : ViewModelBase
     {
-        private class DownloadCompletedState
-        {
-            public string FilePath { get; }
-            public DownloadableApktool Item { get; }
-
-            public DownloadCompletedState(string filePath, DownloadableApktool item)
-            {
-                FilePath = filePath;
-                Item = item;
-            }
-        }
-
         private readonly WebClient _client;
 
-        private readonly ObservableRangeCollection<DownloadableApktool> _serverApktools;
         public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
+        private readonly ObservableRangeCollection<DownloadableApktool> _serverApktools;
 
-        private bool _isLoading;
-        public override bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                    _itemClickedCommand.RaiseCanExecuteChanged();
-            }
-        }
+        public PropertyProvider<int> Progress { get; }
+        public PropertyProvider<int> ProgressMax { get; }
+        public PropertyProvider<Visibility> ProgressBarVisibility { get; }
 
-        private int _progress;
-        public int Progress
-        {
-            get => _progress;
-            private set => SetProperty(ref _progress, value);
-        }
-
-        public int ProgressMax { get; } = 100;
-
-        private Visibility _progressBarVisibility = Visibility.Collapsed;
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            private set => SetProperty(ref _progressBarVisibility, value);
-        }
-
-        private readonly ActionCommand<DownloadableApktool> _itemClickedCommand;
         public ICommand ItemClickedCommand => _itemClickedCommand;
+        private readonly ActionCommand<DownloadableApktool> _itemClickedCommand;
 
         public ApktoolCatalogWindowViewModel()
         {
-            _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
+            Progress = CreateProviderWithNotify<int>(nameof(Progress));
+            ProgressMax = CreateProviderWithNotify(nameof(ProgressMax), 100);
+            ProgressBarVisibility = CreateProviderWithNotify(nameof(ProgressBarVisibility), Visibility.Collapsed);
 
+            _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
             ServerApktools = new ReadOnlyObservableCollection<DownloadableApktool>(_serverApktools);
 
             _client = new WebClient();
-
             _client.DownloadProgressChanged += ClientOnDownloadProgressChanged;
-            _client.DownloadFileCompleted += ClientOnDownloadFileCompleted;
 
-            _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsLoading);
+            _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsBusy);
+
+            PropertyChanged += OnPropertyChanged;
         }
 
         public override async Task LoadItems()
         {
-            if (IsLoading)
-                return;
-
-            using (new LoadingDisposable(this))
+            using (BusyDisposable())
             {
-                string page;
+                List<DownloadableApktool> items = await DownloadApktoolsListAsync();
 
-                try
-                {
-                    page = await Utils.Utils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads",
-                        Utils.Utils.DefaultTimeout);
-                }
-                catch
+                if (items == null)
                 {
                     MessBox.ShowDial(StringResources.CanNotRecieveApktoolsList, StringResources.ErrorLower);
                     return;
                 }
 
-                var items = await Task.Factory.StartNew(() =>
-                {
-                    var installed =
-                        new HashSet<string>(
-                            Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
-                                .Select(Path.GetFileNameWithoutExtension)
-                                .Select(s => s.Split('_')[1])
-                        );
-
-                    var document = new HtmlDocument();
-                    document.LoadHtml(page);
-
-                    HtmlNodeCollection iterableItems = document.GetElementbyId("uploaded-files")
-                        .SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
-
-                    return iterableItems
-                        .Select(it =>
-                            new
-                            {
-                                Version = GetVersion(it),
-                                Size = it.SelectSingleNode("td[@class=\"size\"]").InnerText,
-                                Link = "https://bitbucket.org" +
-                                       it.SelectSingleNode("td[@class=\"name\"]/a").Attributes["href"].Value
-                            }
-                        )
-                        .Select(it =>
-                            new DownloadableApktool
-                            {
-                                Version = it.Version,
-                                Size = it.Size,
-                                Link = it.Link,
-                                Installed = installed.Contains(it.Version)
-                                    ? InstallOptionsEnum.ToUninstall
-                                    : InstallOptionsEnum.ToInstall
-                            }
-                        )
-                        .ToList();
-                });
-
                 _serverApktools.ReplaceRange(items);
             }
         }
 
-        private void ItemClickedCommand_Execute(DownloadableApktool item)
+        public override void UnsubscribeFromEvents()
+        {
+            PropertyChanged -= OnPropertyChanged;
+        }
+
+        private async void ItemClickedCommand_Execute(DownloadableApktool item)
         {
             if (item == null || !ServerApktools.Contains(item))
                 return;
 
-            IsLoading = true;
-
-            string downloadingApktoolPath = Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{item.Version}.jar");
-
-            if (item.Installed == InstallOptionsEnum.ToUninstall)
+            using (BusyDisposable())
+            using (ProgressBarDisposable())
             {
-                try
+                string downloadingApktoolPath =
+                    Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{item.Version}.jar");
+
+                if (item.Installed == InstallOptionsEnum.ToUninstall)
                 {
-                    File.Delete(downloadingApktoolPath);
-                    item.Installed = InstallOptionsEnum.ToInstall;
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                        $"\"delete file|{downloadingApktoolPath}\"", out Process process))
+                    try
                     {
-                        process.WaitForExit();
+                        IOUtils.DeleteFile(downloadingApktoolPath);
                         item.Installed = InstallOptionsEnum.ToInstall;
                     }
+                    catch (UnauthorizedAccessException)
+                    {
+                        if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                            $"\"delete file|{downloadingApktoolPath}\"", out Process process))
+                        {
+                            process.WaitForExit();
+                            item.Installed = InstallOptionsEnum.ToInstall;
+                        }
+                    }
+
+                    return;
                 }
 
-                IsLoading = false;
-
-                return;
-            }
-
-            if (!Utils.Utils.CheckRights())
-            {
-                if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
-                    $"\"download|{item.Link}|{downloadingApktoolPath}\"", out Process process))
+                if (!Utils.Utils.CheckRights())
                 {
-                    process.WaitForExit();
-                    item.Installed = InstallOptionsEnum.ToUninstall;
+                    if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                        $"\"download|{item.Link}|{downloadingApktoolPath}\"", out Process process))
+                    {
+                        process.WaitForExit();
+                        item.Installed = InstallOptionsEnum.ToUninstall;
+                    }
+
+                    return;
                 }
 
-                IsLoading = false;
+                Progress.Value = 0;
 
-                return;
+                await _client.DownloadFileTaskAsync(
+                    new Uri(item.Link),
+                    downloadingApktoolPath
+                );
+
+                //if (args.Cancelled)
+                //    File.Delete(state.FilePath);
+
+                item.Installed = InstallOptionsEnum.ToUninstall;
             }
-
-            Progress = 0;
-            ProgressBarVisibility = Visibility.Visible;
-
-            _client.DownloadFileAsync(
-                new Uri(item.Link),
-                downloadingApktoolPath,
-                new DownloadCompletedState(downloadingApktoolPath, item)
-            );
         }
 
         private void ClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
         {
-            Progress = args.ProgressPercentage;
+            Progress.Value = args.ProgressPercentage;
         }
 
-        private void ClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var state = args.UserState.As<DownloadCompletedState>();
+            switch (args.PropertyName)
+            {
+                case nameof(IsBusy):
+                    RaiseCommandsCanExecute();
+                    break;
+            }
+        }
 
-            if (args.Cancelled)
-                File.Delete(state.FilePath);
-            else
-                state.Item.Installed = InstallOptionsEnum.ToUninstall;
+        private void RaiseCommandsCanExecute()
+        {
+            _itemClickedCommand.RaiseCanExecuteChanged();
+        }
 
-            ProgressBarVisibility = Visibility.Collapsed;
+        private CustomBoolDisposable ProgressBarDisposable()
+        {
+            return new CustomBoolDisposable(val => ProgressBarVisibility.Value = val ? Visibility.Visible : Visibility.Collapsed);
+        }
 
-            IsLoading = false;
+        private static async Task<List<DownloadableApktool>> DownloadApktoolsListAsync()
+        {
+            string page;
+
+            try
+            {
+                page = await WebUtils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads", WebUtils.DefaultTimeout);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return await Task.Factory.StartNew(() =>
+            {
+                var installed =
+                    new HashSet<string>(
+                        Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
+                            .Select(Path.GetFileNameWithoutExtension)
+                            .Select(s => s.Split('_')[1])
+                    );
+
+                var document = new HtmlDocument();
+                document.LoadHtml(page);
+
+                HtmlNodeCollection iterableItems = document.GetElementbyId("uploaded-files")
+                    .SelectNodes("tbody[1]/tr[@class=\"iterable-item\"]");
+
+                return iterableItems
+                    .Select(it =>
+                        new
+                        {
+                            Version = GetVersion(it),
+                            Size = it.SelectSingleNode("td[@class=\"size\"]").InnerText,
+                            Link = "https://bitbucket.org" +
+                                   it.SelectSingleNode("td[@class=\"name\"]/a").Attributes["href"].Value
+                        }
+                    )
+                    .Select(it =>
+                        new DownloadableApktool
+                        {
+                            Version = it.Version,
+                            Size = it.Size,
+                            Link = it.Link,
+                            Installed = installed.Contains(it.Version)
+                                ? InstallOptionsEnum.ToUninstall
+                                : InstallOptionsEnum.ToInstall
+                        }
+                    )
+                    .ToList();
+            });
         }
 
         private static string GetVersion(HtmlNode node)
         {
             return Path.GetFileNameWithoutExtension(node.SelectSingleNode("td[@class=\"name\"]/a").InnerText.Split('_')[1]);
         }
-
-        public override void UnsubscribeFromEvents() { }
     }
 }

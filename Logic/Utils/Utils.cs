@@ -41,11 +41,6 @@ namespace TranslatorApk.Logic.Utils
     public static class Utils
     {
         /// <summary>
-        /// Время ожидания ответа от сервера при загрузке данных по умолчанию
-        /// </summary>
-        public const int DefaultTimeout = 50000;
-
-        /// <summary>
         /// Проверяет текущий файл на соответствие настройкам
         /// </summary>
         /// <param name="file">Файл</param>
@@ -502,7 +497,7 @@ namespace TranslatorApk.Logic.Utils
             {
                 string newVersion;
 
-                if (!TryFunc(() => DownloadString("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version", DefaultTimeout), out newVersion))
+                if (!TryFunc(() => WebUtils.DownloadString("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version", WebUtils.DefaultTimeout), out newVersion))
                     return;
 
                 if (CompareVersions(newVersion, GlobalVariables.ProgramVersion) != 1)
@@ -518,7 +513,7 @@ namespace TranslatorApk.Logic.Utils
                         changesLink = "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_changes"; break;
                 }
 
-                string changes = DownloadString(changesLink, DefaultTimeout);
+                string changes = WebUtils.DownloadString(changesLink, WebUtils.DefaultTimeout);
 
                 Application.Current.Dispatcher.InvokeAction(() =>
                 {
@@ -808,37 +803,6 @@ namespace TranslatorApk.Logic.Utils
         public static void InvokeAction(this Dispatcher dispatcher, Action action)
         {
             dispatcher.Invoke(action);
-        }
-
-        /// <summary>
-        /// Загружает страницу в виде текста по ссылке
-        /// </summary>
-        /// <param name="link">Ссылка</param>
-        /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static string DownloadString(string link, int timeout)
-        {
-            var client = (HttpWebRequest)WebRequest.Create(link);
-
-            client.UserAgent = GlobalVariables.MozillaAgent;
-            client.Timeout = client.ReadWriteTimeout = timeout;
-
-            Stream stream = client.GetResponse().GetResponseStream();
-
-            if (stream == null)
-                return string.Empty;
-
-            using (var strread = new StreamReader(stream))
-                return strread.ReadToEnd();
-        }
-
-        /// <summary>
-        /// Асинхронно загружает страницу в виде текста по ссылке
-        /// </summary>
-        /// <param name="link">Ссылка</param>
-        /// <param name="timeout">Время ожидания ответа от сервера</param>
-        public static Task<string> DownloadStringAsync(string link, int timeout)
-        {
-            return Task<string>.Factory.StartNew(() => DownloadString(link, timeout));
         }
 
         /// <summary>

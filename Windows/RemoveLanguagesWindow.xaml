@@ -29,13 +29,13 @@
 
         <userControls:BusyContainer
             Brush="{DynamicResource ElementInverted}"
-            IsBusy="{Binding IsLoading, Mode=OneWay}">
+            IsBusy="{Binding IsBusy, Mode=OneWay}">
 
             <userControls:BusyContainer.InnerTemplate>
                 <DataTemplate>
                     <ListBox
                         ItemsSource="{Binding Languages}"
-                        IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}">
+                        IsEnabled="{Binding IsBusy, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>

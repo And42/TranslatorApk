@@ -69,7 +69,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ICommand ItemClickedCommand => _itemClickedCommand;
 
         private bool _isLoading;
-        public override bool IsLoading
+        public override bool IsBusy
         {
             get => _isLoading;
             set
@@ -85,21 +85,21 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             TableItems = new ReadOnlyObservableCollection<TableItem>(_tableItems);
 
-            _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsLoading);
+            _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsBusy);
         }
 
         public override async Task LoadItems()
         {
-            if (IsLoading)
+            if (IsBusy)
                 return;
 
-            using (new LoadingDisposable(this))
+            using (BusyDisposable())
             {
                 string plugs;
 
                 try
                 {
-                    plugs = await Utils.Utils.DownloadStringAsync(PluginsLink, Utils.Utils.DefaultTimeout);
+                    plugs = await WebUtils.DownloadStringAsync(PluginsLink, WebUtils.DefaultTimeout);
                 }
                 catch (Exception)
                 {
@@ -158,7 +158,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private async Task InstallPlugin(TableItem item)
         {
-            IsLoading = true;
+            IsBusy = true;
 
             await Task.Factory.StartNew(() =>
             {
@@ -186,12 +186,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 }
             });
 
-            IsLoading = false;
+            IsBusy = false;
         }
 
         private async Task UninstallPlugin(TableItem item)
         {
-            IsLoading = true;
+            IsBusy = true;
 
             await Task.Factory.StartNew(() =>
             {
@@ -219,7 +219,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 item.Version = "";
             });
 
-            IsLoading = false;
+            IsBusy = false;
         }
 
         public override void UnsubscribeFromEvents() { }
