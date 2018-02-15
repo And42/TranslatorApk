@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using HtmlAgilityPack;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Disposables;
@@ -32,8 +31,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public PropertyProvider<int> ProgressMax { get; }
         public PropertyProvider<Visibility> ProgressBarVisibility { get; }
 
-        public ICommand ItemClickedCommand => _itemClickedCommand;
-        private readonly ActionCommand<DownloadableApktool> _itemClickedCommand;
+        public IActionCommand<DownloadableApktool> ItemClickedCommand { get; }
 
         public ApktoolCatalogWindowViewModel()
         {
@@ -47,7 +45,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _client = new WebClient();
             _client.DownloadProgressChanged += ClientOnDownloadProgressChanged;
 
-            _itemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsBusy);
+            ItemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -123,9 +121,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     downloadingApktoolPath
                 );
 
-                //if (args.Cancelled)
-                //    File.Delete(state.FilePath);
-
                 item.Installed = InstallOptionsEnum.ToUninstall;
             }
         }
@@ -147,7 +142,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void RaiseCommandsCanExecute()
         {
-            _itemClickedCommand.RaiseCanExecuteChanged();
+            ItemClickedCommand.RaiseCanExecuteChanged();
         }
 
         private CustomBoolDisposable ProgressBarDisposable()

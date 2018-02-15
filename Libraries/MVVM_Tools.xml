@@ -157,7 +157,7 @@
         </member>
         <member name="T:MVVM_Tools.Code.Commands.ActionCommand">
             <summary>
-            Command that implements <see cref="T:System.Windows.Input.ICommand"/> interface. Parameters is of the <see cref="T:System.Object"/> type
+            Command that implements <see cref="T:MVVM_Tools.Code.Commands.IActionCommand"/> interface. Parameters is of the <see cref="T:System.Object"/> type
             </summary>
         </member>
         <member name="M:MVVM_Tools.Code.Commands.ActionCommand.#ctor(System.Action,System.Func{System.Boolean})">
@@ -170,7 +170,7 @@
         </member>
         <member name="T:MVVM_Tools.Code.Commands.ActionCommand`1">
             <summary>
-            Command that implements <see cref="T:System.Windows.Input.ICommand"/> interface
+            Command that implements <see cref="T:MVVM_Tools.Code.Commands.IActionCommand`1"/> interface
             </summary>
             <typeparam name="TParameter">Parameter value type</typeparam>
         </member>
@@ -195,6 +195,11 @@
         </member>
         <member name="E:MVVM_Tools.Code.Commands.ActionCommand`1.CanExecuteChanged">
             <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.IActionCommand`1.RaiseCanExecuteChanged">
+            <summary>
+            Raises <see cref="!:CanExecuteChanged"/> event
+            </summary>
         </member>
         <member name="T:MVVM_Tools.Code.Converters.FalseToVisibleConverter">
             <summary>
@@ -243,6 +248,21 @@
             <inheritdoc />
         </member>
         <member name="M:MVVM_Tools.Code.Converters.TrueToVisibleConverter.ConvertBackInternal(System.Windows.Visibility,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="T:MVVM_Tools.Code.Disposables.CustomBoolDisposable">
+            <summary>
+            Class that sets the value to true on load and to false on dispose
+            </summary>
+        </member>
+        <member name="M:MVVM_Tools.Code.Disposables.CustomBoolDisposable.#ctor(System.Action{System.Boolean})">
+            <summary>
+            Creates new instance of a class with the provided value setter
+            </summary>
+            <param name="setValue">Value setter</param>
+            <exception cref="T:System.ArgumentNullException">thrown if setValue is null</exception>
+        </member>
+        <member name="M:MVVM_Tools.Code.Disposables.CustomBoolDisposable.Dispose">
             <inheritdoc />
         </member>
         <member name="T:MVVM_Tools.Code.Providers.PropertyProvider`1">
