@@ -6,8 +6,6 @@ namespace TranslatorApk.Logic.ViewModels.TreeViewModels
 {
     public abstract class TreeViewNodeModelBase<TNodeModel> : BindableBase, IHaveChildren<TNodeModel>
     {
-        private bool _isExpanded;
-
         protected TreeViewNodeModelBase(IHaveChildren<TNodeModel> parent = null)
         {
             Parent = parent;
@@ -22,5 +20,13 @@ namespace TranslatorApk.Logic.ViewModels.TreeViewModels
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
         }
+        private bool _isExpanded;
+
+        public virtual bool IsVisible
+        {
+            get => _isVisible;
+            set => SetProperty(ref _isVisible, value);
+        }
+        private bool _isVisible = true;
     }
 }

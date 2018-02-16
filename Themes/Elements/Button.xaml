@@ -4,7 +4,6 @@
     <Style TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource Button_BackgroundNormal}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Button_BorderNormal}"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">

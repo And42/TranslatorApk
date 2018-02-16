@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +15,8 @@ using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
+using MVVM_Tools.Code.Providers;
+using Nito.AsyncEx;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.EventManagerLogic;
 using TranslatorApk.Logic.Events;
@@ -69,8 +75,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         }
 
         private CommandContainers _tvCommands;
+        private CancellationTokenSource _filteringToken;
+        private readonly AsyncLock _filterLock = new AsyncLock();
+
+        public PropertyProvider<string> TV_FilterString { get; private set; }
+        public PropertyProvider<bool> TV_FilteringBoxIsVisible { get; private set; }
 
         public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel();
+
+        public IActionCommand TV_OpenFilterBoxCommand { get; private set; }
+        public IActionCommand TV_CloseFilterBoxCommand { get; private set; }
 
         public IActionCommand TV_ExpandCommand { get; private set; }
         public IActionCommand TV_CollapseCommand { get; private set; }
@@ -89,8 +103,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitTreeViewPart()
         {
+            TV_FilterString = CreateProviderWithNotify<string>(nameof(TV_FilterString));
+            TV_FilteringBoxIsVisible = CreateProviderWithNotify<bool>(nameof(TV_FilteringBoxIsVisible));
+
             ActionCommand ActCom(Action action) => new ActionCommand(action);
             TVItemMenuCommand TVCom(Action<FilesTreeViewNodeModel> action) => new ActionCommand<FilesTreeViewNodeModel>(action);
+
+            TV_OpenFilterBoxCommand = ActCom(TV_OpenFilterBoxCommand_Execute);
+            TV_CloseFilterBoxCommand = ActCom(TV_CloseFilterBoxCommand_Execute);
 
             TV_ExpandCommand = ActCom(TV_ExpandCommand_Execute);
             TV_CollapseCommand = ActCom(TV_CollapseCommand_Execute);
@@ -109,6 +129,21 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             _tvCommands = new CommandContainers(this);
         }
+
+        #region Окно фильтрации
+
+        private void TV_OpenFilterBoxCommand_Execute()
+        {
+            TV_FilteringBoxIsVisible.Value = true;
+        }
+
+        private void TV_CloseFilterBoxCommand_Execute()
+        {
+            TV_FilteringBoxIsVisible.Value = false;
+            TV_FilterString.Value = string.Empty;
+        }
+
+        #endregion
 
         #region Кнопки контекстного меню дерева
 
@@ -355,5 +390,89 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         }
 
         #endregion
+
+        private async Task TVPropertyChanged(PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(TV_FilterString):
+                    await FilterItems();
+                    break;
+            }
+        }
+
+        private async Task TVSettingsOnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(SettingsIncapsuler.TVFilterBoxUseRegex):
+                    await FilterItems();
+                    break;
+            }
+        }
+
+        private async Task FilterItems()
+        {
+            _filteringToken?.Cancel();
+
+            using (await _filterLock.LockAsync())
+            {
+                _filteringToken = new CancellationTokenSource();
+
+                try
+                {
+                    Predicate<string> checkName;
+
+                    string searchVal = TV_FilterString.Value;
+
+                    if (string.IsNullOrEmpty(searchVal))
+                    {
+                        checkName = _ => true;
+                    }
+                    else if (SettingsIncapsuler.Instance.TVFilterBoxUseRegex)
+                    {
+                        var regex = new Regex(searchVal);
+                        checkName = file => string.IsNullOrEmpty(file) || regex.IsMatch(file);
+                    }
+                    else
+                    {
+                        checkName = file => string.IsNullOrEmpty(file) || file.Contains(searchVal);
+                    }
+
+                    await FilterTreeItemsAsync(checkName, _filteringToken.Token);
+                }
+                catch (TaskCanceledException)
+                { }
+            }
+        }
+
+        private Task FilterTreeItemsAsync(Predicate<string> checkName, CancellationToken cancellationToken)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                foreach (var child in FilesFilesTreeViewModel.Children)
+                    FilterTreeItems(checkName, child, cancellationToken);
+            }, cancellationToken);
+        }
+
+        private static bool FilterTreeItems(Predicate<string> checkName, FilesTreeViewNodeModel node, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!node.Options.IsFolder)
+                Debug.Assert(node.Children.Count == 0, "node.Children.Count == 0");
+
+            bool result = checkName(Path.GetFileName(node.Options.FullPath));
+
+            if (node.Options.IsFolder)
+            {
+                foreach (var child in node.Children)
+                    result |= FilterTreeItems(checkName, child, cancellationToken);
+            }
+
+            node.IsVisible = result;
+
+            return result;
+        }
     }
 }

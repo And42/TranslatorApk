@@ -7,6 +7,8 @@ using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Properties;
 
+// ReSharper disable InconsistentNaming
+
 namespace TranslatorApk.Logic.OrganisationItems
 {
     /// <summary>
@@ -241,6 +243,14 @@ namespace TranslatorApk.Logic.OrganisationItems
             get => GetValueInternal<int>();
             set => SetValueInternal(value);
         }
+
+        public bool TVFilterBoxUseRegex
+        {
+            get => GetValueInternal<bool>();
+            set => SetValueInternal(value);
+        }
+
+
 
         private T GetValueInternal<T>([CallerMemberName] string propertyName = null)
         {

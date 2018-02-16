@@ -146,5 +146,8 @@
     <Setting Name="GridFontSize" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>
     </Setting>
+    <Setting Name="TVFilterBoxUseRegex" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

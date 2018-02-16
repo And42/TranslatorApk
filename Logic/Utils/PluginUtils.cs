@@ -37,7 +37,7 @@ namespace TranslatorApk.Logic.Utils
 
             loader.Load(path);
 
-            Application.Current.Dispatcher.InvokeAction(() =>
+            Application.Current?.Dispatcher.InvokeAction(() =>
             {
                 loader.Actions.ForEach(it => AddAction(loader, it));
                 loader.Translators.ForEach(AddTranslator);

@@ -556,7 +556,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить этот файл.
+        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить файл.
         /// </summary>
         public static string FileDeleteConfirmation {
             get {
@@ -646,7 +646,7 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить эту папку.
+        ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить папку.
         /// </summary>
         public static string FolderDeleteConfirmation {
             get {

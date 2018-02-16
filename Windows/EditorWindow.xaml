@@ -229,7 +229,6 @@
 
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn
-                    d:DataContext="{d:DesignInstance files:IEditableFile}"
                     MappingName="FileName"
                     DisplayBinding="{Binding FileName, Converter={StaticResource EditorWindowFileNameConverter}, Mode=OneWay}"
                     HeaderText="{x:Static localizations:StringResources.Filename}"                   

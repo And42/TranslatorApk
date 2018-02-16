@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
-using TranslatorApk.Logic.ViewModels.Windows;
 using TranslatorApk.Logic.ViewModels.Windows.MainWindow;
 using UsefulClasses;
 using UsefulFunctionsLib;
@@ -36,6 +38,8 @@ namespace TranslatorApk.Windows
             ViewModel = new MainWindowViewModel(args, this);
 
             LoadSettings();
+
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
         }
 
         internal MainWindowViewModel ViewModel
@@ -153,9 +157,10 @@ namespace TranslatorApk.Windows
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
             ViewModel.UnsubscribeFromEvents();
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
 
             MainWindowViewModel.AndroidLogger.Stop();
-            SettingsIncapsuler.Instance.MainWindowSize = new System.Drawing.Point((int)Width, (int)Height);
+            SettingsIncapsuler.Instance.MainWindowSize = new Point((int)Width, (int)Height);
         }
 
         private void TreeViewElement_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -180,6 +185,27 @@ namespace TranslatorApk.Windows
             ViewModel.FillTreeContextMenu(builder.GetItemsBuilder());
 
             builder.Build().IsOpen = true;
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(ViewModel.TV_FilteringBoxIsVisible):
+                    if (ViewModel.TV_FilteringBoxIsVisible.Value)
+                        Dispatcher.BeginInvokeAction(DispatcherPriority.Render, () => FilterBox.Focus());
+
+                    break;
+            }
+        }
+
+        private void FilterBox_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                e.Handled = true;
+                ViewModel.TV_CloseFilterBoxCommand.Execute(null);
+            }
         }
     }
 }

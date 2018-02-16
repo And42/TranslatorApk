@@ -7,10 +7,13 @@
     <Color x:Key="PopupBackgroundColor">#1B1B1C</Color>
     <SolidColorBrush x:Key="PopupBackgroundBrush">#1B1B1C</SolidColorBrush>
     <Color x:Key="WhiteColor">#F1F1F1</Color>
+
     <Color x:Key="BorderNormalColor">#434346</Color>
+    <!--<Color x:Key="BorderFocusedColor">#569DE5</Color>-->
 
     <SolidColorBrush x:Key="ElementInverted" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="BorderNormalBrush" Color="{DynamicResource BorderNormalColor}"/>
+    <SolidColorBrush x:Key="BorderHighlightedBrush" Color="{DynamicResource HighlitedColor}"/>
     <SolidColorBrush x:Key="ContainerBackgroundNormalBrush" Color="{DynamicResource ContainerBackgroundNormal}"/>
     <SolidColorBrush x:Key="ContainerBackgroundHighlitedBrush" Color="{DynamicResource ContainerBackgroundHighlited}"/>
 

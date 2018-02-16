@@ -197,69 +197,134 @@
                 <ColumnDefinition Width="3"/>
                 <ColumnDefinition Width="*" MinWidth="200"/>
             </Grid.ColumnDefinitions>
-            
-            <TreeView 
-                AllowDrop="True" 
-                KeyUp="TreeView_KeyUp"
-                ItemsSource="{Binding FilesFilesTreeViewModel.Children}"
-                MouseRightButtonUp="TreeView_OnMouseRightButtonUp">
 
-                <TreeView.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                     Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
-                </TreeView.Resources>
+            <Grid attachedProperties:Grid.Rows="A,*">
+                <TreeView 
+                    Grid.Row="1"
+                    AllowDrop="True" 
+                    KeyUp="TreeView_KeyUp"
+                    ItemsSource="{Binding FilesFilesTreeViewModel.Children}"
+                    MouseRightButtonUp="TreeView_OnMouseRightButtonUp">
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="DragDrop">
-                        <command:EventToCommand
-                            Command="{Binding TV_DropCommand}"
-                            PassEventArgsToCommand="True"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                    <TreeView.Resources>
+                        <SolidColorBrush
+                            x:Key="{x:Static SystemColors.ControlBrushKey}"
+                            Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
+                    </TreeView.Resources>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DragDrop">
+                            <command:EventToCommand
+                                Command="{Binding TV_DropCommand}"
+                                PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <StackPanel
+                                Margin="2"
+                                Background="Transparent"
+                                Orientation="Horizontal"
+                                MouseDown="OneFileDoubleClick"
+                                MouseEnter="TreeViewItem_MouseEnter"
+                                MouseLeave="TreeViewItem_MouseLeave"
+                                MouseMove="TreeViewItem_MouseMove"
+                                MouseRightButtonUp="TreeViewElement_OnMouseRightButtonUp">
+
+                                <Image
+                                    Height="32" Width="32"
+                                    Source="{Binding Image, Mode=OneWay}"
+                                    RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Name, Mode=OneWay}"/>
+
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <d:Style.DataContext>
+                                <x:Type Type="treeViewModels:FilesTreeViewNodeModel"/>
+                            </d:Style.DataContext>
+
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="2"/>
+                                </Style>
+                            </Style.Resources>
+
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            <Setter Property="Padding" Value="4,0,6,0"/>
+                            <Setter Property="Visibility" Value="{Binding IsVisible, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
                 
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel
-                            Margin="2"
-                            Background="Transparent"
-                            Orientation="Horizontal"
-                            MouseDown="OneFileDoubleClick"
-                            MouseEnter="TreeViewItem_MouseEnter"
-                            MouseLeave="TreeViewItem_MouseLeave"
-                            MouseMove="TreeViewItem_MouseMove"
-                            MouseRightButtonUp="TreeViewElement_OnMouseRightButtonUp">
+                <Button
+                    Grid.Row="1"
+                    Margin="5,5,23,5"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    BorderBrush="{DynamicResource TreeView_BackgroundNormal}"
+                    Command="{Binding TV_OpenFilterBoxCommand}"
+                    Visibility="{Binding TV_FilteringBoxIsVisible.Value, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                    
+                    <Image
+                        Margin="3"
+                        Width="32" Height="17"
+                        Source="../Resources/Icons/search_field.png"/>
 
-                            <Image
-                                Height="32" Width="32"
-                                Source="{Binding Image, Mode=OneWay}"
-                                RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                </Button>
 
-                            <TextBlock
-                                Margin="5,0,0,0"
+                <Border
+                    Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Padding="3"
+                    BorderThickness="1"
+                    Background="{DynamicResource TreeView_BackgroundNormal}"
+                    BorderBrush="{DynamicResource BorderHighlightedBrush}"
+                    Visibility="{Binding TV_FilteringBoxIsVisible.Value, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+
+                    <Grid attachedProperties:Grid.Columns="*,A,A">
+
+                        <Border
+                            Grid.Column="1"
+                            BorderThickness="0,1,1,1"
+                            BorderBrush="{DynamicResource BorderNormalBrush}">
+
+                            <CheckBox
+                                Margin="5,0"
+                                Content="Regex"
                                 VerticalAlignment="Center"
-                                Text="{Binding Name, Mode=OneWay}"/>
+                                IsChecked="{Binding TVFilterBoxUseRegex, Source={x:Static organisationItems:SettingsIncapsuler.Instance}}"/>
 
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-                
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
-                        <d:Style.DataContext>
-                            <x:Type Type="treeViewModels:FilesTreeViewNodeModel"/>
-                        </d:Style.DataContext>
+                        </Border>
 
-                        <Style.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="2"/>
-                            </Style>
-                        </Style.Resources>
-                        
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                        <Setter Property="Padding" Value="4,0,6,0"/>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-            </TreeView>
+                        <TextBox
+                            x:Name="FilterBox"
+                            Text="{Binding TV_FilterString.Value, UpdateSourceTrigger=PropertyChanged}"
+                            KeyUp="FilterBox_OnKeyUp"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Margin="3,0,0,0"
+                            BorderBrush="{DynamicResource TreeView_BackgroundNormal}"
+                            Command="{Binding TV_CloseFilterBoxCommand}">
+
+                            <Path
+                                Margin="5"
+                                Data="M 0,0 L 8,8 M 8,0 L 0,8" Stroke="Red"/>
+
+                        </Button>
+                    </Grid>
+
+                </Border>
+            </Grid>
 
             <GridSplitter
                 Grid.Column="1"

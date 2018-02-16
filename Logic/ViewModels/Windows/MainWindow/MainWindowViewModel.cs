@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             InitCommon();
 
             PropertyChanged += OnPropertyChanged;
+            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
+        }
+
+        private async void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            await TVSettingsOnPropertyChanged(args);
         }
 
         private void InitSettings()
@@ -62,7 +69,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             };
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        private async void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             switch (args.PropertyName)
             {
@@ -71,6 +78,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                         SettingsIncapsuler.Instance.MainWMaximized = MainWindowState.Value == WindowState.Maximized;
                     break;
             }
+
+            await TVPropertyChanged(args);
         }
 
         public override Task LoadItems()
@@ -110,6 +119,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         public override void UnsubscribeFromEvents()
         {
             PropertyChanged -= OnPropertyChanged;
+            SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

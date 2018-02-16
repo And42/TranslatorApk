@@ -804,6 +804,17 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
+        /// Выполняет действие в Dispatcher'e (чуть сокращает код вызова благодаря неявному приведению типов)
+        /// </summary>
+        /// <param name="dispatcher">Dispatcher</param>
+        /// <param name="priority">Приоритет</param>
+        /// <param name="action">Действие</param>
+        public static void BeginInvokeAction(this Dispatcher dispatcher, DispatcherPriority priority, Action action)
+        {
+            dispatcher.BeginInvoke(priority, action);
+        }
+
+        /// <summary>
         /// Переводит указанный текст с помощью онлайн переводчика, основываясь на текущих настройках
         /// </summary>
         /// <param name="text">Текст для перевода</param>

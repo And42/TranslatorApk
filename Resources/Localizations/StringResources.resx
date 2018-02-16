@@ -424,10 +424,10 @@
     <value>Перевод файла на основе словаря</value>
   </data>
   <data name="FileDeleteConfirmation" xml:space="preserve">
-    <value>Вы действительно хотите удалить этот файл</value>
+    <value>Вы действительно хотите удалить файл</value>
   </data>
   <data name="FolderDeleteConfirmation" xml:space="preserve">
-    <value>Вы действительно хотите удалить эту папку</value>
+    <value>Вы действительно хотите удалить папку</value>
   </data>
   <data name="SelectAFolder" xml:space="preserve">
     <value>Выберите папку:</value>

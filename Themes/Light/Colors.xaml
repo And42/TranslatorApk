@@ -12,6 +12,7 @@
 
     <SolidColorBrush x:Key="ElementInverted" Color="#333337"/>
     <SolidColorBrush x:Key="BorderNormalBrush" Color="#ABADB3"/>
+    <SolidColorBrush x:Key="BorderHighlightedBrush" Color="{DynamicResource HighlitedColor}"/>
     <SolidColorBrush x:Key="ContainerBackgroundNormalBrush" Color="{DynamicResource ContainerBackgroundNormal}"/>
     <SolidColorBrush x:Key="ContainerBackgroundHighlitedBrush" Color="{DynamicResource ContainerBackgroundHighlited}"/>
     
