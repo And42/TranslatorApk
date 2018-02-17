@@ -290,8 +290,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             if (model.Options.IsFolder)
                 FillTreeItemFolderContextMenu(builder, model);
-            else
+            else if (!string.IsNullOrEmpty(model.Options.FullPath))
                 FillTreeItemFileContextMenu(builder, model);
+            else
+                FillTreeItemSpecialContextMenu(builder, model);
         }
 
         private void FillTreeItemFolderContextMenu(ContextMenuBuilder.IItemsBuilder builder, FilesTreeViewNodeModel model)
@@ -321,6 +323,20 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 _tvCommands.OpenInExplorer,
                 _tvCommands.RefreshFilesList,
                 new CommandContainer(StringResources.Delete, TV_DeleteElementCommand, "page_delete.png"),
+                _tvCommands.AddNewLanguage,
+                _tvCommands.RemoveLanguages,
+                _tvCommands.Expand,
+                _tvCommands.Collapse
+            };
+
+            items.ForEach(it => AddMenuItem(builder, it, model));
+        }
+
+        private void FillTreeItemSpecialContextMenu(ContextMenuBuilder.IItemsBuilder builder, FilesTreeViewNodeModel model)
+        {
+            CommandContainer[] items =
+            {
+                _tvCommands.RefreshFilesList,
                 _tvCommands.AddNewLanguage,
                 _tvCommands.RemoveLanguages,
                 _tvCommands.Expand,
