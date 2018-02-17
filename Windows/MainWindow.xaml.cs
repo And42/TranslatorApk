@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
@@ -12,6 +11,7 @@ using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.ViewModels.Windows.MainWindow;
 using UsefulClasses;
 using UsefulFunctionsLib;
+
 using Point = System.Drawing.Point;
 
 namespace TranslatorApk.Windows
@@ -201,10 +201,12 @@ namespace TranslatorApk.Windows
 
         private void FilterBox_OnKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            switch (e.Key)
             {
-                e.Handled = true;
-                ViewModel.TV_CloseFilterBoxCommand.Execute(null);
+                case Key.Escape:
+                    ViewModel.TV_CloseFilterBoxCommand.Execute(null);
+                    e.Handled = true;
+                    break;
             }
         }
     }

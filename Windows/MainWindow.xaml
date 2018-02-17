@@ -40,6 +40,7 @@
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding ShowSearchWindowCommand}"/>
         <KeyBinding Gesture="Ctrl+R" Command="{Binding TV_RefreshFilesListCommand}"/>
+        <KeyBinding Gesture="Ctrl+W" Command="{Binding TV_ToggleFilterBoxCommand}"/>
     </Window.InputBindings>
 
     <DockPanel Margin="5,0,5,5">
@@ -270,6 +271,7 @@
                     Margin="5,5,23,5"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right"
+                    ToolTip="Ctrl+W"
                     BorderBrush="{DynamicResource TreeView_BackgroundNormal}"
                     Command="{Binding TV_OpenFilterBoxCommand}"
                     Visibility="{Binding TV_FilteringBoxIsVisible.Value, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
@@ -285,16 +287,16 @@
                     Grid.Row="0"
                     VerticalAlignment="Top"
                     Padding="3"
-                    BorderThickness="1"
+                    BorderThickness="1,1,1,0"
                     Background="{DynamicResource TreeView_BackgroundNormal}"
-                    BorderBrush="{DynamicResource BorderHighlightedBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
                     Visibility="{Binding TV_FilteringBoxIsVisible.Value, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
 
                     <Grid attachedProperties:Grid.Columns="*,A,A">
 
                         <Border
                             Grid.Column="1"
-                            BorderThickness="0,1,1,1"
+                            BorderThickness="0,1,0,1"
                             BorderBrush="{DynamicResource BorderNormalBrush}">
 
                             <CheckBox
@@ -312,8 +314,8 @@
 
                         <Button
                             Grid.Column="2"
-                            Margin="3,0,0,0"
-                            BorderBrush="{DynamicResource TreeView_BackgroundNormal}"
+                            Margin="0,0,0,0"
+                            BorderBrush="{DynamicResource BorderNormalBrush}"
                             Command="{Binding TV_CloseFilterBoxCommand}">
 
                             <Path

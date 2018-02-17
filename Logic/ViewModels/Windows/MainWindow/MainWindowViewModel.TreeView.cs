@@ -85,6 +85,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public IActionCommand TV_OpenFilterBoxCommand { get; private set; }
         public IActionCommand TV_CloseFilterBoxCommand { get; private set; }
+        public IActionCommand TV_ToggleFilterBoxCommand { get; private set; }
 
         public IActionCommand TV_ExpandCommand { get; private set; }
         public IActionCommand TV_CollapseCommand { get; private set; }
@@ -111,6 +112,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             TV_OpenFilterBoxCommand = ActCom(TV_OpenFilterBoxCommand_Execute);
             TV_CloseFilterBoxCommand = ActCom(TV_CloseFilterBoxCommand_Execute);
+            TV_ToggleFilterBoxCommand = ActCom(TV_ToggleFilterBoxCommand_Execute);
 
             TV_ExpandCommand = ActCom(TV_ExpandCommand_Execute);
             TV_CollapseCommand = ActCom(TV_CollapseCommand_Execute);
@@ -141,6 +143,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             TV_FilteringBoxIsVisible.Value = false;
             TV_FilterString.Value = string.Empty;
+        }
+
+        private void TV_ToggleFilterBoxCommand_Execute()
+        {
+            if (TV_FilteringBoxIsVisible.Value)
+                TV_CloseFilterBoxCommand.Execute(null);
+            else
+                TV_OpenFilterBoxCommand.Execute(null);
         }
 
         #endregion
@@ -436,7 +446,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     }
                     else
                     {
-                        checkName = file => string.IsNullOrEmpty(file) || file.Contains(searchVal);
+                        checkName = file => string.IsNullOrEmpty(file) || file.IndexOf(searchVal, StringComparison.OrdinalIgnoreCase) != -1;
                     }
 
                     await FilterTreeItemsAsync(checkName, _filteringToken.Token);
