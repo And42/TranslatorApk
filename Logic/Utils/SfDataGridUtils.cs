@@ -64,15 +64,21 @@ namespace TranslatorApk.Logic.Utils
         {
             int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
 
+            if (parentIndex == -1)
+                return;
+
             SfDataGrid detailsGrid = grid.GetDetailsViewGridWUpd("Details", parentIndex);
-
-            int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as IOneString));
-
-            detailsGrid.SelectedIndex = childIndex;
 
             VisualContainer container = grid.GetVisualContainer();
 
             container.ScrollRows.ScrollInView(grid.ResolveToRowIndex(parentIndex));
+
+            int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as IOneString));
+
+            if (childIndex == -1)
+                return;
+
+            detailsGrid.SelectedIndex = childIndex;
 
             for (int i = 0; i < childIndex; i++)
                 container.ScrollRows.ScrollToNextLine();
@@ -87,6 +93,9 @@ namespace TranslatorApk.Logic.Utils
         public static void ScrollToFileAndSelect(this SfDataGrid grid, Predicate<IEditableFile> filePredicate, bool expandRecord = true)
         {
             int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
+
+            if (parentIndex == -1)
+                return;
 
             if (expandRecord)
                 grid.ExpandDetailsViewAt(parentIndex);
