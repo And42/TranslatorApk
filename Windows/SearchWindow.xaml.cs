@@ -129,11 +129,11 @@ namespace TranslatorApk.Windows
                     Func<string, string, bool> checkRules;
 
                     if (!matchCase && !onlyFullWords)
-                        checkRules = (f, s) => f.IndexOf(s, StringComparison.OrdinalIgnoreCase) > 0;
+                        checkRules = (f, s) => f.IndexOf(s, StringComparison.OrdinalIgnoreCase) != -1;
                     else if (!matchCase /*&& onlyFullWords*/)
                         checkRules = (f, s) => f.Equals(s, StringComparison.OrdinalIgnoreCase);
                     else if (/*matchCase &&*/ !onlyFullWords)
-                        checkRules = (f, s) => f.IndexOf(s, StringComparison.Ordinal) > 0;
+                        checkRules = (f, s) => f.IndexOf(s, StringComparison.Ordinal) != -1;
                     else /*if (matchCase && onlyFullWords)*/
                         checkRules = (f, s) => f.Equals(s, StringComparison.Ordinal);
 
