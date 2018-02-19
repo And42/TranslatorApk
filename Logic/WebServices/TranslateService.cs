@@ -41,7 +41,7 @@ namespace TranslatorApk.Logic.WebServices
         /// Двусимвольный список доступных языков для интерфейса
         /// </summary>
         public static readonly ReadOnlyCollection<string> SupportedProgramLangs =
-            new ReadOnlyCollection<string>(new[] { "ru", "en", "de", "lt", "vi-VN", "uk-UA" });
+            new ReadOnlyCollection<string>(new[] { "ru", "en-US", "de", "lt", "vi-VN", "uk-UA" });
 
         /// <summary>
         /// Список доступных языков для интерфейса
