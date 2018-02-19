@@ -161,6 +161,8 @@ namespace TranslatorApk.Windows
 
             MainWindowViewModel.AndroidLogger.Stop();
             SettingsIncapsuler.Instance.MainWindowSize = new Point((int)Width, (int)Height);
+
+            Application.Current.Shutdown();
         }
 
         private void TreeViewElement_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
