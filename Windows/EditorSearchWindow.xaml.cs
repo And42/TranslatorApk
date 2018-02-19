@@ -22,11 +22,10 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для EditorSearchWindow.xaml
-    /// </summary>
     public sealed partial class EditorSearchWindow : IRaisePropertyChanged
     {
+        private const int SearchHistory = 20;
+
         /// <summary>
         /// Список найденных строк
         /// </summary>
@@ -285,10 +284,10 @@ namespace TranslatorApk.Windows
                 SettingsIncapsuler.Instance.EditorSearchAdds.Remove(text);
                 SettingsIncapsuler.Instance.EditorSearchAdds.Insert(0, text);
 
-                if (SearchAdds.Count > 20)
+                if (SearchAdds.Count > SearchHistory)
                 {
-                    SearchAdds.RemoveAt(20);
-                    SettingsIncapsuler.Instance.EditorSearchAdds.RemoveAt(20);
+                    SearchAdds.RemoveAt(SearchHistory);
+                    SettingsIncapsuler.Instance.EditorSearchAdds.RemoveAt(SearchHistory);
                 }
 
                 SettingsIncapsuler.Instance.Save();
