@@ -20,5 +20,13 @@ namespace TranslatorApk.Logic.Utils
         {
             return Array.IndexOf(array, value) != -1;
         }
+
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
+        {
+            if (collection is HashSet<T> set)
+                return set;
+
+            return new HashSet<T>(collection);
+        }
     }
 }
