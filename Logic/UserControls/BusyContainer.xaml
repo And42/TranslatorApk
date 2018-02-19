@@ -20,7 +20,9 @@
                 </Style>
             </Border.Style>
 
-            <ContentControl Content="{Binding DataContext}" ContentTemplate="{Binding InnerTemplate}"/>
+            <ContentControl
+                Content="{Binding DataContext}"
+                ContentTemplate="{Binding InnerTemplate}"/>
         </Border>
 
         <fa:ImageAwesome
