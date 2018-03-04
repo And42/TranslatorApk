@@ -168,6 +168,11 @@
             <param name="canExecuteAction">Action that checks parameter reters whether the command can execute</param>
             <exception cref="T:System.ArgumentNullException">Is thrown if <see cref="!:executeAction"/> is null</exception>
         </member>
+        <member name="M:MVVM_Tools.Code.Commands.ActionCommand.Execute">
+            <summary>
+            Executes the command with null as a parameter
+            </summary>
+        </member>
         <member name="T:MVVM_Tools.Code.Commands.ActionCommand`1">
             <summary>
             Command that implements <see cref="T:MVVM_Tools.Code.Commands.IActionCommand`1"/> interface
@@ -195,6 +200,11 @@
         </member>
         <member name="E:MVVM_Tools.Code.Commands.ActionCommand`1.CanExecuteChanged">
             <inheritdoc />
+        </member>
+        <member name="M:MVVM_Tools.Code.Commands.IActionCommand.Execute">
+            <summary>
+            Executes the command with null as a parameter
+            </summary>
         </member>
         <member name="M:MVVM_Tools.Code.Commands.IActionCommand`1.RaiseCanExecuteChanged">
             <summary>
