@@ -1,11 +1,6 @@
-﻿using System.Windows.Controls;
-
-namespace TranslatorApk.Pages.Settings
+﻿namespace TranslatorApk.Pages.Settings
 {
-    /// <summary>
-    /// Логика взаимодействия для TranslationSettingsPage.xaml
-    /// </summary>
-    public partial class TranslationSettingsPage : Page
+    public partial class TranslationSettingsPage
     {
         public TranslationSettingsPage()
         {
