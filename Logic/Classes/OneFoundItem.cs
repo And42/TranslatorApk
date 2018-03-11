@@ -16,7 +16,10 @@ namespace TranslatorApk.Logic.Classes
         public OneFoundItem(string fileName, string text, IOneString str)
         {
             FileName = fileName;
-            FormattedName = "..." + fileName.Remove(0, GlobalVariables.CurrentProjectFolder.Length);
+            FormattedName = 
+                GlobalVariables.CurrentProjectFolder == null 
+                    ? fileName
+                    : "..." + fileName.Remove(0, GlobalVariables.CurrentProjectFolder.Length);
             Text = text;
             EditString = str;
         }
