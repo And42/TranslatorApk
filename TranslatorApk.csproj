@@ -225,14 +225,17 @@
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
+    <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
     <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
       <DependentUpon>BusyContainer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\UserControls\EditableTextBlock.xaml.cs">
       <DependentUpon>EditableTextBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Utils\AndroidFilesUtils.cs" />
     <Compile Include="Logic\Utils\CollectionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
+    <Compile Include="Logic\Utils\ReflectionUtils.cs" />
     <Compile Include="Logic\Utils\WebUtils.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
@@ -261,10 +264,10 @@
     <Compile Include="Logic\Utils\ImageUtils.cs" />
     <Compile Include="Logic\Utils\PluginUtils.cs" />
     <Compile Include="Logic\Utils\SfDataGridUtils.cs" />
-    <Compile Include="Logic\ViewModels\NewLanguageViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
     <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\EditorSearchWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.MainButtons.cs" />
     <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Functions.cs" />
@@ -275,6 +278,7 @@
     <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\ChangesDetectorWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
+    <Compile Include="Logic\ViewModels\Windows\SearchWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\XmlRulesWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
     <Compile Include="Logic\Classes\CheckableString.cs" />
@@ -320,6 +324,11 @@
     </Compile>
     <Compile Include="Pages\Settings\TranslationSettingsPage.xaml.cs">
       <DependentUpon>TranslationSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Files\FileResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Localizations\StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -800,8 +809,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Files\FileResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localizations\StringResources.de.resx" />
-    <EmbeddedResource Include="Resources\Localizations\StringResources.en-US.resx" />
+    <EmbeddedResource Include="Resources\Localizations\StringResources.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localizations\StringResources.lt.resx" />
     <EmbeddedResource Include="Resources\Localizations\StringResources.resx">
       <SubType>Designer</SubType>
@@ -931,6 +946,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\search_field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Files\language_iso_to_country_iso.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

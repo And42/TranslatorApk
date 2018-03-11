@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Xml.Serialization;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
@@ -65,19 +65,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public int ProgressMax { get; } = 100;
 
-        private readonly ActionCommand<TableItem> _itemClickedCommand;
-        public ICommand ItemClickedCommand => _itemClickedCommand;
-
-        private bool _isLoading;
-        public override bool IsBusy
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                    _itemClickedCommand.RaiseCanExecuteChanged();
-            }
-        }
+        public IActionCommand<TableItem> ItemClickedCommand { get; }
 
         public PluginsWindowViewModel()
         {
@@ -85,14 +73,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             TableItems = new ReadOnlyObservableCollection<TableItem>(_tableItems);
 
-            _itemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsBusy);
+            ItemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsBusy);
+
+            PropertyChanged += OnPropertyChanged;
         }
 
         public override async Task LoadItems()
         {
-            if (IsBusy)
-                return;
-
             using (BusyDisposable())
             {
                 string plugs;
@@ -202,8 +189,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 try
                 {
-                    File.Delete(dllName);
-                    Directory.Delete(dirName, true);
+                    IOUtils.DeleteFile(dllName);
+                    IOUtils.DeleteFolder(dirName);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -222,6 +209,24 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             IsBusy = false;
         }
 
-        public override void UnsubscribeFromEvents() { }
+        private void RaiseCommandsCanExecute()
+        {
+            ItemClickedCommand.RaiseCanExecuteChanged();
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(IsBusy):
+                    RaiseCommandsCanExecute();
+                    break;
+            }
+        }
+
+        public override void UnsubscribeFromEvents()
+        {
+            PropertyChanged -= OnPropertyChanged;
+        }
     }
 }

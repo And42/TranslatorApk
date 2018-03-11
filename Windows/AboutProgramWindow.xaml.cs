@@ -13,10 +13,10 @@ namespace TranslatorApk.Windows
             ViewModel = new AboutProgramWindowViewModel();
         }
 
-        public AboutProgramWindowViewModel ViewModel
+        internal AboutProgramWindowViewModel ViewModel
         {
             get => DataContext as AboutProgramWindowViewModel;
-            set => DataContext = value;
+            private set => DataContext = value;
         }
 
         private async void AboutProgramWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace TranslatorApk.Windows
 
         private void AboutProgramWindow_OnClosed(object sender, EventArgs e)
         {
-            ViewModel.UnsubscribeFromEvents();
+            ViewModel.Dispose();
         }
     }
 }

@@ -4,6 +4,7 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
+using TranslatorApk.Resources.Localizations;
 using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
@@ -17,7 +18,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
-        public string PageTitle { get; } = "Перевод";
+        public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
 
         public ObservableCollection<OneTranslationService> Translators { get; } = new ObservableCollection<OneTranslationService>();
 

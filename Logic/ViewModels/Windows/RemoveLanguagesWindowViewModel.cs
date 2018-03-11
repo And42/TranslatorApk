@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
@@ -53,18 +52,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ReadOnlyObservableCollection<SourceLanguageModel> Languages { get; }
         private readonly ObservableRangeCollection<SourceLanguageModel> _languages;
 
-        private readonly List<string> _folderLangs = GlobalVariables.SettingsFoldersOfLanguages;
-        private readonly List<string> _folderLocalizedLangs = GlobalVariables.SettingsNamesOfFolderLanguages;
-
-        public ICommand RemoveLanguagesCommand => _removeLanguagesCommand;
-        private readonly ActionCommand _removeLanguagesCommand;
+        public IActionCommand RemoveLanguagesCommand { get; }
 
         public RemoveLanguagesWindowViewModel()
         {
             _languages = new ObservableRangeCollection<SourceLanguageModel>();
             Languages = new ReadOnlyObservableCollection<SourceLanguageModel>(_languages);
 
-            _removeLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute, () => !IsBusy);
+            RemoveLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute, () => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -106,16 +101,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
         }
 
-        private Task<List<SourceLanguageModel>> GetLanguageFoldersAsync(CancellationToken cancellationToken)
+        private static Task<List<SourceLanguageModel>> GetLanguageFoldersAsync(CancellationToken cancellationToken)
         {
             return Task.Factory.StartNew(() => GetLanguageFolders(cancellationToken), cancellationToken);
         }
 
-        private List<SourceLanguageModel> GetLanguageFolders(CancellationToken cancellationToken)
+        private static List<SourceLanguageModel> GetLanguageFolders(CancellationToken cancellationToken)
         {
             var existingFolders =
                 Directory.EnumerateDirectories(
-                        Path.Combine(GlobalVariables.CurrentProjectFolder, "res"), "values*",
+                        Path.Combine(GlobalVariables.CurrentProjectFolder, "res"), "values-*",
                         SearchOption.TopDirectoryOnly
                     )
                     .Select(Path.GetFileName)
@@ -123,19 +118,42 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             var sourceLanguages = new List<SourceLanguageModel>();
 
+            var flagFiles = 
+                Directory.EnumerateFiles(GlobalVariables.PathToFlags)
+                    .Select(Path.GetFileNameWithoutExtension).ToHashSet();
+
             foreach (string folder in existingFolders)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                int index = _folderLangs.IndexOf(folder);
+                string folderPart = folder.Substring(folder.IndexOf('-') + 1);
+
+                string language = LanguageCodesHelper.Instanse.GetLangNameForFolder(folder);
+
+                string languageIso = folder.Split('-')[1];
+                string countryIso = LanguageCodesHelper.Instanse.GetCountryIsoByLanguageIso(languageIso);
 
                 string title = folder;
-                BitmapImage icon = null;
+                BitmapImage icon;
 
-                if (index > -1)
+                // default folder
+                if (!string.IsNullOrEmpty(language))
                 {
-                    title = _folderLocalizedLangs[index];
-                    icon = ImageUtils.GetFlagImage(folder);
+                    title = language;
+                    icon = ImageUtils.GetFlagImage(countryIso);
+                }
+                // custom folder
+                else if (flagFiles.Contains(countryIso))
+                {
+                    icon = ImageUtils.GetFlagImage(countryIso + ".png");
+                }
+                else if (flagFiles.Contains(folderPart))
+                {
+                    icon = ImageUtils.GetFlagImage(folderPart + ".png");
+                }
+                else
+                {
+                    continue;
                 }
 
                 sourceLanguages.Add(new SourceLanguageModel(title, folder, icon));
@@ -146,7 +164,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void RefreshCommandsCanExecute()
         {
-            _removeLanguagesCommand.RaiseCanExecuteChanged();
+            RemoveLanguagesCommand.RaiseCanExecuteChanged();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)

@@ -68,5 +68,13 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                 nodes.AddRange(node.Children);
             }
         }
+
+        public override void Dispose()
+        {
+            UnsubscribeFromEvents();
+
+            foreach (var page in PagesRoot)
+                page.PageViewModel.Dispose();
+        }
     }
 }

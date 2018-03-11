@@ -1,7 +1,6 @@
 ﻿using System;
+using TranslatorApk.Logic.Utils;
 using TranslatorApkPluginLib;
-
-using static TranslatorApk.Logic.Utils.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {
@@ -14,10 +13,10 @@ namespace TranslatorApk.Logic.Classes
         {
             Type type = innerClass.GetType();
 
-            _serviceName = ExecRefl<string>(type, innerClass, "GetServiceName");
-            Guid = ExecRefl<Guid>(type, innerClass, "get_Guid");
+            _serviceName = ReflectionUtils.ExecRefl<string>(type, innerClass, "GetServiceName");
+            Guid = ReflectionUtils.ExecRefl<Guid>(type, innerClass, "get_Guid");
 
-            _translate = CreateDelegate<Func<string, string, string, string>>(innerClass, "Translate");
+            _translate = ReflectionUtils.CreateDelegate<Func<string, string, string, string>>(innerClass, "Translate");
         }
 
         public string GetServiceName() => _serviceName;

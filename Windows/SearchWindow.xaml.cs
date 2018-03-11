@@ -1,190 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AndroidTranslator.Classes.Files;
-using AndroidTranslator.Interfaces.Files;
-using AndroidTranslator.Interfaces.Strings;
-using TranslatorApk.Logic.Classes;
-using TranslatorApk.Logic.EventManagerLogic;
-using TranslatorApk.Logic.Events;
-using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.OrganisationItems;
-using TranslatorApk.Logic.Utils;
-using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
+using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
 {
-    public sealed partial class SearchWindow : IRaisePropertyChanged
+    public sealed partial class SearchWindow
     {
-        public class FoundItem
-        {
-            public string FileName { get; }
-            public string Text { get; }
-
-            public FoundItem(string fileName, string text)
-            {
-                FileName = fileName;
-                Text = text;
-            }
-        }
-
-        public ObservableRangeCollection<FoundItem> Files { get; } = new ObservableRangeCollection<FoundItem>();
-        public ObservableCollection<string> SearchAdds { get; }
-
-        public Setting<bool> OnlyFullWords { get; }
-        public Setting<bool> MatchCase { get; }
-
-        public bool Working
-        {
-            get => _working;
-            set => this.SetProperty(ref _working, value);
-        }
-        private bool _working;
-
-        public string TextToSearch
-        {
-            get => _textToSearch;
-            set => this.SetProperty(ref _textToSearch, value);
-        }
-        private string _textToSearch;
-
-        public int SearchBoxIndex
-        {
-            get => _searchBoxIndex;
-            set => this.SetProperty(ref _searchBoxIndex, value);
-        }
-        private int _searchBoxIndex;
-
-        private static readonly string StartFormattedString = "..." + Path.DirectorySeparatorChar;
-
         public SearchWindow()
         {
-            SearchAdds = new ObservableCollection<string>(SettingsIncapsuler.Instance.FullSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>());
-            OnlyFullWords = new Setting<bool>(nameof(SettingsIncapsuler.OnlyFullWords), StringResources.OnlyFullWords);
-            MatchCase = new Setting<bool>(nameof(SettingsIncapsuler.MatchCase), StringResources.MatchCase);
-
             InitializeComponent();
-            SearchBoxIndex = -1;
+
+            ViewModel = new SearchWindowViewModel(this);
         }
 
-        private void SearchWindow_OnLoaded(object sender, RoutedEventArgs e)
+        internal SearchWindowViewModel ViewModel
         {
-            SearchBox.Focus();
+            get => DataContext as SearchWindowViewModel;
+            private set => DataContext = value;
         }
-
-        private void SearchWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            Files.Clear();
-        }
-
-        private void FindFilesClick(object sender, RoutedEventArgs e)
-        {
-            if (GlobalVariables.CurrentProjectFolder == null)
-            {
-                MessBox.ShowDial(StringResources.SearchWindow_FolderIsNotSelected);
-                return;
-            }
-
-            string GetFormattedName(string fileName) => StartFormattedString + fileName.Substring(GlobalVariables.CurrentProjectFolder.Length + 1);
-
-            Files.Clear();
-            AddToSearchAdds(TextToSearch);
-
-            var filesToAdd = new List<FoundItem>();
-
-            LoadingProcessWindow.ShowWindow(
-                beforeStarting: () => Working = true, 
-                threadActions: (cts, invoker) =>
-                {
-                    var projectFolder = GlobalVariables.CurrentProjectFolder;
-                    var buildFolder = Path.DirectorySeparatorChar + "build";
-                    var buildFolderM = Path.DirectorySeparatorChar + "build" + Path.DirectorySeparatorChar;
-
-                    List<string> xmlFiles = 
-                        Directory.EnumerateFiles(projectFolder, "*.xml", SearchOption.AllDirectories)
-                            .Where(file =>
-                                {
-                                    // ReSharper disable once PossibleNullReferenceException
-                                    var dir = Path.GetDirectoryName(file).Substring(projectFolder.Length);
-                                    return dir != buildFolder && !dir.StartsWith(buildFolderM, StringComparison.Ordinal);
-                                }
-                            )
-                            .ToList();
-
-                    List<string> smaliFiles = Directory.EnumerateFiles(projectFolder, "*.smali", SearchOption.AllDirectories).ToList();
-
-                    invoker.ProcessValue = 0;
-                    invoker.ProcessMax = xmlFiles.Count + smaliFiles.Count;
-                
-                    bool onlyFullWords = OnlyFullWords.Value;
-                    bool matchCase = MatchCase.Value;
-
-                    Func<string, string, bool> checkRules;
-
-                    if (!matchCase && !onlyFullWords)
-                        checkRules = (f, s) => f.IndexOf(s, StringComparison.OrdinalIgnoreCase) != -1;
-                    else if (!matchCase /*&& onlyFullWords*/)
-                        checkRules = (f, s) => f.Equals(s, StringComparison.OrdinalIgnoreCase);
-                    else if (/*matchCase &&*/ !onlyFullWords)
-                        checkRules = (f, s) => f.IndexOf(s, StringComparison.Ordinal) != -1;
-                    else /*if (matchCase && onlyFullWords)*/
-                        checkRules = (f, s) => f.Equals(s, StringComparison.Ordinal);
-
-                    IEnumerable<IEditableFile> union =
-                        xmlFiles.SelectSafe<string, IEditableFile>(XmlFile.Create)
-                            .UnionWOEqCheck(smaliFiles.SelectSafe(it => new SmaliFile(it)));
-
-                    foreach (IEditableFile file in union)
-                    {
-                        if (cts.IsCancellationRequested)
-                        {
-                            return;
-                        }
-
-                        IOneString found = file.Details?.FirstOrDefault(str => checkRules(str.OldText, TextToSearch));
-
-                        if (found != null)
-                        {
-                            filesToAdd.Add(new FoundItem(GetFormattedName(file.FileName), found.OldText));
-                        }
-
-                        invoker.ProcessValue++;
-                    }
-                }, 
-                finishActions: () =>
-                {
-                    Working = false;
-
-                    if (filesToAdd.Count == 0)
-                    {
-                        MessBox.ShowDial(StringResources.TextNotFound);
-                    }
-                    else
-                    {
-                        Dispatcher.InvokeAction(() => Files.AddRange(filesToAdd));
-                    }
-                }
-            );
-        }
-
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            LoadSelected();
-        } 
 
         private void SearchBox_OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                FindFilesClick(null, null);
+                ViewModel.FindFilesCommand.Execute();
             }
         }
 
@@ -193,56 +34,25 @@ namespace TranslatorApk.Windows
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                LoadSelected();
+                ViewModel.LoadSelectedFileCommand.Execute();
             }
         }
 
-        private void AddToSearchAdds(string text)
+        private void FilesView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            SearchAdds.Remove(text);
-            SearchAdds.Insert(0, text);
-            SearchBoxIndex = 0;
-
-            if (SettingsIncapsuler.Instance.FullSearchAdds == null)
-                SettingsIncapsuler.Instance.FullSearchAdds = new StringCollection();
-
-            StringCollection adds = SettingsIncapsuler.Instance.FullSearchAdds;
-
-            adds.Remove(text);
-            adds.Insert(0, text);
-
-            if (SearchAdds.Count > 20)
-            {
-                SearchAdds.RemoveAt(20);
-                adds.RemoveAt(20);
-            }
-
-            SettingsIncapsuler.Instance.Save();
+            ViewModel.LoadSelectedFileCommand.Execute();
         }
 
-        private void LoadSelected()
+        private async void SearchWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (FilesView.SelectedIndex > -1)
-            {
-                var selectedFile = (FoundItem)FilesView.SelectedItem;
+            await ViewModel.LoadItems();
 
-                Utils.LoadFile(Path.Combine(GlobalVariables.CurrentProjectFolder, selectedFile.FileName.Substring(StartFormattedString.Length)));
-
-                ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
-                    .Publish(new EditorScrollToStringAndSelectEvent(
-                        f => true, str => selectedFile.Text.Equals(str.OldText, StringComparison.Ordinal)));
-            }
+            SearchBox.Focus();
         }
 
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
+        private void SearchWindow_OnClosed(object sender, EventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            ViewModel.Dispose();
         }
-
-        #endregion
     }
 }

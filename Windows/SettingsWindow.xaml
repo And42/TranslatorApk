@@ -53,7 +53,7 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <d:Style.DataContext>
-                            <d:DesignInstance Type="{x:Type treeViewModels:SettingsTreeViewNodeModel}"/>
+                            <x:Type Type="treeViewModels:SettingsTreeViewNodeModel"/>
                         </d:Style.DataContext>
 
                         <Style.Resources>

@@ -21,6 +21,7 @@
         WindowStartupLocation="CenterScreen"
         FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
     
+        IsEnabled="{Binding IsBusy, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}"
         Style="{DynamicResource WindowStyle}"
         WindowState="{Binding MainWindowState.Value}"
         Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"

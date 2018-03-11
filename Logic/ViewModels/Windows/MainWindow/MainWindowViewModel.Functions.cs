@@ -26,17 +26,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
     {
         public void AddActionToMenu(PluginPart<IAdditionalAction> action)
         {
-            _windowDispatcher.InvokeAction(() =>
-            {
-                var item =
-                    new PluginMenuItemModel(
-                        action.Item.GetActionTitle(),
-                        PluginItemCommand,
-                        action: action
-                    );
+            var item =
+                new PluginMenuItemModel(
+                    action.Item.GetActionTitle(),
+                    PluginItemCommand,
+                    action: action
+                );
 
-                _pluginMenuItems.Add(item);
-            });
+            _pluginMenuItems.Add(item);
         }
 
         public void RemoveActionFromMenu(Guid actionGuid)
@@ -51,32 +48,35 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             Options opts = node.Options;
 
-            if (MessBox.ShowDial($"{confirmation} {opts.FullPath}?", StringResources.Confirmation, StringResources.Yes, StringResources.No) == StringResources.Yes)
-            {
-                try
-                {
-                    deleteAction(opts.FullPath);
+            if (MessBox.ShowDial(
+                    $"{confirmation} {opts.FullPath}?",
+                    StringResources.Confirmation, StringResources.Yes, StringResources.No
+                ) == StringResources.No)
+                return;
 
-                    if (checkAction(opts.FullPath))
-                        MessBox.ShowDial(StringResources.ErrorLower);
-                    else
-                        node.RemoveFromParent();
-                }
-                catch (Exception)
-                {
+            try
+            {
+                deleteAction(opts.FullPath);
+
+                if (checkAction(opts.FullPath))
                     MessBox.ShowDial(StringResources.ErrorLower);
-                }
+                else
+                    node.RemoveFromParent();
+            }
+            catch (Exception)
+            {
+                MessBox.ShowDial(StringResources.ErrorLower);
             }
         }
 
         private static void DeleteFilePromt(FilesTreeViewNodeModel node)
         {
-            DeleteSmthPromt(node, StringResources.FileDeleteConfirmation, File.Delete, File.Exists);
+            DeleteSmthPromt(node, StringResources.FileDeleteConfirmation, IOUtils.DeleteFile, IOUtils.FileExists);
         }
 
         private static void DeleteFolderPromt(FilesTreeViewNodeModel node)
         {
-            DeleteSmthPromt(node, StringResources.FolderDeleteConfirmation, str => Directory.Delete(str, true), Directory.Exists);
+            DeleteSmthPromt(node, StringResources.FolderDeleteConfirmation, IOUtils.DeleteFolder, IOUtils.FolderExists);
         }
 
         private void DecompileFile(string file)
@@ -89,8 +89,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             if (!TryCreateNewLog(logPath))
                 return;
 
-            Apk = new Apktools(file, GlobalVariables.PathToResources, GlobalVariables.CurrentApktoolPath);
-            Apk.Logging += s => VisLog(Log(s));
+            if (Apk != null)
+                Apk.Logging -= VisLog;
+
+            Apk = new Apktools(
+                file,
+                GlobalVariables.PathToResources,
+                GlobalVariables.CurrentApktoolPath
+            );
+
+            Apk.Logging += VisLog;
 
             if (!Apk.HasJava())
             {
@@ -98,17 +106,17 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 return;
             }
 
-            Disable();
             ClearVisLog();
 
             bool success = false;
 
             LoadingWindow.ShowWindow(
-                beforeStarting: () => { },
+                beforeStarting: () => IsBusy = true,
                 threadActions: source => success = SettingsIncapsuler.Instance.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(),
                 finishActions: () =>
                 {
-                    Enable();
+                    IsBusy = false;
+
                     VisLog(GlobalVariables.LogLine);
                     VisLog(StringResources.Finished);
                     VisLog(GlobalVariables.LogLine);
@@ -120,21 +128,26 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     if (success)
                     {
-                        _windowDispatcher.InvokeAction(() => LoadFolder(GlobalVariables.CurrentProjectFolder, true));
+                        Application.Current.Dispatcher.InvokeAction(() => LoadFolder(GlobalVariables.CurrentProjectFolder, true));
                     }
                 },
-                cancelVisibility: Visibility.Collapsed
+                cancelVisibility: Visibility.Collapsed,
+                ownerWindow: _window
             );
         }
 
-        private async Task InstallFramework(string fileName)
+        private async Task InstallFrameworkAsync(string fileName)
         {
-            Disable();
+            await Task.Factory.StartNew(() => InstallFramework(fileName));
+        }
 
-            await Task.Factory.StartNew(() =>
+        private void InstallFramework(string fileName)
+        {
+            using (BusyDisposable())
             {
                 var apktool = new Apktools(null, GlobalVariables.PathToResources,
-                    Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
+                    Path.Combine(GlobalVariables.PathToApktoolVersions,
+                        $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"));
 
                 if (!apktool.HasJava())
                 {
@@ -142,16 +155,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     return;
                 }
 
-                apktool.Logging += s => VisLog(s);
+                apktool.Logging += VisLog;
                 apktool.InstallFramework(fileName);
-            });
-
-            Enable();
+                apktool.Logging -= VisLog;
+            }
         }
 
-        public void LoadFolder(string folderPath, bool haveLogger = false)
+        private void LoadFolder(string folderPath, bool haveLogger = false)
         {
-            if (folderPath == null)
+            if (string.IsNullOrEmpty(folderPath))
                 return;
 
             if (!haveLogger)
@@ -164,20 +176,23 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             GlobalVariables.CurrentProjectFile = folderPath + ".apk";
 
+            if (Apk != null)
+                Apk.Logging -= VisLog;
+
             Apk = new Apktools(
                 GlobalVariables.CurrentProjectFile,
                 GlobalVariables.PathToResources,
                 GlobalVariables.CurrentApktoolPath
             );
 
-            Apk.Logging += s => VisLog(Log(s));
+            Apk.Logging += VisLog;
 
             FilesFilesTreeViewModel.Children.Clear();
             FilesFilesTreeViewModel.Children.Add(
                 new FilesTreeViewNodeModel
                 {
                     Name = StringResources.AllXml,
-                    Options = new Options("", false, true),
+                    Options = new Options(fullPath: string.Empty, isFolder: false, isImageLoaded: true),
                     DoubleClicked = LoadXmlFiles,
                     Image = GlobalResources.IconUnknownFile
                 }
@@ -186,15 +201,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 new FilesTreeViewNodeModel
                 {
                     Name = StringResources.AllSmali,
-                    Options = new Options("", false, true),
+                    Options = new Options(fullPath: string.Empty, isFolder: false, isImageLoaded: true),
                     DoubleClicked = LoadSmaliFiles,
                     Image = GlobalResources.IconUnknownFile
                 }
             );
 
             LoadingProcessWindow.ShowWindow(
-                Disable,
-                (cts, invoker) =>
+                beforeStarting: () => IsBusy = true,
+                threadActions: (cts, invoker) =>
                 {
                     invoker.IsIndeterminate = true;
 
@@ -202,14 +217,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     invoker.IsIndeterminate = false;
 
-                    Utils.Utils.LoadFilesToTreeView(_windowDispatcher, folderPath, FilesFilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
+                    Utils.Utils.LoadFilesToTreeView(Application.Current.Dispatcher, folderPath, FilesFilesTreeViewModel, SettingsIncapsuler.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
-                () =>
+                finishActions: () =>
                 {
-                    Enable();
+                    IsBusy = false;
 
                     FilesFilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
-                });
+                },
+                ownerWindow: _window
+            );
         }
 
         private static void Expand(FilesTreeViewNodeModel item, bool expand = true)
@@ -220,32 +237,21 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 Expand(child, expand);
         }
 
-        private static void Enable()
-        {
-            WindowManager.EnableWindow<TranslatorApk.Windows.MainWindow>();
-        }
-
-        private static void Disable()
-        {
-            WindowManager.DisableWindow<TranslatorApk.Windows.MainWindow>();
-        }
-
-        public string Log(string text)
+        private static void Log(string text)
         {
             AndroidLogger.Log(text);
-            return text;
         }
 
-        public string VisLog(string text)
+        private void VisLog(string text)
         {
+            Log(text);
+
             _logTextBuilder.Append(text);
             _logTextBuilder.Append(Environment.NewLine);
             OnPropertyChanged(nameof(LogBoxText));
-
-            return text;
         }
 
-        public void ClearVisLog()
+        private void ClearVisLog()
         {
             _logTextBuilder.Clear();
             OnPropertyChanged(nameof(LogBoxText));
@@ -265,22 +271,22 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             }
         }
 
-        private static void LoadXmlFiles()
+        private void LoadXmlFiles()
         {
             LoadFiles(".xml", XmlFile.Create);
         }
 
-        private static void LoadSmaliFiles()
+        private void LoadSmaliFiles()
         {
             LoadFiles(".smali", file => new SmaliFile(file));
         }
 
-        private static void LoadFiles(string extension, Func<string, IEditableFile> createNew)
+        private void LoadFiles(string extension, Func<string, IEditableFile> createNew)
         {
-            var filesList = new ConcurrentQueue<IEditableFile>();
+            ConcurrentQueue<IEditableFile> filesList = null;
 
             LoadingProcessWindow.ShowWindow(
-                beforeStarting: Disable,
+                beforeStarting: () => IsBusy = true,
                 threadActions: (cts, invoker) =>
                 {
                     invoker.IsIndeterminate = true;
@@ -298,8 +304,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                         if (!Utils.Utils.CheckFilePath(file))
                             return;
 
-                        if (cts.IsCancellationRequested)
-                            return;
+                        cts.ThrowIfCancellationRequested();
 
                         try
                         {
@@ -316,17 +321,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 finishActions: () =>
                 {
                     List<IEditableFile> res =
-                        filesList
+                        (filesList ?? Enumerable.Empty<IEditableFile>())
                             .Where(file => file.Details != null && file.Details.Count > 0)
                             .ToList();
 
-                    Enable();
+                    IsBusy = false;
 
                     WindowManager.ActivateWindow<EditorWindow>();
 
                     ManualEventManager.GetEvent<AddEditableFilesEvent>()
                         .Publish(new AddEditableFilesEvent(res));
-                }
+                },
+                ownerWindow: _window
             );
         }
     }

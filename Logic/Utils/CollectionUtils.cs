@@ -28,5 +28,77 @@ namespace TranslatorApk.Logic.Utils
 
             return new HashSet<T>(collection);
         }
+
+        /// <summary>
+        /// Добавляет в коллекцию непустой элемент
+        /// </summary>
+        /// <typeparam name="T">Тип элементов в коллекции</typeparam>
+        /// <param name="collection">Коллекция</param>
+        /// <param name="item">Элемент</param>
+        public static void AddIfNotNull<T>(this ICollection<T> collection, T item) where T : class
+        {
+            if (item != null)
+                collection.Add(item);
+        }
+
+        /// <summary>
+        /// Select method with error handling
+        /// </summary>
+        /// <typeparam name="TSource">Source collection type</typeparam>
+        /// <typeparam name="TResult">Target collection type</typeparam>
+        /// <param name="source">Source collection</param>
+        /// <param name="selector">Value converter</param>
+        /// <param name="onFail">Called when converting an item causes an exception</param>
+        public static IEnumerable<TResult> SelectSafe<TSource, TResult>(this IEnumerable<TSource> source,
+            Func<TSource, TResult> selector, Action<TSource, Exception> onFail = null)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            IEnumerable<TResult> _()
+            {
+                foreach (TSource it in source)
+                {
+                    TResult res;
+
+                    try
+                    {
+                        res = selector(it);
+                    }
+                    catch (Exception ex)
+                    {
+                        onFail?.Invoke(it, ex);
+
+                        continue;
+                    }
+
+                    yield return res;
+                }
+            }
+
+            return _();
+        }
+
+        public static (int index, T value) FindWithIndex<T>(this IEnumerable<T> collection, Predicate<T> predicate)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            int index = 0;
+
+            foreach (T item in collection)
+            {
+                if (predicate(item))
+                    return (index, item);
+
+                index++;
+            }
+
+            return (-1, default);
+        }
     }
 }

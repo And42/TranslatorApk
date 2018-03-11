@@ -15,7 +15,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
-        public string PageTitle { get; } = "Редактор";
+        public string PageTitle { get; } = StringResources.EditorSettings_Caption;
 
         public string[] YesNoItems { get; private set; }
 

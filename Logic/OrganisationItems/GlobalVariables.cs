@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
@@ -195,20 +194,6 @@ namespace TranslatorApk.Logic.OrganisationItems
         }
 
         public static ObservableCollection<CheckableString> SourceDictionaries { get; }
-
-        #endregion
-
-        #region Settings
-
-        /// <summary>
-        /// Settings.Default.FoldersOfLanguages as list
-        /// </summary>
-        public static List<string> SettingsFoldersOfLanguages { get; set; } = Properties.Resources.FoldersOfLanguages.Split('|').ToList();
-
-        /// <summary>
-        /// Settings.Default.NamesOfFolderLanguages as list
-        /// </summary>
-        public static List<string> SettingsNamesOfFolderLanguages { get; set; } = StringResources.NamesOfFolderLanguages.Split('|').ToList();
 
         #endregion
     }

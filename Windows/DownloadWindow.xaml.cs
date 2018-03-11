@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Windows
@@ -33,7 +34,7 @@ namespace TranslatorApk.Windows
             }
             catch (Exception)
             {
-                File.Delete("NewVersion.update");
+                IOUtils.DeleteFile("NewVersion.update");
             }
         }
 
@@ -44,7 +45,7 @@ namespace TranslatorApk.Windows
 
             try
             {
-                File.Delete("NewVersion.exe");
+                IOUtils.DeleteFile("NewVersion.exe");
 
                 File.Move("NewVersion.update", "NewVersion.exe");
                 Process.Start("NewVersion.exe");

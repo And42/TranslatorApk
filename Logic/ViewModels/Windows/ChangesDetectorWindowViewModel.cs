@@ -14,7 +14,6 @@ using AndroidTranslator.Interfaces.Files;
 using AndroidTranslator.Interfaces.Strings;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using MVVM_Tools.Code.Commands;
-using MVVM_Tools.Code.Disposables;
 using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
@@ -296,11 +295,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         #endregion
 
-        private CustomBoolDisposable BusyDisposable()
-        {
-            return new CustomBoolDisposable(val => IsBusy = val);
-        }
-
         private void Log(string contents = "", bool writeNewLine = true)
         {
             _logText.Append(contents);
@@ -340,9 +334,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void CreateOneFolderDictionary(string sourceFolder, string modifiedFolder, string resultFolder, bool log = true)
         {
-            if (Directory.Exists(resultFolder))
-                Directory.Delete(resultFolder, true);
-            Directory.CreateDirectory(resultFolder);
+            if (IOUtils.FolderExists(resultFolder))
+                IOUtils.DeleteFolder(resultFolder);
+
+            IOUtils.CreateFolder(resultFolder);
 
             var dictFileWriter = new StreamWriter(Path.Combine(resultFolder, "Paths.dict"), false, Encoding.UTF8);
             var foldersFileWriter = new StreamWriter(Path.Combine(resultFolder, "Languages.dict"), false, Encoding.UTF8);
@@ -557,10 +552,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void CreateMoreFolderDictionaries(string sourceFolder, string modifiedFolder, string resultFolder)
         {
-            if (Directory.Exists(resultFolder))
-                Directory.Delete(resultFolder, true);
+            if (IOUtils.FolderExists(resultFolder))
+                IOUtils.DeleteFolder(resultFolder);
 
-            Directory.CreateDirectory(resultFolder);
+            IOUtils.CreateFolder(resultFolder);
 
             List<Apktools> sourceApktools =
                 Directory.EnumerateFiles(sourceFolder, "*.apk")
@@ -697,10 +692,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             foreach (var folder in new[] { resultFolder, resultSignedFolder })
             {
-                if (Directory.Exists(folder))
-                    Directory.Delete(folder, true);
+                if (IOUtils.FolderExists(folder))
+                    IOUtils.DeleteFolder(folder);
 
-                Directory.CreateDirectory(folder);
+                IOUtils.CreateFolder(folder);
             }
 
             for (int i = 0; i < fileApktools.Count; i++)

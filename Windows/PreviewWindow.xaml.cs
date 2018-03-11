@@ -8,9 +8,6 @@ using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для PreviewWindow.xaml
-    /// </summary>
     public partial class PreviewWindow : IRaisePropertyChanged
     {
         public BitmapSource Image

@@ -1,11 +1,11 @@
 ﻿<Window x:Class="TranslatorApk.Windows.LoadingProcessWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
         xmlns:elements="clr-namespace:TranslatorApk.Themes.Elements"
         xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
-        
+        xmlns:attachedProperties="clr-namespace:TranslatorApk.Logic.AttachedProperties"
+
         SizeToContent="Height"
         Width="400"
         WindowStartupLocation="CenterScreen"
@@ -20,21 +20,32 @@
         elements:WindowThemeParameters.IsResizable="False"
         
         Closing="LoadingProcessWindow_OnClosing">
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+    <Grid
+        Margin="5"
+        attachedProperties:Grid.Rows="A,A"
+        attachedProperties:Grid.Columns="*,A,A">
 
-        <TextBlock Grid.ColumnSpan="3" Text="{x:Static localizations:StringResources.Loading}" Margin="0,9,0,15" HorizontalAlignment="Center"/>
+        <TextBlock
+            Grid.ColumnSpan="3"
+            Margin="0,9,0,15"
+            HorizontalAlignment="Center"
+            Text="{x:Static localizations:StringResources.Loading}"/>
         
-        <ProgressBar Grid.Row="1" Grid.Column="0" Height="25" Value="{Binding ProcessValue}" Maximum="{Binding ProcessMax}" IsIndeterminate="{Binding IsIndeterminate}"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ProgressBar
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="25"
+            Value="{Binding ProcessValue}"
+            Maximum="{Binding ProcessMax}"
+            IsIndeterminate="{Binding IsIndeterminate}"/>
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsIndeterminate, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+
             <TextBlock.Text>
                 <MultiBinding Converter="{StaticResource PercentageTextConverter}">
                     <Binding Path="ProcessValue"/>
@@ -43,7 +54,13 @@
             </TextBlock.Text>
         </TextBlock>
         
-        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8,0,0,0"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsIndeterminate, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} {2} {1}">
                     <Binding Path="ProcessValue"/>
@@ -52,9 +69,14 @@
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
+
         <Button
             Grid.Row="1"
-            shell:WindowChrome.IsHitTestVisibleInChrome="True"
-            Margin="5,0,0,0" Visibility="{Binding CancelVisibility}" Click="StopClicked" Grid.Column="2" Content="{x:Static localizations:StringResources.Stop}" Padding="5,4"/>
+            Grid.Column="2"
+            Margin="5,0,0,0"
+            Padding="5,0"
+            Visibility="{Binding CancelVisibility}"
+            Content="{x:Static localizations:StringResources.Stop}"
+            Click="StopClicked"/>
     </Grid>
 </Window>

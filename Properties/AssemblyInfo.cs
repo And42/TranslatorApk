@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -53,3 +54,5 @@ using System.Windows;
 [assembly: AssemblyVersion("1.4.3.0")]
 [assembly: NeutralResourcesLanguage("ru")]
 
+
+[assembly: InternalsVisibleTo("TranslatorApkTests")]

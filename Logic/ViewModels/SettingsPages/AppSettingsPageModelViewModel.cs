@@ -30,7 +30,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
-        public string PageTitle { get; } = "Настройки приложения";
+        public string PageTitle { get; } = StringResources.AppSettings_Caption;
 
         public string[] YesNoItems { get; private set; }
 

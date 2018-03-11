@@ -79,7 +79,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             LoadFolder(dialog.FileName);
         }
 
-        private void OpenSearchCommand_Execute()
+        private static void OpenSearchCommand_Execute()
         {
             new SearchWindow().ShowDialog();
         }
@@ -95,21 +95,21 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 return;
             }
 
-            Disable();
             ClearVisLog();
 
             bool success = false;
             var errors = new List<Error>();
 
             LoadingWindow.ShowWindow(
-                beforeStarting: () => { },
+                beforeStarting: () => IsBusy = true,
                 threadActions: source => success = Apk.Compile(out errors),
                 finishActions: () =>
                 {
-                    Enable();
-                    VisLog(Log(GlobalVariables.LogLine));
-                    VisLog(Log(success ? StringResources.Finished : StringResources.ErrorWhileCompiling));
-                    VisLog(Log(GlobalVariables.LogLine));
+                    IsBusy = false;
+
+                    VisLog(GlobalVariables.LogLine);
+                    VisLog(success ? StringResources.Finished : StringResources.ErrorWhileCompiling);
+                    VisLog(GlobalVariables.LogLine);
 
                     if (SettingsIncapsuler.Instance.ShowNotifications)
                     {
@@ -126,10 +126,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     }
                     else
                     {
-                        VisLog(Log(StringResources.FileIsSituatedIn + " " + Apk.NewApk));
+                        VisLog(StringResources.FileIsSituatedIn + " " + Apk.NewApk);
                     }
                 },
-                cancelVisibility: Visibility.Collapsed
+                cancelVisibility: Visibility.Collapsed,
+                ownerWindow: _window
             );
         }
 
@@ -147,7 +148,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             if (fd.ShowDialog() != true)
                 return;
 
-            await InstallFramework(fd.FileName);
+            await InstallFrameworkAsync(fd.FileName);
         }
 
         private void SignCommand_Execute()
@@ -161,26 +162,25 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 return;
             }
 
-            Disable();
-
             bool success = false;
 
-            var line = GlobalVariables.LogLine;
+            const string line = GlobalVariables.LogLine;
 
             LoadingWindow.ShowWindow(
-                beforeStarting: () => { },
+                beforeStarting: () => IsBusy = true,
                 threadActions: source => success = Apk.Sign(),
                 finishActions: () =>
                 {
-                    Enable();
-                    VisLog(Log(line));
-                    VisLog(Log(success ? StringResources.Finished : StringResources.ErrorWhileSigning));
+                    IsBusy = false;
+
+                    VisLog(line);
+                    VisLog(success ? StringResources.Finished : StringResources.ErrorWhileSigning);
 
                     if (success)
                     {
                         string message = $"{StringResources.FileIsSituatedIn} {Apk.SignedApk}";
 
-                        VisLog(Log(message));
+                        VisLog(message);
 
                         string dir = Path.GetDirectoryName(Apk.SignedApk);
 
@@ -190,9 +190,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                         }
                     }
                 },
-                cancelVisibility: Visibility.Collapsed);
+                cancelVisibility: Visibility.Collapsed,
+                ownerWindow: _window
+            );
 
-            VisLog(Log(string.Format("{0}{1}Signing...{1}{0}", line, Environment.NewLine)));
+            VisLog(string.Format("{0}{1}Signing...{1}{0}", line, Environment.NewLine));
         }
 
         #endregion
@@ -224,7 +226,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             string[] files = args.GetFilesDrop();
 
             if (files != null && files.Length == 1 && Path.GetExtension(files[0]) == ".apk")
-                await InstallFramework(files[0]);
+                await InstallFrameworkAsync(files[0]);
 
             args.Handled = true;
         }

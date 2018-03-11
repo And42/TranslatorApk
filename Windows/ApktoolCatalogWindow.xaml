@@ -10,6 +10,7 @@
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:classes="clr-namespace:TranslatorApk.Logic.Classes"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
+        xmlns:userControls="clr-namespace:TranslatorApk.Logic.UserControls"
         mc:Ignorable="d"
         
         MinHeight="300" MinWidth="300"
@@ -31,68 +32,75 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <syncfusion:SfDataGrid
-                DockPanel.Dock="Top"
-                HeaderRowHeight="30"
-                RowHeight="35"
-                VerticalAlignment="Top"
-                ItemsSource="{Binding ServerApktools, Mode=OneWay}"
-                ColumnSizer="AutoLastColumnFill"
-                SelectionMode="None"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                AutoGenerateColumns="False"
-                FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}">
+        <userControls:BusyContainer
+            IsBusy="{Binding IsBusy, Mode=OneWay}"
+            Brush="{DynamicResource ElementInverted}">
 
-            <syncfusion:SfDataGrid.Resources>
-                <Style TargetType="syncfusion:GridHeaderCellControl">
-                    <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
-                </Style>
-            </syncfusion:SfDataGrid.Resources>
+            <userControls:BusyContainer.InnerTemplate>
+                <DataTemplate>
+                    <syncfusion:SfDataGrid     
+                        HeaderRowHeight="30"
+                        RowHeight="35"
+                        ItemsSource="{Binding ServerApktools, Mode=OneWay}"
+                        ColumnSizer="AutoLastColumnFill"
+                        SelectionMode="None"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        AutoGenerateColumns="False"
+                        FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}">
 
-            <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn
-                    MappingName="Version"
-                    HeaderText="{x:Static localizations:StringResources.Version}"
-                    AllowResizing="False"
-                    Width="100"
-                    AllowSorting="False"/>
+                        <syncfusion:SfDataGrid.Resources>
+                            <Style TargetType="syncfusion:GridHeaderCellControl">
+                                <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
+                            </Style>
+                        </syncfusion:SfDataGrid.Resources>
 
-                <syncfusion:GridTextColumn
-                    MappingName="Size"
-                    HeaderText="{x:Static localizations:StringResources.Size}"
-                    AllowResizing="False"
-                    Width="100"
-                    AllowSorting="False"/>
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn
+                                MappingName="Version"
+                                HeaderText="{x:Static localizations:StringResources.Version}"
+                                AllowResizing="False"
+                                Width="100"
+                                AllowSorting="False"/>
 
-                <syncfusion:GridTemplateColumn
-                    MappingName="Installed"
-                    HeaderText=" "
-                    AllowResizing="False"
-                    AllowSorting="False"
-                    HorizontalAlignment="Stretch">
+                            <syncfusion:GridTextColumn
+                                MappingName="Size"
+                                HeaderText="{x:Static localizations:StringResources.Size}"
+                                AllowResizing="False"
+                                Width="100"
+                                AllowSorting="False"/>
 
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button 
-                                d:DataContext="{d:DesignInstance classes:DownloadableApktool}"
-                                Content="{Binding Installed, Mode=OneWay, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
-                                Padding="5,3" Margin="3"
-                                HorizontalAlignment="Stretch"
-                                Command="{Binding DataContext.ItemClickedCommand, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding}">
-                            </Button>
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-                </syncfusion:GridTemplateColumn>
-            </syncfusion:SfDataGrid.Columns>
-        </syncfusion:SfDataGrid>
+                            <syncfusion:GridTemplateColumn
+                                MappingName="Installed"
+                                HeaderText=" "
+                                AllowResizing="False"
+                                AllowSorting="False"
+                                HorizontalAlignment="Stretch">
+
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button 
+                                            d:DataContext="{d:DesignInstance classes:DownloadableApktool}"
+                                            Content="{Binding Installed, Mode=OneWay, Converter={StaticResource InstallTextConverter}, ConverterParameter=True}" 
+                                            Padding="5,3" Margin="3"
+                                            HorizontalAlignment="Stretch"
+                                            Command="{Binding DataContext.ItemClickedCommand, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}">
+                                        </Button>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                </DataTemplate>
+            </userControls:BusyContainer.InnerTemplate>
+        </userControls:BusyContainer>
 
         <ProgressBar
             Grid.Row="1"
             Margin="0,5,0,0" Height="23"
             Value="{Binding Progress.Value, Mode=OneWay}"
             Maximum="{Binding ProgressMax.Value, Mode=OneWay}"
-            Visibility="{Binding ProgressBarVisibility.Value, Mode=OneWay}"/>
+            Visibility="{Binding ProgressBarIsVisible.Value, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"/>
 
     </Grid>
 </Window>

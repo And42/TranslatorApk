@@ -13,10 +13,10 @@ namespace TranslatorApk.Windows
             ViewModel = new AddLanguageWindowViewModel();
         }
 
-        public AddLanguageWindowViewModel ViewModel
+        internal AddLanguageWindowViewModel ViewModel
         {
             get => DataContext as AddLanguageWindowViewModel;
-            set => DataContext = value;
+            private set => DataContext = value;
         }
 
         private async void AddLanguageWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace TranslatorApk.Windows
 
         private void AddLanguageWindow_OnClosed(object sender, EventArgs e)
         {
-            ViewModel.UnsubscribeFromEvents();
+            ViewModel.Dispose();
         }
     }
 }

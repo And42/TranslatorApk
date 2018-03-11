@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TranslatorApk.Properties {
+namespace TranslatorApk.Resources.Files {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace TranslatorApk.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class FileResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal FileResources() {
         }
         
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslatorApk.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslatorApk.Resources.Files.FileResources", typeof(FileResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace TranslatorApk.Properties {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,29 +61,75 @@ namespace TranslatorApk.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ab|aa|af|ak|sq|am|ar|an|hy|as|av|ae|ay|az|bm|ba|eu|be|bn|bh|bi|bs|br|bg|my|ca|ch|ce|ny|zh|cv|kw|co|cr|hr|cs|da|dv|nl|dz|en|eo|et|ee|fo|fj|fi|fr|ff|gl|gd|ka|de|el|kl|gn|gu|ht|ha|he|hz|hi|ho|hu|is|io|ig|id|ia|ie|iu|ik|ga|it|ja|jv|kn|kr|ks|kk|km|ki|rw|rn|ky|kv|kg|ko|ku|kj|lo|la|lv|li|ln|lt|lu|lg|lb|gv|mk|mg|ms|ml|mt|mi|mr|mh|mo|mn|na|nv|ng|nd|ne|no|nb|nn|ii|oc|oj|cu|or|om|os|pi|ps|fa|pl|pt|pa|qu|rm|ro|ru|se|sm|sg|sa|sr|sh|st|tn|sn|ii|sd|si|sk|sl|so|nr|es|su|sw|ss|sv|tl|ty|tg|ta|tt|te|th|bo|ti|to|ts|tr|tk|tw|ug [остаток строки не уместился]&quot;;.
+        ///   Ищет локализованную строку, похожую на ab-&gt;ge
+        ///aa-&gt;et
+        ///af-&gt;za
+        ///ak-&gt;gh
+        ///sq-&gt;al
+        ///am-&gt;et
+        ///ar-&gt;ae
+        ///an-&gt;es
+        ///hy-&gt;am
+        ///as-&gt;in
+        ///av-&gt;az
+        ///ay-&gt;bo
+        ///az-&gt;az
+        ///bm-&gt;ml
+        ///ba-&gt;ru
+        ///eu-&gt;es
+        ///be-&gt;by
+        ///bn-&gt;bd
+        ///bh-&gt;in
+        ///bi-&gt;vu
+        ///bs-&gt;ba
+        ///br-&gt;fr
+        ///bg-&gt;bg
+        ///my-&gt;mm
+        ///ca-&gt;es
+        ///ch-&gt;gu
+        ///ce-&gt;ru
+        ///ny-&gt;mw
+        ///zh-&gt;cn
+        ///cv-&gt;ru
+        ///kw-&gt;gb
+        ///co-&gt;fr
+        ///cr-&gt;ca
+        ///hr-&gt;hr
+        ///cs-&gt;cz
+        ///da-&gt;dk
+        ///dv-&gt;mv
+        ///nl-&gt;nl
+        ///dz-&gt;bt
+        ///en-&gt;gb
+        ///et-&gt;ee
+        ///ee-&gt;gh
+        ///fo-&gt;fo
+        ///fj-&gt;fj
+        ///fi-&gt;fi
+        ///fr-&gt;fr
+        ///ff-&gt;sn
+        ///gl-&gt;es
+        ///gd-&gt;gb
+        ///gv-&gt;im
+        ///ka-&gt;ge
+        ///de-&gt;de
+        ///el-&gt;gr
+        ///kl-&gt;dk
+        ///gn-&gt;py
+        ///gu-&gt;in
+        ///ht-&gt;ht
+        ///ha-&gt;ng
+        ///he-&gt;il
+        ///hz-&gt;na
+        ///hi-&gt;in
+        ///ho-&gt;pg
+        ///hu-&gt;hu
+        ///is-&gt;is
+        /// [остаток строки не уместился]&quot;;.
         /// </summary>
-        public static string ISOLanguages {
+        internal static string language_iso_to_country_iso {
             get {
-                return ResourceManager.GetString("ISOLanguages", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на TranslatorApk.
-        /// </summary>
-        public static string MainWindowTitle {
-            get {
-                return ResourceManager.GetString("MainWindowTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja.
-        /// </summary>
-        public static string OnlineTranslationsShortLanguages {
-            get {
-                return ResourceManager.GetString("OnlineTranslationsShortLanguages", resourceCulture);
+                return ResourceManager.GetString("language_iso_to_country_iso", resourceCulture);
             }
         }
     }

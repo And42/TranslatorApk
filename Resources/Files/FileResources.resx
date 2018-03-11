@@ -117,13 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ISOLanguages" xml:space="preserve">
-    <value>ab|aa|af|ak|sq|am|ar|an|hy|as|av|ae|ay|az|bm|ba|eu|be|bn|bh|bi|bs|br|bg|my|ca|ch|ce|ny|zh|cv|kw|co|cr|hr|cs|da|dv|nl|dz|en|eo|et|ee|fo|fj|fi|fr|ff|gl|gd|ka|de|el|kl|gn|gu|ht|ha|he|hz|hi|ho|hu|is|io|ig|id|ia|ie|iu|ik|ga|it|ja|jv|kn|kr|ks|kk|km|ki|rw|rn|ky|kv|kg|ko|ku|kj|lo|la|lv|li|ln|lt|lu|lg|lb|gv|mk|mg|ms|ml|mt|mi|mr|mh|mo|mn|na|nv|ng|nd|ne|no|nb|nn|ii|oc|oj|cu|or|om|os|pi|ps|fa|pl|pt|pa|qu|rm|ro|ru|se|sm|sg|sa|sr|sh|st|tn|sn|ii|sd|si|sk|sl|so|nr|es|su|sw|ss|sv|tl|ty|tg|ta|tt|te|th|bo|ti|to|ts|tr|tk|tw|ug|uk|ur|uz|ve|vi|vo|wa|cy|wo|fy|xh|yi|yo|za|zu</value>
-  </data>
-  <data name="MainWindowTitle" xml:space="preserve">
-    <value>TranslatorApk</value>
-  </data>
-  <data name="OnlineTranslationsShortLanguages" xml:space="preserve">
-    <value>sq|en|ar|hy|az|af|eu|be|bg|bs|cy|vi|hu|ht|gl|nl|el|ka|da|he|id|ga|it|is|es|kk|ca|ky|zh|ko|la|lv|lt|mg|ms|mt|mk|mn|de|no|fa|pl|pt|ro|ru|sr|sk|sl|sw|tg|th|tl|tt|tr|uz|uk|fi|fr|hr|cs|sv|et|ja</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="language_iso_to_country_iso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>language_iso_to_country_iso.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

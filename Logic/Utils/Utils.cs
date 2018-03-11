@@ -16,7 +16,6 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using AndroidTranslator.Classes.Exceptions;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using Syncfusion.UI.Xaml.Grid;
@@ -36,54 +35,9 @@ using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
 
 namespace TranslatorApk.Logic.Utils
 {
-    public static class Utils
+    internal static class Utils
     {
-        /// <summary>
-        /// Проверяет текущий файл на соответствие настройкам
-        /// </summary>
-        /// <param name="file">Файл</param>
-        /// <param name="extension">Расширение файла</param>
-        private static bool CheckFileWithSettings(string file, string extension)
-        {
-            if (extension != ".xml" && SetInc.Instance.OnlyXml)
-                return false;
-
-            if (extension == ".xml")
-            {
-                if (!SetInc.Instance.EmptyXml)
-                {
-                    try
-                    {
-                        var details = XmlFile.Create(file).Details;
-
-                        return details != null && details.Count != 0;
-                    }
-                    catch (XmlParserException)
-                    {
-                        return false;
-                    }
-                }
-            }
-            else if (extension == ".smali")
-            {
-                if (!SetInc.Instance.EmptySmali && !SmaliFile.HasLines(file))
-                    return false;
-            }
-            else if (SetInc.Instance.ImageExtensions.Contains(extension))
-            {
-                if (!SetInc.Instance.Images)
-                    return false;
-            }
-            else if (SetInc.Instance.OtherExtensions.Contains(extension))
-            {
-                if (!SetInc.Instance.OtherFiles)
-                    return false;
-            }
-
-            return true;
-        }
-
-        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts = null, Action oneFileAdded = null)
+        public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationToken cts = default, Action oneFileAdded = null)
         {
             var flagFiles =
                 new HashSet<string>(
@@ -94,10 +48,9 @@ namespace TranslatorApk.Logic.Utils
             LoadFilesToTreeViewInternal(dispatcher, pathToFolder, root, showEmptyFolders, cts, oneFileAdded, flagFiles);
         }
 
-        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationTokenSource cts, Action oneFileAdded, HashSet<string> flagFiles)
+        private static void LoadFilesToTreeViewInternal(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationToken cts, Action oneFileAdded, HashSet<string> flagFiles)
         {
-            if (cts?.IsCancellationRequested == true)
-                return;
+            cts.ThrowIfCancellationRequested();
 
             IEnumerable<string> files = Directory.EnumerateFiles(pathToFolder, "*", SearchOption.TopDirectoryOnly);
             IEnumerable<string> folders = Directory.EnumerateDirectories(pathToFolder, "*", SearchOption.TopDirectoryOnly);
@@ -108,8 +61,7 @@ namespace TranslatorApk.Logic.Utils
             {
                 foreach (string folder in folders)
                 {
-                    if (cts?.IsCancellationRequested == true)
-                        return;
+                    cts.ThrowIfCancellationRequested();
 
                     // folder length
                     if (!CheckFilePath(folder))
@@ -121,37 +73,35 @@ namespace TranslatorApk.Logic.Utils
                         Options = new Options(folder, true)
                     };
 
-                    var (index, languageFolder) = GlobalVariables.SettingsFoldersOfLanguages.FindWithIndex(nm =>
-                        item.Name.StartsWith(nm, StringComparison.Ordinal));
+                    string langName = LanguageCodesHelper.Instanse.GetLangNameForFolder(item.Name);
+
+                    string countryIso = null;
+
+                    var nameSplit = item.Name.Split('-');
+                    if (nameSplit.Length > 1)
+                    {
+                        var languageIso = nameSplit[1];
+                        countryIso = LanguageCodesHelper.Instanse.GetCountryIsoByLanguageIso(languageIso);
+                    }
 
                     void SetFolder(string path)
                     {
-                        dispatcher.InvokeAction(() =>
-                        {
-                            item.Image = ImageUtils.GetFlagImage(path);
-                        });
-
+                        item.Image = ImageUtils.GetFlagImage(path);
                         item.Options.IsImageLoaded = true;
                     }
 
-                    // folder has it's own flag
-                    if (flagFiles.Contains(item.Name))
+                    // flagFiles contains countries iso
+
+                    // folder has language flag
+                    if (!string.IsNullOrEmpty(countryIso) && flagFiles.Contains(countryIso))
+                        SetFolder(countryIso);
+                    // folder has custom flag
+                    else if (flagFiles.Contains(item.Name))
                         SetFolder(item.Name);
-                    else if (index != -1 && flagFiles.Contains(languageFolder))
-                        SetFolder(languageFolder);
 
                     // folder is a language folder
-                    if (index > -1)
-                    {
-                        string found = GlobalVariables.SettingsFoldersOfLanguages[index];
-
-                        string source = item.Name;
-
-                        item.Name = GlobalVariables.SettingsNamesOfFolderLanguages[index];
-
-                        if (found != source)
-                            item.Name += $" ({source.Substring(languageFolder.Length).TrimStart('-').TrimStart('r')})";
-                    }
+                    if (!string.IsNullOrEmpty(langName))
+                        item.Name = langName;
 
                     LoadFilesToTreeViewInternal(dispatcher, folder, item, showEmptyFolders,
                         cts, oneFileAdded, flagFiles);
@@ -162,15 +112,14 @@ namespace TranslatorApk.Logic.Utils
 
                 foreach (string file in files)
                 {
-                    if (cts?.IsCancellationRequested == true)
-                        return;
+                    cts.ThrowIfCancellationRequested();
 
                     if (!CheckFilePath(file))
                         continue;
 
                     oneFileAdded?.Invoke();
 
-                    if (!CheckFileWithSettings(file, Path.GetExtension(file)))
+                    if (!AndroidFilesUtils.CheckFileWithSettings(file, Path.GetExtension(file)))
                         continue;
 
                     var item = new FilesTreeViewNodeModel(root)
@@ -351,6 +300,7 @@ namespace TranslatorApk.Logic.Utils
                 if (string.IsNullOrEmpty(path))
                     return false;
 
+                // ReSharper disable once PossibleNullReferenceException
                 var split = path.Split('/');
 
                 return split.Length > 1 && split[1] == name;
@@ -394,10 +344,7 @@ namespace TranslatorApk.Logic.Utils
             if (!SetInc.Instance.SessionAutoTranslate)
                 return;
 
-            if (GlobalVariables.SessionDictionary.ContainsKey(oldText))
-                GlobalVariables.SessionDictionary[oldText] = newText;
-            else
-                GlobalVariables.SessionDictionary.Add(oldText, newText);
+            GlobalVariables.SessionDictionary[oldText] = newText;
         }
 
         /// <summary>
@@ -650,79 +597,12 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
-        /// Проверяет, являются ли данные в указанном потоке словарём
-        /// </summary>
-        /// <param name="stream">Поток</param>
-        public static bool IsDictionaryFile(Stream stream)
-        {
-            var xDoc = new XmlDocument();
-
-            try
-            {
-                xDoc.Load(stream);
-            }
-            catch (XmlException)
-            {
-                return false;
-            }
-
-            XmlElement docElem = xDoc.DocumentElement;
-
-            return docElem?.Name == "translations" && docElem.Attributes["name"]?.Value == "AeDict";
-        }
-
-        /// <summary>
-        /// Проверяет, является ли указанный файл словарём
-        /// </summary>
-        /// <param name="file">Файл</param>
-        public static bool IsDictionaryFile(string file)
-        {
-            if (Path.GetExtension(file) != ".xml")
-                return false;
-
-            using (FileStream stream = File.OpenRead(file))
-                return IsDictionaryFile(stream);
-        }
-
-        /// <summary>
         /// Возвращает версию dll на диске
         /// </summary>
         /// <param name="pathToDll">Путь к dll</param>
         public static string GetDllVersion(string pathToDll)
         {
             return FileVersionInfo.GetVersionInfo(pathToDll).FileVersion;
-        }
-        
-        /// <summary>
-        /// Возвращает изменяемый файл, соответствующий файлу на диске, или null, если подходящий файл не найден
-        /// </summary>
-        /// <param name="filePath">Путь к файлу на диске</param>
-        public static IEditableFile GetSuitableEditableFile(string filePath)
-        {
-            switch (Path.GetExtension(filePath))
-            {
-                case ".xml":
-                    if (IsDictionaryFile(filePath))
-                        return new DictionaryFile(filePath);
-
-                    return XmlFile.Create(filePath);
-                case ".smali":
-                    return new SmaliFile(filePath);
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Добавляет в коллекцию непустой элемент
-        /// </summary>
-        /// <typeparam name="T">Тип элементов в коллекции</typeparam>
-        /// <param name="collection">Коллекция</param>
-        /// <param name="item">Элемент</param>
-        public static void AddIfNotNull<T>(this ICollection<T> collection, T item) where T : class
-        {
-            if (item != null)
-                collection.Add(item);
         }
 
         /// <summary>
@@ -835,31 +715,6 @@ namespace TranslatorApk.Logic.Utils
             Settings.Default.Save();
         }
 
-        /// <summary>
-        /// Создаёт делегат указанного метода
-        /// </summary>
-        /// <typeparam name="T">Тип делегата</typeparam>
-        /// <param name="obj">Объект, содержащий метод</param>
-        /// <param name="method">Метод</param>
-        public static T CreateDelegate<T>(object obj, string method) where T : class 
-        {
-            return Delegate.CreateDelegate(typeof(T), obj, method) as T;
-        }
-
-        /// <summary>
-        /// Выполняет метод в объекте, используя рефлексию
-        /// </summary>
-        /// <typeparam name="T">Тип возвращаемого значения</typeparam>
-        /// <param name="type">Тип, в котором выполняется поиск метода</param>
-        /// <param name="obj">Объект, у которого вызывается метод</param>
-        /// <param name="name">Название метода</param>
-        /// <param name="parameters">Параметры метода</param>
-        public static T ExecRefl<T>(Type type, object obj, string name, params object[] parameters)
-        {
-            // ReSharper disable once PossibleNullReferenceException
-            return type.GetMethod(name).Invoke(obj, parameters).As<T>();
-        }
-
         public static bool SetProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged
         {
             if (EqualityComparer<TPropType>.Default.Equals(storage, value))
@@ -903,46 +758,6 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
-        /// Select method with error handling
-        /// </summary>
-        /// <typeparam name="TSource">Source collection type</typeparam>
-        /// <typeparam name="TResult">Target collection type</typeparam>
-        /// <param name="source">Source collection</param>
-        /// <param name="selector">Value converter</param>
-        /// <param name="onFail">Called when converting an item causes an exception</param>
-        public static IEnumerable<TResult> SelectSafe<TSource, TResult>(this IEnumerable<TSource> source,
-            Func<TSource, TResult> selector, Action<TSource, Exception> onFail = null)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector == null)
-                throw new ArgumentNullException(nameof(selector));
-
-            IEnumerable<TResult> _()
-            {
-                foreach (TSource it in source)
-                {
-                    TResult res;
-
-                    try
-                    {
-                        res = selector(it);
-                    }
-                    catch (Exception ex)
-                    {
-                        onFail?.Invoke(it, ex);
-
-                        continue;
-                    }
-
-                    yield return res;
-                }
-            }
-
-            return _();
-        }
-
-        /// <summary>
         /// Returns files from drag event argsuments
         /// </summary>
         /// <param name="args">Arguments</param>
@@ -964,29 +779,15 @@ namespace TranslatorApk.Logic.Utils
             return obj;
         }
 
-        public static (int index, T value) FindWithIndex<T>(this IEnumerable<T> collection, Predicate<T> predicate)
-        {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            int index = 0;
-
-            foreach (T item in collection)
-            {
-                if (predicate(item))
-                    return (index, item);
-
-                index++;
-            }
-
-            return (-1, default);
-        }
-
         public static void IgnoreComboBoxChange()
         {
             throw new ArgumentException("ComboBox change was cancelled");
+        }
+
+        public static T Apply<T>(this T obj, Action<T> action)
+        {
+            action(obj);
+            return obj;
         }
     }
 }

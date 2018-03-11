@@ -9,10 +9,7 @@ using UsefulFunctionsLib;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для SettingsWindow.xaml
-    /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow
     {
         public SettingsWindow()
         {
@@ -21,10 +18,10 @@ namespace TranslatorApk.Windows
             ViewModel = new SettingsViewModel();
         }
 
-        public SettingsViewModel ViewModel
+        internal SettingsViewModel ViewModel
         {
             get => DataContext as SettingsViewModel;
-            set => DataContext = value;
+            private set => DataContext = value;
         }
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -43,7 +40,7 @@ namespace TranslatorApk.Windows
 
         private void SettingsWindow_OnClosed(object sender, EventArgs e)
         {
-            ViewModel.UnsubscribeFromEvents();
+            ViewModel.Dispose();
         }
     }
 }

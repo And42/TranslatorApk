@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 using AndroidLibs;
 using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
@@ -18,8 +15,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 {
     internal partial class MainWindowViewModel : ViewModelBase
     {
-        private readonly Dispatcher _windowDispatcher;
-        private readonly Control _windowControl;
+        private readonly Window _window;
         
         private readonly string[] _arguments;
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
@@ -34,11 +30,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public Apktools Apk;
 
-        public MainWindowViewModel(string[] args, Control window)
+        public MainWindowViewModel(string[] args, Window window)
         {
             _arguments = args;
-            _windowControl = window;
-            _windowDispatcher = window.Dispatcher;
+            _window = window;
 
             MainWindowState = CreateProviderWithNotify<WindowState>(nameof(MainWindowState));
 
@@ -120,6 +115,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             PropertyChanged -= OnPropertyChanged;
             SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+        }
+
+        public override void Dispose()
+        {
+            UnsubscribeFromEvents();
+            DisposeTreeViewPart();
         }
     }
 }

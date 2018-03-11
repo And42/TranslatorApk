@@ -1,6 +1,6 @@
 ﻿using System;
+using TranslatorApk.Logic.Utils;
 using TranslatorApkPluginLib;
-using static TranslatorApk.Logic.Utils.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {
@@ -13,11 +13,11 @@ namespace TranslatorApk.Logic.Classes
         {
             Type type = innerClass.GetType();
 
-            _title = ExecRefl<string>(type, innerClass, "GetActionTitle");
-            Guid = ExecRefl<Guid>(type, innerClass, "get_Guid");
+            _title = ReflectionUtils.ExecRefl<string>(type, innerClass, "GetActionTitle");
+            Guid = ReflectionUtils.ExecRefl<Guid>(type, innerClass, "get_Guid");
 
             _process =
-                CreateDelegate<Action<string, string, string, string, string, string, string, string, string>>
+                ReflectionUtils.CreateDelegate<Action<string, string, string, string, string, string, string, string, string>>
                     (innerClass, "Process");
         }
 

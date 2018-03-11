@@ -5,16 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
-using System.Windows.Threading;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для LoadingProcessWindow.xaml
-    /// </summary>
     public partial class LoadingProcessWindow : IRaisePropertyChanged
     {
         public int ProcessValue
@@ -40,7 +36,7 @@ namespace TranslatorApk.Windows
             get => _isIndeterminate;
             set => this.SetProperty(ref _isIndeterminate, value);
         }
-        private bool _isIndeterminate;
+        private bool _isIndeterminate = true;
 
         public int TaskBarProgress
         {
@@ -77,7 +73,13 @@ namespace TranslatorApk.Windows
             };
         }
 
-        public static void ShowWindow(Action beforeStarting, Action<CancellationTokenSource, ILoadingProcessWindowInvoker> threadActions, Action finishActions, Visibility cancelVisibility = Visibility.Visible, int progressMax = 0)
+        public static void ShowWindow(
+            Action beforeStarting,
+            Action<CancellationToken, ILoadingProcessWindowInvoker> threadActions,
+            Action finishActions,
+            Visibility cancelVisibility = Visibility.Visible,
+            int progressMax = 0,
+            Window ownerWindow = null)
         {
 #if DEBUG
             var localStack = Environment.StackTrace;
@@ -88,46 +90,31 @@ namespace TranslatorApk.Windows
 
             var culture = Application.Current.Dispatcher.Thread.CurrentUICulture;
 
-            LoadingProcessWindow window = null;
-
-            bool created = false;
-            var loadingWindowTh = new Thread(() =>
+            var window = new LoadingProcessWindow
             {
-                window = new LoadingProcessWindow
-                {
-                    CancelVisibility = cancelVisibility,
-                    ProcessMax = progressMax
-                };
-
-                created = true;
-                window.DoFinishActions = true;
-                window.ShowDialog();
-            })
-            {
-                CurrentCulture = culture,
-                CurrentUICulture = culture
+                CancelVisibility = cancelVisibility,
+                ProcessMax = progressMax,
+                DoFinishActions = true,
+                Owner = ownerWindow
             };
-            loadingWindowTh.SetApartmentState(ApartmentState.STA);
-            loadingWindowTh.Start();
 
-            while (!created)
-            {
-                Thread.Sleep(100);
-            }
+            window.Show();
 
-//#if !DEBUG
             var th = new Thread(() =>
             {
                 try
                 {
-                    threadActions(cancellationToken, new LoadingProcessWindowInvoker(window));
+                    window.IsIndeterminate = false;
+                    threadActions(cancellationToken.Token, new LoadingProcessWindowInvoker(window));
                 }
+                catch (OperationCanceledException)
+                { }
                 catch (Exception ex)
                 {
 #if DEBUG
                     Trace.WriteLine(localStack, $"{nameof(LoadingProcessWindow)} thread stack");
 #endif
-                    Application.Current.Dispatcher.InvokeAction(() => throw ex);
+                    Application.Current.Dispatcher.InvokeAction(() => throw new Exception(nameof(LoadingProcessWindow), ex));
                 }
             })
             {
@@ -136,30 +123,23 @@ namespace TranslatorApk.Windows
             };
             th.SetApartmentState(ApartmentState.STA);
             th.Start();
-//#else
-            //threadActions(cancellationToken);
-//#endif
 
             Task.Factory.StartNew(() =>
             {
-//#if !DEBUG
                 th.Join();
-//#endif
-                Dispatcher thr = Dispatcher.FromThread(loadingWindowTh);
 
-                if (thr != null && loadingWindowTh.IsAlive && !thr.HasShutdownStarted)
+                Application.Current.Dispatcher.InvokeAction(() =>
                 {
                     window._canClose = true;
-                    thr.InvokeAction(() => window.Close());
-                }
+                    window.Close();
 
-                if (window.DoFinishActions)
-                {
-                    Application.Current.Dispatcher.Invoke(finishActions);
-                }
+                    if (window.DoFinishActions)
+                    {
+                        finishActions();
+                    }
+                });
             });
         }
-
 
         private void StopClicked(object sender, RoutedEventArgs e)
         {

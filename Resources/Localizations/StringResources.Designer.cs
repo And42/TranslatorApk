@@ -196,6 +196,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Программа.
+        /// </summary>
+        public static string AppSettings_Caption {
+            get {
+                return ResourceManager.GetString("AppSettings_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Собрать проект.
         /// </summary>
         public static string BuildProject {
@@ -484,6 +493,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Редактор.
+        /// </summary>
+        public static string EditorSettings_Caption {
+            get {
+                return ResourceManager.GetString("EditorSettings_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пустые папки.
         /// </summary>
         public static string EmptyFolders {
@@ -736,6 +754,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Abkhazian|Afar|Afrikaans|Akan|Albanian|Amharic|Arabic|Aragonese|Armenian|Assamese|Avaric|Avestan|Aymara|Azerbaijani|Bambara|Bashkir|Basque|Belarusian|Bengali (Bangla)|Bihari|Bislama|Bosnian|Breton|Bulgarian|Burmese|Catalan|Chamorro|Chechen|Chichewa, Chewa, Nyanja|Chinese|Chuvash|Cornish|Corsican|Cree|Croatian|Czech|Danish|Divehi, Dhivehi, Maldivian|Dutch|Dzongkha|English|Esperanto|Estonian|Ewe|Faroese|Fijian|Finnish|French|Fulah|Galician|Gaelic (Scottish)|Georgian|German|Greek|Greenlandic|Guarani|Gujarati|H [остаток строки не уместился]&quot;;.
+        /// </summary>
+        public static string ISOLongLanguages {
+            get {
+                return ResourceManager.GetString("ISOLongLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Java не найдена! Пожалуйста, загрузите её с официального сайта или используйте портативную версию программы.
         /// </summary>
         public static string JavaNotFoundError {
@@ -813,15 +840,6 @@ namespace TranslatorApk.Resources.Localizations {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Английский (Великобритания)|Арабский|Африкаанс|Белорусский|Болгарский|Боснийский|Венгерский|Вьетнамский|Голландский|Греческий|Датский|Зулу|Иврит|Индонезийский|Испанский|Итальянский|Каталанский|Китайский|Китайский (Упрощённый)|Китайский (Традиционный)|Латышский|Литовский|Малайский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Словенский|Суахили|Тагальский|Тайский|Турецкий|Украинский|Финский|Французский|Хинди|Чешский|Шведский|Эстонский|Японский.
-        /// </summary>
-        public static string NamesOfFolderLanguages {
-            get {
-                return ResourceManager.GetString("NamesOfFolderLanguages", resourceCulture);
             }
         }
         
@@ -1326,6 +1344,15 @@ namespace TranslatorApk.Resources.Localizations {
         public static string TranslatedFolder {
             get {
                 return ResourceManager.GetString("TranslatedFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Перевод.
+        /// </summary>
+        public static string TranslationSettings_Caption {
+            get {
+                return ResourceManager.GetString("TranslationSettings_Caption", resourceCulture);
             }
         }
         

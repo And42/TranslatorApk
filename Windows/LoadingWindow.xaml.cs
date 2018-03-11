@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
-using System.Windows.Threading;
 using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.Interfaces;
 using TranslatorApk.Logic.Utils;
@@ -38,56 +37,41 @@ namespace TranslatorApk.Windows
             CancelCommand = new ActionCommand(_cancellationToken.Cancel);
         }
 
-        public static void ShowWindow(Action beforeStarting, Action<CancellationTokenSource> threadActions, Action finishActions, Visibility cancelVisibility = Visibility.Visible)
+        public static void ShowWindow(
+            Action beforeStarting,
+            Action<CancellationToken> threadActions,
+            Action finishActions,
+            Visibility cancelVisibility = Visibility.Visible,
+            Window ownerWindow = null)
         {
             _cancellationToken = new CancellationTokenSource();
             Application.Current.Dispatcher.Invoke(beforeStarting);
 
-            LoadingWindow window = null;
-
-            bool created = false;
-            var loadingWindowTh = new Thread(() =>
+            var window = new LoadingWindow
             {
-                window = new LoadingWindow
-                {
-                    CancelVisibility = cancelVisibility
-                };
-
-                created = true;
-                window.SetTaskBarState(TaskbarItemProgressState.Indeterminate);
-                window.DoFinishActions = true;
-                window.ShowDialog();
-            })
-            {
-                CurrentCulture = Thread.CurrentThread.CurrentCulture,
-                CurrentUICulture = Thread.CurrentThread.CurrentUICulture
+                CancelVisibility = cancelVisibility,
+                DoFinishActions = true,
+                Owner = ownerWindow
             };
 
-            loadingWindowTh.SetApartmentState(ApartmentState.STA);
-            loadingWindowTh.Start();
-
-            while (!created)
-            {
-                Thread.Sleep(100);
-            }
-            
-            bool finished = false;
+            window.SetTaskBarState(TaskbarItemProgressState.Indeterminate);
+            window.Show();
 
             var th = new Thread(() =>
             {
                 try
                 {
-                    threadActions(_cancellationToken);
+                    threadActions(_cancellationToken.Token);
                 }
+                catch (OperationCanceledException)
+                { }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString(), "Error");
                     Debug.WriteLine(Environment.StackTrace, "Current Stack Trace");
 
-                    Application.Current.Dispatcher.InvokeAction(() => throw ex);
+                    Application.Current.Dispatcher.InvokeAction(() => throw new Exception(nameof(LoadingWindow), ex));
                 }
-
-                finished = true;
             })
             {
                 CurrentCulture = Thread.CurrentThread.CurrentCulture,
@@ -100,31 +84,23 @@ namespace TranslatorApk.Windows
             {
                 try
                 {
-                    while (!finished)
-                    {
-                        Thread.Sleep(1000);
-                    }
+                    th.Join();
 
-                    var thr = Dispatcher.FromThread(loadingWindowTh);
-
-                    thr?.InvokeAction(() =>
+                    Application.Current.Dispatcher.InvokeAction(() =>
                     {
-                        if (loadingWindowTh.IsAlive && !thr.HasShutdownStarted)
+                        window.SetTaskBarState(TaskbarItemProgressState.None);
+                        window._canClose = true;
+                        window.Close();
+
+                        if (window.DoFinishActions)
                         {
-                            window.SetTaskBarState(TaskbarItemProgressState.None);
-                            window._canClose = true;
-                            window.Close();
+                            finishActions();
                         }
-                    });
-
-                    if (window.DoFinishActions)
-                    {
-                        Application.Current.Dispatcher.InvokeAction(finishActions);
-                    }
+                    });       
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.Dispatcher.InvokeAction(() => throw ex);
+                    Application.Current.Dispatcher.InvokeAction(() => throw new Exception(nameof(LoadingWindow), ex));
                 }
             }); 
         }

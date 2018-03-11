@@ -132,6 +132,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             _tvCommands = new CommandContainers(this);
         }
 
+        private void DisposeTreeViewPart()
+        {
+            FilesFilesTreeViewModel.Children.Clear();
+        }
+
         #region Окно фильтрации
 
         private void TV_OpenFilterBoxCommand_Execute()
@@ -169,8 +174,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void TV_RefreshFilesListCommand_Execute()
         {
-            if (!GlobalVariables.CurrentProjectFolder.NE())
-                LoadFolder(GlobalVariables.CurrentProjectFolder);
+            if (string.IsNullOrEmpty(GlobalVariables.CurrentProjectFolder))
+                return;
+
+            LoadFolder(GlobalVariables.CurrentProjectFolder);
         }
 
         #endregion
@@ -267,7 +274,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     CommandParameter = commandParameter,
                     Icon = img,
                     InputGestureText = container.Gesture,
-                    FontSize = _windowControl.FontSize
+                    FontSize = _window.FontSize
                 }
             );
         }
@@ -359,7 +366,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             if (list == null)
                 return;
 
-            List<IEditableFile> files = list.Select(Utils.Utils.GetSuitableEditableFile).Where(it => it != null).ToList();
+            List<IEditableFile> files = list.Select(AndroidFilesUtils.GetSuitableEditableFile).Where(it => it != null).ToList();
 
             WindowManager.ActivateWindow<EditorWindow>();
 

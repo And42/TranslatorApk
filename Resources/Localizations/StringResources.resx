@@ -330,8 +330,8 @@
   <data name="DictionaryFolder" xml:space="preserve">
     <value>Папка словаря</value>
   </data>
-  <data name="NamesOfFolderLanguages" xml:space="preserve">
-    <value>Английский (Великобритания)|Арабский|Африкаанс|Белорусский|Болгарский|Боснийский|Венгерский|Вьетнамский|Голландский|Греческий|Датский|Зулу|Иврит|Индонезийский|Испанский|Итальянский|Каталанский|Китайский|Китайский (Упрощённый)|Китайский (Традиционный)|Латышский|Литовский|Малайский|Немецкий|Норвежский|Персидский|Польский|Португальский|Румынский|Русский|Сербский|Словацкий|Словенский|Суахили|Тагальский|Тайский|Турецкий|Украинский|Финский|Французский|Хинди|Чешский|Шведский|Эстонский|Японский</value>
+  <data name="ISOLongLanguages" xml:space="preserve">
+    <value>Abkhazian|Afar|Afrikaans|Akan|Albanian|Amharic|Arabic|Aragonese|Armenian|Assamese|Avaric|Avestan|Aymara|Azerbaijani|Bambara|Bashkir|Basque|Belarusian|Bengali (Bangla)|Bihari|Bislama|Bosnian|Breton|Bulgarian|Burmese|Catalan|Chamorro|Chechen|Chichewa, Chewa, Nyanja|Chinese|Chuvash|Cornish|Corsican|Cree|Croatian|Czech|Danish|Divehi, Dhivehi, Maldivian|Dutch|Dzongkha|English|Esperanto|Estonian|Ewe|Faroese|Fijian|Finnish|French|Fulah|Galician|Gaelic (Scottish)|Georgian|German|Greek|Greenlandic|Guarani|Gujarati|Haitian Creole|Hausa|Hebrew|Herero|Hindi|Hiri Motu|Hungarian|Icelandic|Ido|Igbo|Indonesian|Interlingua|Interlingue|Inuktitut|Inupiak|Irish|Italian|Japanese|Javanese|Kannada|Kanuri|Kashmiri|Kazakh|Khmer|Kikuyu|Kinyarwanda (Rwanda)|Kirundi|Kyrgyz|Komi|Kongo|Korean|Kurdish|Keanyama; Kwanyama|Lao|Latin|Latvian (Lettish)|Limburgish (Limburger)|Lingala|Lithuanian|Luga-Katanga|Luganda, Ganda|Luxembourgish|Manx|Macedonian|Malagasy|Malay|Malayalam|Maltese|Maori|Marathi|Marshallese|Moldavian|Mongolian|Nauru|Navajo|Ndonga|Northern Ndebele|Nepali|Norwegian|Norwegian bokmål|Norwegian nynorsk|Nuosu|Occitan|Ojibwa|Old Church Slavonic, Old Bulgarian|Oriya|Oromo (Afaan Oromo)|Ossetian|Pāli|Pashto, Pushto|Persian (Farsi)|Polish|Portuguese|Punjabi (Eastern)|Quechua|Romansh|Romanian|Russian|Sami|Samoan|Sango|Sanskrit|Serbian|Serbo-Croatian|Sesotho|Setswana|Shona|Sichuan Yi|Sindhi|Sinhalese|Slovak|Slovenian|Somali|Southern Ndebele|Spanish|Sundanese|Swahili (Kiswahili)|Swati|Swedish|Tagalog|Tahitian|Tajik|Tamil|Tatar|Telugu|Thai|Tibetan|Tigrinya|Tonga|Tsonga|Turkish|Turkmen|Twi|Uyghur|Ukrainian|Urdu|Uzbek|Venda|Vietnamese|Volapük|Wallon|Welsh|Wolof|Western Frisian|Xhosa|Yiddish|Yoruba|Zhuang, Chuang|Zulu</value>
   </data>
   <data name="ResultFolder" xml:space="preserve">
     <value>Папка с результатом</value>
@@ -572,5 +572,14 @@
   </data>
   <data name="GridFontSize" xml:space="preserve">
     <value>Размер шрифта таблиц:</value>
+  </data>
+  <data name="AppSettings_Caption" xml:space="preserve">
+    <value>Программа</value>
+  </data>
+  <data name="EditorSettings_Caption" xml:space="preserve">
+    <value>Редактор</value>
+  </data>
+  <data name="TranslationSettings_Caption" xml:space="preserve">
+    <value>Перевод</value>
   </data>
 </root>

@@ -25,6 +25,11 @@ namespace TranslatorApk.Logic.Utils
             UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFolder(path);
         }
 
+        public static void CreateFolder(string path)
+        {
+            Directory.CreateDirectory(path);
+        }
+
         public static void CopyFilesRecursively(string sourceDirectory, string targetDirectory, bool overwrite = true)
         {
             CopyFilesRecursively(new DirectoryInfo(sourceDirectory), new DirectoryInfo(targetDirectory), overwrite);

@@ -42,9 +42,6 @@ using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для EditorWindow.xaml
-    /// </summary>
     public partial class EditorWindow : IRaisePropertyChanged
     {
         public static double EditorHeaderFontSize = 20;
@@ -251,6 +248,8 @@ namespace TranslatorApk.Windows
 
             StringFiles.Clear();
 
+            WindowManager.CloseWindow<EditorSearchWindow>();
+
             GC.Collect();
         }
 
@@ -377,46 +376,52 @@ namespace TranslatorApk.Windows
 
             int translated = 0;
 
-            LoadingWindow.ShowWindow(() =>
-            {
-                IsEnabled = false;
-                WindowManager.DisableWindow<MainWindow>();
-            }, cts =>
-            {
-                var dictWords = 
-                    UsefulFunctions.UnionWOEqCheck(dictsToUse.Select(d => new DictionaryFile(d.Item1).Details))
-                        .DistinctByGrouping(f => f.OldText)
-                        .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
-
-                Parallel.ForEach(StringFiles, file =>
+            LoadingWindow.ShowWindow(
+                beforeStarting: () =>
                 {
-                    if (file is DictionaryFile)
-                        return;
+                    IsEnabled = false;
+                    WindowManager.DisableWindow<MainWindow>();
+                },
+                threadActions: cts =>
+                {
+                    var dictWords = 
+                        UsefulFunctions.UnionWOEqCheck(dictsToUse.Select(d => new DictionaryFile(d.Item1).Details))
+                            .DistinctByGrouping(f => f.OldText)
+                            .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
 
-                    int trans = 0;
-
-                    foreach (IOneString str in file.Details)
+                    Parallel.ForEach(StringFiles, file =>
                     {
-                        if (str.IsChanged)
-                            continue;
+                        if (file is DictionaryFile)
+                            return;
 
-                        string found;
+                        int trans = 0;
 
-                        if (dictWords.TryGetValue(str.OldText, out found))
+                        foreach (IOneString str in file.Details)
                         {
-                            str.NewText = found;
-                            trans++;
-                        }
-                    }
+                            if (str.IsChanged)
+                                continue;
 
-                    Interlocked.Add(ref translated, trans);
-                });
-            }, () =>
-            {
-                IsEnabled = true;
-                WindowManager.EnableWindow<MainWindow>();
-                MessBox.ShowDial(StringResources.StringsTranslated + " " + translated, StringResources.Finished);
-            }, Visibility.Collapsed);
+                            string found;
+
+                            if (dictWords.TryGetValue(str.OldText, out found))
+                            {
+                                str.NewText = found;
+                                trans++;
+                            }
+                        }
+
+                        Interlocked.Add(ref translated, trans);
+                    });
+                },
+                finishActions: () =>
+                {
+                    IsEnabled = true;
+                    WindowManager.EnableWindow<MainWindow>();
+                    MessBox.ShowDial(StringResources.StringsTranslated + " " + translated, StringResources.Finished);
+                },
+                cancelVisibility: Visibility.Collapsed,
+                ownerWindow: this
+            );
         }
 
         private void CurrentDictionariesDragEnter(object sender, DragEventArgs e)
@@ -546,7 +551,7 @@ namespace TranslatorApk.Windows
                     CreateItem(StringResources.Expand, Expand_Click),
                     CreateItem(StringResources.Collapse, Collapse_Click)
                 },
-                FontSize = (double) FindResource("Window_FontSize")
+                FontSize = SettingsIncapsuler.Instance.FontSize
             };
 
             void Add(string header, RoutedEventHandler clicked, string gesture = null)
@@ -958,7 +963,7 @@ namespace TranslatorApk.Windows
                     continue;
                 }
 
-                IEditableFile current = GetSuitableEditableFile(file);
+                IEditableFile current = AndroidFilesUtils.GetSuitableEditableFile(file);
 
                 if (firstAdded == null && current != null)
                     firstAdded = current.FileName;
@@ -1100,7 +1105,7 @@ namespace TranslatorApk.Windows
                 WindowManager.DisableWindow<MainWindow>();
             }
 
-            void ThreadActions(CancellationTokenSource token, ILoadingProcessWindowInvoker invoker)
+            void ThreadActions(CancellationToken token, ILoadingProcessWindowInvoker invoker)
             {
                 int max = StringFiles.Sum(file => file.Details.Count);
                 invoker.ProcessMax = max;
@@ -1109,7 +1114,7 @@ namespace TranslatorApk.Windows
 
                 max = Math.Min(max, 4);
 
-                Parallel.ForEach(list, str =>
+                Parallel.ForEach(list, (str, state) =>
                 {
                     if (token.IsCancellationRequested)
                         return;
@@ -1138,7 +1143,7 @@ namespace TranslatorApk.Windows
 
                             if (!token.IsCancellationRequested && cantTranslate >= max)
                             {
-                                token.Cancel();
+                                state.Stop();
                                 errorMessage = ex.Message;
                             }
                         }
@@ -1159,7 +1164,7 @@ namespace TranslatorApk.Windows
                 EditorGrid.Focus();
             }
 
-            LoadingProcessWindow.ShowWindow(StartActions, ThreadActions, FinishActions);
+            LoadingProcessWindow.ShowWindow(StartActions, ThreadActions, FinishActions, ownerWindow: this);
         }
 
         /// <summary>
@@ -1168,7 +1173,7 @@ namespace TranslatorApk.Windows
         /// <param name="onFinished">Действие после обработки</param>
         private void Save(Action onFinished = null)
         {
-            void SavingProcess(CancellationTokenSource cts, ILoadingProcessWindowInvoker invoker)
+            void SavingProcess(CancellationToken cts, ILoadingProcessWindowInvoker invoker)
             {
                 bool saveToDict = SaveToDict && SaveDictionary != null;
                 IDictionaryFile dict = SaveDictionary;
@@ -1199,7 +1204,7 @@ namespace TranslatorApk.Windows
                 Enable();
                 onFinished?.Invoke();
             },
-            Visibility.Collapsed, StringFiles.Count);
+            Visibility.Collapsed, StringFiles.Count, ownerWindow: this);
         }
 
         /// <summary>
@@ -1256,16 +1261,15 @@ namespace TranslatorApk.Windows
             string errorMessage = null;
             var translated = new ConcurrentQueue<(IOneString source, string translated)>();
 
-            void ThreadActions(CancellationTokenSource token, ILoadingProcessWindowInvoker invoker)
+            void ThreadActions(CancellationToken token, ILoadingProcessWindowInvoker invoker)
             {
                 int cantTranslate = 0;
 
                 int max = Math.Min(4, rows.Count);
 
-                Parallel.ForEach(rows, str =>
+                Parallel.ForEach(rows, (str, state) =>
                 {
-                    if (token.IsCancellationRequested)
-                        return;
+                    token.ThrowIfCancellationRequested();
 
                     try
                     {
@@ -1278,7 +1282,7 @@ namespace TranslatorApk.Windows
                     {
                         if (++cantTranslate >= max)
                         {
-                            token.Cancel();
+                            state.Stop();
                             errorMessage = ex.Message;
                         }
                     }
@@ -1297,7 +1301,7 @@ namespace TranslatorApk.Windows
                 EditorGrid.Focus();
             }
 
-            LoadingProcessWindow.ShowWindow(Disable, ThreadActions, FinishActions, progressMax: rows.Count);
+            LoadingProcessWindow.ShowWindow(Disable, ThreadActions, FinishActions, progressMax: rows.Count, ownerWindow: this);
         }
 
         private IEditableFile GetStringFile(IOneString str)

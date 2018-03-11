@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
 using HtmlAgilityPack;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Disposables;
@@ -29,7 +28,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public PropertyProvider<int> Progress { get; }
         public PropertyProvider<int> ProgressMax { get; }
-        public PropertyProvider<Visibility> ProgressBarVisibility { get; }
+        public PropertyProvider<bool> ProgressBarIsVisible { get; }
 
         public IActionCommand<DownloadableApktool> ItemClickedCommand { get; }
 
@@ -37,7 +36,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             Progress = CreateProviderWithNotify<int>(nameof(Progress));
             ProgressMax = CreateProviderWithNotify(nameof(ProgressMax), 100);
-            ProgressBarVisibility = CreateProviderWithNotify(nameof(ProgressBarVisibility), Visibility.Collapsed);
+            ProgressBarIsVisible = CreateProviderWithNotify<bool>(nameof(ProgressBarIsVisible));
 
             _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
             ServerApktools = new ReadOnlyObservableCollection<DownloadableApktool>(_serverApktools);
@@ -147,7 +146,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private CustomBoolDisposable ProgressBarDisposable()
         {
-            return new CustomBoolDisposable(val => ProgressBarVisibility.Value = val ? Visibility.Visible : Visibility.Collapsed);
+            return new CustomBoolDisposable(val => ProgressBarIsVisible.Value = val);
         }
 
         private static async Task<List<DownloadableApktool>> DownloadApktoolsListAsync()

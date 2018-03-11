@@ -1,56 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
     public class AddLanguageWindowViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Список исходных языков
-        /// </summary>
-        public ReadOnlyObservableCollection<string> SourceLanguages { get; }
-        private readonly ObservableRangeCollection<string> _sourceLanguages;
+        [DebuggerDisplay("{" + nameof(Title) + "} - {" + nameof(LanguageIso) + "}")]
+        public class LanguageViewModel
+        {
+            public BitmapImage LanguageIcon { get; }
+            public string Title { get; }
+            public string LanguageIso { get; }
+
+            public LanguageViewModel(BitmapImage languageIcon, string title, string languageIso)
+            {
+                LanguageIcon = languageIcon;
+                Title = title;
+                LanguageIso = languageIso;
+            }
+        }
 
         /// <summary>
         /// Список целевых языков
         /// </summary>
-        public ReadOnlyObservableCollection<NewLanguageViewModel> TargetLanguages { get; }
-        private readonly ObservableRangeCollection<NewLanguageViewModel> _targetLanguages;
-
-        private readonly List<string> _folderLangs = GlobalVariables.SettingsFoldersOfLanguages;
-        private readonly List<string> _folderLocalizedLangs = GlobalVariables.SettingsNamesOfFolderLanguages;
+        public ReadOnlyObservableCollection<LanguageViewModel> TargetLanguages { get; }
+        private readonly ObservableRangeCollection<LanguageViewModel> _targetLanguages;
 
         private string _currentProjectFolder;
 
         public ICommand AddLanguageCommand => _addLanguageCommand;
         private readonly ActionCommand _addLanguageCommand;
 
-        public NewLanguageViewModel NewLanguage
+        public LanguageViewModel NewLanguage
         {
             get => _newLanguage;
             set => SetPropertyRef(ref _newLanguage, value);
         }
-        private NewLanguageViewModel _newLanguage;
+        private LanguageViewModel _newLanguage;
 
         public AddLanguageWindowViewModel()
         {
-            _sourceLanguages = new ObservableRangeCollection<string>();
-            SourceLanguages = new ReadOnlyObservableCollection<string>(_sourceLanguages);
-
-            _targetLanguages = new ObservableRangeCollection<NewLanguageViewModel>();
-            TargetLanguages = new ReadOnlyObservableCollection<NewLanguageViewModel>(_targetLanguages);
+            _targetLanguages = new ObservableRangeCollection<LanguageViewModel>();
+            TargetLanguages = new ReadOnlyObservableCollection<LanguageViewModel>(_targetLanguages);
 
             _addLanguageCommand = new ActionCommand(AddLanguageCommand_Execute);
         }
@@ -64,12 +68,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
 
             var sourcedir = Path.Combine(_currentProjectFolder, "res", "values");
-            var targetdir = Path.Combine(_currentProjectFolder, "res", _folderLangs[_folderLocalizedLangs.IndexOf(NewLanguage.Title)]);
+            var targetdir = Path.Combine(_currentProjectFolder, "res", "values-" + NewLanguage.LanguageIso);
 
-            if (Directory.Exists(targetdir))
-                Directory.Delete(targetdir, true);
+            if (IOUtils.FolderExists(targetdir))
+                IOUtils.DeleteFolder(targetdir);
 
-            Directory.CreateDirectory(targetdir);
+            IOUtils.CreateFolder(targetdir);
 
             var filesToCopy = new[] { "strings.xml", "arrays.xml" };
 
@@ -77,19 +81,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             {
                 string src = Path.Combine(sourcedir, file);
 
-                if (File.Exists(src))
+                if (IOUtils.FileExists(src))
                     File.Copy(src, Path.Combine(targetdir, file), true);
             }
 
-            _sourceLanguages.Add(NewLanguage.Title);
-            _targetLanguages.RemoveAt(TargetLanguages.FindIndex(it => it.Title == NewLanguage.Title));
+            _targetLanguages.Remove(NewLanguage);
 
             MessBox.ShowDial(StringResources.AllDone);
         }
 
         public override async Task LoadItems()
         {
-            if (IsBusy || GlobalVariables.CurrentProjectFolder == null)
+            if (string.IsNullOrEmpty(GlobalVariables.CurrentProjectFolder))
                 return;
 
             _currentProjectFolder = GlobalVariables.CurrentProjectFolder;
@@ -100,36 +103,36 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 {
                     var values =
                         Directory.EnumerateDirectories(
-                                Path.Combine(_currentProjectFolder, "res"), "values*",
+                                Path.Combine(_currentProjectFolder, "res"), "values-*",
                                 SearchOption.TopDirectoryOnly
                             )
                             .Select(Path.GetFileName);
 
-                    var sourceLanguages = new List<string>();
-                    var targetLanguages = new List<NewLanguageViewModel>();
+                    var sourceLanguages = new List<LanguageViewModel>();
+                    var targetLanguages = new List<LanguageViewModel>();
 
                     foreach (string value in values)
                     {
-                        int index = _folderLangs.IndexOf(value);
+                        string languageIso = value.Split('-')[1];
+                        string language = LanguageCodesHelper.Instanse.GetLangNameForFolder(value);
 
-                        if (index > -1)
+                        if (!string.IsNullOrEmpty(language))
                         {
-                            sourceLanguages.Add(_folderLocalizedLangs[index]);
+                            sourceLanguages.Add(
+                                new LanguageViewModel(null, language, languageIso)
+                            );
                         }
                     }
 
-                    foreach (string lang in _folderLocalizedLangs)
+                    foreach (string languageIso in LanguageCodesHelper.Instanse.IsoLanguages)
                     {
-                        if (SourceLanguages.All(src => src != lang))
+                        if (sourceLanguages.All(src => src.LanguageIso != languageIso))
                         {
-                            string name = _folderLangs[_folderLocalizedLangs.IndexOf(lang)];
+                            string language = LanguageCodesHelper.Instanse.GetLanguageByLanguageIso(languageIso);
+                            string countryIso = LanguageCodesHelper.Instanse.GetCountryIsoByLanguageIso(languageIso);
 
                             targetLanguages.Add(
-                                new NewLanguageViewModel
-                                {
-                                    LanguageIcon = ImageUtils.GetFlagImage(name),
-                                    Title = lang
-                                }
+                                new LanguageViewModel(ImageUtils.GetFlagImage(countryIso), language, languageIso)
                             );
                         }
                     }
@@ -137,7 +140,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return Tuple.Create(sourceLanguages, targetLanguages);
                 });
 
-                _sourceLanguages.ReplaceRange(items.Item1);
                 _targetLanguages.ReplaceRange(items.Item2);
             }
         }

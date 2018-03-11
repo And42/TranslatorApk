@@ -26,7 +26,7 @@ namespace TranslatorApk.Windows
 
         private void ApktoolCatalogWindow_OnClosed(object sender, EventArgs e)
         {
-            ViewModel.UnsubscribeFromEvents();
+            ViewModel.Dispose();
         }
     }
 }

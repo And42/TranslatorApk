@@ -13,10 +13,10 @@ namespace TranslatorApk.Windows
             ViewModel = new PluginsWindowViewModel();
         }
 
-        public PluginsWindowViewModel ViewModel
+        internal PluginsWindowViewModel ViewModel
         {
             get => DataContext as PluginsWindowViewModel;
-            set => DataContext = value;
+            private set => DataContext = value;
         }
 
         private async void PluginsWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace TranslatorApk.Windows
 
         private void PluginsWindow_OnClosed(object sender, EventArgs e)
         {
-            ViewModel.UnsubscribeFromEvents();
+            ViewModel.Dispose();
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace TranslatorApk.Logic.Interfaces
 {
-    public interface IViewModelBase
+    public interface IViewModelBase : IDisposable
     {
         bool IsBusy { get; set; }
 

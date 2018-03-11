@@ -40,6 +40,6 @@
             Command="{Binding CancelCommand}"
             Content="{x:Static localizations:StringResources.Stop}"
             Visibility="{Binding CancelVisibility, Mode=OneWay}"
-            Margin="5,0,0,0" Padding="5,2" />
+            Margin="5,0,0,0" Padding="5,0" />
     </Grid>
 </Window>
