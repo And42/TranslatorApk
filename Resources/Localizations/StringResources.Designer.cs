@@ -664,6 +664,15 @@ namespace TranslatorApk.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Исправлять ошибки онлайн перевода:.
+        /// </summary>
+        public static string FixOnlineTranslationResults_Label {
+            get {
+                return ResourceManager.GetString("FixOnlineTranslationResults_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Вы действительно хотите удалить папку.
         /// </summary>
         public static string FolderDeleteConfirmation {

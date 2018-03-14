@@ -695,15 +695,6 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
-        /// Переводит указанный текст с помощью онлайн переводчика, основываясь на текущих настройках
-        /// </summary>
-        /// <param name="text">Текст для перевода</param>
-        public static string TranslateTextWithSettings(string text)
-        {
-            return GlobalVariables.CurrentTranslationService.Translate(text, SetInc.Instance.TargetLanguage);
-        }
-
-        /// <summary>
         /// Выполняет финальные действия при завершении программы
         /// </summary>
         public static void ExitActions()

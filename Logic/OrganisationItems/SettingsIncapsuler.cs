@@ -250,6 +250,11 @@ namespace TranslatorApk.Logic.OrganisationItems
             set => SetValueInternal(value);
         }
 
+        public bool FixOnlineTranslationResults
+        {
+            get => GetValueInternal<bool>();
+            set => SetValueInternal(value);
+        }
 
 
         private T GetValueInternal<T>([CallerMemberName] string propertyName = null)

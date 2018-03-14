@@ -100,5 +100,10 @@ namespace TranslatorApk.Logic.Utils
 
             return (-1, default);
         }
+
+        public static IEnumerable<(T item, int index)> Enumerate<T>(this IEnumerable<T> collection)
+        {
+            return collection.Select((it, index) => (it, index));
+        }
     }
 }

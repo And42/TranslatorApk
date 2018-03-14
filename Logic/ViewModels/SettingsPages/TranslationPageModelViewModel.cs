@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
@@ -11,14 +12,19 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class TranslationPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        public TranslationPageViewModel()
-        {
-            RefreshData();
-
-            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
-        }
-
         public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
+
+        public PropertyProvider<string[]> YesNoItems { get; }
+
+        public int FixOnlineTranslationResultsIndex
+        {
+            get => SettingsIncapsuler.Instance.FixOnlineTranslationResults ? 0 : 1;
+            set
+            {
+                SettingsIncapsuler.Instance.FixOnlineTranslationResults = value == 0;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<OneTranslationService> Translators { get; } = new ObservableCollection<OneTranslationService>();
 
@@ -36,6 +42,15 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
+        public TranslationPageViewModel()
+        {
+            YesNoItems = CreateProviderWithNotify<string[]>(nameof(YesNoItems));
+
+            RefreshData();
+
+            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
+        }
+
         public int TranslationTimeout
         {
             get => SettingsIncapsuler.Instance.TranslationTimeout;
@@ -50,6 +65,8 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public void RefreshData()
         {
+            YesNoItems.Value = new[] { StringResources.Yes, StringResources.No };
+
             Translators.Clear();
             Translators.AddRange(TranslateService.OnlineTranslators.Values);
 
@@ -62,6 +79,9 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             {
                 case nameof(SettingsIncapsuler.TranslationTimeout):
                     OnPropertyChanged(nameof(TranslationTimeout));
+                    break;
+                case nameof(SettingsIncapsuler.FixOnlineTranslationResults):
+                    OnPropertyChanged(nameof(FixOnlineTranslationResultsIndex));
                     break;
             }
         }

@@ -1128,8 +1128,7 @@ namespace TranslatorApk.Windows
                     {
                         invoker.ProcessValue++;
 
-                        string translatedStr = GlobalVariables.CurrentTranslationService.Translate(str.OldText,
-                            SettingsIncapsuler.Instance.TargetLanguage);
+                        string translatedStr = TranslationUtils.TranslateTextWithSettings(str.OldText);
 
                         translated.Enqueue((str, translatedStr));
 
@@ -1274,7 +1273,7 @@ namespace TranslatorApk.Windows
                     try
                     {
                         invoker.ProcessValue++;
-                        translated.Enqueue((str, TranslateTextWithSettings(str.OldText)));
+                        translated.Enqueue((str, TranslationUtils.TranslateTextWithSettings(str.OldText)));
 
                         cantTranslate = 0;
                     }

@@ -582,4 +582,7 @@
   <data name="TranslationSettings_Caption" xml:space="preserve">
     <value>Перевод</value>
   </data>
+  <data name="FixOnlineTranslationResults_Label" xml:space="preserve">
+    <value>Исправлять ошибки онлайн перевода:</value>
+  </data>
 </root>
