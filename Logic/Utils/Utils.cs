@@ -78,7 +78,7 @@ namespace TranslatorApk.Logic.Utils
                     string countryIso = null;
 
                     var nameSplit = item.Name.Split('-');
-                    if (nameSplit.Length > 1)
+                    if (nameSplit.Length > 1 && nameSplit[0] == "values")
                     {
                         var languageIso = nameSplit[1];
                         countryIso = LanguageCodesHelper.Instanse.GetCountryIsoByLanguageIso(languageIso);
