@@ -88,9 +88,9 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AndroidLibs, Version=1.3.6591.38852, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AndroidHelper, Version=1.4.6662.39282, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\AndroidLibs.dll</HintPath>
+      <HintPath>Libraries\AndroidHelper.dll</HintPath>
     </Reference>
     <Reference Include="AndroidTranslator, Version=1.4.6591.38816, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -919,8 +919,6 @@
   <ItemGroup>
     <None Include="Libraries\AlphaFS.dll" />
     <None Include="Libraries\AlphaFS.xml" />
-    <None Include="Libraries\AndroidLibs.dll" />
-    <None Include="Libraries\AndroidLibs.xml" />
     <None Include="Libraries\AndroidTranslator.dll" />
     <None Include="Libraries\AndroidTranslator.xml" />
     <None Include="Libraries\ICSharpCode.SharpZipLib.dll" />
@@ -950,6 +948,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Files\language_iso_to_country_iso.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libraries\AndroidHelper.dll" />
+    <Resource Include="Libraries\AndroidHelper.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,75 +1,75 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>AndroidLibs</name>
+        <name>AndroidHelper</name>
     </assembly>
     <members>
-        <member name="T:AndroidLibs.AndroidManifest">
+        <member name="T:AndroidHelper.Logic.AndroidManifest">
             <summary>
             Класс для работы с AndroidManifest.xml
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.PathToManifest">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.PathToManifest">
             <summary>
             Возвращает путь к текущему AndroidManifest.xml
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.Package">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.Package">
             <summary>
             Возвращает или задаёт пакет приложения
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.Document">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.Document">
             <summary>
             Возвращает XmlDocument представляющий текущий AndroidManifest.xml
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.Permissions">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.Permissions">
             <summary>
             Возвращает текущие разрешения приложения
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.Activities">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.Activities">
             <summary>
             Возвращает список activity документа
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.MainSmaliName">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.MainSmaliName">
             <summary>
             Возвращает путь до главного smali внутри "папка проекта\smali"
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.MainSmaliPath">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.MainSmaliPath">
             <summary>
             Возвращает путь на диске до главного smali файла
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.MethodType">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.MethodType">
             <summary>
             Возвращает тип главного метода
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.MainSmaliFile">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.MainSmaliFile">
             <summary>
             Возвращает или задаёт главный smali файл
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.Methods">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.Methods">
             <summary>
             Получает или задаёт список возможных названий главных методов
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.IconName">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.IconName">
             <summary>
             Возвращает или задаёт название файла изображения (без расширения, то есть "icon")
             </summary>
         </member>
-        <member name="P:AndroidLibs.AndroidManifest.AppName">
+        <member name="P:AndroidHelper.Logic.AndroidManifest.AppName">
             <summary>
             Возвращает или задаёт название приложения (без расширения, то есть "app_name")
             </summary>
         </member>
-        <member name="M:AndroidLibs.AndroidManifest.#ctor(System.String,System.String[],System.Text.Encoding,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.AndroidManifest.#ctor(System.String,System.String[],System.Text.Encoding,System.Boolean)">
             <summary>
             Инициализирует новый экземпляр класса AndroidMnifest на основании пути, функции логгирования и методов
             </summary>
@@ -78,247 +78,248 @@
             <param name="mainSmaliEncoding">Кодировка главного smali файла (по умолчанию UTF-8)</param>
             <param name="needActivitySmali">Обязательно ли класс должен наследоваться от Activity</param>
         </member>
-        <member name="M:AndroidLibs.AndroidManifest.Save">
+        <member name="M:AndroidHelper.Logic.AndroidManifest.Save">
             <summary>
             Сохраняет внесённые изменения в файл
             </summary>
         </member>
-        <member name="T:AndroidLibs.UsesPermissions">
+        <member name="T:AndroidHelper.Logic.UsesPermissions">
             <summary>
             Класс для управления разрешениями андроид приложений
             </summary>
         </member>
-        <member name="T:AndroidLibs.UsesPermissions.Permission">
+        <member name="T:AndroidHelper.Logic.UsesPermissions.Permission">
             <summary>
             Класс для одного разрешения
             </summary>
         </member>
-        <member name="P:AndroidLibs.UsesPermissions.Permission.Name">
+        <member name="P:AndroidHelper.Logic.UsesPermissions.Permission.Name">
             <summary>
             Название разрешения
             </summary>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Permission.#ctor(System.String)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Permission.#ctor(System.String)">
             <summary>
             Создаёт разрешение на основе названия
             </summary>
             <param name="name">Название разрешения</param>
         </member>
-        <member name="T:AndroidLibs.UsesPermissions.AndroidPermissions">
+        <member name="T:AndroidHelper.Logic.UsesPermissions.AndroidPermissions">
             <summary>
             Список разрешений системы
             </summary>
         </member>
-        <member name="T:AndroidLibs.UsesPermissions.BrowserPermissions">
+        <member name="T:AndroidHelper.Logic.UsesPermissions.BrowserPermissions">
             <summary>
             Список разрешений браузера
             </summary>
         </member>
-        <member name="F:AndroidLibs.UsesPermissions.BrowserPermissions.READ_HISTORY_BOOKMARKS">
+        <member name="F:AndroidHelper.Logic.UsesPermissions.BrowserPermissions.READ_HISTORY_BOOKMARKS">
             <summary>
             Чтение закладок браузера
             </summary>
         </member>
-        <member name="F:AndroidLibs.UsesPermissions.BrowserPermissions.WRITE_HISTORY_BOOKMARKS">
+        <member name="F:AndroidHelper.Logic.UsesPermissions.BrowserPermissions.WRITE_HISTORY_BOOKMARKS">
             <summary>
             Запись в закладки браузера
             </summary>
         </member>
-        <member name="T:AndroidLibs.UsesPermissions.AlarmPermissions">
+        <member name="T:AndroidHelper.Logic.UsesPermissions.AlarmPermissions">
             <summary>
             Список разрешений будильника
             </summary>
         </member>
-        <member name="F:AndroidLibs.UsesPermissions.AlarmPermissions.SET_ALARM">
+        <member name="F:AndroidHelper.Logic.UsesPermissions.AlarmPermissions.SET_ALARM">
             <summary>
             Установка будильника
             </summary>
         </member>
-        <member name="P:AndroidLibs.UsesPermissions.Count">
+        <member name="P:AndroidHelper.Logic.UsesPermissions.Count">
+            <inheritdoc />
             <summary>
             Возвращает количество разрешений
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.#ctor(System.Xml.XmlDocument,System.String)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.#ctor(System.Xml.XmlDocument,System.String)">
             <summary>
             Инициализирует новый экземпляр класса UsesPermissions на основании xml документа и пути к AndroidManifest.xml
             </summary>
             <param name="xDoc">Xml документ</param>
             <param name="pathToManifest">Путь к AndroidManifest.xml</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Get(System.Int32)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Get(System.Int32)">
             <summary>
             Возврашает разрешение по заданному индексу
             </summary>
             <param name="index">Индекс</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Get(System.String,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Get(System.String,System.Boolean)">
             <summary>
             Возвращает разрешение по названию
             </summary>
             <param name="name">Название</param>
             <param name="fullName">Полное ли название</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Exists(System.String,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Exists(System.String,System.Boolean)">
             <summary>
             Возвращает, присутствует ли разрешение в текущем списке
             </summary>
             <param name="value">Название разрешения</param>
             <param name="fullName">Полное ли название</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Add(System.String)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Add(System.String)">
             <summary>
             Добавляет новое разрешение в список
             </summary>
             <param name="value">Название разрешения</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Add(AndroidLibs.UsesPermissions.AndroidPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Add(AndroidHelper.Logic.UsesPermissions.AndroidPermissions)">
             <summary>
             Добавляет новое разрешение в список
             </summary>
             <param name="value">Название разрешения</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Add(AndroidLibs.UsesPermissions.BrowserPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Add(AndroidHelper.Logic.UsesPermissions.BrowserPermissions)">
             <summary>
             Добавляет новое разрешение в список
             </summary>
             <param name="value">Название разрешения</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Add(AndroidLibs.UsesPermissions.AlarmPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Add(AndroidHelper.Logic.UsesPermissions.AlarmPermissions)">
             <summary>
             Добавляет новое разрешение в список
             </summary>
             <param name="value">Название разрешения</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Clear">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Clear">
             <summary>
             Очищает список
             <exception cref="T:System.Xml.XmlException">Отсутствует DocumentElement</exception>
             </summary>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.CopyTo(AndroidLibs.UsesPermissions.Permission[],System.Int32)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.CopyTo(AndroidHelper.Logic.UsesPermissions.Permission[],System.Int32)">
             <summary>
             <exception cref="T:System.NotImplementedException"></exception>
             </summary>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Remove(AndroidLibs.UsesPermissions.Permission)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Remove(AndroidHelper.Logic.UsesPermissions.Permission)">
+            <inheritdoc />
             <summary>
             Удаляет разрешение из списка
             </summary>
             <param name="value">Разрешение</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Remove(System.String,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Remove(System.String,System.Boolean)">
             <summary>
             Удаляет разрешение из списка
             </summary>
             <param name="value">Разрешение</param>
             <param name="fullName">Полное ли название разрешения</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Remove(AndroidLibs.UsesPermissions.AndroidPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Remove(AndroidHelper.Logic.UsesPermissions.AndroidPermissions)">
             <summary>
             Удаляет разрешение из списка
             </summary>
             <param name="value">Разрешение</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Remove(AndroidLibs.UsesPermissions.BrowserPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Remove(AndroidHelper.Logic.UsesPermissions.BrowserPermissions)">
             <summary>
             Удаляет разрешение из списка
             </summary>
             <param name="value">Разрешение</param>
         </member>
-        <member name="M:AndroidLibs.UsesPermissions.Remove(AndroidLibs.UsesPermissions.AlarmPermissions)">
+        <member name="M:AndroidHelper.Logic.UsesPermissions.Remove(AndroidHelper.Logic.UsesPermissions.AlarmPermissions)">
             <summary>
             Удаляет разрешение из списка
             </summary>
             <param name="value">Разрешение</param>
         </member>
-        <member name="T:AndroidLibs.Apktools">
+        <member name="T:AndroidHelper.Logic.Apktools">
             <summary>
             Класс для работы с андроид приложениями
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.FileName">
+        <member name="P:AndroidHelper.Logic.Apktools.FileName">
             <summary>
             Возвращает путь к apk файлу
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.PathToApktool">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToApktool">
             <summary>
             Возвращает путь к apktools.jar
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools.PathToSign">
+        <member name="F:AndroidHelper.Logic.Apktools.PathToSign">
             <summary>
             Возвращает путь к signapk.jar
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools.PathToBaksmaliPr">
+        <member name="F:AndroidHelper.Logic.Apktools.PathToBaksmaliPr">
             <summary>
             Возвращает путь к baksmali.jar
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools.PathToSmaliPr">
+        <member name="F:AndroidHelper.Logic.Apktools.PathToSmaliPr">
             <summary>
             Возвращает путь к smali.jar
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.FolderOfProject">
+        <member name="P:AndroidHelper.Logic.Apktools.FolderOfProject">
             <summary>
             Возвращает путь к папке проекта
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.Manifest">
+        <member name="P:AndroidHelper.Logic.Apktools.Manifest">
             <summary>
             Возвращает или задаёт AndroidManifest данного приложения
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.PathToResources">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToResources">
             <summary>
             Возвращает путь к папке с ресурсами
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.PathToAndroidManifest">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToAndroidManifest">
             <summary>
             Возвращает путь к AndroidManifest.xml
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.NewApk">
+        <member name="P:AndroidHelper.Logic.Apktools.NewApk">
             <summary>
             Возвращает путь к скомпилированному файлу
             </summary>
         </member>
-        <member name="P:AndroidLibs.Apktools.SignedApk">
+        <member name="P:AndroidHelper.Logic.Apktools.SignedApk">
             <summary>
             Возвращает путь к подписанному файлу
             </summary>
         </member>
-        <member name="E:AndroidLibs.Apktools.Logging">
+        <member name="E:AndroidHelper.Logic.Apktools.Logging">
             <summary>
             Событие, возникающее при получении сообщения от запущенного консольного приложения
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools._projectRes">
+        <member name="F:AndroidHelper.Logic.Apktools._projectRes">
             <summary>
             ProjectFolder/res
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools._projectDist">
+        <member name="F:AndroidHelper.Logic.Apktools._projectDist">
             <summary>
             ProjectFolder/dist
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools._projectSmali">
+        <member name="F:AndroidHelper.Logic.Apktools._projectSmali">
             <summary>
             ProjectFolder/smali
             </summary>
         </member>
-        <member name="F:AndroidLibs.Apktools._projectBuild">
+        <member name="F:AndroidHelper.Logic.Apktools._projectBuild">
             <summary>
             ProjectFolder/build
             </summary>
         </member>
-        <member name="M:AndroidLibs.Apktools.#ctor(System.String,System.String,System.String,System.Text.Encoding,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.Apktools.#ctor(System.String,System.String,System.String,System.Text.Encoding,System.Boolean)">
             <summary>
             Инициализирует новый экземпляр класса <b>Apktools</b> на основании пути к файлу, пути к ресурсам и функции логгирования
             </summary>
@@ -327,7 +328,7 @@
             <param name="pathToApktool">Путь к apktool.jar</param>
             <param name="mainSmaliEncoding">Кодировка главного smali</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.Decompile(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
+        <member name="M:AndroidHelper.Logic.Apktools.Decompile(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
             <summary>
             Декомпилирует текущий файл
             </summary>
@@ -337,24 +338,24 @@
             <param name="needActivitySmali">Должен ли основной класс наследоваться от Activity</param>
             <param name="options">Опции apktool</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.Compile(System.Collections.Generic.List{AndroidLibs.Error}@)">
+        <member name="M:AndroidHelper.Logic.Apktools.Compile(System.Collections.Generic.List{AndroidHelper.Logic.Error}@)">
             <summary>
             Компилирует текущий файл и возвращает, успешна ли прошла компиляция
             </summary>
         </member>
-        <member name="M:AndroidLibs.Apktools.Sign">
+        <member name="M:AndroidHelper.Logic.Apktools.Sign">
             <summary>
             Подписывает текущий файл и возвращает, успешна ли прошла подпись
             </summary>
         </member>
-        <member name="M:AndroidLibs.Apktools.Sign(System.String,System.String@)">
+        <member name="M:AndroidHelper.Logic.Apktools.Sign(System.String,System.String@)">
             <summary>
             Подписывает указанный файл
             </summary>
             <param name="file">Файл для подписи</param>
             <param name="signedFile">Путь к подписанному файлу</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.SignWithKeystore(System.String,System.String,System.String,System.String)">
+        <member name="M:AndroidHelper.Logic.Apktools.SignWithKeystore(System.String,System.String,System.String,System.String)">
             <summary>
             Подписывает файл ключём из хранилища
             </summary>
@@ -363,24 +364,24 @@
             <param name="storePass">Пароль от хранилища</param>
             <param name="keyPass">Пароль от ключа</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.InstallFramework(System.String)">
+        <member name="M:AndroidHelper.Logic.Apktools.InstallFramework(System.String)">
             <summary>
             Устанавливает в систему framework
             </summary>
             <param name="pathToFramework">Путь до framework</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.Baksmali">
+        <member name="M:AndroidHelper.Logic.Apktools.Baksmali">
             <summary>
             Декомпилирует dex в smali
             </summary>
         </member>
-        <member name="M:AndroidLibs.Apktools.Smali">
+        <member name="M:AndroidHelper.Logic.Apktools.Smali">
             <summary>
             Компилирует smali в dex
             </summary>
             <returns>Путь к скомпилированному classes.dex</returns>
         </member>
-        <member name="M:AndroidLibs.Apktools.RunJava(System.String,System.String,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.Apktools.RunJava(System.String,System.String,System.Boolean)">
             <summary>
             Запускает jar файлы
             </summary>
@@ -388,7 +389,7 @@
             <param name="arguments">Аргументы командной строки</param>
             <param name="needLogging">Логгировать ли действия</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.RunJava(System.String,System.String,System.Diagnostics.DataReceivedEventHandler,System.Diagnostics.DataReceivedEventHandler)">
+        <member name="M:AndroidHelper.Logic.Apktools.RunJava(System.String,System.String,System.Diagnostics.DataReceivedEventHandler,System.Diagnostics.DataReceivedEventHandler)">
             <summary>
             Запускает jar файлы
             </summary>
@@ -397,7 +398,7 @@
             <param name="dataRecieved">Обработчик получения данных</param>
             <param name="errorDataRecieved">Обработчик получения ошибок</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.RunProc(System.String,System.String,System.Diagnostics.DataReceivedEventHandler,System.Diagnostics.DataReceivedEventHandler)">
+        <member name="M:AndroidHelper.Logic.Apktools.RunProc(System.String,System.String,System.Diagnostics.DataReceivedEventHandler,System.Diagnostics.DataReceivedEventHandler)">
             <summary>
             Запускает процесс
             </summary>
@@ -406,97 +407,97 @@
             <param name="dataRecieved">Обработчик получения данных</param>
             <param name="errorDataRecieved">Обработчик получения ошибок</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.GetSimpleManifest(System.Boolean)">
+        <member name="M:AndroidHelper.Logic.Apktools.GetSimpleManifest(System.Boolean)">
             <summary>
             Возвращает раскодированный AndroidManifest
             </summary>
             <param name="needActivitySmali">Должен ли главный класс наследоваться от Activity</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.ExtractSimpleManifest">
+        <member name="M:AndroidHelper.Logic.Apktools.ExtractSimpleManifest">
             <summary>
             Декодирует AndroidManifest и возвращает путь к нему
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AndroidLibs.Apktools.FixErrors(System.Collections.Generic.IEnumerable{AndroidLibs.Error})">
+        <member name="M:AndroidHelper.Logic.Apktools.FixErrors(System.Collections.Generic.IEnumerable{AndroidHelper.Logic.Error})">
             <summary>
             Исправляет возможные ошибки
             </summary>
             <param name="errors">Список ошибок</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.HasJava">
+        <member name="M:AndroidHelper.Logic.Apktools.HasJava">
             <summary>
             Проверяет доступность Java
             </summary>
         </member>
-        <member name="M:AndroidLibs.Apktools.StaticHasJava(System.String)">
+        <member name="M:AndroidHelper.Logic.Apktools.StaticHasJava(System.String)">
             <summary>
             Проверяет доступность java
             </summary>
             <param name="portable">Путь к портативной версии</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.RemoveMetaInf(System.String)">
+        <member name="M:AndroidHelper.Logic.Apktools.RemoveMetaInf(System.String)">
             <summary>
             Удаляет папку META-INF из файла
             </summary>
             <param name="fileName">Путь к файлу .apk</param>
         </member>
-        <member name="M:AndroidLibs.Apktools.GetApktoolsVersion">
+        <member name="M:AndroidHelper.Logic.Apktools.GetApktoolsVersion">
             <summary>
             Возвращает версию apktools
             </summary>
         </member>
-        <member name="T:AndroidLibs.Error">
+        <member name="T:AndroidHelper.Logic.Error">
             <summary>
             Класс одной ошибки
             </summary>
         </member>
-        <member name="T:AndroidLibs.Error.ErrorType">
+        <member name="T:AndroidHelper.Logic.Error.ErrorType">
             <summary>
             Тип ошибки
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.ErrorType.Error_retrieving_parent_for_item">
+        <member name="F:AndroidHelper.Logic.Error.ErrorType.Error_retrieving_parent_for_item">
             <summary>
             Error retrieving parent for item
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.ErrorType.No_resource_identifier_found">
+        <member name="F:AndroidHelper.Logic.Error.ErrorType.No_resource_identifier_found">
             <summary>
             No resource identifier found
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.ErrorType.No_resource_found_that_matches_the_given_name">
+        <member name="F:AndroidHelper.Logic.Error.ErrorType.No_resource_found_that_matches_the_given_name">
             <summary>
             No resource found that matches the given name
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.ErrorType.None">
+        <member name="F:AndroidHelper.Logic.Error.ErrorType.None">
             <summary>
             Нет подходящего типа
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.File">
+        <member name="F:AndroidHelper.Logic.Error.File">
             <summary>
             Файл с ошибкой
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.Line">
+        <member name="F:AndroidHelper.Logic.Error.Line">
             <summary>
             Строка с ошибкой
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.Message">
+        <member name="F:AndroidHelper.Logic.Error.Message">
             <summary>
             Сообщение
             </summary>
         </member>
-        <member name="F:AndroidLibs.Error.Type">
+        <member name="F:AndroidHelper.Logic.Error.Type">
             <summary>
             Тип ошибки
             </summary>
         </member>
-        <member name="M:AndroidLibs.Error.#ctor(System.String,System.Int32,System.String)">
+        <member name="M:AndroidHelper.Logic.Error.#ctor(System.String,System.Int32,System.String)">
             <summary>
             Создаёт экземпляр класса Ошибки на основании файла, строки и сообщения
             </summary>
@@ -504,24 +505,22 @@
             <param name="line">Строка с ошибкой</param>
             <param name="message">Сообщение</param>
         </member>
-        <member name="T:AndroidLibs.MainSmali">
+        <member name="T:AndroidHelper.Logic.MainSmali">
             <summary>
             Класс для работы с главным smali файлом
             </summary>
         </member>
-        <member name="P:AndroidLibs.MainSmali.MethodType">
+        <member name="P:AndroidHelper.Logic.MainSmali.MethodType">
             <summary>
             Возвращает главный метод данного smali файла
-            
             </summary>
         </member>
-        <member name="P:AndroidLibs.MainSmali.PathToSmali">
+        <member name="P:AndroidHelper.Logic.MainSmali.PathToSmali">
             <summary>
             Возвращает путь к smali файлу
-            
             </summary>
         </member>
-        <member name="M:AndroidLibs.MainSmali.#ctor(System.String,System.String,System.Text.Encoding)">
+        <member name="M:AndroidHelper.Logic.MainSmali.#ctor(System.String,System.String,System.Text.Encoding)">
             <summary>
             Инициализирует новый экземпляр класса MainSmali на основании пути к файлу и главного метода
             </summary>
@@ -529,12 +528,12 @@
             <param name="methodType">Главный метод</param>
             <param name="encoding">Кодировка smali файла</param>
         </member>
-        <member name="M:AndroidLibs.MainSmali.Init">
+        <member name="M:AndroidHelper.Logic.MainSmali.Init">
             <summary>
             Инициализирует новый файл
             </summary>
         </member>
-        <member name="M:AndroidLibs.MainSmali.AddTextToMethod(System.String,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.MainSmali.AddTextToMethod(System.String,System.Boolean)">
             <summary>
             Добавляет текст в главный метод
             </summary>
@@ -542,22 +541,22 @@
             <param name="checkExisting">Проверяет, добавлен ли уже этот текст</param>
             <returns>Успешна ли операция</returns>
         </member>
-        <member name="M:AndroidLibs.MainSmali.RemoveToasts">
+        <member name="M:AndroidHelper.Logic.MainSmali.RemoveToasts">
             <summary>
             Удаляет вызовы всплывающих сообщений во Всём файле. Не требует сохранения изменений
             </summary>
         </member>
-        <member name="M:AndroidLibs.MainSmali.Save">
+        <member name="M:AndroidHelper.Logic.MainSmali.Save">
             <summary>
             Сохраняет изменения в файл
             </summary>
         </member>
-        <member name="M:AndroidLibs.MainSmali.GetSmaliText">
+        <member name="M:AndroidHelper.Logic.MainSmali.GetSmaliText">
             <summary>
             Возвращает текст smali файла
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.CanBeNullAttribute">
+        <member name="T:AndroidHelper.Properties.CanBeNullAttribute">
             <summary>
             Indicates that the value of the marked element could be <c>null</c> sometimes,
             so the check for <c>null</c> is necessary before its usage
@@ -570,7 +569,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.NotNullAttribute">
+        <member name="T:AndroidHelper.Properties.NotNullAttribute">
             <summary>
             Indicates that the value of the marked element could never be <c>null</c>
             </summary>
@@ -580,7 +579,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.StringFormatMethodAttribute">
+        <member name="T:AndroidHelper.Properties.StringFormatMethodAttribute">
             <summary>
             Indicates that the marked method builds string by format pattern and (optional) arguments.
             Parameter, which contains format string, should be given in constructor. The format string
@@ -594,12 +593,12 @@
             }
             </code></example>
         </member>
-        <member name="M:AndroidLibs.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+        <member name="M:AndroidHelper.Properties.StringFormatMethodAttribute.#ctor(System.String)">
             <param name="formatParameterName">
             Specifies which parameter of an annotated method should be treated as format-string
             </param>
         </member>
-        <member name="T:AndroidLibs.Annotations.InvokerParameterNameAttribute">
+        <member name="T:AndroidHelper.Properties.InvokerParameterNameAttribute">
             <summary>
             Indicates that the function argument should be string literal and match one
             of the parameters of the caller function. For example, ReSharper annotates
@@ -612,7 +611,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.NotifyPropertyChangedInvocatorAttribute">
+        <member name="T:AndroidHelper.Properties.NotifyPropertyChangedInvocatorAttribute">
              <summary>
              Indicates that the method is contained in a type that implements
              <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface
@@ -650,7 +649,7 @@
              </list>
              </example>
         </member>
-        <member name="T:AndroidLibs.Annotations.ContractAnnotationAttribute">
+        <member name="T:AndroidHelper.Properties.ContractAnnotationAttribute">
             <summary>
             Describes dependency between method input and output
             </summary>
@@ -694,7 +693,7 @@
             </code></item>
             </list></examples>
         </member>
-        <member name="T:AndroidLibs.Annotations.LocalizationRequiredAttribute">
+        <member name="T:AndroidHelper.Properties.LocalizationRequiredAttribute">
             <summary>
             Indicates that marked element should be localized or not
             </summary>
@@ -705,7 +704,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.CannotApplyEqualityOperatorAttribute">
+        <member name="T:AndroidHelper.Properties.CannotApplyEqualityOperatorAttribute">
             <summary>
             Indicates that the value of the marked type (or its derivatives)
             cannot be compared using '==' or '!=' operators and <c>Equals()</c>
@@ -726,7 +725,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.BaseTypeRequiredAttribute">
+        <member name="T:AndroidHelper.Properties.BaseTypeRequiredAttribute">
             <summary>
             When applied to a target attribute, specifies a requirement for any type marked
             with the target attribute to implement or inherit specific type or types.
@@ -738,55 +737,55 @@
             public class MyComponent : IComponent { }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.UsedImplicitlyAttribute">
+        <member name="T:AndroidHelper.Properties.UsedImplicitlyAttribute">
             <summary>
             Indicates that the marked symbol is used implicitly
             (e.g. via reflection, in external library), so this symbol
             will not be marked as unused (as well as by other usage inspections)
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.MeansImplicitUseAttribute">
+        <member name="T:AndroidHelper.Properties.MeansImplicitUseAttribute">
             <summary>
             Should be used on attributes and causes ReSharper
             to not mark symbols marked with such attributes as unused
             (as well as by other usage inspections)
             </summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseKindFlags.Access">
+        <member name="F:AndroidHelper.Properties.ImplicitUseKindFlags.Access">
             <summary>Only entity marked with attribute considered used</summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseKindFlags.Assign">
+        <member name="F:AndroidHelper.Properties.ImplicitUseKindFlags.Assign">
             <summary>Indicates implicit assignment to a member</summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+        <member name="F:AndroidHelper.Properties.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
             <summary>
             Indicates implicit instantiation of a type with fixed constructor signature.
             That means any unused constructor parameters won't be reported as such.
             </summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+        <member name="F:AndroidHelper.Properties.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
             <summary>Indicates implicit instantiation of a type</summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.ImplicitUseTargetFlags">
+        <member name="T:AndroidHelper.Properties.ImplicitUseTargetFlags">
             <summary>
             Specify what is considered used implicitly
-            when marked with <see cref="T:AndroidLibs.Annotations.MeansImplicitUseAttribute"/>
-            or <see cref="T:AndroidLibs.Annotations.UsedImplicitlyAttribute"/>
+            when marked with <see cref="T:AndroidHelper.Properties.MeansImplicitUseAttribute"/>
+            or <see cref="T:AndroidHelper.Properties.UsedImplicitlyAttribute"/>
             </summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseTargetFlags.Members">
+        <member name="F:AndroidHelper.Properties.ImplicitUseTargetFlags.Members">
             <summary>Members of entity marked with attribute are considered used</summary>
         </member>
-        <member name="F:AndroidLibs.Annotations.ImplicitUseTargetFlags.WithMembers">
+        <member name="F:AndroidHelper.Properties.ImplicitUseTargetFlags.WithMembers">
             <summary>Entity marked with attribute and all its members considered used</summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.PublicAPIAttribute">
+        <member name="T:AndroidHelper.Properties.PublicAPIAttribute">
             <summary>
             This attribute is intended to mark publicly available API
             which should not be removed and so is treated as used
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.InstantHandleAttribute">
+        <member name="T:AndroidHelper.Properties.InstantHandleAttribute">
             <summary>
             Tells code analysis engine if the parameter is completely handled
             when the invoked method is on stack. If the parameter is a delegate,
@@ -795,7 +794,7 @@
             while the method is executed
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.PureAttribute">
+        <member name="T:AndroidHelper.Properties.PureAttribute">
             <summary>
             Indicates that a method does not make any observable state changes.
             The same as <c>System.Diagnostics.Contracts.PureAttribute</c>
@@ -808,14 +807,14 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.PathReferenceAttribute">
+        <member name="T:AndroidHelper.Properties.PathReferenceAttribute">
             <summary>
             Indicates that a parameter is a path to a file or a folder
             within a web project. Path can be relative or absolute,
             starting from web root (~)
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcActionAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcActionAttribute">
             <summary>
             ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
             is an MVC action. If applied to a method, the MVC action name is calculated
@@ -823,14 +822,14 @@
             <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcAreaAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcAreaAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
             Use this attribute for custom wrappers similar to
             <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcControllerAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcControllerAttribute">
             <summary>
             ASP.NET MVC attribute. If applied to a parameter, indicates that
             the parameter is an MVC controller. If applied to a method,
@@ -839,21 +838,21 @@
             <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcMasterAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcMasterAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC Master.
             Use this attribute for custom wrappers similar to
             <c>System.Web.Mvc.Controller.View(String, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcModelTypeAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcModelTypeAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC model type.
             Use this attribute for custom wrappers similar to
             <c>System.Web.Mvc.Controller.View(String, Object)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcPartialViewAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcPartialViewAttribute">
             <summary>
             ASP.NET MVC attribute. If applied to a parameter, indicates that
             the parameter is an MVC partial view. If applied to a method,
@@ -862,34 +861,34 @@
             <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcSupressViewErrorAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcSupressViewErrorAttribute">
             <summary>
             ASP.NET MVC attribute. Allows disabling all inspections
             for MVC views within a class or a method.
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcDisplayTemplateAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcDisplayTemplateAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
             Use this attribute for custom wrappers similar to 
             <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcEditorTemplateAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcEditorTemplateAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
             Use this attribute for custom wrappers similar to
             <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcTemplateAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcTemplateAttribute">
             <summary>
             ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
             Use this attribute for custom wrappers similar to
             <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcViewAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcViewAttribute">
             <summary>
             ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
             is an MVC view. If applied to a method, the MVC view name is calculated implicitly
@@ -897,7 +896,7 @@
             <c>System.Web.Mvc.Controller.View(Object)</c>
             </summary>
         </member>
-        <member name="T:AndroidLibs.Annotations.AspMvcActionSelectorAttribute">
+        <member name="T:AndroidHelper.Properties.AspMvcActionSelectorAttribute">
             <summary>
             ASP.NET MVC attribute. When applied to a parameter of an attribute,
             indicates that this parameter is an MVC action name
@@ -910,7 +909,7 @@
             }
             </code></example>
         </member>
-        <member name="T:AndroidLibs.Annotations.RazorSectionAttribute">
+        <member name="T:AndroidHelper.Properties.RazorSectionAttribute">
             <summary>
             Razor attribute. Indicates that a parameter or a method is a Razor section.
             Use this attribute for custom wrappers similar to 

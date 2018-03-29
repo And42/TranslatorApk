@@ -1,4 +1,4 @@
-﻿G:\Programming\MyLang\Libs\Android\bin\Release\AndroidLibs.dll
+﻿G:\Programming\MyLang\Libs\AndroidHelper\AndroidHelper\bin\Release\AndroidHelper.dll
 G:\Programming\MyLang\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release\AndroidTranslator.dll
 G:\Programming\MyLang\Libs\MVVM Tools\MVVM Tools\bin\Debug\MVVM_Tools.dll
 G:\Programming\MyLang\MyProjects\TranslatorApk\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll
