@@ -120,21 +120,16 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public string GetLangNameForFolder(string folderName)
         {
-            string languageIso;
-
             var nameSplit = folderName.Split('-');
-            if (nameSplit.Length > 1)
-            {
-                languageIso = nameSplit[1];
-                var countryIso = GetCountryIsoByLanguageIso(languageIso);
 
-                if (string.IsNullOrEmpty(countryIso))
-                    return null;
-            }
-            else
-            {
+            if (nameSplit.Length <= 1 || nameSplit[0] != "values")
                 return null;
-            }
+
+            var languageIso = nameSplit[1];
+            var countryIso = GetCountryIsoByLanguageIso(languageIso);
+
+            if (string.IsNullOrEmpty(countryIso))
+                return null;
 
             // folder is a language folder
             string language = GetLanguageByLanguageIso(languageIso);
