@@ -35,7 +35,8 @@
         <ComboBox 
                 Grid.Column="1" Margin="5,0" 
                 ItemsSource="{Binding TargetLanguages}"
-                SelectedItem="{Binding NewLanguage}">
+                SelectedItem="{Binding NewLanguage}"
+                MinHeight="32">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
