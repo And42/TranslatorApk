@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using AndroidLibs;
+using AndroidHelper.Logic;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using TranslatorApk.Logic.Classes;

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using AndroidLibs;
+using AndroidHelper.Logic;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
 using AndroidTranslator.Interfaces.Strings;
