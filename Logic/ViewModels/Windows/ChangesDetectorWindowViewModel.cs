@@ -358,7 +358,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             List<XmlFile> firstXmlFiles =
                 Directory.EnumerateFiles(sourceFolder, "*.xml", SearchOption.AllDirectories)
-                    .Select(file => new XmlFile(file))
+                    .SelectSafe(file => new XmlFile(file))
                     .ToList();
 
 
@@ -367,7 +367,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             List<XmlFile> secondXmlFiles =
                 Directory.EnumerateFiles(modifiedFolder, "*.xml", SearchOption.AllDirectories)
-                    .Select(file => new XmlFile(file))
+                    .SelectSafe(file => new XmlFile(file))
                     .ToList();
 
             secondXmlFiles.Sort((ffile, sfile) => string.Compare(ffile.FileName, sfile.FileName, StringComparison.Ordinal));
