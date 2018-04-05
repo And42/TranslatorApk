@@ -159,8 +159,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (string.IsNullOrEmpty(CreateFirstFolder.Value) ||
                 string.IsNullOrEmpty(CreateSecondFolder.Value) ||
                 string.IsNullOrEmpty(CreateResultFolder.Value) ||
-                !Directory.Exists(CreateFirstFolder.Value) ||
-                !Directory.Exists(CreateSecondFolder.Value)
+                !IOUtils.FolderExists(CreateFirstFolder.Value) ||
+                !IOUtils.FolderExists(CreateSecondFolder.Value)
             )
             {
                 return;
@@ -196,8 +196,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             if (string.IsNullOrEmpty(TranslateFolder.Value) ||
                 string.IsNullOrEmpty(TranslateDictionaryFolder.Value) ||
-                !Directory.Exists(TranslateFolder.Value) ||
-                !Directory.Exists(TranslateDictionaryFolder.Value)
+                !IOUtils.FolderExists(TranslateFolder.Value) ||
+                !IOUtils.FolderExists(TranslateDictionaryFolder.Value)
             )
             {
                 return;
@@ -238,8 +238,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (string.IsNullOrEmpty(CreateMoreFirstFolder.Value) ||
                 string.IsNullOrEmpty(CreateMoreSecondFolder.Value) ||
                 string.IsNullOrEmpty(CreateMoreResultFolder.Value) ||
-                !Directory.Exists(CreateMoreFirstFolder.Value) ||
-                !Directory.Exists(CreateMoreSecondFolder.Value)
+                !IOUtils.FolderExists(CreateMoreFirstFolder.Value) ||
+                !IOUtils.FolderExists(CreateMoreSecondFolder.Value)
             )
             {
                 return;
@@ -275,8 +275,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             if (string.IsNullOrEmpty(TranslateMoreFolder.Value) ||
                 string.IsNullOrEmpty(TranslateMoreDictionaryFolder.Value) ||
-                !Directory.Exists(TranslateMoreFolder.Value) ||
-                !Directory.Exists(TranslateMoreDictionaryFolder.Value)
+                !IOUtils.FolderExists(TranslateMoreFolder.Value) ||
+                !IOUtils.FolderExists(TranslateMoreDictionaryFolder.Value)
             )
             {
                 return;
@@ -334,6 +334,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void CreateOneFolderDictionary(string sourceFolder, string modifiedFolder, string resultFolder, bool log = true)
         {
+            void LogInner(string contents = "", bool writeNewLine = true)
+            {
+                if (log)
+                    Log(contents, writeNewLine);
+            }
+
             if (IOUtils.FolderExists(resultFolder))
                 IOUtils.DeleteFolder(resultFolder);
 
@@ -342,19 +348,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             var dictFileWriter = new StreamWriter(Path.Combine(resultFolder, "Paths.dict"), false, Encoding.UTF8);
             var foldersFileWriter = new StreamWriter(Path.Combine(resultFolder, "Languages.dict"), false, Encoding.UTF8);
 
-            if (new[] { sourceFolder, modifiedFolder, resultFolder }.Any(str => str.NE() || !Directory.Exists(str)))
+            if (new[] { sourceFolder, modifiedFolder, resultFolder }.Any(str => str.NE() || !IOUtils.FolderExists(str)))
             {
                 return;
             }
 
             string dictsFolder = Path.Combine(resultFolder, "Dictionaries");
-            Directory.CreateDirectory(dictsFolder);
+            IOUtils.CreateFolder(dictsFolder);
 
             string languagesFolder = Path.Combine(resultFolder, "Languages");
-            Directory.CreateDirectory(languagesFolder);
+            IOUtils.CreateFolder(languagesFolder);
 
-            if (log)
-                Log("Searching for xml files in the first folder...");
+            LogInner("Searching for xml files in the first folder...");
 
             List<XmlFile> firstXmlFiles =
                 Directory.EnumerateFiles(sourceFolder, "*.xml", SearchOption.AllDirectories)
@@ -362,8 +367,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     .ToList();
 
 
-            if (log)
-                Log("Searching for xml files in the second folder...");
+            LogInner("Searching for xml files in the second folder...");
 
             List<XmlFile> secondXmlFiles =
                 Directory.EnumerateFiles(modifiedFolder, "*.xml", SearchOption.AllDirectories)
@@ -378,8 +382,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             int filenameIndex = 0;
             var errors = new List<string>();
 
-            if (log)
-                Log("Comparing...");
+            LogInner("Comparing...");
 
             var comparison =
                 new ComparisonWrapper<XmlFile>((ffile, sfile) =>
@@ -427,8 +430,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             var sourceFolders = Directory.EnumerateDirectories(resFolder, "values-*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToList();
             var modifiedFolders = Directory.EnumerateDirectories(resFolder, "values-*", SearchOption.TopDirectoryOnly).ToList();
 
-            if (log)
-                Log("Comparing languages...");
+            LogInner("Comparing languages...");
 
             ProgressValue.Value = 0;
             ProgressMax.Value = modifiedFolders.Count;
@@ -471,7 +473,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void TranslateOneFolder(string fileFolder, string dictionaryFolder, bool log = true)
         {
-            if (log) Log("Opening dictionaries...");
+            void LogInner(string contents = "", bool writeNewLine = true)
+            {
+                if (log)
+                    Log(contents, writeNewLine);
+            }
+
+            LogInner("Opening dictionaries...");
 
             string[] paths = File.ReadAllLines(Path.Combine(dictionaryFolder, "Paths.dict"));
 
@@ -483,21 +491,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             ProgressValue.Value = 0;
             ProgressMax.Value = paths.Length;
 
-            if (log)
-                Log("Translating files:");
+            LogInner("Translating files:");
 
             for (int i = 0; i < paths.Length; i++)
             {
                 ProgressValue.Value++;
                 string xmlfilePath = Path.Combine(fileFolder, paths[i]);
 
-                if (log)
-                    Log("  -- " + xmlfilePath, false);
+                LogInner("  -- " + xmlfilePath, false);
 
-                if (!File.Exists(xmlfilePath))
+                if (!IOUtils.FileExists(xmlfilePath))
                 {
-                    if (log)
-                        Log(" - skipped");
+                    LogInner(" - skipped");
 
                     continue;
                 }
@@ -506,25 +511,30 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 if (dict == null)
                 {
-                    if (log)
-                        Log(" - skipped");
+                    LogInner(" - skipped");
 
                     continue;
                 }
 
-                var xmlfile = new XmlFile(xmlfilePath);
+                try
+                {
+                    var xmlfile = new XmlFile(xmlfilePath);
 
-                xmlfile.TranslateWithDictionary(dict, true);
+                    xmlfile.TranslateWithDictionary(dict, true);
 
-                if (log)
-                    Log(" - translated");
+                    LogInner(" - translated");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Message: {ex.Message}\nStackTrace: {ex.StackTrace}");
+                    LogInner(" - error");
+                }
             }
 
-            if (!File.Exists(Path.Combine(dictionaryFolder, "Languages.dict")))
+            if (!IOUtils.FileExists(Path.Combine(dictionaryFolder, "Languages.dict")))
                 return;
 
-            if (log)
-                Log("Adding languages:");
+            LogInner("Adding languages:");
 
             string[] languages = File.ReadAllLines(Path.Combine(dictionaryFolder, "Languages.dict"));
 
@@ -535,8 +545,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             {
                 ProgressValue.Value++;
 
-                if (log)
-                    Log("  -- " + language);
+                LogInner("  -- " + language);
 
                 IOUtils.CopyFilesRecursively(
                     Path.Combine(dictionaryFolder, "Languages", language),
@@ -663,7 +672,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                     string dictPath = Path.Combine(dictionariesFolder, apktool.Manifest.Package);
 
-                    if (!Directory.Exists(dictPath))
+                    if (!IOUtils.FolderExists(dictPath))
                     {
                         Log(" - skipped");
                         continue;
@@ -770,7 +779,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 ) == MessBox.MessageButtons.Yes
             )
             {
-                Process.Start(Directory.Exists(resultSignedFolder) ? resultSignedFolder : filesFolder);
+                Process.Start(IOUtils.FolderExists(resultSignedFolder) ? resultSignedFolder : filesFolder);
             }
         }
 
