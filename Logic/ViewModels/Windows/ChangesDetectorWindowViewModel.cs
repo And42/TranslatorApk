@@ -441,7 +441,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 string part = Path.GetFileName(folder) ?? string.Empty;
 
-                if (sourceFolders.Any(f => f == part))
+                if (sourceFolders.Contains(part))
                     continue;
 
                 foldersFileWriter.WriteLine(part);
