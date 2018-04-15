@@ -264,7 +264,7 @@ namespace TranslatorApk.Logic.Utils
             if (SetInc.Instance.Theme.NE() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Instance.Theme))
                 SetInc.Instance.Theme = GlobalVariables.ThemesMap.First().Key;
 
-            ChangeTheme(SetInc.Instance.Theme);
+            ThemeUtils.ChangeTheme(SetInc.Instance.Theme);
 
             TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
 
@@ -283,55 +283,6 @@ namespace TranslatorApk.Logic.Utils
             UpdateApiKeys();
 
             Settings.Default.Save();
-        }
-
-        /// <summary>
-        /// Меняет тему на одну из доступных
-        /// </summary>
-        /// <param name="name">Light / Dark</param>
-        public static void ChangeTheme(string name)
-        {
-            var dicts = Application.Current.Resources.MergedDictionaries;
-
-            if (!dicts.Any(d =>
-            {
-                string path = d.Source?.OriginalString;
-
-                if (string.IsNullOrEmpty(path))
-                    return false;
-
-                // ReSharper disable once PossibleNullReferenceException
-                var split = path.Split('/');
-
-                return split.Length > 1 && split[1] == name;
-            }))
-            {
-                string[] themesToAdd;
-
-                switch (name)
-                {
-                    case "Light":
-                        themesToAdd = new[] {"Themes/Light/ThemeResources.xaml"};
-                        break;
-                    default:
-                        themesToAdd = new[] {"Themes/Dark/ThemeResources.xaml"};
-                        break;
-                }
-
-                foreach (var theme in themesToAdd)
-                {
-                    dicts.Insert(1, new ResourceDictionary
-                    {
-                        Source = new Uri(theme, UriKind.Relative)
-                    });
-                }
-
-                // ReSharper disable once ForCanBeConvertedToForeach
-                for (int i = 0; i < themesToAdd.Length; i++)
-                    dicts.RemoveAt(1 + themesToAdd.Length);
-
-                SetInc.Instance.Theme = name;
-            }
         }
 
         /// <summary>

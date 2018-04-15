@@ -5,6 +5,7 @@ using System.Linq;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
@@ -95,7 +96,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         public string CurrentTheme
         {
             get => GlobalVariables.ThemesMap.Forward[SettingsIncapsuler.Instance.Theme];
-            set => Utils.Utils.ChangeTheme(GlobalVariables.ThemesMap.Backward[value]);
+            set => ThemeUtils.ChangeTheme(GlobalVariables.ThemesMap.Backward[value]);
         }
 
         public string CurrentApktoolVersion

@@ -59,105 +59,107 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate x:Name="Template" TargetType="Window">
-                    <Grid>
-                        <Border
-                                x:Name="PART_Border"
-                                Width="Auto"
-                                Height="Auto"
-                                Margin="6,6,4,8"
-                                Background="{DynamicResource Window_Background}"
-                                BorderBrush="{DynamicResource Window_Border}"
-                                BorderThickness="1">
-                            <DockPanel   
-                                    Background="Transparent">
-                                <Border
-                                        x:Name="TitleBar"
-                                        DockPanel.Dock="Top"
-                                        Background="{DynamicResource Window_TitleBarBackground}"
-                                        MaxHeight="33">
-                                    <Grid Height="Auto">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image
-                                            x:Name="IconImage"
-                                            VerticalAlignment="Center"
-                                            Source="{TemplateBinding Icon}"
-                                            Margin="7,3,0,3"
-                                            Visibility="{TemplateBinding Icon, Converter={StaticResource NullableToVisibilityConverter}}"/>
-                                        <TextBlock
-                                            x:Name="Caption"
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Margin="7,5,5,5"
-                                            Foreground="{DynamicResource Window_Caption}"
-                                            FontFamily="{x:Static SystemFonts.CaptionFontFamily}"
-                                            FontSize="{x:Static SystemFonts.CaptionFontSize}"
-                                            FontStyle="{x:Static SystemFonts.CaptionFontStyle}"
-                                            Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Visibility="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
-                                        <Button
-                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                                x:Name="MinButton" 
-                                                Visibility="{Binding Path=(elements:WindowThemeParameters.CanMinimize), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
-                                                Grid.Column="2"
-                                                Style="{StaticResource VsWindowStyleTitleBarButton}"
-                                                Click="MinButtonClick">
-                                            <Grid MaxHeight="9" MaxWidth="9">
-                                                <Path
-                                                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
-                                                    StrokeThickness="1"
-                                                    Stretch="None"
-                                                    RenderOptions.EdgeMode="Aliased"
-                                                    Data="M0,8 H8 M0,7 H8 M0,6 H8" />
-                                            </Grid>
-                                        </Button>
-                                        <Button
-                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                                Grid.Column="3"
-                                                x:Name="MaxButton"
-                                                Visibility="{Binding Path=(elements:WindowThemeParameters.IsResizable), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
-                                                Style="{StaticResource VsWindowStyleTitleBarButton}"
-                                                Click="MaxButtonClick">
-                                            <Grid MaxHeight="9" MaxWidth="9">
-                                                <Path
-                                                    x:Name="PART_MaxButton_Path"
-                                                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
-                                                    StrokeThickness="1"
-                                                    Stretch="None"
-                                                    RenderOptions.EdgeMode="Aliased"
-                                                    Data="M0,0 H8 V8 H0 V0 M0,1 H8 M0,2 H8" />
-                                            </Grid>
-                                        </Button>
-                                        <Button
-                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                                Grid.Column="4"
-                                                x:Name="CloseButton"
-                                                Visibility="{Binding Path=(elements:WindowThemeParameters.CanClose), 
-                                                    RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
-                                                Style="{StaticResource VsWindowStyleTitleBarButton}"
-                                                Click="CloseButtonClick" >
-                                            <Grid MaxHeight="9" MaxWidth="9">
-                                                <Path
-                                                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
-                                                    StrokeThickness="1.5"
-                                                    Stretch="None"
-                                                    Data="M0,0 L8,8 M0,8 L8,0" />
-                                            </Grid>
-                                        </Button>
-                                    </Grid>
-                                </Border>
-                                <ContentPresenter />
-                            </DockPanel>
-                        </Border>
-                    </Grid>
+                    <AdornerDecorator>
+                        <Grid>
+                            <Border
+                                    x:Name="PART_Border"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Margin="6,6,4,8"
+                                    Background="{DynamicResource Window_Background}"
+                                    BorderBrush="{DynamicResource Window_Border}"
+                                    BorderThickness="1">
+                                <DockPanel   
+                                        Background="Transparent">
+                                    <Border
+                                            x:Name="TitleBar"
+                                            DockPanel.Dock="Top"
+                                            Background="{DynamicResource Window_TitleBarBackground}"
+                                            MaxHeight="33">
+                                        <Grid Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image
+                                                x:Name="IconImage"
+                                                VerticalAlignment="Center"
+                                                Source="{TemplateBinding Icon}"
+                                                Margin="7,3,0,3"
+                                                Visibility="{TemplateBinding Icon, Converter={StaticResource NullableToVisibilityConverter}}"/>
+                                            <TextBlock
+                                                x:Name="Caption"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Margin="7,5,5,5"
+                                                Foreground="{DynamicResource Window_Caption}"
+                                                FontFamily="{x:Static SystemFonts.CaptionFontFamily}"
+                                                FontSize="{x:Static SystemFonts.CaptionFontSize}"
+                                                FontStyle="{x:Static SystemFonts.CaptionFontStyle}"
+                                                Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Visibility="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+                                            <Button
+                                                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                    x:Name="MinButton" 
+                                                    Visibility="{Binding Path=(elements:WindowThemeParameters.CanMinimize), 
+                                                        RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
+                                                    Grid.Column="2"
+                                                    Style="{StaticResource VsWindowStyleTitleBarButton}"
+                                                    Click="MinButtonClick">
+                                                <Grid MaxHeight="9" MaxWidth="9">
+                                                    <Path
+                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
+                                                        StrokeThickness="1"
+                                                        Stretch="None"
+                                                        RenderOptions.EdgeMode="Aliased"
+                                                        Data="M0,8 H8 M0,7 H8 M0,6 H8" />
+                                                </Grid>
+                                            </Button>
+                                            <Button
+                                                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                    Grid.Column="3"
+                                                    x:Name="MaxButton"
+                                                    Visibility="{Binding Path=(elements:WindowThemeParameters.IsResizable), 
+                                                        RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
+                                                    Style="{StaticResource VsWindowStyleTitleBarButton}"
+                                                    Click="MaxButtonClick">
+                                                <Grid MaxHeight="9" MaxWidth="9">
+                                                    <Path
+                                                        x:Name="PART_MaxButton_Path"
+                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
+                                                        StrokeThickness="1"
+                                                        Stretch="None"
+                                                        RenderOptions.EdgeMode="Aliased"
+                                                        Data="M0,0 H8 V8 H0 V0 M0,1 H8 M0,2 H8" />
+                                                </Grid>
+                                            </Button>
+                                            <Button
+                                                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                    Grid.Column="4"
+                                                    x:Name="CloseButton"
+                                                    Visibility="{Binding Path=(elements:WindowThemeParameters.CanClose), 
+                                                        RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}}"
+                                                    Style="{StaticResource VsWindowStyleTitleBarButton}"
+                                                    Click="CloseButtonClick" >
+                                                <Grid MaxHeight="9" MaxWidth="9">
+                                                    <Path
+                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}}"
+                                                        StrokeThickness="1.5"
+                                                        Stretch="None"
+                                                        Data="M0,0 L8,8 M0,8 L8,0" />
+                                                </Grid>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                    <ContentPresenter />
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </AdornerDecorator>
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_MaxButton_Path" Property="Data" Value="M0,3 H5 V8 H0 V3 M0,4 H5 M3,0 H8 V5 H7 M3,1 H8"/>
