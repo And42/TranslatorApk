@@ -103,7 +103,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 GlobalVariables.PathToResources,
                 GlobalVariables.PathToFiles,
                 Path.Combine(GlobalVariables.PathToResources, "jre"),
-                Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar"),
+                Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{DefaultSettingsContainer.Instance.ApktoolVersion}.jar"),
                 Path.Combine(GlobalVariables.PathToPlugins, parameter.Host.Name)
             );
         }

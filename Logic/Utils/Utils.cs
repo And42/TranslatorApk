@@ -31,7 +31,7 @@ using TranslatorApk.Windows;
 using UsefulFunctionsLib;
 
 using Settings = TranslatorApk.Properties.Settings;
-using SetInc = TranslatorApk.Logic.OrganisationItems.SettingsIncapsuler;
+using SetInc = TranslatorApk.Logic.OrganisationItems.DefaultSettingsContainer;
 
 namespace TranslatorApk.Logic.Utils
 {

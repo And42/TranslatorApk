@@ -9,8 +9,8 @@
         Height="400" Width="450" 
         WindowStartupLocation="CenterScreen"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         Style="{DynamicResource WindowStyle}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         

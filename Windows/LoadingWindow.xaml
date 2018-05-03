@@ -13,8 +13,8 @@
         WindowStartupLocation="CenterScreen" 
         
         Style="{DynamicResource WindowStyle}"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" 
         
         elements:WindowThemeParameters.CanClose="False"

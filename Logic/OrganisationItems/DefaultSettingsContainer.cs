@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
-using System.Runtime.CompilerServices;
-using MVVM_Tools.Code.Classes;
-using TranslatorApk.Logic.Interfaces;
+using SettingsManager;
 using TranslatorApk.Properties;
-
-// ReSharper disable InconsistentNaming
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    /// <summary>
-    /// Класс для работы с файлом настроек. Поддерживает кэширование. Крайне рекомендуется использовать его для управления настройками.
-    /// </summary>
-    public class SettingsIncapsuler : BindableBase, ISettingsContainer
+    internal class DefaultSettingsContainer : SettingsContainerBase
     {
-        public static SettingsIncapsuler Instance { get; } = new SettingsIncapsuler();
+        public static DefaultSettingsContainer Instance { get; } = new DefaultSettingsContainer();
 
-        public bool AutoFlush { get; set; } = true;
-
-        private readonly Dictionary<string, object> _cachedProperties = new Dictionary<string, object>();
+        private DefaultSettingsContainer() { }
 
         public string TargetLanguage
         {
@@ -256,60 +246,19 @@ namespace TranslatorApk.Logic.OrganisationItems
             set => SetValueInternal(value);
         }
 
-
-        private T GetValueInternal<T>([CallerMemberName] string propertyName = null)
-        {
-            if (propertyName == null)
-                throw new ArgumentNullException(nameof(propertyName));
-
-            if (_cachedProperties.TryGetValue(propertyName, out object value))
-                return (T) value;
-
-            object val = Settings.Default[propertyName];
-
-            _cachedProperties.Add(propertyName, val);
-            
-            return (T) val;
-        }
-
-        private void SetValueInternal<T>(T value, [CallerMemberName] string propertyName = null)
-        {
-            if (propertyName == null)
-                throw new ArgumentNullException(nameof(propertyName));
-
-            if (_cachedProperties.TryGetValue(propertyName, out var cachedValue))
-            {
-                if (EqualityComparer<T>.Default.Equals((T) cachedValue, value))
-                    return;
-
-                _cachedProperties[propertyName] = value;
-            }
-            else
-            {
-                _cachedProperties.Add(propertyName, value);
-            }
-
-            Settings.Default[propertyName] = value;
-
-            if (AutoFlush)
-                Save();
-
-            OnPropertyChanged(propertyName);
-        }
-
-        public T GetValue<T>(string settingName)
-        {
-            return GetValueInternal<T>(settingName);
-        }
-
-        public void SetValue<T>(string settingName, T value)
-        {
-            SetValueInternal(value, settingName);
-        }
-
-        public void Save()
+        public override void Save()
         {
             Settings.Default.Save();
+        }
+
+        protected override void SetSetting(string settingName, object value)
+        {
+            Settings.Default[settingName] = value;
+        }
+
+        protected override object GetSetting(string settingName)
+        {
+            return Settings.Default[settingName];
         }
     }
 }

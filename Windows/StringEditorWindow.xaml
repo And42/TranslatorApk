@@ -12,8 +12,8 @@
         Closed="StringEditorWindow_OnClosed"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Style="{DynamicResource WindowStyle}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}}"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         Height="300" Width="600" MinWidth="300" MinHeight="200"
         
         elements:WindowThemeParameters.CanMinimize="False">

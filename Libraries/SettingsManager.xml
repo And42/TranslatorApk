@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SettingsManager</name>
+    </assembly>
+    <members>
+        <member name="T:SettingsManager.SettingsContainerBase">
+            <summary>
+            Class for managing settings. Supports caching.
+            </summary>
+        </member>
+    </members>
+</doc>

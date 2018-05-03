@@ -12,7 +12,7 @@
         
         Style="{DynamicResource WindowStyle}"
         Title="{x:Static localizations:StringResources.Loading}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"

@@ -9,13 +9,13 @@
         xmlns:windowModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:userControls="clr-namespace:TranslatorApk.Logic.UserControls"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         mc:Ignorable="d" Style="{StaticResource WindowStyle}"
         Title="{x:Static localizations:StringResources.Plugins}" 
         MinHeight="300" MinWidth="300"
         Width="830" Height="500"
         WindowStartupLocation="CenterScreen"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
 
         Loaded="PluginsWindow_OnLoaded"
         Closed="PluginsWindow_OnClosed"
@@ -34,13 +34,13 @@
                     ItemsSource="{Binding TableItems}"
                     AutoGenerateColumns="False"
                     ColumnSizer="AutoLastColumnFill"
-                    FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+                    FontSize="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
                     RowHeight="35"
                     SelectionMode="None">
 
                     <syncfusion:SfDataGrid.Resources>
                         <Style TargetType="syncfusion:GridHeaderCellControl">
-                            <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
+                            <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"/>
                         </Style>
                     </syncfusion:SfDataGrid.Resources>
 

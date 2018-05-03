@@ -131,7 +131,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Путь к текущему apktool.jar
         /// </summary>
         public static string CurrentApktoolPath => 
-            Path.Combine(PathToApktoolVersions, $"apktool_{SettingsIncapsuler.Instance.ApktoolVersion}.jar");
+            Path.Combine(PathToApktoolVersions, $"apktool_{DefaultSettingsContainer.Instance.ApktoolVersion}.jar");
 
         /// <summary>
         /// Текущий сервис перевода

@@ -20,10 +20,10 @@
 
         Title="{x:Static localizations:StringResources.Editor}"
     
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}}"
         
         MinHeight="400" MinWidth="400" Height="700" Width="1000" 
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         WindowStartupLocation="CenterScreen" 
         Closing="EditorWindow_OnClosing"
     
@@ -189,7 +189,7 @@
                 TextInput="EditorGrid_OnTextInput"
                 Grid.Row="1" Margin="0,5" 
                 ItemsSource="{Binding StringFiles}" 
-                FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+                FontSize="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
                 RowHeight="{StaticResource EditorGrid_RowHeight}" 
                 HeaderRowHeight="{StaticResource EditorGrid_HeaderHeight}"
                 GridCopyOption="None"
@@ -203,7 +203,7 @@
 
             <syncfusion:SfDataGrid.Resources>
                 <Style TargetType="syncfusion:GridHeaderCellControl">
-                    <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
+                    <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"/>
                 </Style>
 
                 <Style TargetType="syncfusion:GridRowHeaderCell">

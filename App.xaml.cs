@@ -42,7 +42,7 @@ namespace TranslatorApk
 #endif
                 Utils.CheckForUpdate();
 
-            if (SettingsIncapsuler.Instance.ApktoolVersion.NE())
+            if (DefaultSettingsContainer.Instance.ApktoolVersion.NE())
             {
                 MessBox.ShowDial(StringResources.ApktoolNotFound);
             }

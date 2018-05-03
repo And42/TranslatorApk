@@ -9,11 +9,11 @@
         xmlns:viewModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
         xmlns:userControls="clr-namespace:TranslatorApk.Logic.UserControls"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         MinHeight="300" MinWidth="400"
         Height="300" Width="400"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:RemoveLanguagesWindowViewModel}"
 

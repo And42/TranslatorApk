@@ -9,11 +9,11 @@
         xmlns:controls="clr-namespace:TranslatorApk.Logic.Controls"
         mc:Ignorable="d"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         MinWidth="700" MinHeight="500"
         Height="500" Width="900"
         Style="{DynamicResource WindowStyle}"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         WindowStartupLocation="CenterScreen"
         Title="{x:Static localizations:StringResources.ChangesDetector}"
         

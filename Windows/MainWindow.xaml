@@ -19,12 +19,12 @@
         MinWidth="603" MinHeight="400"
         Height="500" Width="670"
         WindowStartupLocation="CenterScreen"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
     
         IsEnabled="{Binding IsBusy, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}"
         Style="{DynamicResource WindowStyle}"
         WindowState="{Binding MainWindowState.Value}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
     
         Loaded="MainWindow_OnLoaded" 
         Closed="MainWindow_OnClosed"
@@ -304,7 +304,7 @@
                                 Margin="5,0"
                                 Content="Regex"
                                 VerticalAlignment="Center"
-                                IsChecked="{Binding TVFilterBoxUseRegex, Source={x:Static organisationItems:SettingsIncapsuler.Instance}}"/>
+                                IsChecked="{Binding TVFilterBoxUseRegex, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}}"/>
 
                         </Border>
 

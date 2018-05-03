@@ -41,7 +41,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             InitCommon();
 
             PropertyChanged += OnPropertyChanged;
-            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         private async void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -53,14 +53,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             MainWindowSettings = new[]
             {
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyXml),        StringResources.EmptyXml),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptySmali),      StringResources.EmptySmali),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.EmptyFolders),    StringResources.EmptyFolders),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.Images),          StringResources.Images),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.FilesWithErrors), StringResources.FilesWithErrors),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyXml),         StringResources.OnlyXml),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OtherFiles),      StringResources.OtherFiles),
-                new Setting<bool>(nameof(SettingsIncapsuler.Instance.OnlyResources),   StringResources.OnlyResources)
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.EmptyXml),        StringResources.EmptyXml),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.EmptySmali),      StringResources.EmptySmali),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.EmptyFolders),    StringResources.EmptyFolders),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.Images),          StringResources.Images),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.FilesWithErrors), StringResources.FilesWithErrors),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.OnlyXml),         StringResources.OnlyXml),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.OtherFiles),      StringResources.OtherFiles),
+                new Setting<bool>(nameof(DefaultSettingsContainer.Instance.OnlyResources),   StringResources.OnlyResources)
             };
         }
 
@@ -70,7 +70,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             {
                 case nameof(MainWindowState):
                     if (MainWindowState.Value != WindowState.Minimized)
-                        SettingsIncapsuler.Instance.MainWMaximized = MainWindowState.Value == WindowState.Maximized;
+                        DefaultSettingsContainer.Instance.MainWMaximized = MainWindowState.Value == WindowState.Maximized;
                     break;
             }
 
@@ -114,7 +114,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         public override void UnsubscribeFromEvents()
         {
             PropertyChanged -= OnPropertyChanged;
-            SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }
 
         public override void Dispose()

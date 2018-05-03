@@ -12,7 +12,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             RefreshData();
 
-            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         public string PageTitle { get; } = StringResources.EditorSettings_Caption;
@@ -21,14 +21,14 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public int AlternativeEditingKeysIndex
         {
-            get => SettingsIncapsuler.Instance.AlternativeEditingKeys ? 0 : 1;
-            set => SettingsIncapsuler.Instance.AlternativeEditingKeys = value == 0;
+            get => DefaultSettingsContainer.Instance.AlternativeEditingKeys ? 0 : 1;
+            set => DefaultSettingsContainer.Instance.AlternativeEditingKeys = value == 0;
         }
 
         public int SessionAutoTranslateIndex
         {
-            get => SettingsIncapsuler.Instance.SessionAutoTranslate ? 0 : 1;
-            set => SettingsIncapsuler.Instance.SessionAutoTranslate = value == 0;
+            get => DefaultSettingsContainer.Instance.SessionAutoTranslate ? 0 : 1;
+            set => DefaultSettingsContainer.Instance.SessionAutoTranslate = value == 0;
         }
 
         public void RefreshData()
@@ -40,10 +40,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(SettingsIncapsuler.AlternativeEditingKeys):
+                case nameof(DefaultSettingsContainer.AlternativeEditingKeys):
                     OnPropertyChanged(nameof(AlternativeEditingKeysIndex));
                     break;
-                case nameof(SettingsIncapsuler.SessionAutoTranslate):
+                case nameof(DefaultSettingsContainer.SessionAutoTranslate):
                     OnPropertyChanged(nameof(SessionAutoTranslateIndex));
                     break;
             }
@@ -51,7 +51,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public override void UnsubscribeFromEvents()
         {
-            SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

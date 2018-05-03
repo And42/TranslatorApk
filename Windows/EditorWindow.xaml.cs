@@ -57,13 +57,13 @@ namespace TranslatorApk.Windows
 
         public bool SaveToDict
         {
-            get => SettingsIncapsuler.Instance.EditorWindowSaveToDict;
+            get => DefaultSettingsContainer.Instance.EditorWindowSaveToDict;
             set
             {
                 if (SaveDictionary == null && value)
                     return;
 
-                SettingsIncapsuler.Instance.EditorWindowSaveToDict = value;
+                DefaultSettingsContainer.Instance.EditorWindowSaveToDict = value;
                 RaisePropertyChanged(nameof(SaveToDict));
             }
         }
@@ -75,12 +75,12 @@ namespace TranslatorApk.Windows
                 if (_isMinimized)
                     return WindowState.Minimized;
 
-                return SettingsIncapsuler.Instance.EditorWMaximized ? WindowState.Maximized : WindowState.Normal;
+                return DefaultSettingsContainer.Instance.EditorWMaximized ? WindowState.Maximized : WindowState.Normal;
             }
             set
             {
                 if (value != WindowState.Minimized)
-                    SettingsIncapsuler.Instance.EditorWMaximized = value == WindowState.Maximized;
+                    DefaultSettingsContainer.Instance.EditorWMaximized = value == WindowState.Maximized;
 
                 _isMinimized = value == WindowState.Minimized;
 
@@ -100,17 +100,17 @@ namespace TranslatorApk.Windows
             set
             {
                 if (this.SetProperty(ref _saveDictionary, value))
-                    SettingsIncapsuler.Instance.TargetDictionary = value?.FileName;
+                    DefaultSettingsContainer.Instance.TargetDictionary = value?.FileName;
             }
         }
         private IDictionaryFile _saveDictionary;
 
         public int LangsBoxItemIndex
         {
-            get => TranslateService.ShortTargetLanguages.IndexOf(SettingsIncapsuler.Instance.TargetLanguage);
+            get => TranslateService.ShortTargetLanguages.IndexOf(DefaultSettingsContainer.Instance.TargetLanguage);
             set
             {
-                SettingsIncapsuler.Instance.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
+                DefaultSettingsContainer.Instance.TargetLanguage = TranslateService.GetShortTL(LangsBox.Items[value] as string);
                 RaisePropertyChanged(nameof(LangsBoxItemIndex));
             }
         }
@@ -135,7 +135,7 @@ namespace TranslatorApk.Windows
 
             EditorGrid.SelectionController = new GridSelectionControllerExt(EditorGrid, EditorGrid_OnKeyDown);
 
-            string settingsTargetDict = SettingsIncapsuler.Instance.TargetDictionary;
+            string settingsTargetDict = DefaultSettingsContainer.Instance.TargetDictionary;
 
             if (!settingsTargetDict.NE() && File.Exists(settingsTargetDict))
                 SaveDictionary = new DictionaryFile(settingsTargetDict);
@@ -551,7 +551,7 @@ namespace TranslatorApk.Windows
                     CreateItem(StringResources.Expand, Expand_Click),
                     CreateItem(StringResources.Collapse, Collapse_Click)
                 },
-                FontSize = SettingsIncapsuler.Instance.FontSize
+                FontSize = DefaultSettingsContainer.Instance.FontSize
             };
 
             void Add(string header, RoutedEventHandler clicked, string gesture = null)
@@ -1003,7 +1003,7 @@ namespace TranslatorApk.Windows
 
         private void EditorGrid_OnTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (SettingsIncapsuler.Instance.AlternativeEditingKeys)
+            if (DefaultSettingsContainer.Instance.AlternativeEditingKeys)
             {
                 IOneString current = GetSelectedString();
 
@@ -1223,7 +1223,7 @@ namespace TranslatorApk.Windows
                 }
             }
 
-            if (!SettingsIncapsuler.Instance.SessionAutoTranslate)
+            if (!DefaultSettingsContainer.Instance.SessionAutoTranslate)
                 return;
 
             StringFiles.ForEach(TranslateWithSessionDict);
@@ -1340,7 +1340,7 @@ namespace TranslatorApk.Windows
 
         private void TranslateWithSessionDictIfNeeded(string oldText, string newText)
         {
-            if (SettingsIncapsuler.Instance.SessionAutoTranslate)
+            if (DefaultSettingsContainer.Instance.SessionAutoTranslate)
             {
                 ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                     .Publish(new EditorWindowTranslateTextEvent(oldText, newText,

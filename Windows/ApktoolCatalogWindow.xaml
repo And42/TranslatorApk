@@ -46,11 +46,11 @@
                         SelectionMode="None"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         AutoGenerateColumns="False"
-                        FontSize="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}">
+                        FontSize="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}">
 
                         <syncfusion:SfDataGrid.Resources>
                             <Style TargetType="syncfusion:GridHeaderCellControl">
-                                <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"/>
+                                <Setter Property="FontSize" Value="{Binding GridFontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"/>
                             </Style>
                         </syncfusion:SfDataGrid.Resources>
 

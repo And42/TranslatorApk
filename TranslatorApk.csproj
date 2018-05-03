@@ -155,6 +155,9 @@
     <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Nito.AsyncEx.4.0.1\lib\net40\Nito.AsyncEx.Enlightenment.dll</HintPath>
     </Reference>
+    <Reference Include="SettingsManager">
+      <HintPath>Libraries\SettingsManager.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4400.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Syncfusion.Data.WPF.dll</HintPath>
@@ -225,6 +228,7 @@
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
+    <Compile Include="Logic\OrganisationItems\DefaultSettingsContainer.cs" />
     <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
     <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
       <DependentUpon>BusyContainer.xaml</DependentUpon>
@@ -252,7 +256,6 @@
     <Compile Include="Logic\Events\EditStringEvent.cs" />
     <Compile Include="Logic\Interfaces\ILoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Interfaces\IRaisePropertyChanged.cs" />
-    <Compile Include="Logic\Interfaces\ISettingsContainer.cs" />
     <Compile Include="Logic\Interfaces\SettingsPages\ISettingsPageModel.cs" />
     <Compile Include="Logic\OrganisationItems\EventModuler.cs" />
     <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
@@ -262,7 +265,6 @@
     <Compile Include="Logic\OrganisationItems\INotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
-    <Compile Include="Logic\OrganisationItems\SettingsIncapsuler.cs" />
     <Compile Include="Logic\Utils\ImageUtils.cs" />
     <Compile Include="Logic\Utils\PluginUtils.cs" />
     <Compile Include="Logic\Utils\SfDataGridUtils.cs" />
@@ -952,6 +954,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\AndroidHelper.dll" />
+    <Content Include="Libraries\SettingsManager.dll" />
+    <Resource Include="Libraries\SettingsManager.xml" />
     <Resource Include="Libraries\AndroidHelper.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

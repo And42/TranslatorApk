@@ -11,7 +11,7 @@
       xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="600"
-      FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+      FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
       
       d:DataContext="{d:DesignInstance settingsPages:TranslationPageViewModel}">
 

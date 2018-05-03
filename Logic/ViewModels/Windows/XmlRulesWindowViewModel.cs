@@ -28,7 +28,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public XmlRulesWindowViewModel()
         {
             Items = new ObservableRangeCollection<CheckBoxSetting>(
-                SettingsIncapsuler.Instance.XmlRules.Select(it => new CheckBoxSetting(it, true))
+                DefaultSettingsContainer.Instance.XmlRules.Select(it => new CheckBoxSetting(it, true))
             );
 
             SelectedItem = CreateRefProviderWithNotify<CheckBoxSetting>(nameof(SelectedItem));
@@ -43,7 +43,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             var items = Items.Where(it => it.Value && !string.IsNullOrEmpty(it.Text)).ToArray();
 
-            SettingsIncapsuler.Instance.XmlRules = items.Select(it => it.Text).ToArray();
+            DefaultSettingsContainer.Instance.XmlRules = items.Select(it => it.Text).ToArray();
 
             XmlFile.XmlRules = items.Select(it => new Regex(it.Text)).ToList();
 

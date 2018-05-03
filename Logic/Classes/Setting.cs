@@ -19,7 +19,7 @@ namespace TranslatorApk.Logic.Classes
             LocalizedName = localizedName;
             _isReadOnly = isReadOnly;
 
-            _property = typeof(SettingsIncapsuler).GetProperty(settingName);
+            _property = typeof(DefaultSettingsContainer).GetProperty(settingName);
         }
 
         /// <summary>
@@ -47,13 +47,13 @@ namespace TranslatorApk.Logic.Classes
         /// </summary>
         public T Value
         {
-            get => (T)_property.GetValue(SettingsIncapsuler.Instance, null);
+            get => (T)_property.GetValue(DefaultSettingsContainer.Instance, null);
             set
             {
                 if (_isReadOnly)
                     throw new NotSupportedException("Can't set readonly value");
 
-                _property.SetValue(SettingsIncapsuler.Instance, value, null);
+                _property.SetValue(DefaultSettingsContainer.Instance, value, null);
 
                 RaisePropertyChanged(nameof(Value));
             }

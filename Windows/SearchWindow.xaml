@@ -10,13 +10,13 @@
 
         mc:Ignorable="d"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         Title="{x:Static localizations:StringResources.Search}"
         Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         
         IsEnabled="{Binding IsBusy, Mode=OneWay, Converter={StaticResource InvertBoolConverter}}"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         Style="{DynamicResource WindowStyle}"
         
         Loaded="SearchWindow_OnLoaded"

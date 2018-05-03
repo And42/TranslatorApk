@@ -70,7 +70,7 @@ namespace TranslatorApk.Logic.Utils
             for (int i = 0; i < themesToAdd.Length; i++)
                 dicts.RemoveAt(1 + themesToAdd.Length);
 
-            SettingsIncapsuler.Instance.Theme = name;
+            DefaultSettingsContainer.Instance.Theme = name;
 
             foreach (var item in sourceScreenshots)
                 StartTransitionForWindow(item.Key, item.Value);

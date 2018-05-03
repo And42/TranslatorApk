@@ -65,7 +65,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="file">Объект для обработки</param>
         private static BitmapSource LoadIconFromFile(Options file)
         {
-            if (SettingsIncapsuler.Instance.ImageExtensions.Contains(file.Ext))
+            if (DefaultSettingsContainer.Instance.ImageExtensions.Contains(file.Ext))
             {
                 try
                 {

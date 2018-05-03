@@ -79,7 +79,7 @@ namespace TranslatorApk.Windows
 
         private void LoadSettings()
         {
-            Point size = SettingsIncapsuler.Instance.MainWindowSize;
+            Point size = DefaultSettingsContainer.Instance.MainWindowSize;
 
             if (!size.IsEmpty)
             {
@@ -100,7 +100,7 @@ namespace TranslatorApk.Windows
 
         public void TreeViewItem_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.Instance.ShowPreviews)
+            if (!DefaultSettingsContainer.Instance.ShowPreviews)
                 return;
 
             var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
@@ -114,7 +114,7 @@ namespace TranslatorApk.Windows
 
         public void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.Instance.ShowPreviews)
+            if (!DefaultSettingsContainer.Instance.ShowPreviews)
                 return;
 
             var node = sender.As<FrameworkElement>().DataContext.As<FilesTreeViewNodeModel>();
@@ -136,7 +136,7 @@ namespace TranslatorApk.Windows
 
         public void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!SettingsIncapsuler.Instance.ShowPreviews)
+            if (!DefaultSettingsContainer.Instance.ShowPreviews)
                 return;
 
             var node = (sender as FrameworkElement)?.DataContext as FilesTreeViewNodeModel;
@@ -207,7 +207,7 @@ namespace TranslatorApk.Windows
             ViewModel.Dispose();
 
             MainWindowViewModel.AndroidLogger.Stop();
-            SettingsIncapsuler.Instance.MainWindowSize = new Point((int)Width, (int)Height);
+            DefaultSettingsContainer.Instance.MainWindowSize = new Point((int)Width, (int)Height);
 
             Application.Current.Shutdown();
         }

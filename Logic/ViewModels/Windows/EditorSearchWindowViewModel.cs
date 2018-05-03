@@ -34,20 +34,20 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public bool OnlyFullWords
         {
-            get => SettingsIncapsuler.Instance.EditorSOnlyFullWords;
+            get => DefaultSettingsContainer.Instance.EditorSOnlyFullWords;
             set
             {
-                SettingsIncapsuler.Instance.EditorSOnlyFullWords = value;
+                DefaultSettingsContainer.Instance.EditorSOnlyFullWords = value;
                 OnPropertyChanged();
             }
         }
 
         public bool MatchCase
         {
-            get => SettingsIncapsuler.Instance.EditorSMatchCase;
+            get => DefaultSettingsContainer.Instance.EditorSMatchCase;
             set
             {
-                SettingsIncapsuler.Instance.EditorSMatchCase = value;
+                DefaultSettingsContainer.Instance.EditorSMatchCase = value;
                 OnPropertyChanged();
             }
         }
@@ -70,7 +70,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             FoundItems = new ReadOnlyObservableCollection<OneFoundItem>(_foundItems);
 
             _searchAdds = new ObservableRangeCollection<string>(
-                SettingsIncapsuler.Instance.EditorSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>()
+                DefaultSettingsContainer.Instance.EditorSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>()
             );
             SearchAdds = new ReadOnlyObservableCollection<string>(_searchAdds);
 
@@ -82,7 +82,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             ShowItemInEditorCommand = new ActionCommand<OneFoundItem>(ShowItemInEditorCommand_Execute, _ => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
-            SettingsIncapsuler.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         private void FindAllCommand_Execute()
@@ -262,7 +262,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 _searchAdds.Insert(0, text);
                 SearchBoxIndex.Value = 0;
 
-                var settings = SettingsIncapsuler.Instance;
+                var settings = DefaultSettingsContainer.Instance;
 
                 if (settings.EditorSearchAdds == null)
                     settings.EditorSearchAdds = new StringCollection();
@@ -300,10 +300,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             switch (args.PropertyName)
             {
-                case nameof(SettingsIncapsuler.EditorSOnlyFullWords):
+                case nameof(DefaultSettingsContainer.EditorSOnlyFullWords):
                     OnPropertyChanged(nameof(OnlyFullWords));
                     break;
-                case nameof(SettingsIncapsuler.EditorSMatchCase):
+                case nameof(DefaultSettingsContainer.EditorSMatchCase):
                     OnPropertyChanged(nameof(MatchCase));
                     break;
             }
@@ -312,7 +312,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public override void UnsubscribeFromEvents()
         {
             PropertyChanged -= OnPropertyChanged;
-            SettingsIncapsuler.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
         }
 
         public override void Dispose()

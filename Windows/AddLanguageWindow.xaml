@@ -8,10 +8,10 @@
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:viewModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
 
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Height="105" Width="400"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:SettingsIncapsuler.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
         SizeToContent="Height"
         Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:AddLanguageWindowViewModel}"
