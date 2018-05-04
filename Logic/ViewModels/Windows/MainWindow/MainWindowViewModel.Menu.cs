@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Media;
 using MVVM_Tools.Code.Commands;
@@ -31,8 +30,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             }
         }
 
-        public ReadOnlyObservableCollection<PluginMenuItemModel> PluginMenuItems { get; private set; }
-        private ObservableRangeCollection<PluginMenuItemModel> _pluginMenuItems;
+        public ObservableRangeCollection<PluginMenuItemModel> PluginMenuItems { get; private set; }
 
         public IActionCommand OpenAboutCommand { get; private set; }
         public IActionCommand OpenEditorCommand { get; private set; }
@@ -45,8 +43,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitMenuPart()
         {
-            _pluginMenuItems = new ObservableRangeCollection<PluginMenuItemModel>();
-            PluginMenuItems = new ReadOnlyObservableCollection<PluginMenuItemModel>(_pluginMenuItems);
+            PluginMenuItems = new ObservableRangeCollection<PluginMenuItemModel>();
 
             ActionCommand ActCom(Action action) => new ActionCommand(action);
 
@@ -59,7 +56,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             PluginItemCommand = new ActionCommand<PluginPart<IAdditionalAction>>(PluginItemCommand_Execute);
 
-            _pluginMenuItems.Add(
+            PluginMenuItems.Add(
                 new PluginMenuItemModel(
                     StringResources.Catalog, OpenPluginsCommand,
                     ImageUtils.GetImageFromApp("Resources/Icons/folder.png")
@@ -84,7 +81,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private static void OpenChangesDetectorCommand_Execute()
         {
-            WindowManager.ActivateWindow<ChangesDetectorWindow>();
+            WindowManager.ActivateWindow<ChangesDetectorWindow>(ownerWindow: WindowManager.GetActiveWindow<TranslatorApk.Windows.MainWindow>());
         }
 
         private static void OpenPluginsCommand_Execute()

@@ -33,7 +33,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     action: action
                 );
 
-            _pluginMenuItems.Add(item);
+            PluginMenuItems.Add(item);
         }
 
         public void RemoveActionFromMenu(Guid actionGuid)
@@ -41,7 +41,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             var found = PluginMenuItems.FirstOrDefault(it => it.Action?.Item.Guid == actionGuid);
 
             if (found != null)
-                _pluginMenuItems.Remove(found);
+                PluginMenuItems.Remove(found);
         }
 
         private static void DeleteSmthPromt(FilesTreeViewNodeModel node, string confirmation, Action<string> deleteAction, Predicate<string> checkAction)
