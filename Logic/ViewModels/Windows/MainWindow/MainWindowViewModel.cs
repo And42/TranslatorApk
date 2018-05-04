@@ -26,7 +26,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public string LogBoxText => _logTextBuilder.ToString();
 
-        public PropertyProvider<WindowState> MainWindowState { get; }
+        public Property<WindowState> MainWindowState { get; private set; }
 
         public Apktools Apk;
 
@@ -35,7 +35,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             _arguments = args;
             _window = window;
 
-            MainWindowState = CreateProviderWithNotify<WindowState>(nameof(MainWindowState));
+            BindProperty(() => MainWindowState);
 
             InitSettings();
             InitCommon();

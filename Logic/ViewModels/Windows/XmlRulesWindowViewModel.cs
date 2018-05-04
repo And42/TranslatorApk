@@ -18,7 +18,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
     {
         public ObservableRangeCollection<CheckBoxSetting> Items { get; }
 
-        public PropertyRefProvider<CheckBoxSetting> SelectedItem { get; }
+        public Property<CheckBoxSetting> SelectedItem { get; private set; }
 
         public ICommand ChooseFileCommand { get; }
         public ICommand SaveChangesCommand { get; }
@@ -31,7 +31,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 DefaultSettingsContainer.Instance.XmlRules.Select(it => new CheckBoxSetting(it, true))
             );
 
-            SelectedItem = CreateRefProviderWithNotify<CheckBoxSetting>(nameof(SelectedItem));
+            BindProperty(() => SelectedItem);
 
             ChooseFileCommand = new ActionCommand(ChooseFileCommand_Execute);
             SaveChangesCommand = new ActionCommand(SaveChangesCommand_Execute);

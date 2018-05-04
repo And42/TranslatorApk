@@ -48,9 +48,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public Setting<bool> OnlyFullWords { get; }
         public Setting<bool> MatchCase { get; }
 
-        public PropertyProvider<string> TextToSearch { get; }
-        public PropertyProvider<int> SearchBoxIndex { get; } 
-        public PropertyProvider<FoundItem> SelectedFile { get; }
+        public Property<string> TextToSearch { get; private set; }
+        public Property<int> SearchBoxIndex { get; private set; } 
+        public Property<FoundItem> SelectedFile { get; private set; }
 
         public IActionCommand FindFilesCommand { get; }
         public IActionCommand LoadSelectedFileCommand { get; }
@@ -70,9 +70,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             OnlyFullWords = new Setting<bool>(nameof(DefaultSettingsContainer.OnlyFullWords), StringResources.OnlyFullWords);
             MatchCase = new Setting<bool>(nameof(DefaultSettingsContainer.MatchCase), StringResources.MatchCase);
 
-            TextToSearch = CreateProviderWithNotify<string>(nameof(TextToSearch));
-            SearchBoxIndex = CreateProviderWithNotify(nameof(SearchBoxIndex), -1);
-            SelectedFile = CreateProviderWithNotify<FoundItem>(nameof(SelectedFile));
+            BindProperty(() => TextToSearch);
+            BindProperty(() => SearchBoxIndex, -1);
+            BindProperty(() => SelectedFile);
 
             FindFilesCommand = new ActionCommand(FindFilesCommand_Execute, () => !IsBusy);
             LoadSelectedFileCommand = new ActionCommand(LoadSelectedFileCommand_Execute, () => !IsBusy && SelectedFile.Value != null);

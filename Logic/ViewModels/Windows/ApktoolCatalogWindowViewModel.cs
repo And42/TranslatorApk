@@ -26,17 +26,17 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
         private readonly ObservableRangeCollection<DownloadableApktool> _serverApktools;
 
-        public PropertyProvider<int> Progress { get; }
-        public PropertyProvider<int> ProgressMax { get; }
-        public PropertyProvider<bool> ProgressBarIsVisible { get; }
+        public Property<int> Progress { get; private set; }
+        public Property<int> ProgressMax { get; private set; }
+        public Property<bool> ProgressBarIsVisible { get; private set; }
 
         public IActionCommand<DownloadableApktool> ItemClickedCommand { get; }
 
         public ApktoolCatalogWindowViewModel()
         {
-            Progress = CreateProviderWithNotify<int>(nameof(Progress));
-            ProgressMax = CreateProviderWithNotify(nameof(ProgressMax), 100);
-            ProgressBarIsVisible = CreateProviderWithNotify<bool>(nameof(ProgressBarIsVisible));
+            BindProperty(() => Progress);
+            BindProperty(() => ProgressMax, 100);
+            BindProperty(() => ProgressBarIsVisible);
 
             _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
             ServerApktools = new ReadOnlyObservableCollection<DownloadableApktool>(_serverApktools);

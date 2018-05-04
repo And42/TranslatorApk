@@ -27,12 +27,12 @@ using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using UsefulFunctionsLib;
 
-using TVItemMenuCommand = MVVM_Tools.Code.Commands.IActionCommand<TranslatorApk.Logic.ViewModels.TreeViewModels.FilesTreeViewNodeModel>;
-
 // ReSharper disable InconsistentNaming
 
 namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 {
+    using TVItemMenuCommand = IActionCommand<FilesTreeViewNodeModel>;
+
     internal partial class MainWindowViewModel
     {
         private class CommandContainer
@@ -78,8 +78,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         private CancellationTokenSource _filteringToken;
         private readonly AsyncLock _filterLock = new AsyncLock();
 
-        public PropertyProvider<string> TV_FilterString { get; private set; }
-        public PropertyProvider<bool> TV_FilteringBoxIsVisible { get; private set; }
+        public Property<string> TV_FilterString { get; private set; }
+        public Property<bool> TV_FilteringBoxIsVisible { get; private set; }
 
         public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel();
 
@@ -104,8 +104,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitTreeViewPart()
         {
-            TV_FilterString = CreateProviderWithNotify<string>(nameof(TV_FilterString));
-            TV_FilteringBoxIsVisible = CreateProviderWithNotify<bool>(nameof(TV_FilteringBoxIsVisible));
+            BindProperty(() => TV_FilterString);
+            BindProperty(() => TV_FilteringBoxIsVisible);
 
             ActionCommand ActCom(Action action) => new ActionCommand(action);
             TVItemMenuCommand TVCom(Action<FilesTreeViewNodeModel> action) => new ActionCommand<FilesTreeViewNodeModel>(action);

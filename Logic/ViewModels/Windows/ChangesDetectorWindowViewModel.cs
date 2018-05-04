@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using AndroidHelper.Logic;
 using AndroidTranslator.Classes.Files;
 using AndroidTranslator.Interfaces.Files;
@@ -26,99 +25,81 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     internal class ChangesDetectorWindowViewModel : ViewModelBase
     {
-        public PropertyProvider<int> ProgressValue { get; }
-        public PropertyProvider<int> ProgressMax { get; }
+        public Property<int> ProgressValue { get; private set; }
+        public Property<int> ProgressMax { get; private set; }
 
-        public PropertyProvider<string> CreateFirstFolder { get; }
-        public PropertyProvider<string> CreateSecondFolder { get; }
-        public PropertyProvider<string> CreateResultFolder { get; }
+        public Property<string> CreateFirstFolder { get; private set; }
+        public Property<string> CreateSecondFolder { get; private set; }
+        public Property<string> CreateResultFolder { get; private set; }
 
-        public PropertyProvider<string> TranslateFolder { get; }
-        public PropertyProvider<string> TranslateDictionaryFolder { get; }
+        public Property<string> TranslateFolder { get; private set; }
+        public Property<string> TranslateDictionaryFolder { get; private set; }
 
-        public PropertyProvider<string> CreateMoreFirstFolder { get; }
-        public PropertyProvider<string> CreateMoreSecondFolder { get; }
-        public PropertyProvider<string> CreateMoreResultFolder { get; }
+        public Property<string> CreateMoreFirstFolder { get; private set; }
+        public Property<string> CreateMoreSecondFolder { get; private set; }
+        public Property<string> CreateMoreResultFolder { get; private set; }
 
-        public PropertyProvider<string> TranslateMoreFolder { get; }
-        public PropertyProvider<string> TranslateMoreDictionaryFolder { get; }
+        public Property<string> TranslateMoreFolder { get; private set; }
+        public Property<string> TranslateMoreDictionaryFolder { get; private set; }
 
         public string LogText => _logText.ToString();
 
-        public ICommand CreateChooseFirstCommand => _createChooseFirstCommand;
-        public ICommand CreateChooseSecondCommand => _createChooseSecondCommand;
-        public ICommand CreateChooseResultFolderCommand => _createChooseResultFolderCommand;
-        public ICommand CreateStartCommand => _createStartCommand;
-
-        public ICommand TranslateChooseFolderCommand => _translateChooseFolderCommand;
-        public ICommand TranslateDictionaryFolderCommand => _translateDictionaryFolderCommand;
-        public ICommand TranslateStartCommand => _translateStartCommand;
-
-        public ICommand CreateMoreChooseFirstCommand => _createMoreChooseFirstCommand;
-        public ICommand CreateMoreChooseSecondCommand => _createMoreChooseSecondCommand;
-        public ICommand CreateMoreChooseResultFolderCommand => _createMoreChooseResultFolderCommand;
-        public ICommand CreateMoreStartCommand => _createMoreStartCommand;
-
-        public ICommand TranslateMoreChooseCommand => _translateMoreChooseCommand;
-        public ICommand TranslateMoreDictionaryFolderCommand => _translateMoreDictionaryFolderCommand;
-        public ICommand TranslateMoreStartCommand => _translateMoreStartCommand;
-
         private readonly StringBuilder _logText = new StringBuilder();
 
-        private readonly ActionCommand _createChooseFirstCommand;
-        private readonly ActionCommand _createChooseSecondCommand;
-        private readonly ActionCommand _createChooseResultFolderCommand;
-        private readonly ActionCommand _createStartCommand;
+        public IActionCommand CreateChooseFirstCommand { get; }
+        public IActionCommand CreateChooseSecondCommand { get; }
+        public IActionCommand CreateChooseResultFolderCommand { get; }
+        public IActionCommand CreateStartCommand { get; }
 
-        private readonly ActionCommand _translateChooseFolderCommand;
-        private readonly ActionCommand _translateDictionaryFolderCommand;
-        private readonly ActionCommand _translateStartCommand;
+        public IActionCommand TranslateChooseFolderCommand { get; }
+        public IActionCommand TranslateDictionaryFolderCommand { get; }
+        public IActionCommand TranslateStartCommand { get; }
 
-        private readonly ActionCommand _createMoreChooseFirstCommand;
-        private readonly ActionCommand _createMoreChooseSecondCommand;
-        private readonly ActionCommand _createMoreChooseResultFolderCommand;
-        private readonly ActionCommand _createMoreStartCommand;
+        public IActionCommand CreateMoreChooseFirstCommand { get; }
+        public IActionCommand CreateMoreChooseSecondCommand { get; }
+        public IActionCommand CreateMoreChooseResultFolderCommand { get; }
+        public IActionCommand CreateMoreStartCommand { get; }
 
-        private readonly ActionCommand _translateMoreChooseCommand;
-        private readonly ActionCommand _translateMoreDictionaryFolderCommand;
-        private readonly ActionCommand _translateMoreStartCommand;
+        public IActionCommand TranslateMoreChooseCommand { get; }
+        public IActionCommand TranslateMoreDictionaryFolderCommand { get; }
+        public IActionCommand TranslateMoreStartCommand { get; }
 
         public ChangesDetectorWindowViewModel()
         {
-            ProgressValue = CreateProviderWithNotify(nameof(ProgressValue), 0);
-            ProgressMax = CreateProviderWithNotify(nameof(ProgressMax), 0);
+            BindProperty(() => ProgressValue);
+            BindProperty(() => ProgressMax);
 
-            CreateFirstFolder = CreateProviderWithNotify<string>(nameof(CreateFirstFolder));
-            CreateSecondFolder = CreateProviderWithNotify<string>(nameof(CreateSecondFolder));
-            CreateResultFolder = CreateProviderWithNotify<string>(nameof(CreateResultFolder));
+            BindProperty(() => CreateFirstFolder);
+            BindProperty(() => CreateSecondFolder);
+            BindProperty(() => CreateResultFolder);
 
-            TranslateFolder = CreateProviderWithNotify<string>(nameof(TranslateFolder));
-            TranslateDictionaryFolder = CreateProviderWithNotify<string>(nameof(TranslateDictionaryFolder));
+            BindProperty(() => TranslateFolder);
+            BindProperty(() => TranslateDictionaryFolder);
 
-            CreateMoreFirstFolder = CreateProviderWithNotify<string>(nameof(CreateMoreFirstFolder));
-            CreateMoreSecondFolder = CreateProviderWithNotify<string>(nameof(CreateMoreSecondFolder));
-            CreateMoreResultFolder = CreateProviderWithNotify<string>(nameof(CreateMoreResultFolder));
+            BindProperty(() => CreateMoreFirstFolder);
+            BindProperty(() => CreateMoreSecondFolder);
+            BindProperty(() => CreateMoreResultFolder);
 
-            TranslateMoreFolder = CreateProviderWithNotify<string>(nameof(TranslateMoreFolder));
-            TranslateMoreDictionaryFolder = CreateProviderWithNotify<string>(nameof(TranslateMoreDictionaryFolder));
+            BindProperty(() => TranslateMoreFolder);
+            BindProperty(() => TranslateMoreDictionaryFolder);
 
-            _createChooseFirstCommand = new ActionCommand(CreateChooseFirstCommand_Execute, NotLoading);
-            _createChooseSecondCommand = new ActionCommand(CreateChooseSecondCommand_Execute, NotLoading);
-            _createChooseResultFolderCommand = new ActionCommand(CreateChooseResultFolderCommand_Execute, NotLoading);
-            _createStartCommand = new ActionCommand(CreateStartCommand_Execute, NotLoading);
+            CreateChooseFirstCommand = new ActionCommand(CreateChooseFirstCommand_Execute, NotLoading);
+            CreateChooseSecondCommand = new ActionCommand(CreateChooseSecondCommand_Execute, NotLoading);
+            CreateChooseResultFolderCommand = new ActionCommand(CreateChooseResultFolderCommand_Execute, NotLoading);
+            CreateStartCommand = new ActionCommand(CreateStartCommand_Execute, NotLoading);
 
-            _translateChooseFolderCommand = new ActionCommand(TranslateChooseFolderCommand_Execute, NotLoading);
-            _translateDictionaryFolderCommand = new ActionCommand(TranslateDictionaryFolderCommand_Execute, NotLoading);
-            _translateStartCommand = new ActionCommand(TranslateStartCommand_Execute, NotLoading);
+            TranslateChooseFolderCommand = new ActionCommand(TranslateChooseFolderCommand_Execute, NotLoading);
+            TranslateDictionaryFolderCommand = new ActionCommand(TranslateDictionaryFolderCommand_Execute, NotLoading);
+            TranslateStartCommand = new ActionCommand(TranslateStartCommand_Execute, NotLoading);
 
-            _createMoreChooseFirstCommand = new ActionCommand(CreateMoreChooseFirstCommand_Execute, NotLoading);
-            _createMoreChooseSecondCommand = new ActionCommand(CreateMoreChooseSecondCommand_Execute, NotLoading);
-            _createMoreChooseResultFolderCommand = new ActionCommand(CreateMoreChooseResultFolderCommand_Execute, NotLoading);
-            _createMoreStartCommand = new ActionCommand(CreateMoreStartCommand_Execute, NotLoading);
+            CreateMoreChooseFirstCommand = new ActionCommand(CreateMoreChooseFirstCommand_Execute, NotLoading);
+            CreateMoreChooseSecondCommand = new ActionCommand(CreateMoreChooseSecondCommand_Execute, NotLoading);
+            CreateMoreChooseResultFolderCommand = new ActionCommand(CreateMoreChooseResultFolderCommand_Execute, NotLoading);
+            CreateMoreStartCommand = new ActionCommand(CreateMoreStartCommand_Execute, NotLoading);
 
-            _translateMoreChooseCommand = new ActionCommand(TranslateMoreChooseCommand_Execute, NotLoading);
-            _translateMoreDictionaryFolderCommand = new ActionCommand(TranslateMoreDictionaryFolderCommand_Execute, NotLoading);
-            _translateMoreStartCommand = new ActionCommand(TranslateMoreStartCommand_Execute, NotLoading);
+            TranslateMoreChooseCommand = new ActionCommand(TranslateMoreChooseCommand_Execute, NotLoading);
+            TranslateMoreDictionaryFolderCommand = new ActionCommand(TranslateMoreDictionaryFolderCommand_Execute, NotLoading);
+            TranslateMoreStartCommand = new ActionCommand(TranslateMoreStartCommand_Execute, NotLoading);
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -313,23 +294,23 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void RaiseCommandCanExecute()
         {
-            _createChooseFirstCommand.RaiseCanExecuteChanged();
-            _createChooseSecondCommand.RaiseCanExecuteChanged();
-            _createChooseResultFolderCommand.RaiseCanExecuteChanged();
-            _createStartCommand.RaiseCanExecuteChanged();
+            CreateChooseFirstCommand.RaiseCanExecuteChanged();
+            CreateChooseSecondCommand.RaiseCanExecuteChanged();
+            CreateChooseResultFolderCommand.RaiseCanExecuteChanged();
+            CreateStartCommand.RaiseCanExecuteChanged();
 
-            _translateChooseFolderCommand.RaiseCanExecuteChanged();
-            _translateDictionaryFolderCommand.RaiseCanExecuteChanged();
-            _translateStartCommand.RaiseCanExecuteChanged();
+            TranslateChooseFolderCommand.RaiseCanExecuteChanged();
+            TranslateDictionaryFolderCommand.RaiseCanExecuteChanged();
+            TranslateStartCommand.RaiseCanExecuteChanged();
 
-            _createMoreChooseFirstCommand.RaiseCanExecuteChanged();
-            _createMoreChooseSecondCommand.RaiseCanExecuteChanged();
-            _createMoreChooseResultFolderCommand.RaiseCanExecuteChanged();
-            _createMoreStartCommand.RaiseCanExecuteChanged();
+            CreateMoreChooseFirstCommand.RaiseCanExecuteChanged();
+            CreateMoreChooseSecondCommand.RaiseCanExecuteChanged();
+            CreateMoreChooseResultFolderCommand.RaiseCanExecuteChanged();
+            CreateMoreStartCommand.RaiseCanExecuteChanged();
 
-            _translateMoreChooseCommand.RaiseCanExecuteChanged();
-            _translateMoreDictionaryFolderCommand.RaiseCanExecuteChanged();
-            _translateMoreStartCommand.RaiseCanExecuteChanged();
+            TranslateMoreChooseCommand.RaiseCanExecuteChanged();
+            TranslateMoreDictionaryFolderCommand.RaiseCanExecuteChanged();
+            TranslateMoreStartCommand.RaiseCanExecuteChanged();
         }
 
         private void CreateOneFolderDictionary(string sourceFolder, string modifiedFolder, string resultFolder, bool log = true)

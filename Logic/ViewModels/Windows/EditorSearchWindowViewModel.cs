@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -29,8 +28,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private readonly Window _window;
 
-        public ReadOnlyObservableCollection<OneFoundItem> FoundItems { get; }
-        private readonly ObservableRangeCollection<OneFoundItem> _foundItems;
+        private ObservableRangeCollection<string> SearchAdds { get; }
+        private ObservableRangeCollection<OneFoundItem> FoundItems { get; }
 
         public bool OnlyFullWords
         {
@@ -52,11 +51,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
         }
 
-        public PropertyProvider<string> TextToSearch { get; }
-        public PropertyProvider<int> SearchBoxIndex { get; }
-
-        public ReadOnlyObservableCollection<string> SearchAdds { get; }
-        private readonly ObservableRangeCollection<string> _searchAdds;
+        public Property<string> TextToSearch { get; private set; }
+        public Property<int> SearchBoxIndex { get; private set; }
 
         public IActionCommand FindAllCommand { get; }
         public IActionCommand FindNextCommand { get; }
@@ -66,16 +62,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             _window = window ?? throw new ArgumentNullException(nameof(window));
 
-            _foundItems = new ObservableRangeCollection<OneFoundItem>();
-            FoundItems = new ReadOnlyObservableCollection<OneFoundItem>(_foundItems);
+            FoundItems = new ObservableRangeCollection<OneFoundItem>();
 
-            _searchAdds = new ObservableRangeCollection<string>(
+            SearchAdds = new ObservableRangeCollection<string>(
                 DefaultSettingsContainer.Instance.EditorSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>()
             );
-            SearchAdds = new ReadOnlyObservableCollection<string>(_searchAdds);
 
-            TextToSearch = CreateProviderWithNotify<string>(nameof(TextToSearch));
-            SearchBoxIndex = CreateProviderWithNotify(nameof(SearchBoxIndex), -1);
+            BindProperty(() => TextToSearch);
+            BindProperty(() => SearchBoxIndex, -1);
 
             FindAllCommand = new ActionCommand(FindAllCommand_Execute, () => !IsBusy);
             FindNextCommand = new ActionCommand(FindNextCommand_Execute, () => !IsBusy);
@@ -128,7 +122,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                     if (found.Count == 0)
                     {
-                        _foundItems.Clear();
+                        FoundItems.Clear();
                         MessBox.ShowDial(StringResources.TextNotFound);
                         return;
                     }
@@ -137,7 +131,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                         found.SelectMany(
                             it => it.Value.Select(val => new OneFoundItem(it.Key.FileName, val.OldText, val)));
 
-                    _foundItems.ReplaceRange(selected);
+                    FoundItems.ReplaceRange(selected);
                 },
                 cancelVisibility: Visibility.Collapsed,
                 ownerWindow: _window
@@ -258,8 +252,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             Application.Current.Dispatcher.InvokeAction(() =>
             {
-                _searchAdds.Remove(text);
-                _searchAdds.Insert(0, text);
+                SearchAdds.Remove(text);
+                SearchAdds.Insert(0, text);
                 SearchBoxIndex.Value = 0;
 
                 var settings = DefaultSettingsContainer.Instance;
@@ -272,7 +266,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 if (SearchAdds.Count > SearchHistory)
                 {
-                    _searchAdds.RemoveAt(SearchHistory);
+                    SearchAdds.RemoveAt(SearchHistory);
                     settings.EditorSearchAdds.RemoveAt(SearchHistory);
                 }
 
@@ -319,7 +313,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             UnsubscribeFromEvents();
 
-            _foundItems.Clear();
+            FoundItems.Clear();
         }
     }
 }

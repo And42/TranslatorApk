@@ -31,7 +31,7 @@
         </member>
         <member name="M:MVVM_Tools.Code.Classes.BindableBase.CreateProviderWithNotify``1(System.String,``0)">
             <summary>
-            Creates <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> and tunnels <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/>.PropertyChanged to the current object
+            Creates <see cref="T:MVVM_Tools.Code.Providers.Property`1"/> and tunnels <see cref="T:MVVM_Tools.Code.Providers.Property`1"/>.PropertyChanged to the current object
             </summary>
             <param name="targetPropertyName">Property name to notify</param>
             <param name="initialValue">Initial property value</param>
@@ -275,25 +275,25 @@
         <member name="M:MVVM_Tools.Code.Disposables.CustomBoolDisposable.Dispose">
             <inheritdoc />
         </member>
-        <member name="T:MVVM_Tools.Code.Providers.PropertyProvider`1">
+        <member name="T:MVVM_Tools.Code.Providers.Property`1">
             <summary>
             Provider for the properties (use <see cref="E:MVVM_Tools.Code.Classes.BindableBase.PropertyChanged"/> to subscribe for changes).
             Uses <see cref="M:MVVM_Tools.Code.Classes.BindableBase.SetProperty``1(``0@,``0,System.String)"/> when setting new value
             </summary>
             <typeparam name="TPropertyType">Property type</typeparam>
         </member>
-        <member name="M:MVVM_Tools.Code.Providers.PropertyProvider`1.#ctor">
+        <member name="M:MVVM_Tools.Code.Providers.Property`1.#ctor">
             <summary>
-            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.Property`1"/> class
             </summary>
         </member>
-        <member name="M:MVVM_Tools.Code.Providers.PropertyProvider`1.#ctor(`0)">
+        <member name="M:MVVM_Tools.Code.Providers.Property`1.#ctor(`0)">
             <summary>
-            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.Property`1"/> class
             </summary>
             <param name="initialValue">Initial value for the backing field</param>
         </member>
-        <member name="P:MVVM_Tools.Code.Providers.PropertyProvider`1.Value">
+        <member name="P:MVVM_Tools.Code.Providers.Property`1.Value">
             <summary>
             Current value of the provider
             </summary>
@@ -312,7 +312,7 @@
         </member>
         <member name="M:MVVM_Tools.Code.Providers.PropertyRefProvider`1.#ctor(`0)">
             <summary>
-            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.PropertyProvider`1"/> class
+            Creates a new instance of the <see cref="T:MVVM_Tools.Code.Providers.Property`1"/> class
             </summary>
             <param name="initialValue">Initial value for the backing field</param>
         </member>
