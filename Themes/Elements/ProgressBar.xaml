@@ -17,8 +17,7 @@
                                 x:Name="PART_GlowRect" 
                                 Background="{DynamicResource ProgressBar_IndeterminateIndicator}"
                                 Width="100"
-                                HorizontalAlignment="Left"
-                                />
+                                HorizontalAlignment="Left"/>
                             <Border
                                 Name="PART_Indicator" 
                                 Background="{DynamicResource ProgressBar_Indicator}"
