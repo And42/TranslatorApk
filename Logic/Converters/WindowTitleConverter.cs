@@ -1,21 +1,14 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
-using System.Windows.Data;
-using UsefulFunctionsLib;
+using MVVM_Tools.Code.Classes;
 
 namespace TranslatorApk.Logic.Converters
 {
-    public class WindowTitleConverter : IValueConverter
+    public class WindowTitleConverter : ConverterBase<string, string>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override string ConvertInternal(string value, object parameter, CultureInfo culture)
         {
-            return value == null ? string.Empty : " - " + Path.GetFileName(value.As<string>());
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            return value == null ? string.Empty : " - " + Path.GetFileName(value);
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
@@ -26,7 +24,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             }
         }
 
-        public ObservableCollection<OneTranslationService> Translators { get; } = new ObservableCollection<OneTranslationService>();
+        public ObservableRangeCollection<OneTranslationService> Translators { get; } = new ObservableRangeCollection<OneTranslationService>();
 
         public OneTranslationService OnlineTranslator
         {

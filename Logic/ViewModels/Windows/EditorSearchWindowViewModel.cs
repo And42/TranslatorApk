@@ -18,7 +18,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {

@@ -5,13 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для MessBox.xaml
-    /// </summary>
     public partial class MessBox
     {
         private static string _result;
@@ -40,12 +36,12 @@ namespace TranslatorApk.Windows
 
         private void ShowD(string message, string caption = null, params string[] buttons)
         {
-            if (!caption.NE())
+            if (!caption.IsNullOrEmpty())
             {
                 Title = caption;
             }
 
-            if (!message.NE())
+            if (!message.IsNullOrEmpty())
             {
                 MessLabel.Text = message;
             }

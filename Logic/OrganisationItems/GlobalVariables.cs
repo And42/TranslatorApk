@@ -7,7 +7,6 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Properties;
 using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
@@ -170,7 +169,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             set
             {
                 if (SetProperty(ref _currentProjectFile, value))
-                    CurrentProjectFolderProp = UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
+                    CurrentProjectFolderProp = value.Remove(value.Length - Path.GetExtension(value).Length);
             }
         }
         private string _currentProjectFile;

@@ -6,7 +6,7 @@ using System.Web;
 using Newtonsoft.Json;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
-using UsefulFunctionsLib;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -184,8 +184,8 @@ namespace TranslatorApk.Logic.WebServices
             string link =
                 "http://" + $"translation.babylon.com/translate/babylon.php?v=1.0&q={HttpUtility.UrlEncode(text)}&langpair={sourceLanguage}|{targetLanguage}&callback=callbackFn&context=babylon";
             return 
-                Utils.WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout)
-                    .Split('{')[1].Split('}')[0].SplitFR("\"")
+                WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout)
+                    .Split('{')[1].Split('}')[0].SplitRemove('"')
                     .Last();
         }
 

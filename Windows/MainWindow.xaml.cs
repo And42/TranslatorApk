@@ -10,7 +10,6 @@ using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.ViewModels.Windows.MainWindow;
 using UsefulClasses;
-using UsefulFunctionsLib;
 
 using Point = System.Drawing.Point;
 
@@ -23,6 +22,12 @@ namespace TranslatorApk.Windows
 
         private DispatcherTimer _fileImagePreviewTimer;
         private readonly PreviewWindowHandler _fileImagePreviewWindowHandler = new PreviewWindowHandler();
+
+        internal MainWindowViewModel ViewModel
+        {
+            get => DataContext as MainWindowViewModel;
+            private set => DataContext = value;
+        }
 
         static MainWindow()
         {
@@ -42,11 +47,29 @@ namespace TranslatorApk.Windows
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
         }
 
-        internal MainWindowViewModel ViewModel
+        #region Drap&Drop
+
+        private void Apk_Drop(object sender, DragEventArgs e)
         {
-            get => DataContext as MainWindowViewModel;
-            private set => DataContext = value;
+            ViewModel.ApkDropCommand.Execute(e);
         }
+
+        private void ChooseFolder_Drop(object sender, DragEventArgs e)
+        {
+            ViewModel.FolderDropCommand.Execute(e);
+        }
+
+        private void Framework_Drop(object sender, DragEventArgs e)
+        {
+            ViewModel.FrameworkDropCommand.Execute(e);
+        }
+
+        private void TreeView_Drop(object sender, DragEventArgs e)
+        {
+            ViewModel.TV_DropCommand.Execute(e);
+        }
+
+        #endregion
 
         private void StartPreviewTimer()
         {

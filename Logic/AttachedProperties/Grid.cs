@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using UsefulFunctionsLib;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.AttachedProperties
 {
@@ -61,7 +61,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
             grid.RowDefinitions.Clear();
 
-            var rowsPlain = value.SplitFR(",").Select(it => it.Trim());
+            var rowsPlain = value.SplitRemove(',').SelectArray(it => it.Trim());
 
             foreach (var plainRow in rowsPlain)
             {
@@ -85,7 +85,7 @@ namespace TranslatorApk.Logic.AttachedProperties
                     grid.RowDefinitions.Add(
                         new RowDefinition
                         {
-                            Height = new GridLength(numberPart.NE() ? 1 : double.Parse(numberPart), GridUnitType.Star)
+                            Height = new GridLength(numberPart.IsNullOrEmpty() ? 1 : double.Parse(numberPart), GridUnitType.Star)
                         }
                     );
                 }
@@ -102,7 +102,7 @@ namespace TranslatorApk.Logic.AttachedProperties
 
             grid.ColumnDefinitions.Clear();
 
-            var plainColumns = value.SplitFR(",").Select(it => it.Trim());
+            var plainColumns = value.SplitRemove(',').SelectArray(it => it.Trim());
 
             foreach (var plainColumn in plainColumns)
             {
@@ -126,7 +126,7 @@ namespace TranslatorApk.Logic.AttachedProperties
                     grid.ColumnDefinitions.Add(
                         new ColumnDefinition
                         {
-                            Width = new GridLength(numberPart.NE() ? 1 : double.Parse(numberPart), GridUnitType.Star)
+                            Width = new GridLength(numberPart.IsNullOrEmpty() ? 1 : double.Parse(numberPart), GridUnitType.Star)
                         }
                     );
                 }

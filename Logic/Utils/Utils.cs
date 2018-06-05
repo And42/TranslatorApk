@@ -28,7 +28,6 @@ using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 using Settings = TranslatorApk.Properties.Settings;
 using SetInc = TranslatorApk.Logic.OrganisationItems.DefaultSettingsContainer;
@@ -237,7 +236,7 @@ namespace TranslatorApk.Logic.Utils
 
             if (SetInc.Instance.ImageExtensions == null || 
                 SetInc.Instance.ImageExtensions.Length == 0 ||
-                SetInc.Instance.ImageExtensions.Length == 1 && SetInc.Instance.ImageExtensions[0].NE())
+                SetInc.Instance.ImageExtensions.Length == 1 && SetInc.Instance.ImageExtensions[0].IsNullOrEmpty())
             {
                 SetInc.Instance.ImageExtensions = new[] {".png", ".jpg", ".jpeg"};
             }
@@ -261,7 +260,7 @@ namespace TranslatorApk.Logic.Utils
 
             // ---
 
-            if (SetInc.Instance.Theme.NE() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Instance.Theme))
+            if (SetInc.Instance.Theme.IsNullOrEmpty() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Instance.Theme))
                 SetInc.Instance.Theme = GlobalVariables.ThemesMap.First().Key;
 
             ThemeUtils.ChangeTheme(SetInc.Instance.Theme);
@@ -270,12 +269,12 @@ namespace TranslatorApk.Logic.Utils
 
             string apktoolVersion = SetInc.Instance.ApktoolVersion;
 
-            if (apktoolVersion.NE() || !File.Exists(Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{apktoolVersion}.jar")))
+            if (apktoolVersion.IsNullOrEmpty() || !File.Exists(Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{apktoolVersion}.jar")))
             {
                 string vers = Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions, "*.jar").LastOrDefault();
 
                 if (vers != null)
-                    vers = Path.GetFileNameWithoutExtension(vers).SplitFR("apktool_")[0];
+                    vers = Path.GetFileNameWithoutExtension(vers).SplitRemove("apktool_")[0];
 
                 SetInc.Instance.ApktoolVersion = vers;
             }
@@ -731,5 +730,7 @@ namespace TranslatorApk.Logic.Utils
             action(obj);
             return obj;
         }
+
+        public static T As<T>(this object obj) => (T) obj;
     }
 }

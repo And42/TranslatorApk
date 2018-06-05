@@ -31,7 +31,7 @@ namespace TranslatorApk.Logic.Utils
 
         public static string FixOnlineTranslation(string input)
         {
-            foreach (var (regex, index) in Regexes.Enumerate())
+            foreach (var (regex, index) in Regexes.WithIndex())
                 input = ProcessRegex(regex, Replacements[index], input);
 
             return input;

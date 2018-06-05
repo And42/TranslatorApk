@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Microsoft.Windows.Shell;
-using UsefulFunctionsLib;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Themes.Elements
 {

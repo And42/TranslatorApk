@@ -3,7 +3,6 @@ G:\Programming\MyLang\Libs\AndroidTranslatorLib\AndroidTranslatorLib\bin\Release
 G:\Programming\MyLang\Libs\MVVM Tools\MVVM Tools\bin\Release\MVVM_Tools.dll
 G:\Programming\MyLang\MyProjects\TranslatorApk\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll
 G:\Programming\MyLang\Libs\UsefulClasses\bin\Release\UsefulClasses.dll
-G:\Programming\MyLang\Libs\UsefulFunctionsLib\UsefulFunctions\bin\Release\UsefulFunctionsLib.dll
 G:\Programming\MyLang\Libs\SettingsManager\SettingsManager\bin\Release\SettingsManager.dll
 only_dll
 C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.SfGrid.WPF.dll

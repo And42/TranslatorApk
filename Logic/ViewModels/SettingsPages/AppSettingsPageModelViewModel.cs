@@ -9,7 +9,6 @@ using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
@@ -68,13 +67,13 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         public string OtherFileExts
         {
             get => DefaultSettingsContainer.Instance.OtherExtensions.JoinStr("|");
-            set => DefaultSettingsContainer.Instance.OtherExtensions = value.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
+            set => DefaultSettingsContainer.Instance.OtherExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToArray();
         }
 
         public string ImageFileExts
         {
             get => DefaultSettingsContainer.Instance.ImageExtensions.JoinStr("|");
-            set => DefaultSettingsContainer.Instance.ImageExtensions = value.SplitFR("|").Select(_ => _.Trim()).Distinct().ToArray();
+            set => DefaultSettingsContainer.Instance.ImageExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToArray();
         }
 
         public int FontSize

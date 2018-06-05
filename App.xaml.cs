@@ -4,7 +4,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk
 {
@@ -42,7 +41,7 @@ namespace TranslatorApk
 #endif
                 Utils.CheckForUpdate();
 
-            if (DefaultSettingsContainer.Instance.ApktoolVersion.NE())
+            if (string.IsNullOrEmpty(DefaultSettingsContainer.Instance.ApktoolVersion))
             {
                 MessBox.ShowDial(StringResources.ApktoolNotFound);
             }

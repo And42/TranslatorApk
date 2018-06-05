@@ -18,7 +18,6 @@ using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 using TranslatorApkPluginLib;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 {

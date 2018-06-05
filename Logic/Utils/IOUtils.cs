@@ -17,12 +17,14 @@ namespace TranslatorApk.Logic.Utils
 
         public static void DeleteFile(string path)
         {
-            UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFile(path);
+            if (File.Exists(path))
+                File.Delete(path);
         }
 
         public static void DeleteFolder(string path)
         {
-            UsefulFunctionsLib.UsefulFunctions_IOHelper.DeleteFolder(path);
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
         }
 
         public static void CreateFolder(string path)

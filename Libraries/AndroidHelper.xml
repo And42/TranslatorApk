@@ -249,17 +249,17 @@
             Возвращает путь к apktools.jar
             </summary>
         </member>
-        <member name="F:AndroidHelper.Logic.Apktools.PathToSign">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToSign">
             <summary>
             Возвращает путь к signapk.jar
             </summary>
         </member>
-        <member name="F:AndroidHelper.Logic.Apktools.PathToBaksmaliPr">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToBaksmaliPr">
             <summary>
             Возвращает путь к baksmali.jar
             </summary>
         </member>
-        <member name="F:AndroidHelper.Logic.Apktools.PathToSmaliPr">
+        <member name="P:AndroidHelper.Logic.Apktools.PathToSmaliPr">
             <summary>
             Возвращает путь к smali.jar
             </summary>
@@ -319,14 +319,16 @@
             ProjectFolder/build
             </summary>
         </member>
-        <member name="M:AndroidHelper.Logic.Apktools.#ctor(System.String,System.String,System.String,System.Text.Encoding,System.Boolean)">
+        <member name="M:AndroidHelper.Logic.Apktools.#ctor(System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean)">
             <summary>
             Инициализирует новый экземпляр класса <b>Apktools</b> на основании пути к файлу, пути к ресурсам и функции логгирования
             </summary>
             <param name="fileName">Путь к файлу (*.apk)</param>
             <param name="pathToResources">Путь к папке с ресурсами</param>
             <param name="pathToApktool">Путь к apktool.jar</param>
+            <param name="javaExePath">Путь к java.exe</param>
             <param name="mainSmaliEncoding">Кодировка главного smali</param>
+            <param name="tracing">Включить ли трассировку действий</param>
         </member>
         <member name="M:AndroidHelper.Logic.Apktools.Decompile(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
             <summary>

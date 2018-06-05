@@ -18,7 +18,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
@@ -134,7 +133,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                     IEnumerable<IEditableFile> union =
                         xmlFiles.SelectSafe<string, IEditableFile>(XmlFile.Create)
-                            .UnionWOEqCheck(smaliFiles.SelectSafe(it => new SmaliFile(it)));
+                            .Concat(smaliFiles.SelectSafe(it => new SmaliFile(it)));
 
                     foreach (IEditableFile file in union)
                     {

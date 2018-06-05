@@ -3,18 +3,45 @@
 	Return [System.IO.Path]::Combine($first, $second)
 }
 
-function GetFileHash ($file)
+function GetFileHash($file)
 {
 	Return (Get-FileHash $file).Hash
 }
 
-function CopyFile ($source, $dist)
+function CopyFile($source, $dist)
 {
 	# Write-Host ("source: " + $source + "\ntarget: " + $dist) -ForegroundColor Cyan
 	[System.IO.File]::Copy($source, $dist, $TRUE)
 }
 
-function CopyAndCheckFile ($file)
+function GetVersion($file)
+{
+	Return [System.Diagnostics.FileVersionInfo]::GetVersionInfo($file).FileVersion
+}
+
+function IsNewer($oldFile, $newFile)
+{
+	$oldParts = $oldFile.Split(".")
+	$newParts = $newFile.Split(".")
+	
+	For ($i = 0; $i -lt 4; $i++)
+	{
+		$oldPart = $oldParts[$i]
+		$newPart = $newParts[$i]
+	
+		if ($newPart -gt $oldPart) {
+			Return $true
+		}
+		
+		if ($newPart -lt $oldPart) {
+			Return $false
+		}
+	}
+	
+	Return $false
+}
+
+function CopyAndCheckFile($file, $checkVersion = $true)
 {
 	$fileName = [System.IO.Path]::GetFileName($file)
 	$newFile = Combine $PSScriptRoot $fileName
@@ -24,31 +51,32 @@ function CopyAndCheckFile ($file)
 	
 	if (Test-Path $file)
 	{
-		if (Test-Path $newFile)
+		if ( $checkVersion -and (Test-Path $newFile) )
 		{
 			# Write-Host ("SourceHash: " + (GetFileHash $file)) -ForegroundColor Cyan
 			# Write-Host ("TargetHash: " + (GetFileHash $newFile)) -ForegroundColor Cyan
 		
-			if ((GetFileHash $file) -eq (GetFileHash $newFile))
+			$newVersion = GetVersion $file
+			$oldVersion = GetVersion $newFile
+		
+			if ( ( (GetFileHash $file) -eq (GetFileHash $newFile) ) -or ( -not (IsNewer $oldVersion $newVersion) ) )
 			{
 				Write-Host "skipped" -ForegroundColor Gray
+				Return $false
 			}
-			else 
-			{
-				CopyFile $file $newFile
-				Write-Host "updated" -ForegroundColor Cyan
-			}
-		}
-		else
-		{
+
 			CopyFile $file $newFile
-			Write-Host "copied" -ForegroundColor Green
+			Write-Host "updated" -ForegroundColor Cyan
+			Return $true
 		}
+
+		CopyFile $file $newFile
+		Write-Host "copied" -ForegroundColor Green
+		Return $true
 	}
-	else 
-	{
-		Write-Host "not found" -ForegroundColor Red
-	}
+	
+	Write-Host "not found" -ForegroundColor Red
+	Return $false
 }
 
 function CopyDependency ($dependencyLib)
@@ -62,13 +90,15 @@ function CopyDependency ($dependencyLib)
 	$docFileName = [System.IO.Path]::GetFileName($docFile)
 	
 	Write-Host ("  ...\" + $fileName + " ") -NoNewLine
-	CopyAndCheckFile $dependencyLib
+	$copied = CopyAndCheckFile $dependencyLib
 	
-	Write-Host ("  ...\" + $pdbFileName + " ") -NoNewLine
-	CopyAndCheckFile $pdbFile
-	
-	Write-Host ("  ...\" + $docFileName + " ") -NoNewLine
-	CopyAndCheckFile $docFile
+	if ($copied) {
+		Write-Host ("  ...\" + $pdbFileName + " ") -NoNewLine
+		$tmp = CopyAndCheckFile $pdbFile $false
+		
+		Write-Host ("  ...\" + $docFileName + " ") -NoNewLine
+		$tmp = CopyAndCheckFile $docFile $false
+	}
 }
 
 function ProcessLibrary ($libraryPath, $includeDependencies)
@@ -80,13 +110,15 @@ function ProcessLibrary ($libraryPath, $includeDependencies)
 	$docFile = [System.IO.Path]::ChangeExtension($libraryPath, ".xml")
 	
 	Write-Host ($libraryPath + " ") -NoNewLine
-	CopyAndCheckFile $libraryPath
+	$copied = CopyAndCheckFile $libraryPath
 	
-	Write-Host ($pdbFile + " ") -NoNewLine
-	CopyAndCheckFile $pdbFile
-	
-	Write-Host ($docFile + " ") -NoNewLine
-	CopyAndCheckFile $docFile
+	if ($copied) {
+		Write-Host ($pdbFile + " ") -NoNewLine
+		$tmp = CopyAndCheckFile $pdbFile $false
+		
+		Write-Host ($docFile + " ") -NoNewLine
+		$tmp = CopyAndCheckFile $docFile $false
+	}
 	
 	if ($includeDependencies -eq $FALSE)
 	{

@@ -25,7 +25,6 @@ using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 // ReSharper disable InconsistentNaming
 

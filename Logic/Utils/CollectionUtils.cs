@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace TranslatorApk.Logic.Utils
@@ -101,9 +102,40 @@ namespace TranslatorApk.Logic.Utils
             return (-1, default);
         }
 
-        public static IEnumerable<(T item, int index)> Enumerate<T>(this IEnumerable<T> collection)
+        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> collection)
         {
             return collection.Select((it, index) => (it, index));
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            foreach (T item in collection)
+                action(item);
+        }
+
+        public static IEnumerable<T> DistinctBy<T, R>(this IEnumerable<T> collection, Func<T, R> selector)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            return collection.GroupBy(selector).Select(it => it.First());
+        }
+
+        public static R[] SelectArray<T, R>(this T[] collection, Converter<T, R> converter)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+
+            return Array.ConvertAll(collection, converter);
         }
     }
 }

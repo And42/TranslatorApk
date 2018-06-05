@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using TranslatorApk.Logic.ViewModels.Windows;
 
 namespace TranslatorApk.Windows
@@ -27,6 +28,11 @@ namespace TranslatorApk.Windows
         private void AboutProgramWindow_OnClosed(object sender, EventArgs e)
         {
             ViewModel.Dispose();
+        }
+
+        private void WebMoney_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.WebMoneyClickedCommand.Execute(e);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace TranslatorApk.Logic.Converters
                 case ConvertOptions.NameAndExt:
                     return Path.GetFileName(value);
                 case ConvertOptions.PathAndName:
-                    return UsefulFunctionsLib.UsefulFunctions_FileInfo.GetFullFNWithoutExt(value);
+                    return value.Remove(value.Length - Path.GetExtension(value).Length);
             }
 
             return null;

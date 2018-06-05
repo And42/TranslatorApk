@@ -9,7 +9,6 @@ using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Windows;
 using TranslatorApkPluginLib;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Utils
 {

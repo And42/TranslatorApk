@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using UsefulFunctionsLib;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.Converters
 {
-    class StringToBoolConverter : IValueConverter
+    public class StringToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

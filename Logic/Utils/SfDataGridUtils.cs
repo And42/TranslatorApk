@@ -6,7 +6,6 @@ using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.ScrollAxis;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Utils
 {
@@ -37,7 +36,7 @@ namespace TranslatorApk.Logic.Utils
             if (!record.IsExpanded)
                 grid.ExpandDetailsViewAt(recordIndex);
 
-            int vIndex = grid.DetailsViewDefinition.FindIndex(it => it.RelationalColumn == relationalColumn) + rowIndex + 1;
+            int vIndex = grid.DetailsViewDefinition.FindWithIndex(it => it.RelationalColumn == relationalColumn).index + rowIndex + 1;
 
             grid.ScrollInView(new RowColumnIndex(vIndex, detailsColumn));
 
@@ -62,7 +61,7 @@ namespace TranslatorApk.Logic.Utils
         public static void ScrollToFileAndSelectString(this SfDataGrid grid, Predicate<IEditableFile> filePredicate,
             Predicate<IOneString> stringPredicate)
         {
-            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
+            int parentIndex = grid.View.Records.FindWithIndex(it => filePredicate(it.Data.As<IEditableFile>())).index;
 
             if (parentIndex == -1)
                 return;
@@ -73,7 +72,7 @@ namespace TranslatorApk.Logic.Utils
 
             container.ScrollRows.ScrollInView(grid.ResolveToRowIndex(parentIndex));
 
-            int childIndex = detailsGrid.View.Records.FindIndex(it => stringPredicate(it.Data as IOneString));
+            int childIndex = detailsGrid.View.Records.FindWithIndex(it => stringPredicate(it.Data as IOneString)).index;
 
             if (childIndex == -1)
                 return;
@@ -92,7 +91,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="expandRecord">Нужно ли разворачивать таблицу вложенных элементов у файла</param>
         public static void ScrollToFileAndSelect(this SfDataGrid grid, Predicate<IEditableFile> filePredicate, bool expandRecord = true)
         {
-            int parentIndex = grid.View.Records.FindIndex(it => filePredicate(it.Data.As<IEditableFile>()));
+            int parentIndex = grid.View.Records.FindWithIndex(it => filePredicate(it.Data.As<IEditableFile>())).index;
 
             if (parentIndex == -1)
                 return;

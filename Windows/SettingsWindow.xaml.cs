@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using TranslatorApk.Logic.Interfaces.SettingsPages;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.SettingsPages;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Windows
 {

@@ -10,7 +10,6 @@
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:attached="clr-namespace:TranslatorApk.Logic.AttachedProperties"
         xmlns:viewModels="clr-namespace:TranslatorApk.Logic.ViewModels.Windows"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 
         mc:Ignorable="d"
 
@@ -44,12 +43,8 @@
             Grid.Row="3"
             Margin="0,5"
             HorizontalAlignment="Center"
-            Cursor="Hand">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <i:InvokeCommandAction Command="{Binding WebMoneyClickedCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            Cursor="Hand"
+            MouseLeftButtonDown="WebMoney_LeftMouseDown">
 
             <Underline>
                 <Run Text="WebMoney: R897735207346"/>

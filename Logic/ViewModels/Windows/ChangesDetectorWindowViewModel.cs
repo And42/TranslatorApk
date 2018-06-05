@@ -19,7 +19,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.ViewModels.Windows
 {
@@ -329,7 +328,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             var dictFileWriter = new StreamWriter(Path.Combine(resultFolder, "Paths.dict"), false, Encoding.UTF8);
             var foldersFileWriter = new StreamWriter(Path.Combine(resultFolder, "Languages.dict"), false, Encoding.UTF8);
 
-            if (new[] { sourceFolder, modifiedFolder, resultFolder }.Any(str => str.NE() || !IOUtils.FolderExists(str)))
+            if (new[] { sourceFolder, modifiedFolder, resultFolder }.Any(str => str.IsNullOrEmpty() || !IOUtils.FolderExists(str)))
             {
                 return;
             }

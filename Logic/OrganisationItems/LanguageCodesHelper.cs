@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using MVVM_Tools.Code.Classes;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Files;
 using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
@@ -47,10 +47,10 @@ namespace TranslatorApk.Logic.OrganisationItems
                 new ReadOnlyCollection<IsoPair>(
                     FileResources
                         .language_iso_to_country_iso
-                        .SplitFN(Environment.NewLine)
+                        .SplitNone(Environment.NewLine)
                         .Select(line =>
                         {
-                            string[] split = line.SplitFN("->");
+                            string[] split = line.SplitNone("->");
                             return new IsoPair(split[0], split[1]);
                         })
                         .ToList()

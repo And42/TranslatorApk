@@ -9,8 +9,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:treeViewModels="clr-namespace:TranslatorApk.Logic.ViewModels.TreeViewModels"
         xmlns:controls="clr-namespace:TranslatorApk.Logic.Controls"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:command="http://www.galasoft.ch/mvvmlight"
         xmlns:mainWindow="clr-namespace:TranslatorApk.Logic.ViewModels.Windows.MainWindow"
         mc:Ignorable="d"
 
@@ -107,19 +105,11 @@
                 attachedProperties:Grid.Columns="A,A,A">
 
                 <Button
-                    Grid.Row="0" Grid.Column="0" Style="{StaticResource UpperButtonStyle}"
-                    Content="{x:Static localizations:StringResources.ChooseFile}" Command="{Binding ChooseFileCommand}"
-                    AllowDrop="True">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Drop">
-                            <command:EventToCommand
-                            Command="{Binding ApkDropCommand}"
-                            PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </Button>
+                    Grid.Row="0" Grid.Column="0"
+                    Style="{StaticResource UpperButtonStyle}"
+                    Content="{x:Static localizations:StringResources.ChooseFile}"
+                    Command="{Binding ChooseFileCommand}"
+                    AllowDrop="True" Drop="Apk_Drop"/>
 
                 <Button
                     Grid.Row="0" Grid.Column="1"
@@ -131,35 +121,19 @@
                     Style="{StaticResource UpperButtonStyle}"
                     Content="{x:Static localizations:StringResources.Sign}" Command="{Binding SignCommand}"/>
 
-                <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource LowerButtonStyle}"
-                    Content="{x:Static localizations:StringResources.ChooseFolder}" Command="{Binding ChooseFolderCommand}"
-                    AllowDrop="True">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Drop">
-                            <command:EventToCommand
-                                Command="{Binding FolderDropCommand}"
-                                PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </Button>
+                <Button
+                    Grid.Row="1" Grid.Column="0"
+                    Style="{StaticResource LowerButtonStyle}"
+                    Content="{x:Static localizations:StringResources.ChooseFolder}"
+                    Command="{Binding ChooseFolderCommand}"
+                    AllowDrop="True" Drop="ChooseFolder_Drop"/>
 
                 <Button
                     Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource LowerButtonStyle}"
-                    Content="Framework" Command="{Binding InstallFrameworkCommand}"
-                    AllowDrop="True">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Drop">
-                            <command:EventToCommand
-                                Command="{Binding FrameworkDropCommand}"
-                                PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </Button>
+                    Content="Framework"
+                    Command="{Binding InstallFrameworkCommand}"
+                    AllowDrop="True" Drop="Framework_Drop"/>
 
                 <Button
                     Grid.Row="1" Grid.Column="2" 
@@ -203,7 +177,7 @@
             <Grid attachedProperties:Grid.Rows="A,*">
                 <TreeView 
                     Grid.Row="1"
-                    AllowDrop="True" 
+                    AllowDrop="True" Drop="TreeView_Drop"
                     KeyUp="TreeView_KeyUp"
                     ItemsSource="{Binding FilesFilesTreeViewModel.Children}"
                     MouseRightButtonUp="TreeView_OnMouseRightButtonUp">
@@ -213,14 +187,6 @@
                             x:Key="{x:Static SystemColors.ControlBrushKey}"
                             Color="{DynamicResource TreeViewItem_BackgroundLostFocusColor}"/>
                     </TreeView.Resources>
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DragDrop">
-                            <command:EventToCommand
-                                Command="{Binding TV_DropCommand}"
-                                PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
 
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Children}">

@@ -28,7 +28,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
-using UsefulFunctionsLib;
 
 using static TranslatorApk.Logic.Utils.Utils;
 
@@ -137,7 +136,7 @@ namespace TranslatorApk.Windows
 
             string settingsTargetDict = DefaultSettingsContainer.Instance.TargetDictionary;
 
-            if (!settingsTargetDict.NE() && File.Exists(settingsTargetDict))
+            if (!settingsTargetDict.IsNullOrEmpty() && File.Exists(settingsTargetDict))
                 SaveDictionary = new DictionaryFile(settingsTargetDict);
         }
 
@@ -146,12 +145,12 @@ namespace TranslatorApk.Windows
             var records = EditorGrid.View.Records;
 
             // searching for the string in files
-            var fileRecordIndex = records.FindIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
+            var (recordIndex, record) = records.FindWithIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
 
-            if (fileRecordIndex == -1)
+            if (recordIndex == -1)
                 return (null, null);
 
-            var editableFile = records[fileRecordIndex].Data.As<IEditableFile>();
+            var editableFile = record.Data.As<IEditableFile>();
 
             // ordering strings in the file according to the sorting descriptions
             var orderedStrings = OrderFileStrings(editableFile).ToList();
@@ -165,7 +164,7 @@ namespace TranslatorApk.Windows
                 return (orderedStrings[strIndex], editableFile);
 
             // else try to find in the previous files
-            for (int i = fileRecordIndex - 1; i >= 0; i--)
+            for (int i = recordIndex - 1; i >= 0; i--)
             {
                 var file = records[i].Data.As<IEditableFile>();
 
@@ -182,12 +181,12 @@ namespace TranslatorApk.Windows
             var records = EditorGrid.View.Records;
 
             // searching for the string in files
-            var fileRecordIndex = records.FindIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
+            var (recordIndex, record) = records.FindWithIndex(_ => _.Data.As<IEditableFile>().Details.Contains(currentString));
 
-            if (fileRecordIndex == -1)
+            if (recordIndex == -1)
                 return (null, null);
 
-            var editableFile = records[fileRecordIndex].Data.As<IEditableFile>();
+            var editableFile = record.Data.As<IEditableFile>();
 
             // ordering strings in the file according to the sorting descriptions
             var orderedStrings = OrderFileStrings(editableFile).ToList();
@@ -201,7 +200,7 @@ namespace TranslatorApk.Windows
                 return (orderedStrings[strIndex], editableFile);
 
             // else try to find in the following files
-            for (int i = fileRecordIndex + 1; i < records.Count; i++)
+            for (int i = recordIndex + 1; i < records.Count; i++)
             {
                 var file = records[i].Data.As<IEditableFile>();
 
@@ -291,14 +290,14 @@ namespace TranslatorApk.Windows
 
         private void OnTranslateText(EditorWindowTranslateTextEvent args)
         {
-            if (args.OldText.NE() || args.NewText.NE())
+            if (args.OldText.IsNullOrEmpty() || args.NewText.IsNullOrEmpty())
                 return;
             
             foreach (var file in StringFiles.Where(args.Filter))
             {
                 foreach (var str in file.Details)
                 {
-                    if (str.OldText.Equals(args.OldText, StringComparison.Ordinal) && str.NewText.NE())
+                    if (str.OldText.Equals(args.OldText, StringComparison.Ordinal) && str.NewText.IsNullOrEmpty())
                         str.NewText = args.NewText;
                 }
             }
@@ -330,7 +329,7 @@ namespace TranslatorApk.Windows
             }
 
             if (args.ClearExisting && union.Count > 0)
-                toAdd = union.UnionWOEqCheck(toAdd);
+                toAdd = union.Concat(toAdd);
 
             if (args.Files.Count > 0)
                 StringFiles.AddRange(toAdd);
@@ -385,8 +384,8 @@ namespace TranslatorApk.Windows
                 threadActions: cts =>
                 {
                     var dictWords = 
-                        UsefulFunctions.UnionWOEqCheck(dictsToUse.Select(d => new DictionaryFile(d.Item1).Details))
-                            .DistinctByGrouping(f => f.OldText)
+                        dictsToUse.SelectMany(d => new DictionaryFile(d.Item1).Details)
+                            .DistinctBy(it => it.OldText)
                             .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
 
                     Parallel.ForEach(StringFiles, file =>
@@ -601,7 +600,7 @@ namespace TranslatorApk.Windows
                     {
                         string text = Clipboard.GetText();
 
-                        if (!text.NE())
+                        if (!text.IsNullOrEmpty())
                             selectedString.OldText = text;
                     });
                     Add(StringResources.Clear, (o, args) => selectedString.OldText = string.Empty);
@@ -613,7 +612,7 @@ namespace TranslatorApk.Windows
                     {
                         string text = Clipboard.GetText();
 
-                        if (!text.NE())
+                        if (!text.IsNullOrEmpty())
                         {
                             selectedString.NewText = text;
 
@@ -708,8 +707,8 @@ namespace TranslatorApk.Windows
                     }
 
                     var dictWords =
-                        UsefulFunctions.UnionWOEqCheck(dictsToUse.Select(d => new DictionaryFile(d.Item1).Details))
-                            .DistinctByGrouping(f => f.OldText)
+                        dictsToUse.SelectMany(d => new DictionaryFile(d.Item1).Details)
+                            .DistinctBy(f => f.OldText)
                             .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
 
                     if (dictWords.TryGetValue(str.OldText, out string translation))
@@ -770,7 +769,7 @@ namespace TranslatorApk.Windows
                             {
                                 string text = Clipboard.GetText();
 
-                                if (!text.NE())
+                                if (!text.IsNullOrEmpty())
                                     str.OldText = text;
                             }
                             break;
@@ -779,7 +778,7 @@ namespace TranslatorApk.Windows
                             {
                                 string text = Clipboard.GetText();
 
-                                if (!text.NE())
+                                if (!text.IsNullOrEmpty())
                                 {
                                     str.NewText = text;
 
@@ -1218,7 +1217,7 @@ namespace TranslatorApk.Windows
 
                 foreach (var str in file.Details)
                 {
-                    if (str.NewText.NE() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out string found))
+                    if (str.NewText.IsNullOrEmpty() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out string found))
                         str.NewText = found;
                 }
             }

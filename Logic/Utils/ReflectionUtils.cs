@@ -1,5 +1,4 @@
 ﻿using System;
-using UsefulFunctionsLib;
 
 namespace TranslatorApk.Logic.Utils
 {
