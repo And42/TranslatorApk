@@ -1,29 +1,44 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class NotificationService : INotificationService
+    public class NotificationService : INotificationService, IDisposable
     {
-        private static readonly NotifyIcon TrayIcon;
+        private NotifyIcon _trayIcon;
 
-        static NotificationService()
+        private NotificationService()
         {
-            TrayIcon = new NotifyIcon
+            _trayIcon = new NotifyIcon
             {
                 Icon = Icon.ExtractAssociatedIcon(GlobalVariables.PathToExe)
             };
         }
 
-        private NotificationService() { }
-
         public static NotificationService Instance { get; } = new NotificationService();
 
         public void ShowMessage(string message, string title = "TranslatorApk", ToolTipIcon icon = ToolTipIcon.Info)
         {
-            TrayIcon.Visible = true;
-            TrayIcon.ShowBalloonTip(3000, title, message, icon);
-            TrayIcon.Visible = false;
+            CheckDisposed();
+
+            _trayIcon.Visible = true;
+            _trayIcon.ShowBalloonTip(3000, title, message, icon);
+        }
+
+        public void Dispose()
+        {
+            CheckDisposed();
+
+            _trayIcon.Visible = false;
+            _trayIcon.Dispose();
+            _trayIcon = null;
+        }
+
+        private void CheckDisposed()
+        {
+            if (_trayIcon == null)
+                throw new ObjectDisposedException(nameof(NotificationService));
         }
     }
 }
