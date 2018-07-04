@@ -17,7 +17,10 @@ namespace TranslatorApk
         {
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
-                Logger.Fatal(args.ExceptionObject as Exception);
+                var ex = args.ExceptionObject is Exception exception ? exception : new Exception("Domain exception");
+
+                Logger.Fatal(ex);
+                GlobalVariables.BugSnagClient.Notify(ex);
 
                 Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.ToString());
                 MessageBox.Show("Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена");
@@ -26,6 +29,7 @@ namespace TranslatorApk
             DispatcherUnhandledException += (sender, args) =>
             {
                 Logger.Error(args.Exception);
+                GlobalVariables.BugSnagClient.Notify(args.Exception);
 
                 Clipboard.SetText($"Message: {args.Exception.Message}\nStackTrace: {args.Exception.StackTrace}");
                 MessageBox.Show($"Обнаружена ошибка (\"{args.Exception.Message}\"), текст скопирован в буфер. Пожалуйста, отправьте её разработчику");

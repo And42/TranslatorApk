@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
+using Bugsnag;
 using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
@@ -136,6 +137,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// Текущий сервис перевода
         /// </summary>
         public static OneTranslationService CurrentTranslationService { get; set; }
+
+        public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
 
         #region Consts
 
