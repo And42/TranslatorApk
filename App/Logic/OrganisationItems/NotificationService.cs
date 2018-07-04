@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class NotificationService : INotificationService, IDisposable
+    public class NotificationService : IDisposable
     {
         private NotifyIcon _trayIcon;
 
