@@ -71,9 +71,7 @@
     <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>Resources\Icons\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -817,9 +815,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localizations\StringResources.uk-UA.resx" />
     <EmbeddedResource Include="Resources\Localizations\StringResources.vi-VN.resx" />
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Libraries\zzz_refresh_references.ps1" />
     <None Include="Libraries\zzz_refresh_references_pause.ps1" />
     <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Common.cs" />
