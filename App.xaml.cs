@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Properties;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 
@@ -58,7 +60,12 @@ namespace TranslatorApk
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Utils.ExitActions();
+            NotificationService.Instance.Dispose();
+
+            Settings.Default.SourceDictionaries = GlobalVariables.SourceDictionaries.ToArray();
+            Utils.UpdateSettingsApiKeys();
+
+            Settings.Default.Save();
         }
     }
 }

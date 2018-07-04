@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace TranslatorApk.Logic.Utils
             Stream stream = client.GetResponse().GetResponseStream();
 
             if (stream == null)
-                return String.Empty;
+                return string.Empty;
 
             using (var strread = new StreamReader(stream))
                 return strread.ReadToEnd();

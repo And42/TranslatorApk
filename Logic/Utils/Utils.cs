@@ -644,18 +644,6 @@ namespace TranslatorApk.Logic.Utils
             dispatcher.BeginInvoke(priority, action);
         }
 
-        /// <summary>
-        /// Выполняет финальные действия при завершении программы
-        /// </summary>
-        public static void ExitActions()
-        {
-            Settings.Default.SourceDictionaries = GlobalVariables.SourceDictionaries.ToArray();
-
-            UpdateSettingsApiKeys();
-
-            Settings.Default.Save();
-        }
-
         public static bool SetProperty<TClass, TPropType>(this TClass sender, ref TPropType storage, TPropType value, [CallerMemberName] string propertyName = null) where TClass : IRaisePropertyChanged
         {
             if (EqualityComparer<TPropType>.Default.Equals(storage, value))
