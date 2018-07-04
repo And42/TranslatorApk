@@ -75,7 +75,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>TranslatorApk.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -840,7 +840,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TranslatorApk.ico" />
+    <Resource Include="Resources\Icons\app_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
