@@ -76,9 +76,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\App\TranslatorApk.csproj">
+    <ProjectReference Include="..\App\App.csproj">
       <Project>{c6310201-a545-4cd7-9872-462d21cc0b59}</Project>
-      <Name>TranslatorApk</Name>
+      <Name>App</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
