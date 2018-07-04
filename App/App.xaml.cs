@@ -40,8 +40,6 @@ namespace TranslatorApk
                 return;
             }
 
-            EventModuler.Init();
-
             Utils.LoadSettings();
 
 #if !DEBUG

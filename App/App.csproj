@@ -243,12 +243,10 @@
     <Compile Include="Logic\Interfaces\ILoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Interfaces\IRaisePropertyChanged.cs" />
     <Compile Include="Logic\Interfaces\SettingsPages\ISettingsPageModel.cs" />
-    <Compile Include="Logic\OrganisationItems\EventModuler.cs" />
     <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
     <Compile Include="Logic\Events\EditorScrollToStringAndSelectEvent.cs" />
     <Compile Include="Logic\Events\EditorWindowTranslateTextEvent.cs" />
-    <Compile Include="Logic\OrganisationItems\INotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
     <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
     <Compile Include="Logic\Utils\ImageUtils.cs" />

@@ -3,6 +3,7 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -50,7 +51,7 @@ namespace TranslatorApk.Logic.WebServices
         public static string Translate(string text, string targetLanguage)
         {
             string link = "http://" + $"translate.google.com/translate_a/t?client=p&text={HttpUtility.UrlEncode(text)}&sl=auto&tl={targetLanguage}";
-            string downloaded = Utils.WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout);
+            string downloaded = WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout);
             return JsonConvert.DeserializeObject<GoogleTranslateResponseJson>(downloaded).ToString();
         }
     }
