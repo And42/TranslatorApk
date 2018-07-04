@@ -188,15 +188,5 @@ namespace TranslatorApk.Logic.WebServices
                     .Split('{')[1].Split('}')[0].SplitRemove('"')
                     .Last();
         }
-
-        /// <summary>
-        /// Парсит объект из json
-        /// </summary>
-        /// <typeparam name="TResponseType">Тип объекта</typeparam>
-        /// <param name="data">Строка формата json</param>
-        public static TResponseType GetResponseFromJson<TResponseType>(string data)
-        {
-            return JsonConvert.DeserializeObject<TResponseType>(data);
-        }
     }
 }

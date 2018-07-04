@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Resources.Localizations;
-
-// ReSharper disable InconsistentNaming
-// ReSharper disable CollectionNeverUpdated.Local
-// ReSharper disable ClassNeverInstantiated.Local
-// ReSharper disable MemberCanBePrivate.Local
-
-#pragma warning disable 169
-#pragma warning disable 649
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -19,15 +12,20 @@ namespace TranslatorApk.Logic.WebServices
     {
         private class YandexTranslateResponse
         {
-            public int code;
-            public string lang;
-            public List<string> text;
+            [JsonProperty("code")]
+            public int Code;
+
+            [JsonProperty("lang")]
+            public string Lang;
+
+            [JsonProperty("text")]
+            public List<string> Text;
 
             public override string ToString()
             {
                 var sb = new StringBuilder();
 
-                foreach (string str in text)
+                foreach (string str in Text)
                     sb.Append(str);
 
                 return sb.ToString();
@@ -42,7 +40,7 @@ namespace TranslatorApk.Logic.WebServices
             string link = "https://" + $"translate.yandex.net/api/v1.5/tr.json/translate?key={apiKey}&lang={targetLanguage}&text={text}";
             string downloaded = Utils.WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout);
 
-            return TranslateService.GetResponseFromJson<YandexTranslateResponse>(downloaded).ToString();
+            return JsonConvert.DeserializeObject<YandexTranslateResponse>(downloaded).ToString();
         }
 
         public static string Translate(string text, string targetLanguage)
@@ -59,7 +57,7 @@ namespace TranslatorApk.Logic.WebServices
             };
             string downloaded = client.DownloadString(link);
 
-            return TranslateService.GetResponseFromJson<YandexTranslateResponse>(downloaded).ToString();
+            return JsonConvert.DeserializeObject<YandexTranslateResponse>(downloaded).ToString();
         }
     }
 }

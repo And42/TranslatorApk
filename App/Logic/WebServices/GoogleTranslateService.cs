@@ -1,38 +1,48 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Web;
+using Newtonsoft.Json;
 using TranslatorApk.Logic.OrganisationItems;
-
-// ReSharper disable InconsistentNaming
-// ReSharper disable ClassNeverInstantiated.Local
-// ReSharper disable MemberCanBePrivate.Local
-// ReSharper disable UnusedAutoPropertyAccessor.Local
-// ReSharper disable UnusedMember.Local
 
 namespace TranslatorApk.Logic.WebServices
 {
     public static class GoogleTranslateService
     {
-        private class GoogleTranslateResponse
+        private class GoogleTranslateResponseJson
         {
-            public List<_sentences> sentences { get; set; }
-            public int server_time { get; set; }
-            public string src { get; set; }
+            [JsonProperty("sentences")]
+            public List<SentenceJson> Sentences { get; set; }
 
-            public class _sentences
+            [JsonProperty("server_time")]
+            public int ServerTime { get; set; }
+
+            [JsonProperty("src")]
+            public string Src { get; set; }
+
+            public class SentenceJson
             {
-                public string trans { get; set; }
-                public string orig { get; set; }
-                public string translit { get; set; }
-                public string src_translit { get; set; }
+                [JsonProperty("trans")]
+                public string Translated { get; set; }
+
+                [JsonProperty("orig")]
+                public string Original { get; set; }
+
+                [JsonProperty("translit")]
+                public string Translit { get; set; }
+
+                [JsonProperty("src_translit")]
+                public string SrcTranslit { get; set; }
             }
 
             public override string ToString()
             {
-                if (sentences == null || sentences.Count == 0) return string.Empty;
+                if (Sentences == null || Sentences.Count == 0)
+                    return string.Empty;
+
                 var sb = new StringBuilder();
-                foreach (_sentences str in sentences)
-                    sb.Append(str.trans);
+                foreach (SentenceJson str in Sentences)
+                    sb.Append(str.Translated);
+
                 return sb.ToString();
             }
         }
@@ -41,7 +51,7 @@ namespace TranslatorApk.Logic.WebServices
         {
             string link = "http://" + $"translate.google.com/translate_a/t?client=p&text={HttpUtility.UrlEncode(text)}&sl=auto&tl={targetLanguage}";
             string downloaded = Utils.WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout);
-            return TranslateService.GetResponseFromJson<GoogleTranslateResponse>(downloaded).ToString();
+            return JsonConvert.DeserializeObject<GoogleTranslateResponseJson>(downloaded).ToString();
         }
     }
 }

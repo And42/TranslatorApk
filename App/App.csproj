@@ -292,15 +292,12 @@
     <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
     <Compile Include="Logic\Utils\Utils.cs" />
-    <Compile Include="Logic\WebJsonResponses\GoogleTranslateResponse.cs" />
     <Compile Include="Logic\Classes\Options.cs" />
     <Compile Include="Logic\Classes\Setting.cs" />
     <Compile Include="Logic\WebServices\GoogleTranslateServiceSecond.cs" />
     <Compile Include="Logic\WebServices\TranslateService.cs" />
     <Compile Include="Logic\ViewModels\TreeViewModels\FilesTreeViewNodeModel.cs" />
-    <Compile Include="Logic\WebJsonResponses\YandexDetectResponse.cs" />
     <Compile Include="Logic\WebServices\GoogleTranslateService.cs" />
-    <Compile Include="Logic\WebServices\YandexDetectService.cs" />
     <Compile Include="Logic\WebServices\YandexTranslateService.cs" />
     <Compile Include="Logic\OrganisationItems\GlobalResources.cs" />
     <Compile Include="Logic\OrganisationItems\GlobalVariables.cs" />
