@@ -896,7 +896,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Splash.ico" />
+    <SplashScreen Include="Resources\Icons\splash.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\bullet_delete.png" />
