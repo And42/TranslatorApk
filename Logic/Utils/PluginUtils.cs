@@ -14,6 +14,8 @@ namespace TranslatorApk.Logic.Utils
 {
     internal static class PluginUtils
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static bool _pluginsLoaded;
 
         /// <summary>
@@ -22,6 +24,8 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="path">Путь к файлу</param>
         public static void LoadPlugin(string path)
         {
+            Logger.Info($"Loading plugin: \"{path}\"");
+
             AppDomain appDomain = 
                 AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(path) 
                 ?? throw new NullReferenceException("Path name is null"));
@@ -43,6 +47,8 @@ namespace TranslatorApk.Logic.Utils
             });
 
             GlobalVariables.Plugins.Add(loader.Name, loader);
+
+            Logger.Info($"Plugin loaded: \"{path}\"");
         }
 
         /// <summary>
@@ -116,11 +122,15 @@ namespace TranslatorApk.Logic.Utils
 
             if (Directory.Exists(GlobalVariables.PathToPlugins))
             {
+                Logger.Info("Loading plugins");
+
                 IEnumerable<string> plugins = Directory.EnumerateFiles(GlobalVariables.PathToPlugins, "*.dll", SearchOption.TopDirectoryOnly);
 
                 plugins.ForEach(LoadPlugin);
 
                 _pluginsLoaded = true;
+
+                Logger.Info("Plugins loaded");
             }
 
             LoadCurrentTranslationService();
