@@ -67,8 +67,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             );
             SearchAdds = new ReadOnlyObservableCollection<string>(_searchAdds);
 
-            OnlyFullWords = new Setting<bool>(nameof(AppSettingsBase.OnlyFullWords), StringResources.OnlyFullWords);
-            MatchCase = new Setting<bool>(nameof(AppSettingsBase.MatchCase), StringResources.MatchCase);
+            OnlyFullWords = new Setting<bool>(s => s.OnlyFullWords, StringResources.OnlyFullWords);
+            MatchCase = new Setting<bool>(s => s.MatchCase, StringResources.MatchCase);
 
             BindProperty(() => TextToSearch);
             BindProperty(() => SearchBoxIndex, -1);

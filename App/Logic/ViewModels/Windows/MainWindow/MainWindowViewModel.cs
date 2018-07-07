@@ -54,14 +54,14 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             MainWindowSettings = new[]
             {
-                new Setting<bool>(nameof(_appSettings.EmptyXml),        StringResources.EmptyXml),
-                new Setting<bool>(nameof(_appSettings.EmptySmali),      StringResources.EmptySmali),
-                new Setting<bool>(nameof(_appSettings.EmptyFolders),    StringResources.EmptyFolders),
-                new Setting<bool>(nameof(_appSettings.Images),          StringResources.Images),
-                new Setting<bool>(nameof(_appSettings.FilesWithErrors), StringResources.FilesWithErrors),
-                new Setting<bool>(nameof(_appSettings.OnlyXml),         StringResources.OnlyXml),
-                new Setting<bool>(nameof(_appSettings.OtherFiles),      StringResources.OtherFiles),
-                new Setting<bool>(nameof(_appSettings.OnlyResources),   StringResources.OnlyResources)
+                new Setting<bool>(s => s.EmptyXml,        StringResources.EmptyXml),
+                new Setting<bool>(s => s.EmptySmali,      StringResources.EmptySmali),
+                new Setting<bool>(s => s.EmptyFolders,    StringResources.EmptyFolders),
+                new Setting<bool>(s => s.Images,          StringResources.Images),
+                new Setting<bool>(s => s.FilesWithErrors, StringResources.FilesWithErrors),
+                new Setting<bool>(s => s.OnlyXml,         StringResources.OnlyXml),
+                new Setting<bool>(s => s.OtherFiles,      StringResources.OtherFiles),
+                new Setting<bool>(s => s.OnlyResources,   StringResources.OnlyResources)
             };
         }
 

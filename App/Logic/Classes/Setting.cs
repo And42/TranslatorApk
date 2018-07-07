@@ -1,36 +1,25 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
-using TranslatorApk.Logic.Interfaces;
+using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {
-    public sealed class Setting<T> : IRaisePropertyChanged
+    public sealed class Setting<T> : BindableBase
     {
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
         private readonly PropertyInfo _property;
 
         private readonly bool _isReadOnly;
 
-        public Setting(string settingName, string localizedName, bool isReadOnly = false)
+        public Setting(Expression<Func<AppSettingsBase, T>> setting, string localizedName, bool isReadOnly = false)
         {
-            SettingName = settingName;
             LocalizedName = localizedName;
             _isReadOnly = isReadOnly;
-
-            _property = GlobalVariables.AppSettings.GetType().GetProperty(settingName);
+            _property = ReflectionUtils.GetPropertyInfo(setting);
         }
-
-        /// <summary>
-        /// Имя настройки
-        /// </summary>
-        public string SettingName
-        {
-            get => _settingName;
-            private set => this.SetProperty(ref _settingName, value);
-        }
-        private string _settingName;
 
         /// <summary>
         /// Локализованное имя настройки
@@ -38,7 +27,7 @@ namespace TranslatorApk.Logic.Classes
         public string LocalizedName
         {
             get => _localizedName;
-            set => this.SetProperty(ref _localizedName, value);
+            set => SetProperty(ref _localizedName, value);
         }
         private string _localizedName;
 
@@ -47,23 +36,16 @@ namespace TranslatorApk.Logic.Classes
         /// </summary>
         public T Value
         {
-            get => (T)_property.GetValue(GlobalVariables.AppSettings, null);
+            get => (T)_property.GetValue(_appSettings, null);
             set
             {
                 if (_isReadOnly)
                     throw new NotSupportedException("Can't set readonly value");
 
-                _property.SetValue(GlobalVariables.AppSettings, value, null);
+                _property.SetValue(_appSettings, value, null);
 
-                RaisePropertyChanged(nameof(Value));
+                OnPropertyChanged();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
