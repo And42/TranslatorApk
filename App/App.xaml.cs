@@ -51,7 +51,7 @@ namespace TranslatorApk
 #endif
                 Utils.CheckForUpdate();
 
-            if (string.IsNullOrEmpty(DefaultSettingsContainer.Instance.ApktoolVersion))
+            if (string.IsNullOrEmpty(GlobalVariables.AppSettings.ApktoolVersion))
             {
                 Logger.Error("Apktool not found");
                 MessBox.ShowDial(StringResources.ApktoolNotFound);

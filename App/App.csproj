@@ -215,7 +215,11 @@
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
+    <Compile Include="Logic\Classes\AppSettingsBase.cs" />
+    <Compile Include="Logic\Interfaces\ISettingsCheckable.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
+    <Compile Include="Logic\JsonModels\AppSettingsJson.cs" />
+    <Compile Include="Logic\OrganisationItems\JsonSettingsContainer.cs" />
     <Compile Include="Logic\OrganisationItems\DefaultSettingsContainer.cs" />
     <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
     <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
@@ -227,6 +231,7 @@
     <Compile Include="Logic\Utils\AndroidFilesUtils.cs" />
     <Compile Include="Logic\Utils\CollectionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
+    <Compile Include="Logic\Utils\JsonUtils.cs" />
     <Compile Include="Logic\Utils\ReflectionUtils.cs" />
     <Compile Include="Logic\Utils\StringUtils.cs" />
     <Compile Include="Logic\Utils\ThemeUtils.cs" />

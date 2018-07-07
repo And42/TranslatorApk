@@ -20,7 +20,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         /// <summary>
         /// Иконка программы
         /// </summary>
-        public ImageSource ImgSrc { get; } = ImageUtils.GetImageFromApp("TranslatorApk.ico").FreezeIfCan();
+        public ImageSource ImgSrc { get; } = ImageUtils.GetImageFromApp("Resources/Icons/app_icon.ico").FreezeIfCan();
 
         public ICommand WebMoneyClickedCommand { get; } = new ActionCommand(() =>
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -35,9 +34,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
         }
 
-        private readonly Window _window;
         private static readonly string StartFormattedString = "..." + Path.DirectorySeparatorChar;
 
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly Window _window;
+        
         public ReadOnlyObservableCollection<FoundItem> Files { get; }
         private readonly ObservableRangeCollection<FoundItem> _files;
 
@@ -62,12 +63,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             Files = new ReadOnlyObservableCollection<FoundItem>(_files);
 
             _searchAdds = new ObservableRangeCollection<string>(
-                DefaultSettingsContainer.Instance.FullSearchAdds?.Cast<string>() ?? Enumerable.Empty<string>()
+                _appSettings.FullSearchAdds ?? Enumerable.Empty<string>()
             );
             SearchAdds = new ReadOnlyObservableCollection<string>(_searchAdds);
 
-            OnlyFullWords = new Setting<bool>(nameof(DefaultSettingsContainer.OnlyFullWords), StringResources.OnlyFullWords);
-            MatchCase = new Setting<bool>(nameof(DefaultSettingsContainer.MatchCase), StringResources.MatchCase);
+            OnlyFullWords = new Setting<bool>(nameof(AppSettingsBase.OnlyFullWords), StringResources.OnlyFullWords);
+            MatchCase = new Setting<bool>(nameof(AppSettingsBase.MatchCase), StringResources.MatchCase);
 
             BindProperty(() => TextToSearch);
             BindProperty(() => SearchBoxIndex, -1);
@@ -173,10 +174,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             _searchAdds.Insert(0, text);
             SearchBoxIndex.Value = 0;
 
-            if (DefaultSettingsContainer.Instance.FullSearchAdds == null)
-                DefaultSettingsContainer.Instance.FullSearchAdds = new StringCollection();
+            if (_appSettings.FullSearchAdds == null)
+                _appSettings.FullSearchAdds = new List<string>();
 
-            StringCollection adds = DefaultSettingsContainer.Instance.FullSearchAdds;
+            var adds = _appSettings.FullSearchAdds;
 
             adds.Remove(text);
             adds.Insert(0, text);
@@ -187,7 +188,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 adds.RemoveAt(20);
             }
 
-            DefaultSettingsContainer.Instance.Save();
+            _appSettings.Save();
         }
 
         private void LoadSelectedFileCommand_Execute()

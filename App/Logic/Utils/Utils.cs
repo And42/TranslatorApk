@@ -30,7 +30,6 @@ using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 
 using Settings = TranslatorApk.Properties.Settings;
-using SetInc = TranslatorApk.Logic.OrganisationItems.DefaultSettingsContainer;
 
 namespace TranslatorApk.Logic.Utils
 {
@@ -199,84 +198,71 @@ namespace TranslatorApk.Logic.Utils
         /// </summary>
         public static void LoadSettings()
         {
-            if (Settings.Default.UpdateNeeded)
-            {
-                Settings.Default.Upgrade();
-                Settings.Default.UpdateNeeded = false;
-                Settings.Default.Save();
-            }
-                    
-            if (SetInc.Instance.TargetLanguage == "")
-                SetInc.Instance.TargetLanguage = "ru";
+            if (GlobalVariables.AppSettings.TargetLanguage == "")
+                GlobalVariables.AppSettings.TargetLanguage = "ru";
 
-            if (SetInc.Instance.OnlineTranslator == Guid.Empty)
-                SetInc.Instance.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
+            if (GlobalVariables.AppSettings.OnlineTranslator == Guid.Empty)
+                GlobalVariables.AppSettings.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
 
             if (Settings.Default.TranslatorServicesKeys == null)
                 Settings.Default.TranslatorServicesKeys = new SerializableStringDictionary();
             
-            if (SetInc.Instance.LanguageOfApp == "")
+            if (GlobalVariables.AppSettings.LanguageOfApp == "")
                 SetLanguageOfApp(TranslateService.SupportedProgramLangs.FirstOrDefault(lang => lang == GetCurrentLanguage()) ?? TranslateService.SupportedProgramLangs.First());
             else
-                SetLanguageOfApp(SetInc.Instance.LanguageOfApp);
+                SetLanguageOfApp(GlobalVariables.AppSettings.LanguageOfApp);
 
-            if (SetInc.Instance.XmlRules == null || SetInc.Instance.XmlRules.Length == 0)
+            if (GlobalVariables.AppSettings.XmlRules == null || GlobalVariables.AppSettings.XmlRules.Count == 0)
             {
-                SetInc.Instance.XmlRules = new[]
+                GlobalVariables.AppSettings.XmlRules = new List<string>
                 {
                     "android:text", "android:title", "android:summary", "android:dialogTitle", 
                     "android:summaryOff", "android:summaryOn", "value"
                 };
             }
 
-            if (SetInc.Instance.AvailToEditFiles == null || SetInc.Instance.AvailToEditFiles.Length == 0)
+            if (GlobalVariables.AppSettings.AvailToEditFiles == null || GlobalVariables.AppSettings.AvailToEditFiles.Count == 0)
             {
-                SetInc.Instance.AvailToEditFiles = new[] {".xml", ".smali"};
+                GlobalVariables.AppSettings.AvailToEditFiles = new List<string> {".xml", ".smali"};
             }
 
-            if (SetInc.Instance.ImageExtensions == null || 
-                SetInc.Instance.ImageExtensions.Length == 0 ||
-                SetInc.Instance.ImageExtensions.Length == 1 && SetInc.Instance.ImageExtensions[0].IsNullOrEmpty())
+            if (GlobalVariables.AppSettings.ImageExtensions == null || 
+                GlobalVariables.AppSettings.ImageExtensions.Count == 0 ||
+                GlobalVariables.AppSettings.ImageExtensions.Count == 1 && GlobalVariables.AppSettings.ImageExtensions[0].IsNullOrEmpty())
             {
-                SetInc.Instance.ImageExtensions = new[] {".png", ".jpg", ".jpeg"};
+                GlobalVariables.AppSettings.ImageExtensions = new List<string> {".png", ".jpg", ".jpeg"};
             }
 
-            if (SetInc.Instance.OtherExtensions == null)
+            if (GlobalVariables.AppSettings.OtherExtensions == null)
             {
-                SetInc.Instance.OtherExtensions = new string[0];
+                GlobalVariables.AppSettings.OtherExtensions = new List<string>();
             }
 
-            if (SetInc.Instance.XmlRules != null)
-                XmlFile.XmlRules = SetInc.Instance.XmlRules.Select(it => new Regex(it)).ToList();
+            if (GlobalVariables.AppSettings.XmlRules != null)
+                XmlFile.XmlRules = GlobalVariables.AppSettings.XmlRules.Select(it => new Regex(it)).ToList();
 
             EditorWindow.Languages = TranslateService.LongTargetLanguages;
 
-            // todo: Убрать в будущих версиях
+            if (GlobalVariables.AppSettings.Theme.IsNullOrEmpty() || !GlobalVariables.ThemesMap.ContainsKey(GlobalVariables.AppSettings.Theme))
+                GlobalVariables.AppSettings.Theme = GlobalVariables.ThemesMap.First().Key;
 
-            string source;
-
-            if (GlobalVariables.ThemesMap.TryGetKey(SetInc.Instance.Theme, out source))
-                SetInc.Instance.Theme = source;
-
-            // ---
-
-            if (SetInc.Instance.Theme.IsNullOrEmpty() || !GlobalVariables.ThemesMap.ContainsKey(SetInc.Instance.Theme))
-                SetInc.Instance.Theme = GlobalVariables.ThemesMap.First().Key;
-
-            ThemeUtils.ChangeTheme(SetInc.Instance.Theme);
+            ThemeUtils.ChangeTheme(GlobalVariables.AppSettings.Theme);
 
             TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
 
-            string apktoolVersion = SetInc.Instance.ApktoolVersion;
+            string apktoolVersion = GlobalVariables.AppSettings.ApktoolVersion;
 
             if (apktoolVersion.IsNullOrEmpty() || !File.Exists(Path.Combine(GlobalVariables.PathToApktoolVersions, $"apktool_{apktoolVersion}.jar")))
             {
-                string vers = Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions, "*.jar").LastOrDefault();
+                if (Directory.Exists(GlobalVariables.PathToApktoolVersions))
+                {
+                    string vers = Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions, "*.jar").LastOrDefault();
 
-                if (vers != null)
-                    vers = Path.GetFileNameWithoutExtension(vers).SplitRemove("apktool_")[0];
-
-                SetInc.Instance.ApktoolVersion = vers;
+                    if (vers != null)
+                    {
+                        GlobalVariables.AppSettings.ApktoolVersion = Path.GetFileNameWithoutExtension(vers).SplitRemove("apktool_")[0];
+                    }
+                }
             }
 
             UpdateApiKeys();
@@ -291,7 +277,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="newText">Новый текст</param>
         public static void AddToSessionDict(string oldText, string newText)
         {
-            if (!SetInc.Instance.SessionAutoTranslate)
+            if (!GlobalVariables.AppSettings.SessionAutoTranslate)
                 return;
 
             GlobalVariables.SessionDictionary[oldText] = newText;
@@ -361,7 +347,7 @@ namespace TranslatorApk.Logic.Utils
 
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(language);
-            SetInc.Instance.LanguageOfApp = language;
+            GlobalVariables.AppSettings.LanguageOfApp = language;
             
             if (showDialog && MessBox.ShowDial(StringResources.RestartProgramToApplyLanguage, null,
                 MessBox.MessageButtons.Yes, MessBox.MessageButtons.No) ==

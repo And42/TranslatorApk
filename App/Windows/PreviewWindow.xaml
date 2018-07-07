@@ -8,7 +8,7 @@
         IsManipulationEnabled="False" 
         
         Style="{DynamicResource WindowStyle}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         
         elements:WindowThemeParameters.CanClose="False"

@@ -11,12 +11,12 @@
         mc:Ignorable="d"
 
         WindowStartupLocation="CenterScreen"
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         
         MinWidth="900" MinHeight="500"
         Width="900" Height="500"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         Title="{x:Static localizations:StringResources.Settings}" 
         Style="{DynamicResource WindowStyle}"
         

@@ -12,11 +12,11 @@
 
         Title="{x:Static localizations:StringResources.XmlRulesEditor}"
         
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource WindowStyle}"
         
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         Height="500" Width="500"
         MinWidth="300" MinHeight="200"
         

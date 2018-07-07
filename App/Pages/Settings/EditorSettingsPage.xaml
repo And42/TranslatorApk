@@ -12,7 +12,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="200" d:DesignWidth="600"
       Title="TranslationSettingsPage"
-      FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+      FontSize="{Binding FontSize, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
       
       d:DataContext="{d:DesignInstance settingsPages:EditorSettingsPageViewModel}">
 

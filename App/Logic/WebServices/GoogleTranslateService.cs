@@ -51,7 +51,7 @@ namespace TranslatorApk.Logic.WebServices
         public static string Translate(string text, string targetLanguage)
         {
             string link = "http://" + $"translate.google.com/translate_a/t?client=p&text={HttpUtility.UrlEncode(text)}&sl=auto&tl={targetLanguage}";
-            string downloaded = WebUtils.DownloadString(link, DefaultSettingsContainer.Instance.TranslationTimeout);
+            string downloaded = WebUtils.DownloadString(link, GlobalVariables.AppSettings.TranslationTimeout);
             return JsonConvert.DeserializeObject<GoogleTranslateResponseJson>(downloaded).ToString();
         }
     }

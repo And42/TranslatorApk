@@ -111,7 +111,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     VisLog(success ? StringResources.Finished : StringResources.ErrorWhileCompiling);
                     VisLog(GlobalVariables.LogLine);
 
-                    if (DefaultSettingsContainer.Instance.ShowNotifications)
+                    if (GlobalVariables.AppSettings.ShowNotifications)
                     {
                         NotificationService.Instance.ShowMessage(StringResources.CompilationFinished);
                     }

@@ -8,11 +8,13 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class EditorSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+
         public EditorSettingsPageViewModel()
         {
             RefreshData();
 
-            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         public string PageTitle { get; } = StringResources.EditorSettings_Caption;
@@ -21,14 +23,14 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public int AlternativeEditingKeysIndex
         {
-            get => DefaultSettingsContainer.Instance.AlternativeEditingKeys ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.AlternativeEditingKeys = value == 0;
+            get => _appSettings.AlternativeEditingKeys ? 0 : 1;
+            set => _appSettings.AlternativeEditingKeys = value == 0;
         }
 
         public int SessionAutoTranslateIndex
         {
-            get => DefaultSettingsContainer.Instance.SessionAutoTranslate ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.SessionAutoTranslate = value == 0;
+            get => _appSettings.SessionAutoTranslate ? 0 : 1;
+            set => _appSettings.SessionAutoTranslate = value == 0;
         }
 
         public void RefreshData()
@@ -40,10 +42,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(DefaultSettingsContainer.AlternativeEditingKeys):
+                case nameof(AppSettingsBase.AlternativeEditingKeys):
                     OnPropertyChanged(nameof(AlternativeEditingKeysIndex));
                     break;
-                case nameof(DefaultSettingsContainer.SessionAutoTranslate):
+                case nameof(AppSettingsBase.SessionAutoTranslate):
                     OnPropertyChanged(nameof(SessionAutoTranslateIndex));
                     break;
             }
@@ -51,7 +53,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public override void UnsubscribeFromEvents()
         {
-            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

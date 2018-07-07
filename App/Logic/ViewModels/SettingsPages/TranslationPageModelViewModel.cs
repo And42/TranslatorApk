@@ -10,16 +10,18 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class TranslationPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+
         public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
 
         public Property<string[]> YesNoItems { get; private set; }
 
         public int FixOnlineTranslationResultsIndex
         {
-            get => DefaultSettingsContainer.Instance.FixOnlineTranslationResults ? 0 : 1;
+            get => _appSettings.FixOnlineTranslationResults ? 0 : 1;
             set
             {
-                DefaultSettingsContainer.Instance.FixOnlineTranslationResults = value == 0;
+                _appSettings.FixOnlineTranslationResults = value == 0;
                 OnPropertyChanged();
             }
         }
@@ -35,7 +37,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                     return;
 
                 GlobalVariables.CurrentTranslationService = value;
-                DefaultSettingsContainer.Instance.OnlineTranslator = value.Guid;
+                _appSettings.OnlineTranslator = value.Guid;
                 OnPropertyChanged(nameof(OnlineTranslator));
             }
         }
@@ -46,18 +48,18 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
             RefreshData();
 
-            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         public int TranslationTimeout
         {
-            get => DefaultSettingsContainer.Instance.TranslationTimeout;
+            get => _appSettings.TranslationTimeout;
             set
             {
                 if (value < 10 || value > 100000)
-                    DefaultSettingsContainer.Instance.TranslationTimeout = 5000;
+                    _appSettings.TranslationTimeout = 5000;
                 else
-                    DefaultSettingsContainer.Instance.TranslationTimeout = value;
+                    _appSettings.TranslationTimeout = value;
             }
         }
 
@@ -75,10 +77,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(DefaultSettingsContainer.TranslationTimeout):
+                case nameof(AppSettingsBase.TranslationTimeout):
                     OnPropertyChanged(nameof(TranslationTimeout));
                     break;
-                case nameof(DefaultSettingsContainer.FixOnlineTranslationResults):
+                case nameof(AppSettingsBase.FixOnlineTranslationResults):
                     OnPropertyChanged(nameof(FixOnlineTranslationResultsIndex));
                     break;
             }
@@ -86,7 +88,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public override void UnsubscribeFromEvents()
         {
-            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

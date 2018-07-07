@@ -11,7 +11,7 @@ using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    public class GlobalVariables : BindableBase
+    internal class GlobalVariables : BindableBase
     {
         public static GlobalVariables Instance { get; } = new GlobalVariables();
 
@@ -127,18 +127,20 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         #endregion
 
-        /// <summary>
-        /// Путь к текущему apktool.jar
-        /// </summary>
-        public static string CurrentApktoolPath => 
-            Path.Combine(PathToApktoolVersions, $"apktool_{DefaultSettingsContainer.Instance.ApktoolVersion}.jar");
+        public static JsonSettingsContainer AppSettings { get; } = new JsonSettingsContainer();
+
+        public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
 
         /// <summary>
         /// Текущий сервис перевода
         /// </summary>
         public static OneTranslationService CurrentTranslationService { get; set; }
 
-        public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
+        /// <summary>
+        /// Путь к текущему apktool.jar
+        /// </summary>
+        public static string CurrentApktoolPath => 
+            Path.Combine(PathToApktoolVersions, $"apktool_{AppSettings.ApktoolVersion}.jar");
 
         #region Consts
 

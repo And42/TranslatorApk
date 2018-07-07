@@ -111,7 +111,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             LoadingWindow.ShowWindow(
                 beforeStarting: () => IsBusy = true,
-                threadActions: source => success = DefaultSettingsContainer.Instance.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(),
+                threadActions: source => success = GlobalVariables.AppSettings.OnlyResources ? Apk.Decompile(options: "-s") : Apk.Decompile(),
                 finishActions: () =>
                 {
                     IsBusy = false;
@@ -120,7 +120,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     VisLog(StringResources.Finished);
                     VisLog(GlobalVariables.LogLine);
 
-                    if (DefaultSettingsContainer.Instance.ShowNotifications)
+                    if (GlobalVariables.AppSettings.ShowNotifications)
                     {
                         NotificationService.Instance.ShowMessage(StringResources.DecompilationFinished);
                     }
@@ -146,7 +146,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             {
                 var apktool = new Apktools(null, GlobalVariables.PathToResources,
                     Path.Combine(GlobalVariables.PathToApktoolVersions,
-                        $"apktool_{DefaultSettingsContainer.Instance.ApktoolVersion}.jar"));
+                        $"apktool_{GlobalVariables.AppSettings.ApktoolVersion}.jar"));
 
                 if (!apktool.HasJava())
                 {
@@ -216,7 +216,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     invoker.IsIndeterminate = false;
 
-                    Utils.Utils.LoadFilesToTreeView(Application.Current.Dispatcher, folderPath, FilesFilesTreeViewModel, DefaultSettingsContainer.Instance.EmptyFolders, cts, () => invoker.ProcessValue++);
+                    Utils.Utils.LoadFilesToTreeView(Application.Current.Dispatcher, folderPath, FilesFilesTreeViewModel, GlobalVariables.AppSettings.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
                 finishActions: () =>
                 {

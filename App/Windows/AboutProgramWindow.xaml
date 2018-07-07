@@ -16,8 +16,8 @@
         elements:WindowThemeParameters.CanMinimize="False"
         elements:WindowThemeParameters.IsResizable="False"
         
-        FontSize="{Binding FontSize, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
-        Topmost="{Binding TopMost, Source={x:Static organisationItems:DefaultSettingsContainer.Instance}, Mode=OneWay}"
+        FontSize="{Binding FontSize, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
+        Topmost="{Binding TopMost, Source={x:Static organisationItems:GlobalVariables.AppSettings}, Mode=OneWay}"
         Title="{x:Static localizations:StringResources.AboutProgram}" Height="300" Width="300" Style="{DynamicResource WindowStyle}"
         d:DataContext="{d:DesignInstance viewModels:AboutProgramWindowViewModel}"
 

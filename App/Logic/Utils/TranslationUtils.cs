@@ -70,9 +70,9 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="text">Текст для перевода</param>
         public static string TranslateTextWithSettings(string text)
         {
-            var translated = GlobalVariables.CurrentTranslationService.Translate(text, DefaultSettingsContainer.Instance.TargetLanguage);
+            var translated = GlobalVariables.CurrentTranslationService.Translate(text, GlobalVariables.AppSettings.TargetLanguage);
 
-            if (DefaultSettingsContainer.Instance.FixOnlineTranslationResults)
+            if (GlobalVariables.AppSettings.FixOnlineTranslationResults)
                 return FixOnlineTranslation(translated);
 
             return translated;

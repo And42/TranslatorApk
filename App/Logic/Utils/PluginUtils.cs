@@ -141,13 +141,13 @@ namespace TranslatorApk.Logic.Utils
         /// </summary>
         private static void LoadCurrentTranslationService()
         {
-            if (TranslateService.OnlineTranslators.TryGetValue(DefaultSettingsContainer.Instance.OnlineTranslator, out var found))
+            if (TranslateService.OnlineTranslators.TryGetValue(GlobalVariables.AppSettings.OnlineTranslator, out var found))
             {
                 GlobalVariables.CurrentTranslationService = found;
             }
             else
             {
-                DefaultSettingsContainer.Instance.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
+                GlobalVariables.AppSettings.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
                 GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
             }
         }

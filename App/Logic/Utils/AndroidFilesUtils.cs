@@ -71,12 +71,12 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="extension">Расширение файла</param>
         public static bool CheckFileWithSettings(string file, string extension)
         {
-            if (extension != ".xml" && DefaultSettingsContainer.Instance.OnlyXml)
+            if (extension != ".xml" && GlobalVariables.AppSettings.OnlyXml)
                 return false;
 
             if (extension == ".xml")
             {
-                if (!DefaultSettingsContainer.Instance.EmptyXml)
+                if (!GlobalVariables.AppSettings.EmptyXml)
                 {
                     try
                     {
@@ -92,17 +92,17 @@ namespace TranslatorApk.Logic.Utils
             }
             else if (extension == ".smali")
             {
-                if (!DefaultSettingsContainer.Instance.EmptySmali && !SmaliFile.HasLines(file))
+                if (!GlobalVariables.AppSettings.EmptySmali && !SmaliFile.HasLines(file))
                     return false;
             }
-            else if (DefaultSettingsContainer.Instance.ImageExtensions.Contains(extension))
+            else if (GlobalVariables.AppSettings.ImageExtensions.Contains(extension))
             {
-                if (!DefaultSettingsContainer.Instance.Images)
+                if (!GlobalVariables.AppSettings.Images)
                     return false;
             }
-            else if (DefaultSettingsContainer.Instance.OtherExtensions.Contains(extension))
+            else if (GlobalVariables.AppSettings.OtherExtensions.Contains(extension))
             {
-                if (!DefaultSettingsContainer.Instance.OtherFiles)
+                if (!GlobalVariables.AppSettings.OtherFiles)
                     return false;
             }
 

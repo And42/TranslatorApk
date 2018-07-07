@@ -16,6 +16,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
     {
         private readonly ObservableRangeCollection<string> _themes;
         private readonly ObservableRangeCollection<string> _apktoolVersions;
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
 
         public AppSettingsPageViewModel()
         {
@@ -27,7 +28,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
             RefreshData();
 
-            DefaultSettingsContainer.Instance.PropertyChanged += SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged += SettingsOnPropertyChanged;
         }
 
         public string PageTitle { get; } = StringResources.AppSettings_Caption;
@@ -36,56 +37,56 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public int LanguageOfAppIndex
         {
-            get => TranslateService.SupportedProgramLangs.IndexOf(DefaultSettingsContainer.Instance.LanguageOfApp);
+            get => TranslateService.SupportedProgramLangs.IndexOf(_appSettings.LanguageOfApp);
             set => Utils.Utils.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
         }
 
         public int ShowPreviewsIndex
         {
-            get => DefaultSettingsContainer.Instance.ShowPreviews ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.ShowPreviews = value == 0;
+            get => _appSettings.ShowPreviews ? 0 : 1;
+            set => _appSettings.ShowPreviews = value == 0;
         }
 
         public int TopMostIndex
         {
-            get => DefaultSettingsContainer.Instance.TopMost ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.TopMost = value == 0;
+            get => _appSettings.TopMost ? 0 : 1;
+            set => _appSettings.TopMost = value == 0;
         }
 
         public int ShowNotificationsIndex
         {
-            get => DefaultSettingsContainer.Instance.ShowNotifications ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.ShowNotifications = value == 0;
+            get => _appSettings.ShowNotifications ? 0 : 1;
+            set => _appSettings.ShowNotifications = value == 0;
         }
 
         public int AlternateRowsIndex
         {
-            get => DefaultSettingsContainer.Instance.AlternatingRows ? 0 : 1;
-            set => DefaultSettingsContainer.Instance.AlternatingRows = value == 0;
+            get => _appSettings.AlternatingRows ? 0 : 1;
+            set => _appSettings.AlternatingRows = value == 0;
         }
 
         public string OtherFileExts
         {
-            get => DefaultSettingsContainer.Instance.OtherExtensions.JoinStr("|");
-            set => DefaultSettingsContainer.Instance.OtherExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToArray();
+            get => _appSettings.OtherExtensions.JoinStr("|");
+            set => _appSettings.OtherExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToList();
         }
 
         public string ImageFileExts
         {
-            get => DefaultSettingsContainer.Instance.ImageExtensions.JoinStr("|");
-            set => DefaultSettingsContainer.Instance.ImageExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToArray();
+            get => _appSettings.ImageExtensions.JoinStr("|");
+            set => _appSettings.ImageExtensions = value.SplitRemove('|').Select(_ => _.Trim()).Distinct().ToList();
         }
 
         public int FontSize
         {
-            get => DefaultSettingsContainer.Instance.FontSize;
-            set => DefaultSettingsContainer.Instance.FontSize = value;
+            get => _appSettings.FontSize;
+            set => _appSettings.FontSize = value;
         }
 
         public int GridFontSize
         {
-            get => DefaultSettingsContainer.Instance.GridFontSize;
-            set => DefaultSettingsContainer.Instance.GridFontSize = value;
+            get => _appSettings.GridFontSize;
+            set => _appSettings.GridFontSize = value;
         }
 
         public ReadOnlyObservableCollection<string> Themes { get; }
@@ -94,13 +95,13 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public string CurrentTheme
         {
-            get => GlobalVariables.ThemesMap.Forward[DefaultSettingsContainer.Instance.Theme];
+            get => GlobalVariables.ThemesMap.Forward[_appSettings.Theme];
             set => ThemeUtils.ChangeTheme(GlobalVariables.ThemesMap.Backward[value]);
         }
 
         public string CurrentApktoolVersion
         {
-            get => DefaultSettingsContainer.Instance.ApktoolVersion;
+            get => _appSettings.ApktoolVersion;
             set
             {
                 if (value == null)
@@ -115,7 +116,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                     Utils.Utils.IgnoreComboBoxChange();
                 }
 
-                DefaultSettingsContainer.Instance.ApktoolVersion = value;
+                _appSettings.ApktoolVersion = value;
             }
         }
 
@@ -140,8 +141,8 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
             _apktoolVersions.Add(StringResources.Catalog);
 
-            if (!ApktoolVersions.Contains(DefaultSettingsContainer.Instance.ApktoolVersion))
-                DefaultSettingsContainer.Instance.ApktoolVersion = ApktoolVersions[0];
+            if (!ApktoolVersions.Contains(_appSettings.ApktoolVersion))
+                _appSettings.ApktoolVersion = ApktoolVersions[0];
             else
                 OnPropertyChanged(nameof(CurrentApktoolVersion));
         }
@@ -150,28 +151,28 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(DefaultSettingsContainer.ApktoolVersion):
+                case nameof(AppSettingsBase.ApktoolVersion):
                     OnPropertyChanged(nameof(CurrentApktoolVersion));
                     break;
-                case nameof(DefaultSettingsContainer.Theme):
+                case nameof(AppSettingsBase.Theme):
                     OnPropertyChanged(nameof(CurrentTheme));
                     break;
-                case nameof(DefaultSettingsContainer.ShowPreviews):
+                case nameof(AppSettingsBase.ShowPreviews):
                     OnPropertyChanged(nameof(ShowPreviewsIndex));
                     break;
-                case nameof(DefaultSettingsContainer.TopMost):
+                case nameof(AppSettingsBase.TopMost):
                     OnPropertyChanged(nameof(TopMostIndex));
                     break;
-                case nameof(DefaultSettingsContainer.ShowNotifications):
+                case nameof(AppSettingsBase.ShowNotifications):
                     OnPropertyChanged(nameof(ShowNotificationsIndex));
                     break;
-                case nameof(DefaultSettingsContainer.AlternatingRows):
+                case nameof(AppSettingsBase.AlternatingRows):
                     OnPropertyChanged(nameof(AlternateRowsIndex));
                     break;
-                case nameof(DefaultSettingsContainer.OtherExtensions):
+                case nameof(AppSettingsBase.OtherExtensions):
                     OnPropertyChanged(nameof(OtherFileExts));
                     break;
-                case nameof(DefaultSettingsContainer.ImageExtensions):
+                case nameof(AppSettingsBase.ImageExtensions):
                     OnPropertyChanged(nameof(ImageFileExts));
                     break;
             }
@@ -179,7 +180,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public override void UnsubscribeFromEvents()
         {
-            DefaultSettingsContainer.Instance.PropertyChanged -= SettingsOnPropertyChanged;
+            _appSettings.PropertyChanged -= SettingsOnPropertyChanged;
         }
     }
 }

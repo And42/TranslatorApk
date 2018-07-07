@@ -437,7 +437,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             switch (args.PropertyName)
             {
-                case nameof(DefaultSettingsContainer.TVFilterBoxUseRegex):
+                case nameof(AppSettingsBase.TVFilterBoxUseRegex):
                     await FilterItems();
                     break;
             }
@@ -461,7 +461,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     {
                         checkName = _ => true;
                     }
-                    else if (DefaultSettingsContainer.Instance.TVFilterBoxUseRegex)
+                    else if (GlobalVariables.AppSettings.TVFilterBoxUseRegex)
                     {
                         var regex = new Regex(searchVal);
                         checkName = file => string.IsNullOrEmpty(file) || regex.IsMatch(file);

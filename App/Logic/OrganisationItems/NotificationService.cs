@@ -20,7 +20,8 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public void ShowMessage(string message, string title = "TranslatorApk", ToolTipIcon icon = ToolTipIcon.Info)
         {
-            CheckDisposed();
+            if (CheckDisposed())
+                throw new ObjectDisposedException(nameof(NotificationService));
 
             _trayIcon.Visible = true;
             _trayIcon.ShowBalloonTip(3000, title, message, icon);
@@ -28,17 +29,17 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         public void Dispose()
         {
-            CheckDisposed();
+            if (CheckDisposed())
+                return;
 
             _trayIcon.Visible = false;
             _trayIcon.Dispose();
             _trayIcon = null;
         }
 
-        private void CheckDisposed()
+        private bool CheckDisposed()
         {
-            if (_trayIcon == null)
-                throw new ObjectDisposedException(nameof(NotificationService));
+            return _trayIcon == null;
         }
     }
 }

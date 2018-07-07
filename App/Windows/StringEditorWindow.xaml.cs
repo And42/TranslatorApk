@@ -135,7 +135,7 @@ namespace TranslatorApk.Windows
             switch (e.Key)
             {
                 case Key.Escape:
-                    if (DefaultSettingsContainer.Instance.AlternativeEditingKeys && Str != null)
+                    if (GlobalVariables.AppSettings.AlternativeEditingKeys && Str != null)
                         Str.NewText = _backup;
 
                     e.Handled = true;
@@ -143,7 +143,7 @@ namespace TranslatorApk.Windows
 
                     break;
                 case Key.Enter:
-                    if (DefaultSettingsContainer.Instance.AlternativeEditingKeys && (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == 0)
+                    if (GlobalVariables.AppSettings.AlternativeEditingKeys && (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == 0)
                     {
                         e.Handled = true;
                         Close();
@@ -165,7 +165,7 @@ namespace TranslatorApk.Windows
             {
                 Utils.AddToSessionDict(Str.OldText, Str.NewText);
 
-                if (DefaultSettingsContainer.Instance.SessionAutoTranslate)
+                if (GlobalVariables.AppSettings.SessionAutoTranslate)
                 {
                     ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                         .Publish(new EditorWindowTranslateTextEvent(Str.OldText, Str.NewText,
