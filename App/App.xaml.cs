@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
-using TranslatorApk.Properties;
 using TranslatorApk.Resources.Localizations;
 using TranslatorApk.Windows;
 
@@ -64,10 +63,10 @@ namespace TranslatorApk
         {
             NotificationService.Instance.Dispose();
 
-            Settings.Default.SourceDictionaries = GlobalVariables.SourceDictionaries.ToArray();
+            GlobalVariables.AppSettings.SourceDictionaries = GlobalVariables.SourceDictionaries.ToList();
             Utils.UpdateSettingsApiKeys();
 
-            Settings.Default.Save();
+            GlobalVariables.AppSettings.Save();
         }
     }
 }

@@ -220,7 +220,6 @@
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
     <Compile Include="Logic\JsonModels\AppSettingsJson.cs" />
     <Compile Include="Logic\OrganisationItems\JsonSettingsContainer.cs" />
-    <Compile Include="Logic\OrganisationItems\DefaultSettingsContainer.cs" />
     <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
     <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
       <DependentUpon>BusyContainer.xaml</DependentUpon>
@@ -791,11 +790,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -821,11 +815,6 @@
     <None Include="Libraries\zzz_refresh_references_pause.ps1" />
     <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Common.cs" />
     <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <AppDesigner Include="Properties\" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using SettingsManager;
 using TranslatorApk.Logic.Interfaces;
@@ -214,6 +215,12 @@ namespace TranslatorApk.Logic.Classes
             set => SetValueInternal(value);
         }
 
+        public Dictionary<Guid, string> TranslatorServicesKeys
+        {
+            get => GetValueInternal<Dictionary<Guid, string>>();
+            set => SetValueInternal(value);
+        }
+
         public bool EmptyFolders
         {
             get => GetValueInternal<bool>();
@@ -302,7 +309,10 @@ namespace TranslatorApk.Logic.Classes
 
         public virtual void CheckAll()
         {
-            foreach (var property in GetType().GetProperties())
+            PropertyInfo[] properties = 
+                typeof(AppSettingsBase).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (var property in properties)
                 GetSetting(property.Name);
         }
     }

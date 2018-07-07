@@ -111,7 +111,7 @@ namespace TranslatorApk.Logic.JsonModels
         public bool ShowPreviews { get; set; } = true;
 
         [JsonProperty("translator_services_keys")]
-        public Dictionary<string, string> TranslatorServicesKeys { get; set; }
+        public Dictionary<Guid, string> TranslatorServicesKeys { get; set; }
 
         [JsonProperty("empty_folders")]
         public bool EmptyFolders { get; set; }

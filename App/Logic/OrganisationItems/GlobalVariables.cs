@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Bugsnag;
 using MVVM_Tools.Code.Classes;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
-using TranslatorApk.Properties;
 using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.OrganisationItems
@@ -49,9 +49,9 @@ namespace TranslatorApk.Logic.OrganisationItems
             };
 
             SourceDictionaries = 
-                Settings.Default.SourceDictionaries != null 
-                    ? new ObservableCollection<CheckableString>(Settings.Default.SourceDictionaries) 
-                    : new ObservableCollection<CheckableString>();
+                new ObservableCollection<CheckableString>(
+                    AppSettings.SourceDictionaries ?? Enumerable.Empty<CheckableString>()
+                );
         }
 
         #region Readonly properties
@@ -130,7 +130,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         #endregion
 
-        public static JsonSettingsContainer AppSettings { get; } = new JsonSettingsContainer();
+        public static AppSettingsBase AppSettings { get; } = new JsonSettingsContainer();
 
         public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
 
