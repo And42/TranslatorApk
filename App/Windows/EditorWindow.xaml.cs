@@ -365,7 +365,7 @@ namespace TranslatorApk.Windows
 
         private void UseDictionariesClick(object sender, RoutedEventArgs e)
         {
-            var dictsToUse = GlobalVariables.SourceDictionaries.Where(dict => dict.Item2 && File.Exists(dict.Item1)).ToArray();
+            var dictsToUse = GlobalVariables.SourceDictionaries.Where(dict => dict.IsChecked && File.Exists(dict.Text)).ToArray();
 
             if (dictsToUse.Length == 0)
             {
@@ -384,7 +384,7 @@ namespace TranslatorApk.Windows
                 threadActions: cts =>
                 {
                     var dictWords = 
-                        dictsToUse.SelectMany(d => new DictionaryFile(d.Item1).Details)
+                        dictsToUse.SelectMany(d => new DictionaryFile(d.Text).Details)
                             .DistinctBy(it => it.OldText)
                             .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
 
@@ -440,18 +440,18 @@ namespace TranslatorApk.Windows
 
         private void AddSourceDictIfNotAdded(string dictionaryFile)
         {
-            if (GlobalVariables.SourceDictionaries.Any(dict => dict.Item1 == dictionaryFile))
+            if (GlobalVariables.SourceDictionaries.Any(dict => dict.Text == dictionaryFile))
                 return;
 
             if (TryFunc(() => new DictionaryFile(dictionaryFile), out _))
-                GlobalVariables.SourceDictionaries.Add(new CheckableString(dictionaryFile, true));
+                GlobalVariables.SourceDictionaries.Add(new CheckableSetting(dictionaryFile, true));
             else
                 MessBox.ShowDial(dictionaryFile + "\n" + StringResources.TheFileIsCorrupted, StringResources.ErrorLower);
         }
 
         private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var item = (sender as Grid)?.DataContext as CheckableString;
+            var item = (sender as Grid)?.DataContext as CheckableSetting;
 
             if (item != null)
                 GlobalVariables.SourceDictionaries.Remove(item);
@@ -697,7 +697,7 @@ namespace TranslatorApk.Windows
                 {
                     var dictsToUse = 
                         GlobalVariables.SourceDictionaries
-                            .Where(dict => dict.Item2 && File.Exists(dict.Item1))
+                            .Where(dict => dict.IsChecked && File.Exists(dict.Text))
                             .ToList();
 
                     if (dictsToUse.Count == 0)
@@ -707,7 +707,7 @@ namespace TranslatorApk.Windows
                     }
 
                     var dictWords =
-                        dictsToUse.SelectMany(d => new DictionaryFile(d.Item1).Details)
+                        dictsToUse.SelectMany(d => new DictionaryFile(d.Text).Details)
                             .DistinctBy(f => f.OldText)
                             .ToDictionary(it => it.OldText, it => it.NewText, StringComparer.Ordinal);
 
@@ -953,7 +953,7 @@ namespace TranslatorApk.Windows
 
             foreach (string file in files)
             {
-                if (StringFiles.Any(f => f.FileName == file) || GlobalVariables.SourceDictionaries.Any(d => d.Item1 == file) || SaveDictionary?.FileName == file)
+                if (StringFiles.Any(f => f.FileName == file) || GlobalVariables.SourceDictionaries.Any(d => d.Text == file) || SaveDictionary?.FileName == file)
                 {
                     if (firstAdded == null)
                         firstAdded = file;

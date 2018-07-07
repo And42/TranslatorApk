@@ -276,8 +276,7 @@
     <Compile Include="Logic\ViewModels\Windows\SearchWindowViewModel.cs" />
     <Compile Include="Logic\ViewModels\Windows\XmlRulesWindowViewModel.cs" />
     <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
-    <Compile Include="Logic\Classes\CheckableString.cs" />
-    <Compile Include="Logic\Classes\CheckBoxSetting.cs" />
+    <Compile Include="Logic\Classes\CheckableSetting.cs" />
     <Compile Include="Logic\Classes\ComparisonWrapper.cs" />
     <Compile Include="Logic\Classes\GridSelectionControllerExt.cs" />
     <Compile Include="Logic\Classes\InstallOptionsEnum.cs" />
@@ -288,7 +287,6 @@
     <Compile Include="Logic\PluginItems\PluginPart.cs" />
     <Compile Include="Logic\Classes\SerializableStringDictionary.cs" />
     <Compile Include="Logic\Classes\TransServiceHost.cs" />
-    <Compile Include="Logic\Classes\TwoValsSerializable.cs" />
     <Compile Include="Logic\Converters\DoubleToMBSizeConverter.cs" />
     <Compile Include="Logic\Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Logic\Converters\PathModiferConverter.cs" />

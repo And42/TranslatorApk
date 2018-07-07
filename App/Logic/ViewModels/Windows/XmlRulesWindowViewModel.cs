@@ -16,9 +16,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     public class XmlRulesWindowViewModel : ViewModelBase
     {
-        public ObservableRangeCollection<CheckBoxSetting> Items { get; }
+        public ObservableRangeCollection<CheckableSetting> Items { get; }
 
-        public Property<CheckBoxSetting> SelectedItem { get; private set; }
+        public Property<CheckableSetting> SelectedItem { get; private set; }
 
         public ICommand ChooseFileCommand { get; }
         public ICommand SaveChangesCommand { get; }
@@ -27,8 +27,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public XmlRulesWindowViewModel()
         {
-            Items = new ObservableRangeCollection<CheckBoxSetting>(
-                GlobalVariables.AppSettings.XmlRules.Select(it => new CheckBoxSetting(it, true))
+            Items = new ObservableRangeCollection<CheckableSetting>(
+                GlobalVariables.AppSettings.XmlRules.Select(it => new CheckableSetting(it, true))
             );
 
             BindProperty(() => SelectedItem);
@@ -41,7 +41,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void SaveChangesCommand_Execute()
         {
-            var items = Items.Where(it => it.Value && !string.IsNullOrEmpty(it.Text)).ToArray();
+            var items = Items.Where(it => it.IsChecked && !string.IsNullOrEmpty(it.Text)).ToArray();
 
             GlobalVariables.AppSettings.XmlRules = items.Select(it => it.Text).ToList();
 
@@ -79,13 +79,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 var itms = Utils.Utils.GetAllAttributes(xdoc.DocumentElement, Items.Select(it => it.Text));
 
                 for (int i = Items.Count; i < itms.Count; i++)
-                    Items.Add(new CheckBoxSetting(itms[i]));
+                    Items.Add(new CheckableSetting(itms[i]));
             }
         }
 
         private void AddItemCommand_Execute()
         {
-            Items.Add(new CheckBoxSetting(string.Empty));
+            Items.Add(new CheckableSetting(string.Empty));
         }
 
         private void RemoveItemCommand_Execute()

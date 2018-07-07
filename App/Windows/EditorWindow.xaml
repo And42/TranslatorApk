@@ -91,8 +91,8 @@
                                 <DataTemplate>
                                     <DockPanel Margin="5,2,6,2">
                                         <CheckBox 
-                                            IsChecked="{Binding Item2}" Foreground="{DynamicResource TextBlock_Foreground}"
-                                            Content="{Binding Item1, Converter={StaticResource PathModiferConverter}}" />
+                                            IsChecked="{Binding State}" Foreground="{DynamicResource TextBlock_Foreground}"
+                                            Content="{Binding Text, Converter={StaticResource PathModiferConverter}}" />
                                         <Grid 
                                                 DockPanel.Dock="Right" 
                                                 HorizontalAlignment="Right"

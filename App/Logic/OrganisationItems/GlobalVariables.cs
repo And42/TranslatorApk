@@ -49,8 +49,8 @@ namespace TranslatorApk.Logic.OrganisationItems
             };
 
             SourceDictionaries = 
-                new ObservableCollection<CheckableString>(
-                    AppSettings.SourceDictionaries ?? Enumerable.Empty<CheckableString>()
+                new ObservableCollection<CheckableSetting>(
+                    AppSettings.SourceDictionaries ?? Enumerable.Empty<CheckableSetting>()
                 );
         }
 
@@ -200,7 +200,7 @@ namespace TranslatorApk.Logic.OrganisationItems
             set => Instance.CurrentProjectFileProp = value;
         }
 
-        public static ObservableCollection<CheckableString> SourceDictionaries { get; }
+        public static ObservableCollection<CheckableSetting> SourceDictionaries { get; }
 
         #endregion
     }

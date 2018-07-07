@@ -99,7 +99,7 @@ namespace TranslatorApk.Logic.JsonModels
         public string TargetDictionary { get; set; }
 
         [JsonProperty("source_dictionaries")]
-        public List<CheckableString> SourceDictionaries { get; set; }
+        public List<CheckableSetting> SourceDictionaries { get; set; }
 
         [JsonProperty("alternative_editing_keys")]
         public bool AlternativeEditingKeys { get; set; }

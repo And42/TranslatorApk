@@ -2,7 +2,7 @@
 
 namespace TranslatorApk.Logic.Classes
 {
-    public class CheckBoxSetting : BindableBase
+    public class CheckableSetting : BindableBase
     {
         public string Text
         {
@@ -11,17 +11,17 @@ namespace TranslatorApk.Logic.Classes
         }
         private string _text;
 
-        public bool Value
+        public bool IsChecked
         {
-            get => _value;
-            set => SetProperty(ref _value, value);
+            get => _isChecked;
+            set => SetProperty(ref _isChecked, value);
         }
-        private bool _value;
+        private bool _isChecked;
 
-        public CheckBoxSetting(string text, bool value = false)
+        public CheckableSetting(string text, bool isChecked = false)
         {
             _text = text;
-            _value = value;
+            _isChecked = isChecked;
         }
     }
 }

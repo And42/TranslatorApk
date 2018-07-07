@@ -191,9 +191,9 @@ namespace TranslatorApk.Logic.Classes
             set => SetValueInternal(value);
         }
 
-        public List<CheckableString> SourceDictionaries
+        public List<CheckableSetting> SourceDictionaries
         {
-            get => GetValueInternal<List<CheckableString>>();
+            get => GetValueInternal<List<CheckableSetting>>();
             set => SetValueInternal(value);
         }
 
