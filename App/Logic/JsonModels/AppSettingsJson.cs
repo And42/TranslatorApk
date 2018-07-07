@@ -14,15 +14,6 @@ namespace TranslatorApk.Logic.JsonModels
         [JsonProperty("online_translator")]
         public Guid OnlineTranslator { get; set; }
 
-        [JsonProperty("editor_font_size")]
-        public int EditorFontSize { get; set; }
-
-        [JsonProperty("row_height")]
-        public int RowHeight { get; set; } = 120;
-
-        [JsonProperty("open_last_folder")]
-        public bool OpenLastFolder { get; set; }
-
         [JsonProperty("empty_xml")]
         public bool EmptyXml { get; set; }
 
@@ -35,17 +26,11 @@ namespace TranslatorApk.Logic.JsonModels
         [JsonProperty("files_with_errors")]
         public bool FilesWithErrors { get; set; }
 
-        [JsonProperty("system_app")]
-        public bool SystemApp { get; set; }
-
         [JsonProperty("only_xml")]
         public bool OnlyXml { get; set; }
 
         [JsonProperty("xml_rules")]
         public List<string> XmlRules { get; set; }
-
-        [JsonProperty("current_culture")]
-        public string CurrentCulture { get; set; }
 
         [JsonProperty("target_language")]
         public string TargetLanguage { get; set; }
@@ -74,12 +59,6 @@ namespace TranslatorApk.Logic.JsonModels
         [JsonProperty("editor_w_maximized")]
         public bool EditorWMaximized { get; set; }
 
-        [JsonProperty("editor_w_height")]
-        public int EditorWHeight { get; set; }
-
-        [JsonProperty("editor_w_width")]
-        public int EditorWWidth { get; set; }
-
         [JsonProperty("other_extensions")]
         public List<string> OtherExtensions { get; set; }
 
@@ -91,9 +70,6 @@ namespace TranslatorApk.Logic.JsonModels
 
         [JsonProperty("image_extensions")]
         public List<string> ImageExtensions { get; set; }
-
-        [JsonProperty("replace_sequences")]
-        public bool ReplaceSequences { get; set; } = true;
 
         [JsonProperty("main_window_size")]
         public Size MainWindowSize { get; set; } = new Size(670, 500);

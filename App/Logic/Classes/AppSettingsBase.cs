@@ -23,24 +23,6 @@ namespace TranslatorApk.Logic.Classes
             set => SetValueInternal(value);
         }
 
-        public int EditorFontSize
-        {
-            get => GetValueInternal<int>();
-            set => SetValueInternal(value);
-        }
-
-        public int RowHeight
-        {
-            get => GetValueInternal<int>();
-            set => SetValueInternal(value);
-        }
-
-        public bool OpenLastFolder
-        {
-            get => GetValueInternal<bool>();
-            set => SetValueInternal(value);
-        }
-
         public bool EmptyXml
         {
             get => GetValueInternal<bool>();
@@ -65,12 +47,6 @@ namespace TranslatorApk.Logic.Classes
             set => SetValueInternal(value);
         }
 
-        public bool SystemApp
-        {
-            get => GetValueInternal<bool>();
-            set => SetValueInternal(value);
-        }
-
         public bool OnlyXml
         {
             get => GetValueInternal<bool>();
@@ -80,12 +56,6 @@ namespace TranslatorApk.Logic.Classes
         public List<string> XmlRules
         {
             get => GetValueInternal<List<string>>();
-            set => SetValueInternal(value);
-        }
-
-        public string CurrentCulture
-        {
-            get => GetValueInternal<string>();
             set => SetValueInternal(value);
         }
 
@@ -143,18 +113,6 @@ namespace TranslatorApk.Logic.Classes
             set => SetValueInternal(value);
         }
 
-        public int EditorWHeight
-        {
-            get => GetValueInternal<int>();
-            set => SetValueInternal(value);
-        }
-
-        public int EditorWWidth
-        {
-            get => GetValueInternal<int>();
-            set => SetValueInternal(value);
-        }
-
         public List<string> OtherExtensions
         {
             get => GetValueInternal<List<string>>();
@@ -176,12 +134,6 @@ namespace TranslatorApk.Logic.Classes
         public List<string> ImageExtensions
         {
             get => GetValueInternal<List<string>>();
-            set => SetValueInternal(value);
-        }
-
-        public bool ReplaceSequences
-        {
-            get => GetValueInternal<bool>();
             set => SetValueInternal(value);
         }
 
