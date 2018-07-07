@@ -243,8 +243,8 @@ namespace TranslatorApk.Logic.Utils
 
             EditorWindow.Languages = TranslateService.LongTargetLanguages;
 
-            if (GlobalVariables.AppSettings.Theme.IsNullOrEmpty() || !GlobalVariables.ThemesMap.ContainsKey(GlobalVariables.AppSettings.Theme))
-                GlobalVariables.AppSettings.Theme = GlobalVariables.ThemesMap.First().Key;
+            if (GlobalVariables.AppSettings.Theme.IsNullOrEmpty() || GlobalVariables.Themes.All(theme => theme.name != GlobalVariables.AppSettings.Theme))
+                GlobalVariables.AppSettings.Theme = GlobalVariables.Themes.First().name;
 
             ThemeUtils.ChangeTheme(GlobalVariables.AppSettings.Theme);
 

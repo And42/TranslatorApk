@@ -42,8 +42,11 @@ namespace TranslatorApk.Logic.OrganisationItems
             ProgramVersion          = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Portable                = File.Exists(Path.Combine(PathToStartFolder, "isportable"));
 
-            ThemesMap.Add("Light", StringResources.Theme_Light);
-            ThemesMap.Add("Dark", StringResources.Theme_Dark);
+            Themes = new (string name, string localizedName)[]
+            {
+                ("Light", StringResources.Theme_Light),
+                ("Dark",  StringResources.Theme_Dark)
+            };
 
             SourceDictionaries = 
                 Settings.Default.SourceDictionaries != null 
@@ -118,7 +121,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public static readonly bool Portable;
 
-        public static readonly Map<string, string> ThemesMap = new Map<string, string>();
+        public static readonly (string name, string localizedName)[] Themes;
 
         /// <summary>
         /// Словарь плагинов

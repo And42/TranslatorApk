@@ -95,8 +95,8 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public string CurrentTheme
         {
-            get => GlobalVariables.ThemesMap.Forward[_appSettings.Theme];
-            set => ThemeUtils.ChangeTheme(GlobalVariables.ThemesMap.Backward[value]);
+            get => GlobalVariables.Themes.First(theme => theme.name == _appSettings.Theme).localizedName;
+            set => ThemeUtils.ChangeTheme(GlobalVariables.Themes.First(theme => theme.localizedName == value).name);
         }
 
         public string CurrentApktoolVersion
@@ -124,7 +124,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             YesNoItems = new[] { StringResources.Yes, StringResources.No };
 
-            _themes.ReplaceRange(GlobalVariables.ThemesMap.Select(it => it.Value));
+            _themes.ReplaceRange(GlobalVariables.Themes.Select(theme => theme.localizedName));
 
             LoadApktools();
         }
