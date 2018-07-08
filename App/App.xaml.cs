@@ -56,7 +56,7 @@ namespace TranslatorApk
                 MessBox.ShowDial(StringResources.ApktoolNotFound);
             }
 
-            WindowManager.ActivateWindow(createNew: () => new MainWindow(e.Args));
+            WindowManager.ActivateWindow<MainWindow>();
         }
 
         protected override void OnExit(ExitEventArgs e)

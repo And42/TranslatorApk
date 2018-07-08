@@ -38,10 +38,11 @@ namespace TranslatorApk.Logic.Utils
                     {
                         icon = LoadIconFromFile(item.Options).FreezeIfCan();
                     }
-                    catch (RuntimeWrappedException)
+                    catch (RuntimeWrappedException ex)
                     {
                         icon = GlobalResources.IconUnknownFile;
                         _canLoadIcons = false;
+                        GlobalVariables.BugSnagClient.Notify(ex);
                     }
                 }
                 else
@@ -87,8 +88,6 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="filePath">Файл, иконку которого необходимо получить</param>
         private static Icon GetIconFromFile(string filePath)
         {
-            //return ShellIcon.GetLargeIcon(filePath);
-
             return Icon.ExtractAssociatedIcon(filePath);
         }
 
@@ -113,7 +112,6 @@ namespace TranslatorApk.Logic.Utils
                 return BitmapImageFromUri(new Uri(file)).FreezeIfCan();
 
             return null;
-            //return GetImageFromApp($"/Resources/Flags/{title}.png");
         }
 
         public static BitmapImage BitmapImageFromUri(Uri uri)

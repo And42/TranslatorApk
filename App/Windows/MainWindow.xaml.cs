@@ -26,13 +26,13 @@ namespace TranslatorApk.Windows
             private set => DataContext = value;
         }
 
-        public MainWindow(string[] args)
+        public MainWindow()
         {
             InitializeComponent();
 
             TaskbarItemInfo = new TaskbarItemInfo();
 
-            ViewModel = new MainWindowViewModel(args, this);
+            ViewModel = new MainWindowViewModel(this);
 
             LoadSettings();
 

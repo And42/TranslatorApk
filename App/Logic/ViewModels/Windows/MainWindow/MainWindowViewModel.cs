@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,7 +19,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         private readonly Window _window;
 
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
-        private readonly string[] _arguments;
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
         private StreamWriter _androidProcessLogger;
 
@@ -29,9 +30,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public Apktools Apk;
 
-        public MainWindowViewModel(string[] args, Window window)
+        public MainWindowViewModel(Window window)
         {
-            _arguments = args;
             _window = window;
 
             BindProperty(() => MainWindowState);
@@ -78,9 +78,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public override Task LoadItems()
         {
-            if (_arguments.Length == 1)
+            string[] arguments = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
+            if (arguments.Length == 1)
             {
-                string file = _arguments[0];
+                string file = arguments[0];
                 string ext = Path.GetExtension(file);
 
                 if (Directory.Exists(file))
