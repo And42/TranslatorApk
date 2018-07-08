@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using AndroidHelper.Logic;
@@ -236,9 +237,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 Expand(child, expand);
         }
 
-        private static void Log(string text)
+        private void Log(string text)
         {
-            AndroidLogger.Log(text);
+            if (_androidProcessLogger == null)
+                throw new Exception("Logger is not initialized");
+            
+            _androidProcessLogger.WriteLine(text);
         }
 
         private void VisLog(string text)
@@ -247,6 +251,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             _logTextBuilder.Append(text);
             _logTextBuilder.Append(Environment.NewLine);
+
             OnPropertyChanged(nameof(LogBoxText));
         }
 
@@ -256,17 +261,49 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             OnPropertyChanged(nameof(LogBoxText));
         }
 
-        private static bool TryCreateNewLog(string logPath)
+        private bool TryCreateNewLog(string logPath)
         {
-            try
+            if (_androidProcessLogger != null)
             {
-                AndroidLogger.NewLog(true, logPath);
-                return true;
+                _androidProcessLogger.Close();
+                _androidProcessLogger = null;
             }
-            catch (IOException)
+
+            const int createLogMaximumIndex = 50;
+
+            string logDir = Path.GetDirectoryName(logPath) ?? string.Empty;
+            string logName = Path.GetFileNameWithoutExtension(logPath);
+            string logExt = Path.GetExtension(logPath);
+
+            int currentIndex = 1;
+            while (true)
             {
-                MessBox.ShowDial(string.Format(StringResources.FileIsInUse, logPath), StringResources.ErrorLower);
-                return false;
+                try
+                {
+                    string logIndexedPath =
+                        Path.Combine(
+                            logDir,
+                            currentIndex == 1
+                                ? $"{logName}{logExt}"
+                                : $"{logName} ({currentIndex}){logExt}"
+                        );
+
+                    _androidProcessLogger = new StreamWriter(logIndexedPath, true, Encoding.UTF8) {AutoFlush = true};
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (currentIndex < createLogMaximumIndex)
+                    {
+                        currentIndex++;
+                        continue;
+                    }
+
+                    GlobalVariables.BugSnagClient.Notify(ex);
+                    MessBox.ShowDial(string.Format(StringResources.FileIsInUse, logPath), StringResources.ErrorLower);
+                    return false;
+                }
             }
         }
 

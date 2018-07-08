@@ -103,7 +103,6 @@
     <Reference Include="HtmlAgilityPack, Version=1.8.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.4\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
@@ -161,8 +160,6 @@
       <HintPath>Libraries\Syncfusion.Shared.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
@@ -171,12 +168,9 @@
     <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
-    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -190,10 +184,6 @@
     <Reference Include="TranslatorApkPluginLib, Version=1.1.6190.856, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\TranslatorApkPluginLib.dll</HintPath>
-    </Reference>
-    <Reference Include="UsefulClasses, Version=1.1.6419.29346, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\UsefulClasses.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -213,6 +203,7 @@
     <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
     <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
     <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
+    <Compile Include="Logic\Classes\ShellIcon.cs" />
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
     <Compile Include="Logic\Classes\AppSettingsBase.cs" />
@@ -280,7 +271,6 @@
     <Compile Include="Logic\Classes\ComparisonWrapper.cs" />
     <Compile Include="Logic\Classes\GridSelectionControllerExt.cs" />
     <Compile Include="Logic\Classes\InstallOptionsEnum.cs" />
-    <Compile Include="Logic\Classes\LogItem.cs" />
     <Compile Include="Logic\Classes\OneFoundItem.cs" />
     <Compile Include="Logic\Classes\OneTranslationService.cs" />
     <Compile Include="Logic\PluginItems\PluginHost.cs" />
@@ -905,8 +895,6 @@
     <None Include="Libraries\SmaliParser.xml" />
     <None Include="Libraries\TranslatorApkPluginLib.dll" />
     <None Include="Libraries\TranslatorApkPluginLib.xml" />
-    <None Include="Libraries\UsefulClasses.dll" />
-    <None Include="Libraries\UsefulClasses.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\Syncfusion.Data.WPF.dll" />

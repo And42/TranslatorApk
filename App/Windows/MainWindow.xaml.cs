@@ -9,9 +9,6 @@ using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
 using TranslatorApk.Logic.ViewModels.Windows.MainWindow;
-using UsefulClasses;
-
-using Point = System.Drawing.Point;
 
 namespace TranslatorApk.Windows
 {
@@ -27,11 +24,6 @@ namespace TranslatorApk.Windows
         {
             get => DataContext as MainWindowViewModel;
             private set => DataContext = value;
-        }
-
-        static MainWindow()
-        {
-            MainWindowViewModel.AndroidLogger = new Logger(GlobalVariables.PathToLogs, false);
         }
 
         public MainWindow(string[] args)
@@ -229,7 +221,6 @@ namespace TranslatorApk.Windows
             ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
             ViewModel.Dispose();
 
-            MainWindowViewModel.AndroidLogger.Stop();
             GlobalVariables.AppSettings.MainWindowSize = new Size((int)Width, (int)Height);
 
             Application.Current.Shutdown();

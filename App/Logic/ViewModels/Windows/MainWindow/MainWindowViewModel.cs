@@ -9,7 +9,6 @@ using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
-using UsefulClasses;
 
 namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 {
@@ -20,8 +19,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
         private readonly string[] _arguments;
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
-
-        public static Logger AndroidLogger;
+        private StreamWriter _androidProcessLogger;
 
         public Setting<bool>[] MainWindowSettings { get; private set; }
 
@@ -122,6 +120,21 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             UnsubscribeFromEvents();
             DisposeTreeViewPart();
+            DisposeLogger();
+        }
+
+        private void DisposeLogger()
+        {
+            if (_androidProcessLogger == null)
+                return;
+
+            _androidProcessLogger.Close();
+            _androidProcessLogger = null;
+        }
+
+        ~MainWindowViewModel()
+        {
+            DisposeLogger();
         }
     }
 }

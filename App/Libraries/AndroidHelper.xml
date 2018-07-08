@@ -345,17 +345,19 @@
             Компилирует текущий файл и возвращает, успешна ли прошла компиляция
             </summary>
         </member>
-        <member name="M:AndroidHelper.Logic.Apktools.Sign">
+        <member name="M:AndroidHelper.Logic.Apktools.Sign(System.Boolean)">
             <summary>
             Подписывает текущий файл и возвращает, успешна ли прошла подпись
+            <param name="deleteMetaInf">Необходимо ли удалять META-INF перед подписью</param>
             </summary>
         </member>
-        <member name="M:AndroidHelper.Logic.Apktools.Sign(System.String,System.String@)">
+        <member name="M:AndroidHelper.Logic.Apktools.Sign(System.String,System.String@,System.Boolean)">
             <summary>
             Подписывает указанный файл
             </summary>
             <param name="file">Файл для подписи</param>
             <param name="signedFile">Путь к подписанному файлу</param>
+            <param name="deleteMetaInf">Необходимо ли удалять META-INF перед подписью</param>
         </member>
         <member name="M:AndroidHelper.Logic.Apktools.SignWithKeystore(System.String,System.String,System.String,System.String)">
             <summary>
@@ -506,6 +508,26 @@
             <param name="file">Файл с ошибкой</param>
             <param name="line">Строка с ошибкой</param>
             <param name="message">Сообщение</param>
+        </member>
+        <member name="P:AndroidHelper.Logic.SharpZip.SharpZipEntry.Name">
+            <summary>
+            Entry name
+            </summary>
+        </member>
+        <member name="P:AndroidHelper.Logic.SharpZip.SharpZipEntry.PathInArchive">
+            <summary>
+            Entry path in archive
+            </summary>
+        </member>
+        <member name="P:AndroidHelper.Logic.SharpZip.SharpZipEntry.IsFile">
+            <summary>
+            Is entry a file
+            </summary>
+        </member>
+        <member name="P:AndroidHelper.Logic.SharpZip.SharpZipEntry.ZipEntry">
+            <summary>
+            Zip entry associated to the current one
+            </summary>
         </member>
         <member name="T:AndroidHelper.Logic.MainSmali">
             <summary>

@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.ViewModels.TreeViewModels;
-using UsefulClasses;
 
 namespace TranslatorApk.Logic.Utils
 {
