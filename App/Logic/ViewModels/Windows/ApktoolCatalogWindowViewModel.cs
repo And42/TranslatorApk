@@ -90,7 +90,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                        if (Utils.CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
                             $"\"delete file|{downloadingApktoolPath}\"", out Process process))
                         {
                             process.WaitForExit();
@@ -101,9 +101,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return;
                 }
 
-                if (!Utils.Utils.CheckRights())
+                if (!Utils.CommonUtils.CheckRights())
                 {
-                    if (Utils.Utils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
+                    if (Utils.CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter,
                         $"\"download|{item.Link}|{downloadingApktoolPath}\"", out Process process))
                     {
                         process.WaitForExit();

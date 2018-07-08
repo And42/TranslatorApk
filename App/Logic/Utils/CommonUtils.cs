@@ -29,7 +29,7 @@ using TranslatorApk.Windows;
 
 namespace TranslatorApk.Logic.Utils
 {
-    internal static class Utils
+    internal static class CommonUtils
     {
         private static readonly AppSettingsBase AppSettings = GlobalVariables.AppSettings;
 

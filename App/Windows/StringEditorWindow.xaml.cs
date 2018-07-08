@@ -163,7 +163,7 @@ namespace TranslatorApk.Windows
         {
             if (Str != null && Str.NewText != _backup)
             {
-                Utils.AddToSessionDict(Str.OldText, Str.NewText);
+                CommonUtils.AddToSessionDict(Str.OldText, Str.NewText);
 
                 if (GlobalVariables.AppSettings.SessionAutoTranslate)
                 {

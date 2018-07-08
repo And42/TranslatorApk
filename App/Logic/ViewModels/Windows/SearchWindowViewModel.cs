@@ -198,7 +198,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (selectedFile == null)
                 return;
 
-            Utils.Utils.LoadFile(Path.Combine(GlobalVariables.CurrentProjectFolder, selectedFile.FileName.Substring(StartFormattedString.Length)));
+            Utils.CommonUtils.LoadFile(Path.Combine(GlobalVariables.CurrentProjectFolder, selectedFile.FileName.Substring(StartFormattedString.Length)));
 
             ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
                 .Publish(new EditorScrollToStringAndSelectEvent(

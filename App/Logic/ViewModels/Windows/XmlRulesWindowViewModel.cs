@@ -76,7 +76,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return;
                 }
 
-                var itms = Utils.Utils.GetAllAttributes(xdoc.DocumentElement, Items.Select(it => it.Text));
+                var itms = Utils.CommonUtils.GetAllAttributes(xdoc.DocumentElement, Items.Select(it => it.Text));
 
                 for (int i = Items.Count; i < itms.Count; i++)
                     Items.Add(new CheckableSetting(itms[i]));

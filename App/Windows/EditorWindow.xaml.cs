@@ -212,7 +212,7 @@ namespace TranslatorApk.Windows
         {
             var sortDescriptions = EditorGrid.DetailsViewDefinition[0].As<GridViewDefinition>().DataGrid.SortColumnDescriptions.Cast<SortColumnDescription>();
 
-            return Utils.SortWithDescriptions(file.Details, sortDescriptions);
+            return CommonUtils.SortWithDescriptions(file.Details, sortDescriptions);
         }
 
         #region События окна
@@ -562,7 +562,7 @@ namespace TranslatorApk.Windows
             {
                 var items = new List<(string header, RoutedEventHandler handler, string gesture)>
                 {
-                    ( StringResources.ShowInExplorer, (o, args) => Utils.ShowInExplorer(selectedFile.FileName), default ),
+                    ( StringResources.ShowInExplorer, (o, args) => CommonUtils.ShowInExplorer(selectedFile.FileName), default ),
                     ( StringResources.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName), default ),
                     ( StringResources.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty), default ),
                     ( StringResources.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty), default ),
@@ -616,7 +616,7 @@ namespace TranslatorApk.Windows
 
                             if (!(selectedString is OneDictionaryString))
                             {
-                                Utils.AddToSessionDict(selectedString.OldText, selectedString.NewText);
+                                CommonUtils.AddToSessionDict(selectedString.OldText, selectedString.NewText);
 
                                 TranslateWithSessionDictIfNeeded(selectedString.OldText, selectedString.NewText);
                             }
@@ -782,7 +782,7 @@ namespace TranslatorApk.Windows
 
                                     if (!(str is OneDictionaryString))
                                     {
-                                        Utils.AddToSessionDict(str.OldText, str.NewText);
+                                        CommonUtils.AddToSessionDict(str.OldText, str.NewText);
 
                                         TranslateWithSessionDictIfNeeded(str.OldText, str.NewText);
                                     }

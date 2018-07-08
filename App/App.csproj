@@ -283,7 +283,7 @@
     <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
     <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
-    <Compile Include="Logic\Utils\Utils.cs" />
+    <Compile Include="Logic\Utils\CommonUtils.cs" />
     <Compile Include="Logic\Classes\Options.cs" />
     <Compile Include="Logic\Classes\Setting.cs" />
     <Compile Include="Logic\WebServices\GoogleTranslateServiceSecond.cs" />

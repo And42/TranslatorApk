@@ -192,7 +192,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         private static void TV_OpenWithCommand_Execute(FilesTreeViewNodeModel model)
         {
             if (IOUtils.FileExists(model.Options.FullPath))
-                Utils.Utils.OpenAs(model.Options.FullPath);
+                Utils.CommonUtils.OpenAs(model.Options.FullPath);
         }
 
         private static void TV_LoadAllInXmlCommand_Execute(FilesTreeViewNodeModel model)
@@ -232,7 +232,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private static void TV_OpenInExplorerCommand_Execute(FilesTreeViewNodeModel model)
         {
-            Utils.Utils.ShowInExplorer(model.Options.FullPath);
+            Utils.CommonUtils.ShowInExplorer(model.Options.FullPath);
         }
 
         private static void TV_DeleteElementCommand_Execute(FilesTreeViewNodeModel model)
@@ -398,7 +398,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             if (node.DoubleClicked != null)
                 node.DoubleClicked.Invoke();
             else
-                Utils.Utils.LoadFile(node.Options.FullPath);
+                Utils.CommonUtils.LoadFile(node.Options.FullPath);
 
             e.Handled = true;
         }

@@ -23,7 +23,7 @@ namespace TranslatorApk.Windows
             List<XmlNode> versions = 
                 xdoc.GetElementsByTagName("version")
                     .Cast<XmlNode>()
-                    .Where(node => Utils.CompareVersions(node.Attributes["version"].InnerText, nowVersion) > 0)
+                    .Where(node => CommonUtils.CompareVersions(node.Attributes["version"].InnerText, nowVersion) > 0)
                     .ToList();
 
             var sb = new StringBuilder();
@@ -44,14 +44,14 @@ namespace TranslatorApk.Windows
 
         private void YesClick(object sender, RoutedEventArgs e)
         {
-            if (Utils.IsAdmin())
+            if (CommonUtils.IsAdmin())
             {
                 new DownloadWindow().ShowDialog();
                 Close();
             }
             else
             {
-                Utils.RunAsAdmin(System.Reflection.Assembly.GetExecutingAssembly().Location, "update", out _);
+                CommonUtils.RunAsAdmin(System.Reflection.Assembly.GetExecutingAssembly().Location, "update", out _);
                 Environment.Exit(0);
             }
         }

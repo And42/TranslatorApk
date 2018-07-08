@@ -217,7 +217,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     invoker.IsIndeterminate = false;
 
-                    Utils.Utils.LoadFilesToTreeView(Application.Current.Dispatcher, folderPath, FilesFilesTreeViewModel, GlobalVariables.AppSettings.EmptyFolders, cts, () => invoker.ProcessValue++);
+                    Utils.CommonUtils.LoadFilesToTreeView(Application.Current.Dispatcher, folderPath, FilesFilesTreeViewModel, GlobalVariables.AppSettings.EmptyFolders, cts, () => invoker.ProcessValue++);
                 },
                 finishActions: () =>
                 {
@@ -337,7 +337,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     Parallel.ForEach(files, file =>
                     {
-                        if (!Utils.Utils.CheckFilePath(file))
+                        if (!Utils.CommonUtils.CheckFilePath(file))
                             return;
 
                         cts.ThrowIfCancellationRequested();

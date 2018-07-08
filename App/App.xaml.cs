@@ -43,12 +43,12 @@ namespace TranslatorApk
                 return;
             }
 
-            Utils.LoadSettings();
+            CommonUtils.LoadSettings();
 
 #if !DEBUG
             if (!GlobalVariables.Portable)
 #endif
-                Utils.CheckForUpdate();
+                CommonUtils.CheckForUpdate();
 
             if (string.IsNullOrEmpty(GlobalVariables.AppSettings.ApktoolVersion))
             {
@@ -64,7 +64,7 @@ namespace TranslatorApk
             NotificationService.Instance.Dispose();
 
             GlobalVariables.AppSettings.SourceDictionaries = GlobalVariables.SourceDictionaries.ToList();
-            Utils.UpdateSettingsApiKeys();
+            CommonUtils.UpdateSettingsApiKeys();
 
             GlobalVariables.AppSettings.Save();
         }
