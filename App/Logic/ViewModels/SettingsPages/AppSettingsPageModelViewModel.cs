@@ -38,7 +38,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         public int LanguageOfAppIndex
         {
             get => TranslateService.SupportedProgramLangs.IndexOf(_appSettings.LanguageOfApp);
-            set => Utils.CommonUtils.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
+            set => CommonUtils.SetLanguageOfApp(TranslateService.SupportedProgramLangs[value], true);
         }
 
         public int ShowPreviewsIndex
@@ -105,7 +105,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             set
             {
                 if (value == null)
-                    Utils.CommonUtils.IgnoreComboBoxChange();
+                    CommonUtils.IgnoreComboBoxChange();
 
                 if (value == StringResources.Catalog)
                 {
@@ -113,7 +113,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
                     LoadApktools();
 
-                    Utils.CommonUtils.IgnoreComboBoxChange();
+                    CommonUtils.IgnoreComboBoxChange();
                 }
 
                 _appSettings.ApktoolVersion = value;

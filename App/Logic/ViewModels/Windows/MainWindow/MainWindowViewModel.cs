@@ -95,7 +95,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     {
                         case ".xml":
                         case ".smali":
-                            Utils.CommonUtils.LoadFile(file);
+                            CommonUtils.LoadFile(file);
                             break;
                         case ".apk":
                             DecompileFile(file);

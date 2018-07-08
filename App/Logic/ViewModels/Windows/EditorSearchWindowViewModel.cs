@@ -27,8 +27,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
         private readonly Window _window;
 
-        private ObservableRangeCollection<string> SearchAdds { get; }
-        private ObservableRangeCollection<OneFoundItem> FoundItems { get; }
+        public ObservableRangeCollection<string> SearchAdds { get; }
+        public ObservableRangeCollection<OneFoundItem> FoundItems { get; }
 
         public bool OnlyFullWords
         {

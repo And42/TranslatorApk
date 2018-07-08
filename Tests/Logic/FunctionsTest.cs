@@ -13,14 +13,14 @@ namespace TranslatorApkTests.Logic
         [TestMethod]
         public void CompareVersionsTest()
         {
-            Assert.AreEqual(1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2", "1.0.0.0"));
-            Assert.AreEqual(1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2", "1.0.0.0"));
-            Assert.AreEqual(1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2.3.000001", "1.2.3.00000"));
-            Assert.AreEqual(1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2.3.000100", "1.2.3.000001"));
-            Assert.AreEqual(1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2.3.000100", "1.2.3.0001"));
-            Assert.AreEqual(0, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2.3.00000", "1.2.3.00000"));
-            Assert.AreEqual(-1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2.3.000000", "1.2.3.001000"));
-            Assert.AreEqual(-1, TranslatorApk.Logic.Utils.CommonUtils.CompareVersions("1.2", "1.2.3"));
+            Assert.AreEqual(1, CommonUtils.CompareVersions("1.2", "1.0.0.0"));
+            Assert.AreEqual(1, CommonUtils.CompareVersions("1.2", "1.0.0.0"));
+            Assert.AreEqual(1, CommonUtils.CompareVersions("1.2.3.000001", "1.2.3.00000"));
+            Assert.AreEqual(1, CommonUtils.CompareVersions("1.2.3.000100", "1.2.3.000001"));
+            Assert.AreEqual(1, CommonUtils.CompareVersions("1.2.3.000100", "1.2.3.0001"));
+            Assert.AreEqual(0, CommonUtils.CompareVersions("1.2.3.00000", "1.2.3.00000"));
+            Assert.AreEqual(-1, CommonUtils.CompareVersions("1.2.3.000000", "1.2.3.001000"));
+            Assert.AreEqual(-1, CommonUtils.CompareVersions("1.2", "1.2.3"));
         }
 
         [TestMethod]
@@ -35,8 +35,8 @@ namespace TranslatorApkTests.Logic
             HashSet<string> source2 = new HashSet<string> {"attrib1", "attrib3"};
 
             // ReSharper disable once PossibleNullReferenceException
-            TranslatorApk.Logic.Utils.CommonUtils.GetAllAttributesProcess(doc.DocumentElement.ChildNodes[0], source);
-            TranslatorApk.Logic.Utils.CommonUtils.GetAllAttributesProcess(doc.DocumentElement.ChildNodes[0], source2);
+            CommonUtils.GetAllAttributesProcess(doc.DocumentElement.ChildNodes[0], source);
+            CommonUtils.GetAllAttributesProcess(doc.DocumentElement.ChildNodes[0], source2);
 
             Assert.IsTrue(source.SetEquals(result));
             Assert.IsTrue(source2.SetEquals(result));

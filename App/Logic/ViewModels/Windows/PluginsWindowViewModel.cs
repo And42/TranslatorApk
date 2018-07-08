@@ -101,18 +101,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                             .ToDictionary(Path.GetFileNameWithoutExtension, it => it)
                         : new Dictionary<string, string>();
 
-                    var splugins = Utils.CommonUtils.DeserializeXml<ServerPlugins>(plugs);
+                    var splugins = CommonUtils.DeserializeXml<ServerPlugins>(plugs);
 
                     splugins.Items.ForEach(v =>
                     {
                         string version = existingPlugins.ContainsKey(v.DllName)
-                            ? Utils.CommonUtils.GetDllVersion(existingPlugins[v.DllName])
+                            ? CommonUtils.GetDllVersion(existingPlugins[v.DllName])
                             : null;
 
                         v.Installed = version != null
                             ? v.LatestVersion == null
                                 ? InstallOptionsEnum.ToUninstall
-                                : (Utils.CommonUtils.CompareVersions(v.LatestVersion, version) == 1
+                                : (CommonUtils.CompareVersions(v.LatestVersion, version) == 1
                                     ? InstallOptionsEnum.ToUpdate
                                     : InstallOptionsEnum.ToUninstall)
                             : InstallOptionsEnum.ToInstall;
@@ -152,7 +152,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 string zipPath = Path.Combine(GlobalVariables.PathToPlugins, $"{item.Title}.zip");
                 string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
 
-                if (Utils.CommonUtils.CheckRights())
+                if (CommonUtils.CheckRights())
                 {
                     Process.Start(GlobalVariables.PathToAdminScripter, arguments)?.WaitForExit();
 
@@ -163,7 +163,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                     PluginUtils.LoadPlugin(dllPath);
                 }
-                else if (Utils.CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
+                else if (CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter, arguments, out var process))
                 {
                     process.WaitForExit();
 
@@ -196,7 +196,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 {
                     string command = $"\"delete file|{dllName}\" \"delete folder|{dirName}\"";
 
-                    if (!Utils.CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter, command, out var process))
+                    if (!CommonUtils.RunAsAdmin(GlobalVariables.PathToAdminScripter, command, out var process))
                         return;
 
                     process.WaitForExit();
