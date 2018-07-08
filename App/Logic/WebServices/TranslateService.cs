@@ -6,6 +6,7 @@ using System.Web;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 using TranslatorApk.Logic.Utils;
+using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -18,13 +19,12 @@ namespace TranslatorApk.Logic.WebServices
         /// <summary>
         /// Список сокращений языков для онлайн перевода
         /// </summary>
-        public static ReadOnlyCollection<string> ShortTargetLanguages = 
-            new ReadOnlyCollection<string>(Properties.Resources.OnlineTranslationsShortLanguages.Split('|'));
+        public static ReadOnlyCollection<string> ShortTargetLanguages { get; private set; }
 
         /// <summary>
         /// Список сокращений языков для онлайн перевода
         /// </summary>
-        public static ReadOnlyCollection<string> LongTargetLanguages;
+        public static ReadOnlyCollection<string> LongTargetLanguages { get; private set; }
 
         #endregion
 
@@ -58,6 +58,8 @@ namespace TranslatorApk.Logic.WebServices
             OnlineTranslators.Add(gGuid, new OneTranslationService("Google", TranslateWithGoogleSecond, gGuid));
             OnlineTranslators.Add(yGuid, new OneTranslationService("Yandex (API)", TranslateWithYandexApi, yGuid));
             OnlineTranslators.Add(bGuid, new OneTranslationService("Baidu", TranslateWithBaidu, bGuid));
+
+            ReloadItems();
         }
 
         /// <summary>
@@ -186,6 +188,12 @@ namespace TranslatorApk.Logic.WebServices
                 WebUtils.DownloadString(link, GlobalVariables.AppSettings.TranslationTimeout)
                     .Split('{')[1].Split('}')[0].SplitRemove('"')
                     .Last();
+        }
+
+        public static void ReloadItems()
+        {
+            ShortTargetLanguages = new ReadOnlyCollection<string>(Properties.Resources.OnlineTranslationsShortLanguages.Split('|'));
+            LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
         }
     }
 }

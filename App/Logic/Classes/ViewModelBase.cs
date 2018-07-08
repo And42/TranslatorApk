@@ -2,13 +2,12 @@
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Disposables;
 using TranslatorApk.Logic.Interfaces;
-using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.Classes
 {
     public abstract class ViewModelBase : BindableBase, IViewModelBase
     {
-        protected static readonly Task EmptyTask = new Task(() => {}).Apply(it => it.Start());
+        protected static readonly Task EmptyTask = Task.Factory.StartNew(() => {});
 
         public virtual bool IsBusy
         {

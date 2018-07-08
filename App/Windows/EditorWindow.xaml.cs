@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -29,8 +28,6 @@ using TranslatorApk.Logic.Utils;
 using TranslatorApk.Logic.WebServices;
 using TranslatorApk.Resources.Localizations;
 
-using static TranslatorApk.Logic.Utils.Utils;
-
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
@@ -43,11 +40,6 @@ namespace TranslatorApk.Windows
 {
     public partial class EditorWindow : IRaisePropertyChanged
     {
-        public static double EditorHeaderFontSize = 20;
-        public static double EditorTextFontSize = 15;
-
-        public static ReadOnlyCollection<string> Languages;
-
         public ICommand TranslateAllFilesCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand SaveAndCloseCommand { get; }
@@ -220,7 +212,7 @@ namespace TranslatorApk.Windows
         {
             var sortDescriptions = EditorGrid.DetailsViewDefinition[0].As<GridViewDefinition>().DataGrid.SortColumnDescriptions.Cast<SortColumnDescription>();
 
-            return SortWithDescriptions(file.Details, sortDescriptions);
+            return Utils.SortWithDescriptions(file.Details, sortDescriptions);
         }
 
         #region События окна
@@ -443,10 +435,16 @@ namespace TranslatorApk.Windows
             if (GlobalVariables.SourceDictionaries.Any(dict => dict.Text == dictionaryFile))
                 return;
 
-            if (TryFunc(() => new DictionaryFile(dictionaryFile), out _))
+            try
+            {
+                // ReSharper disable once ObjectCreationAsStatement
+                new DictionaryFile(dictionaryFile);
                 GlobalVariables.SourceDictionaries.Add(new CheckableSetting(dictionaryFile, true));
-            else
+            }
+            catch (Exception)
+            {
                 MessBox.ShowDial(dictionaryFile + "\n" + StringResources.TheFileIsCorrupted, StringResources.ErrorLower);
+            }
         }
 
         private void RemoveSourceDict_MouseDown(object sender, MouseButtonEventArgs e)
@@ -564,7 +562,7 @@ namespace TranslatorApk.Windows
             {
                 var items = new List<(string header, RoutedEventHandler handler, string gesture)>
                 {
-                    ( StringResources.ShowInExplorer, (o, args) => ShowInExplorer(selectedFile.FileName), default ),
+                    ( StringResources.ShowInExplorer, (o, args) => Utils.ShowInExplorer(selectedFile.FileName), default ),
                     ( StringResources.FullFilePathToClipboard, (o, args) => Clipboard.SetText(selectedFile.FileName), default ),
                     ( StringResources.FileNameToClipboard, (o, args) => Clipboard.SetText(Path.GetFileName(selectedFile.FileName) ?? string.Empty), default ),
                     ( StringResources.DirectoryPathToClipboard, (o, args) => Clipboard.SetText(Path.GetDirectoryName(selectedFile.FileName) ?? string.Empty), default ),
@@ -618,7 +616,7 @@ namespace TranslatorApk.Windows
 
                             if (!(selectedString is OneDictionaryString))
                             {
-                                AddToSessionDict(selectedString.OldText, selectedString.NewText);
+                                Utils.AddToSessionDict(selectedString.OldText, selectedString.NewText);
 
                                 TranslateWithSessionDictIfNeeded(selectedString.OldText, selectedString.NewText);
                             }
@@ -784,7 +782,7 @@ namespace TranslatorApk.Windows
 
                                     if (!(str is OneDictionaryString))
                                     {
-                                        AddToSessionDict(str.OldText, str.NewText);
+                                        Utils.AddToSessionDict(str.OldText, str.NewText);
 
                                         TranslateWithSessionDictIfNeeded(str.OldText, str.NewText);
                                     }

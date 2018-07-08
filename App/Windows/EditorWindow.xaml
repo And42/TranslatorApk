@@ -6,12 +6,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:localizations="clr-namespace:TranslatorApk.Resources.Localizations"
-        xmlns:windows="clr-namespace:TranslatorApk.Windows"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"    
         xmlns:attachedProps="clr-namespace:TranslatorApk.Logic.AttachedProperties"
         xmlns:organisationItems="clr-namespace:TranslatorApk.Logic.OrganisationItems"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"    
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:webServices="clr-namespace:TranslatorApk.Logic.WebServices"
 
         mc:Ignorable="d"
 
@@ -64,7 +64,7 @@
                         x:Name="LangsBox" 
                         Margin="2,1" Width="230" 
                         FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}"
-                        ItemsSource="{x:Static windows:EditorWindow.Languages}" 
+                        ItemsSource="{x:Static webServices:TranslateService.LongTargetLanguages}" 
                         SelectedIndex="{Binding LangsBoxItemIndex}" />
                 </StackPanel>
             </MenuItem>

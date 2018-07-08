@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -230,14 +229,10 @@ namespace TranslatorApk.Logic.Utils
             if (AppSettings.XmlRules != null)
                 XmlFile.XmlRules = AppSettings.XmlRules.Select(it => new Regex(it)).ToList();
 
-            EditorWindow.Languages = TranslateService.LongTargetLanguages;
-
             if (AppSettings.Theme.IsNullOrEmpty() || GlobalVariables.Themes.All(theme => theme.name != AppSettings.Theme))
                 AppSettings.Theme = GlobalVariables.Themes.First().name;
 
             ThemeUtils.ChangeTheme(AppSettings.Theme);
-
-            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
 
             string apktoolVersion = AppSettings.ApktoolVersion;
 
@@ -253,6 +248,8 @@ namespace TranslatorApk.Logic.Utils
                     }
                 }
             }
+
+            TranslateService.ReloadItems();
 
             UpdateApiKeys();
 
@@ -350,7 +347,7 @@ namespace TranslatorApk.Logic.Utils
                 Environment.Exit(0);
             }
 
-            TranslateService.LongTargetLanguages = new ReadOnlyCollection<string>(StringResources.OnlineTranslationsLongLanguages.Split('|'));
+            TranslateService.ReloadItems();
         }
 
         /// <summary>
@@ -371,8 +368,17 @@ namespace TranslatorApk.Logic.Utils
             {
                 string newVersion;
 
-                if (!TryFunc(() => WebUtils.DownloadString("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version", WebUtils.DefaultTimeout), out newVersion))
+                try
+                {
+                    newVersion = WebUtils.DownloadString(
+                        "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version",
+                        WebUtils.DefaultTimeout
+                    );
+                }
+                catch (Exception)
+                {
                     return;
+                }
 
                 if (CompareVersions(newVersion, GlobalVariables.ProgramVersion) != 1)
                     return;
@@ -548,61 +554,6 @@ namespace TranslatorApk.Logic.Utils
         }
 
         /// <summary>
-        /// Сериализует объект в строку, содержащую XML представление указанного объекта
-        /// </summary>
-        /// <typeparam name="T">Тип объекта для сериализации</typeparam>
-        /// <param name="item">Объект для сериализации</param>
-        public static string SerializeXml<T>(T item)
-        {
-            var xmlSerializer = new XmlSerializer(typeof(T));
-
-            using (var writer = new StringWriter())
-            {
-                xmlSerializer.Serialize(writer, item);
-
-                return writer.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Выполняет действие и возвращает его результат
-        /// </summary>
-        /// <param name="func">Действие</param>
-        /// <param name="result">Результат действия</param>
-        /// <returns>True, если всё прошло успешно, false, если во время выполнения возникло исключение</returns>
-        public static bool TryFunc<T>(Func<T> func, out T result)
-        {
-            try
-            {
-                result = func();
-                return true;
-            }
-            catch (Exception)
-            {
-                result = default;
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Выполняет действие
-        /// </summary>
-        /// <param name="action">Действие</param>
-        /// <returns>True, если всё прошло успешно, false, если во время выполнения возникло исключение</returns>
-        public static bool TryAction(Action action)
-        {
-            try
-            {
-                action();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Выполняет действие в Dispatcher'e (чуть сокращает код вызова благодаря неявному приведению типов)
         /// </summary>
         /// <param name="dispatcher">Dispatcher</param>
@@ -690,12 +641,6 @@ namespace TranslatorApk.Logic.Utils
         public static void IgnoreComboBoxChange()
         {
             throw new ArgumentException("ComboBox change was cancelled");
-        }
-
-        public static T Apply<T>(this T obj, Action<T> action)
-        {
-            action(obj);
-            return obj;
         }
 
         public static T As<T>(this object obj) => (T) obj;
