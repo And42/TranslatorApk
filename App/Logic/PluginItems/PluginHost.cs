@@ -5,16 +5,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NLog;
 using TranslatorApk.Logic.Classes;
+using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.PluginItems
 {
-    public class PluginHost : MarshalByRefObject 
+    public class PluginHost : MarshalByRefObject
     {
-        public readonly ReadOnlyCollection<ActionHost> Actions;
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
+        public ReadOnlyCollection<ActionHost> Actions { get; }
         private readonly List<ActionHost> _actions;
 
-        public readonly ReadOnlyCollection<TransServiceHost> Translators;
+        public ReadOnlyCollection<TransServiceHost> Translators { get; }
         private readonly List<TransServiceHost> _translators;
 
         public AppDomain Domain { get; }
@@ -23,11 +27,8 @@ namespace TranslatorApk.Logic.PluginItems
 
         public PluginHost()
         {
-            _actions = new List<ActionHost>();
-            Actions = _actions.AsReadOnly();
-
-            _translators = new List<TransServiceHost>();
-            Translators = _translators.AsReadOnly();
+            Actions = (_actions = new List<ActionHost>()).AsReadOnly();
+            Translators = (_translators = new List<TransServiceHost>()).AsReadOnly();
 
             Domain = AppDomain.CurrentDomain;
         }
@@ -49,7 +50,9 @@ namespace TranslatorApk.Logic.PluginItems
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine(ex.ToString(), "Error");
+                            Logger.Error(ex);
+                            GlobalVariables.BugSnagClient.Notify(ex);
+                            Debug.Fail(ex.ToString());
                         }
                     }
                 }
@@ -74,7 +77,9 @@ namespace TranslatorApk.Logic.PluginItems
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString(), "Error");
+                Logger.Error(ex);
+                GlobalVariables.BugSnagClient.Notify(ex);
+                Debug.Fail(ex.ToString());
                 return;
             }         
 
