@@ -915,6 +915,9 @@
     <Resource Include="Resources\Files\language_iso_to_country_iso.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AdminScripter.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Libraries\AndroidHelper.dll" />
     <Content Include="Libraries\SettingsManager.dll" />
     <Resource Include="Libraries\SettingsManager.xml" />
