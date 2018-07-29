@@ -16,9 +16,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 {
     internal partial class MainWindowViewModel : ViewModelBase
     {
+        private const string LogLine = "------------------------------";
+
         private readonly Window _window;
 
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         private readonly StringBuilder _logTextBuilder = new StringBuilder();
         private StreamWriter _androidProcessLogger;
 
@@ -26,7 +30,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public string LogBoxText => _logTextBuilder.ToString();
 
-        public Property<WindowState> MainWindowState { get; private set; }
+        public Property<WindowState> MainWindowState { get; } = new Property<WindowState>();
 
         public Apktools Apk;
 
@@ -34,12 +38,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             _window = window;
 
-            BindProperty(() => MainWindowState);
-
             InitSettings();
             InitCommon();
 
-            PropertyChanged += OnPropertyChanged;
+            MainWindowState.PropertyChanged += (sender, args) =>
+            {
+                if (MainWindowState.Value != WindowState.Minimized)
+                    _appSettings.MainWMaximized = MainWindowState.Value == WindowState.Maximized;
+            };
+
             _appSettings.PropertyChanged += SettingsOnPropertyChanged;
         }
 
@@ -61,19 +68,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 new Setting<bool>(s => s.OtherFiles,      StringResources.OtherFiles),
                 new Setting<bool>(s => s.OnlyResources,   StringResources.OnlyResources)
             };
-        }
-
-        private async void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            switch (args.PropertyName)
-            {
-                case nameof(MainWindowState):
-                    if (MainWindowState.Value != WindowState.Minimized)
-                        _appSettings.MainWMaximized = MainWindowState.Value == WindowState.Maximized;
-                    break;
-            }
-
-            await TVPropertyChanged(args);
         }
 
         public override Task LoadItems()
@@ -114,7 +108,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public override void UnsubscribeFromEvents()
         {
-            PropertyChanged -= OnPropertyChanged;
             _appSettings.PropertyChanged -= SettingsOnPropertyChanged;
         }
 

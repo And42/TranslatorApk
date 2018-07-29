@@ -18,6 +18,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     public class AddLanguageWindowViewModel : ViewModelBase
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         [DebuggerDisplay("{" + nameof(Title) + "} - {" + nameof(LanguageIso) + "}")]
         public class LanguageViewModel
         {
@@ -92,10 +94,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public override async Task LoadItems()
         {
-            if (string.IsNullOrEmpty(GlobalVariables.CurrentProjectFolder))
+            if (string.IsNullOrEmpty(_globalVariables.CurrentProjectFolder.Value))
                 return;
 
-            _currentProjectFolder = GlobalVariables.CurrentProjectFolder;
+            _currentProjectFolder = _globalVariables.CurrentProjectFolder.Value;
 
             using (BusyDisposable())
             {

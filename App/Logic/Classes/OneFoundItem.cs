@@ -5,6 +5,8 @@ namespace TranslatorApk.Logic.Classes
 {
     public sealed class OneFoundItem
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         public string FileName { get; }
 
         public string Text { get; }
@@ -17,9 +19,9 @@ namespace TranslatorApk.Logic.Classes
         {
             FileName = fileName;
             FormattedName = 
-                GlobalVariables.CurrentProjectFolder == null 
+                _globalVariables.CurrentProjectFolder.Value == null 
                     ? fileName
-                    : "..." + fileName.Remove(0, GlobalVariables.CurrentProjectFolder.Length);
+                    : "..." + fileName.Remove(0, _globalVariables.CurrentProjectFolder.Value.Length);
             Text = text;
             EditString = str;
         }

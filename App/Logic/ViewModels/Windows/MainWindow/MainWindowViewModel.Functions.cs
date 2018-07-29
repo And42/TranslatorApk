@@ -81,7 +81,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void DecompileFile(string file)
         {
-            GlobalVariables.CurrentProjectFile = file;
+            _globalVariables.CurrentProjectFile.Value = file;
 
             string logPath = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty,
                 $"{Path.GetFileNameWithoutExtension(file)}_log.txt");
@@ -117,9 +117,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 {
                     IsBusy = false;
 
-                    VisLog(GlobalVariables.LogLine);
+                    VisLog(LogLine);
                     VisLog(StringResources.Finished);
-                    VisLog(GlobalVariables.LogLine);
+                    VisLog(LogLine);
 
                     if (GlobalVariables.AppSettings.ShowNotifications)
                     {
@@ -128,7 +128,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
                     if (success)
                     {
-                        Application.Current.Dispatcher.InvokeAction(() => LoadFolder(GlobalVariables.CurrentProjectFolder, true));
+                        Application.Current.Dispatcher.InvokeAction(() => LoadFolder(_globalVariables.CurrentProjectFolder.Value, true));
                     }
                 },
                 cancelVisibility: Visibility.Collapsed,
@@ -174,13 +174,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     return;
             }
 
-            GlobalVariables.CurrentProjectFile = folderPath + ".apk";
+            _globalVariables.CurrentProjectFile.Value = folderPath + ".apk";
 
             if (Apk != null)
                 Apk.Logging -= VisLog;
 
             Apk = new Apktools(
-                GlobalVariables.CurrentProjectFile,
+                _globalVariables.CurrentProjectFile.Value,
                 GlobalVariables.PathToResources,
                 GlobalVariables.CurrentApktoolPath
             );
@@ -224,6 +224,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     IsBusy = false;
 
                     FilesFilesTreeViewModel.Children.ForEach(ImageUtils.LoadIconForItem);
+
+                    RaiseCommandsCanExecute();
                 },
                 ownerWindow: _window
             );
@@ -327,7 +329,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 {
                     invoker.IsIndeterminate = true;
 
-                    string[] files = Directory.GetFiles(GlobalVariables.CurrentProjectFolder, "*" + extension, SearchOption.AllDirectories);
+                    string[] files = Directory.GetFiles(_globalVariables.CurrentProjectFolder.Value, "*" + extension, SearchOption.AllDirectories);
 
                     invoker.IsIndeterminate = false;
 

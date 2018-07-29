@@ -14,6 +14,8 @@ namespace TranslatorApk.Logic.Utils
 {
     internal static class PluginUtils
     {
+        private static readonly GlobalVariables GlobalVariables = GlobalVariables.Instance;
+
         private static bool _pluginsLoaded;
 
         /// <summary>
@@ -133,12 +135,12 @@ namespace TranslatorApk.Logic.Utils
         {
             if (TranslateService.OnlineTranslators.TryGetValue(GlobalVariables.AppSettings.OnlineTranslator, out var found))
             {
-                GlobalVariables.CurrentTranslationService = found;
+                GlobalVariables.CurrentTranslationService.Value = found;
             }
             else
             {
                 GlobalVariables.AppSettings.OnlineTranslator = TranslateService.OnlineTranslators.First().Key;
-                GlobalVariables.CurrentTranslationService = TranslateService.OnlineTranslators.First().Value;
+                GlobalVariables.CurrentTranslationService.Value = TranslateService.OnlineTranslators.First().Value;
             }
         }
     }

@@ -6,14 +6,14 @@ namespace TranslatorApk.Logic.EventManagerLogic
     {
         private event Action<T> ManualEvent;
 
-        public void Subscribe(Action<T> action)
+        public void Subscribe(Action<T> handler)
         {
-            ManualEvent += action;
+            ManualEvent += handler;
         }
 
-        public void Unsubscribe(Action<T> action)
+        public void Unsubscribe(Action<T> handler)
         {
-            ManualEvent -= action;
+            ManualEvent -= handler;
         }
 
         public void Publish(T parameter)

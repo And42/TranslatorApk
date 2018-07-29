@@ -40,6 +40,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             private bool _isSelected;
         }
 
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         private static readonly Regex[] IgnoreRegexes =
         {
             new Regex(@".*-v[\d]+$"),
@@ -66,7 +68,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private async void RemoveLanguagesCommand_Execute()
         {
-            var sourcedir = Path.Combine(GlobalVariables.CurrentProjectFolder, "res");
+            var sourcedir = Path.Combine(_globalVariables.CurrentProjectFolder.Value, "res");
 
             if (!Directory.Exists(sourcedir))
                 return;
@@ -91,7 +93,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public override async Task LoadItems()
         {
-            if (GlobalVariables.CurrentProjectFolder == null)
+            if (_globalVariables.CurrentProjectFolder.Value.IsNullOrEmpty())
                 return;
 
             using (BusyDisposable())
@@ -101,16 +103,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
         }
 
-        private static Task<List<SourceLanguageModel>> GetLanguageFoldersAsync(CancellationToken cancellationToken)
+        private Task<List<SourceLanguageModel>> GetLanguageFoldersAsync(CancellationToken cancellationToken)
         {
             return Task.Factory.StartNew(() => GetLanguageFolders(cancellationToken), cancellationToken);
         }
 
-        private static List<SourceLanguageModel> GetLanguageFolders(CancellationToken cancellationToken)
+        private List<SourceLanguageModel> GetLanguageFolders(CancellationToken cancellationToken)
         {
             var existingFolders =
                 Directory.EnumerateDirectories(
-                        Path.Combine(GlobalVariables.CurrentProjectFolder, "res"), "values-*",
+                        Path.Combine(_globalVariables.CurrentProjectFolder.Value, "res"), "values-*",
                         SearchOption.TopDirectoryOnly
                     )
                     .Select(Path.GetFileName)

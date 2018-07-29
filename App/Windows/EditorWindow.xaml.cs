@@ -40,6 +40,9 @@ namespace TranslatorApk.Windows
 {
     public partial class EditorWindow : IRaisePropertyChanged
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+
         public ICommand TranslateAllFilesCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand SaveAndCloseCommand { get; }
@@ -1215,12 +1218,12 @@ namespace TranslatorApk.Windows
 
                 foreach (var str in file.Details)
                 {
-                    if (str.NewText.IsNullOrEmpty() && GlobalVariables.SessionDictionary.TryGetValue(str.OldText, out string found))
+                    if (str.NewText.IsNullOrEmpty() && _globalVariables.SessionDictionary.TryGetValue(str.OldText, out string found))
                         str.NewText = found;
                 }
             }
 
-            if (!GlobalVariables.AppSettings.SessionAutoTranslate)
+            if (!_appSettings.SessionAutoTranslate)
                 return;
 
             StringFiles.ForEach(TranslateWithSessionDict);
@@ -1337,11 +1340,11 @@ namespace TranslatorApk.Windows
 
         private void TranslateWithSessionDictIfNeeded(string oldText, string newText)
         {
-            if (GlobalVariables.AppSettings.SessionAutoTranslate)
+            if (_appSettings.SessionAutoTranslate)
             {
                 ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                     .Publish(new EditorWindowTranslateTextEvent(oldText, newText,
-                        EditorWindowTranslateTextEvent.NotDictionaryFileFilter));
+                        file => !(file is IDictionaryFile)));
             }
         }
 

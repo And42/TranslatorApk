@@ -37,6 +37,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         private static readonly string StartFormattedString = "..." + Path.DirectorySeparatorChar;
 
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
         private readonly Window _window;
         
         public ReadOnlyObservableCollection<FoundItem> Files { get; }
@@ -82,13 +83,16 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void FindFilesCommand_Execute()
         {
-            if (GlobalVariables.CurrentProjectFolder == null)
+            if (_globalVariables.CurrentProjectFolder.Value.IsNullOrEmpty())
             {
                 MessBox.ShowDial(StringResources.SearchWindow_FolderIsNotSelected);
                 return;
             }
 
-            string GetFormattedName(string fileName) => StartFormattedString + fileName.Substring(GlobalVariables.CurrentProjectFolder.Length + 1);
+            string GetFormattedName(string fileName)
+            {
+                return StartFormattedString + fileName.Substring(_globalVariables.CurrentProjectFolder.Value.Length + 1);
+            }
 
             AddToSearchAdds(TextToSearch.Value);
 
@@ -98,7 +102,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 beforeStarting: () => IsBusy = true,
                 threadActions: (cts, invoker) =>
                 {
-                    var projectFolder = GlobalVariables.CurrentProjectFolder;
+                    var projectFolder = _globalVariables.CurrentProjectFolder.Value;
                     var buildFolder = Path.DirectorySeparatorChar + "build";
                     var buildFolderM = Path.DirectorySeparatorChar + "build" + Path.DirectorySeparatorChar;
 
@@ -198,7 +202,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             if (selectedFile == null)
                 return;
 
-            CommonUtils.LoadFile(Path.Combine(GlobalVariables.CurrentProjectFolder, selectedFile.FileName.Substring(StartFormattedString.Length)));
+            CommonUtils.LoadFile(Path.Combine(_globalVariables.CurrentProjectFolder.Value, selectedFile.FileName.Substring(StartFormattedString.Length)));
 
             ManualEventManager.GetEvent<EditorScrollToStringAndSelectEvent>()
                 .Publish(new EditorScrollToStringAndSelectEvent(

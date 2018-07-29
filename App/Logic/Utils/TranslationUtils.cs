@@ -8,6 +8,8 @@ namespace TranslatorApk.Logic.Utils
 {
     public static class TranslationUtils
     {
+        private static readonly GlobalVariables GlobalVariables = GlobalVariables.Instance;
+
         private static readonly Regex[] Regexes = {
             new Regex(@"% {1,2}(\d) {1,2}\$ {1,2}(\w)"),
             new Regex(@"% {1,2}(\d|\w)"),
@@ -70,7 +72,7 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="text">Текст для перевода</param>
         public static string TranslateTextWithSettings(string text)
         {
-            var translated = GlobalVariables.CurrentTranslationService.Translate(text, GlobalVariables.AppSettings.TargetLanguage);
+            var translated = GlobalVariables.CurrentTranslationService.Value.Translate(text, GlobalVariables.AppSettings.TargetLanguage);
 
             if (GlobalVariables.AppSettings.FixOnlineTranslationResults)
                 return FixOnlineTranslation(translated);

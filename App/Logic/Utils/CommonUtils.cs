@@ -31,6 +31,7 @@ namespace TranslatorApk.Logic.Utils
 {
     internal static class CommonUtils
     {
+        private static readonly GlobalVariables GlobalVariables = GlobalVariables.Instance;
         private static readonly AppSettingsBase AppSettings = GlobalVariables.AppSettings;
 
         public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationToken cts = default, Action oneFileAdded = null)

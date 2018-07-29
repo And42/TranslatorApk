@@ -30,14 +30,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitMainButtonsPart()
         {
-            ActionCommand ActCom(Action action) => new ActionCommand(action);
-
-            SignCommand = ActCom(SignCommand_Execute);
-            BuildCommand = ActCom(BuildCommand_Execute);
-            ChooseFileCommand = ActCom(ChooseFileCommand_Execute);
-            ChooseFolderCommand = ActCom(ChooseFolderCommand_Execute);
-            InstallFrameworkCommand = ActCom(InstallFrameworkCommand_Execute);
-            ShowSearchWindowCommand = ActCom(OpenSearchCommand_Execute);
+            SignCommand = new ActionCommand(SignCommand_Execute, () => Apk?.NewApk != null);
+            BuildCommand = new ActionCommand(BuildCommand_Execute, () => Apk != null);
+            ChooseFileCommand = new ActionCommand(ChooseFileCommand_Execute);
+            ChooseFolderCommand = new ActionCommand(ChooseFolderCommand_Execute);
+            InstallFrameworkCommand = new ActionCommand(InstallFrameworkCommand_Execute);
+            ShowSearchWindowCommand = new ActionCommand(OpenSearchCommand_Execute);
 
             ApkDropCommand = new ActionCommand<DragEventArgs>(ApkDropCommand_Execute);
             FolderDropCommand = new ActionCommand<DragEventArgs>(FolderDropCommand_Execute);
@@ -107,9 +105,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 {
                     IsBusy = false;
 
-                    VisLog(GlobalVariables.LogLine);
+                    VisLog(LogLine);
                     VisLog(success ? StringResources.Finished : StringResources.ErrorWhileCompiling);
-                    VisLog(GlobalVariables.LogLine);
+                    VisLog(LogLine);
 
                     if (GlobalVariables.AppSettings.ShowNotifications)
                     {
@@ -128,6 +126,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                     {
                         VisLog(StringResources.FileIsSituatedIn + " " + Apk.NewApk);
                     }
+
+                    RaiseCommandsCanExecute();
                 },
                 cancelVisibility: Visibility.Collapsed,
                 ownerWindow: _window
@@ -153,7 +153,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void SignCommand_Execute()
         {
-            if (Apk == null)
+            if (Apk?.NewApk == null)
                 return;
 
             if (!Apk.HasJava())
@@ -164,8 +164,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
             bool success = false;
 
-            const string line = GlobalVariables.LogLine;
-
             LoadingWindow.ShowWindow(
                 beforeStarting: () => IsBusy = true,
                 threadActions: source => success = Apk.Sign(),
@@ -173,7 +171,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 {
                     IsBusy = false;
 
-                    VisLog(line);
+                    VisLog(LogLine);
                     VisLog(success ? StringResources.Finished : StringResources.ErrorWhileSigning);
 
                     if (success)
@@ -194,7 +192,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 ownerWindow: _window
             );
 
-            VisLog(string.Format("{0}{1}Signing...{1}{0}", line, Environment.NewLine));
+            VisLog(string.Format("{0}{1}Signing...{1}{0}", LogLine, Environment.NewLine));
         }
 
         #endregion
@@ -232,5 +230,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         }
 
         #endregion
+
+        private void RaiseCommandsCanExecute()
+        {
+            SignCommand.RaiseCanExecuteChanged();
+            BuildCommand.RaiseCanExecuteChanged();
+            ChooseFileCommand.RaiseCanExecuteChanged();
+            ChooseFolderCommand.RaiseCanExecuteChanged();
+            InstallFrameworkCommand.RaiseCanExecuteChanged();
+            ShowSearchWindowCommand.RaiseCanExecuteChanged();
+        }
     }
 }

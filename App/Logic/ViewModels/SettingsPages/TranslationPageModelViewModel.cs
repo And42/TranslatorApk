@@ -10,6 +10,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class TranslationPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
 
         public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
@@ -30,13 +31,13 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public OneTranslationService OnlineTranslator
         {
-            get => GlobalVariables.CurrentTranslationService;
+            get => _globalVariables.CurrentTranslationService.Value;
             set
             {
                 if (value == null)
                     return;
 
-                GlobalVariables.CurrentTranslationService = value;
+                _globalVariables.CurrentTranslationService.Value = value;
                 _appSettings.OnlineTranslator = value.Guid;
                 OnPropertyChanged(nameof(OnlineTranslator));
             }

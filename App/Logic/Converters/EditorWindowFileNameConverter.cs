@@ -6,10 +6,12 @@ namespace TranslatorApk.Logic.Converters
 {
     public class EditorWindowFileNameConverter : ConverterBase<string, string>
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         public override string ConvertInternal(string value, object parameter, CultureInfo culture)
         {
-            if (GlobalVariables.CurrentProjectFolder != null && value.StartsWith(GlobalVariables.CurrentProjectFolder))
-                return "..." + value.Substring(GlobalVariables.CurrentProjectFolder.Length);
+            if (_globalVariables.CurrentProjectFolder.Value != null && value.StartsWith(_globalVariables.CurrentProjectFolder.Value))
+                return "..." + value.Substring(_globalVariables.CurrentProjectFolder.Value.Length);
 
             return value;
         }

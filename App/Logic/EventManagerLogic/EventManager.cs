@@ -17,10 +17,8 @@ namespace TranslatorApk.Logic.EventManagerLogic
         {
             string typeName = typeof(TEventType).FullName ?? string.Empty;
 
-            if (Events.TryGetValue(typeName, out object evnt))
-            {
-                return (PubSubEvent<TEventType>) evnt;
-            }
+            if (Events.TryGetValue(typeName, out object @event))
+                return (PubSubEvent<TEventType>) @event;
 
             var manualEvent = new PubSubEvent<TEventType>();
 

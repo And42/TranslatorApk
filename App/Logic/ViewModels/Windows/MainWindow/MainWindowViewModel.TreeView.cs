@@ -77,8 +77,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         private CancellationTokenSource _filteringToken;
         private readonly AsyncLock _filterLock = new AsyncLock();
 
-        public Property<string> TV_FilterString { get; private set; }
-        public Property<bool> TV_FilteringBoxIsVisible { get; private set; }
+        public Property<string> TV_FilterString { get; } = new Property<string>();
+        public Property<bool> TV_FilteringBoxIsVisible { get; } = new Property<bool>();
 
         public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel();
 
@@ -103,9 +103,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitTreeViewPart()
         {
-            BindProperty(() => TV_FilterString);
-            BindProperty(() => TV_FilteringBoxIsVisible);
-
             ActionCommand ActCom(Action action) => new ActionCommand(action);
             TVItemMenuCommand TVCom(Action<FilesTreeViewNodeModel> action) => new ActionCommand<FilesTreeViewNodeModel>(action);
 
@@ -129,6 +126,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             TV_DropCommand = new ActionCommand<DragEventArgs>(TV_DropCommand_Execute);
 
             _tvCommands = new CommandContainers(this);
+
+            TV_FilterString.PropertyChanged += async (sender, args) => await FilterItems();
         }
 
         private void DisposeTreeViewPart()
@@ -173,10 +172,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void TV_RefreshFilesListCommand_Execute()
         {
-            if (string.IsNullOrEmpty(GlobalVariables.CurrentProjectFolder))
+            if (string.IsNullOrEmpty(_globalVariables.CurrentProjectFolder.Value))
                 return;
 
-            LoadFolder(GlobalVariables.CurrentProjectFolder);
+            LoadFolder(_globalVariables.CurrentProjectFolder.Value);
         }
 
         #endregion
@@ -422,16 +421,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         }
 
         #endregion
-
-        private async Task TVPropertyChanged(PropertyChangedEventArgs args)
-        {
-            switch (args.PropertyName)
-            {
-                case nameof(TV_FilterString):
-                    await FilterItems();
-                    break;
-            }
-        }
 
         private async Task TVSettingsOnPropertyChanged(PropertyChangedEventArgs args)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using AndroidTranslator.Interfaces.Files;
 using AndroidTranslator.Interfaces.Strings;
 using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.EventManagerLogic;
@@ -13,6 +14,8 @@ namespace TranslatorApk.Windows
 {
     public partial class StringEditorWindow : IRaisePropertyChanged
     {
+        private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
+
         public IOneString Str
         {
             get => _str;
@@ -103,8 +106,8 @@ namespace TranslatorApk.Windows
             {
                 var file = editStringEvent.ContainerFile.FileName;
 
-                if (GlobalVariables.CurrentProjectFolder != null)
-                    file = $"...{file.Substring(GlobalVariables.CurrentProjectFolder.Length)}";
+                if (!_globalVariables.CurrentProjectFolder.Value.IsNullOrEmpty())
+                    file = $"...{file.Substring(_globalVariables.CurrentProjectFolder.Value.Length)}";
 
                 Title = $"{file}: {editStringEvent.StringToEdit.Name}";
             }
@@ -169,7 +172,7 @@ namespace TranslatorApk.Windows
                 {
                     ManualEventManager.GetEvent<EditorWindowTranslateTextEvent>()
                         .Publish(new EditorWindowTranslateTextEvent(Str.OldText, Str.NewText,
-                            EditorWindowTranslateTextEvent.NotDictionaryFileFilter));
+                            file => !(file is IDictionaryFile)));
                 }
             }
         }

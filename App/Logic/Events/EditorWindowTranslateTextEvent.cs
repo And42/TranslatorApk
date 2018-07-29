@@ -24,11 +24,6 @@ namespace TranslatorApk.Logic.Events
         public string NewText { get; }
 
         /// <summary>
-        /// Функция файла, возвращающая <c>True</c>, если файл не является словарём
-        /// </summary>
-        public static readonly Func<object, bool> NotDictionaryFileFilter = f => !(f is IDictionaryFile);
-
-        /// <summary>
         /// Создаёт новый экземпляр класса <see cref="EditorWindowTranslateTextEvent"/> на основе исходного текста, нового текста и фильтра по файлам
         /// </summary>
         /// <param name="oldText">Текст, который нужно заменить</param>

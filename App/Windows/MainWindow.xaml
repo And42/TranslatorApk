@@ -31,7 +31,7 @@
     <Window.Title>
         <Binding
             StringFormat="{}TranslatorApk{0}"
-            Path="CurrentProjectFileProp"
+            Path="CurrentProjectFile.Value"
             Source="{x:Static organisationItems:GlobalVariables.Instance}"
             Converter="{StaticResource WindowTitleConverter}"/>
     </Window.Title>

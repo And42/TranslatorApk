@@ -37,7 +37,7 @@ namespace TranslatorApk
 #endif
             };
 
-            if (e.Args.Length > 0 && e.Args[0] == "update")
+            if (e.Args.FirstOrDefault() == "update")
             {
                 new DownloadWindow().Show();
                 return;

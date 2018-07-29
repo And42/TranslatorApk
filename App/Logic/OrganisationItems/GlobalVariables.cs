@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bugsnag;
-using MVVM_Tools.Code.Classes;
+using MVVM_Tools.Code.Providers;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
 using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.OrganisationItems
 {
-    internal class GlobalVariables : BindableBase
+    internal class GlobalVariables
     {
         public static GlobalVariables Instance { get; } = new GlobalVariables();
 
@@ -54,12 +54,36 @@ namespace TranslatorApk.Logic.OrganisationItems
                 );
         }
 
+        /// <summary>
+        /// Файл текущего проекта (.apk)
+        /// </summary>
+        public Property<string> CurrentProjectFile { get; } = new Property<string>();
+
+        /// <summary>
+        /// Папка текущего проекта
+        /// </summary>
+        public Property<string> CurrentProjectFolder { get; } = new Property<string>();
+
+        /// <summary>
+        /// Текущий сервис перевода
+        /// </summary>
+        public Property<OneTranslationService> CurrentTranslationService { get; } = new Property<OneTranslationService>();
+
+        private GlobalVariables()
+        {
+            CurrentProjectFile.PropertyChanged += (sender, args) =>
+            {
+                string file = CurrentProjectFile.Value;
+                CurrentProjectFolder.Value = file.Remove(file.Length - Path.GetExtension(file).Length);
+            };
+        }
+
         #region Readonly properties
 
         /// <summary>
         /// Словарь переводов сессии
         /// </summary>
-        public static readonly Dictionary<string, string> SessionDictionary = new Dictionary<string, string>();
+        public Dictionary<string, string> SessionDictionary { get; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Путь к exe файлу
@@ -135,11 +159,6 @@ namespace TranslatorApk.Logic.OrganisationItems
         public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
 
         /// <summary>
-        /// Текущий сервис перевода
-        /// </summary>
-        public static OneTranslationService CurrentTranslationService { get; set; }
-
-        /// <summary>
         /// Путь к текущему apktool.jar
         /// </summary>
         public static string CurrentApktoolPath => 
@@ -152,56 +171,8 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// </summary>
         public const string MozillaAgent = "Mozilla/4.0 (compatible; MSIE 6.0b; Windows NT 5.1)";
 
-        public const string LogLine = "------------------------------";
-
         #endregion
-
-        #region Properties with INotifyPropertyChanged
-
-        /// <summary>
-        /// Папка текущего проекта
-        /// </summary>
-        public string CurrentProjectFolderProp
-        {
-            get => _currentProjectFolder;
-            set => SetProperty(ref _currentProjectFolder, value);
-        }
-        private string _currentProjectFolder;
-
-        /// <summary>
-        /// Файл текущего проекта (.apk)
-        /// </summary>
-        public string CurrentProjectFileProp
-        {
-            get => _currentProjectFile;
-            set
-            {
-                if (SetProperty(ref _currentProjectFile, value))
-                    CurrentProjectFolderProp = value.Remove(value.Length - Path.GetExtension(value).Length);
-            }
-        }
-        private string _currentProjectFile;
-
-        /// <summary>
-        /// Папка текущего проекта
-        /// </summary>
-        public static string CurrentProjectFolder
-        {
-            get => Instance.CurrentProjectFolderProp;
-            set => Instance.CurrentProjectFolderProp = value;
-        }
-
-        /// <summary>
-        /// Файл текущего проекта (.apk)
-        /// </summary>
-        public static string CurrentProjectFile
-        {
-            get => Instance.CurrentProjectFileProp;
-            set => Instance.CurrentProjectFileProp = value;
-        }
 
         public static ObservableCollection<CheckableSetting> SourceDictionaries { get; }
-
-        #endregion
     }
 }
