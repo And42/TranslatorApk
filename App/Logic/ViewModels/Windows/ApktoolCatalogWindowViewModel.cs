@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -21,28 +20,19 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     internal class ApktoolCatalogWindowViewModel : ViewModelBase
     {
-        private readonly WebClient _client;
+        private readonly WebClient _webClient = new WebClient();
 
-        public ReadOnlyObservableCollection<DownloadableApktool> ServerApktools { get; }
-        private readonly ObservableRangeCollection<DownloadableApktool> _serverApktools;
+        public ObservableRangeCollection<DownloadableApktool> ServerApktools { get; } = new ObservableRangeCollection<DownloadableApktool>();
 
-        public Property<int> Progress { get; private set; }
-        public Property<int> ProgressMax { get; private set; }
-        public Property<bool> ProgressBarIsVisible { get; private set; }
+        public Property<int> Progress { get; } = new Property<int>();
+        public Property<int> ProgressMax { get; } = new Property<int>(100);
+        public Property<bool> ProgressBarIsVisible { get; } = new Property<bool>();
 
         public IActionCommand<DownloadableApktool> ItemClickedCommand { get; }
 
         public ApktoolCatalogWindowViewModel()
         {
-            BindProperty(() => Progress);
-            BindProperty(() => ProgressMax, 100);
-            BindProperty(() => ProgressBarIsVisible);
-
-            _serverApktools = new ObservableRangeCollection<DownloadableApktool>();
-            ServerApktools = new ReadOnlyObservableCollection<DownloadableApktool>(_serverApktools);
-
-            _client = new WebClient();
-            _client.DownloadProgressChanged += ClientOnDownloadProgressChanged;
+            _webClient.DownloadProgressChanged += (sender, args) => Progress.Value = args.ProgressPercentage;
 
             ItemClickedCommand = new ActionCommand<DownloadableApktool>(ItemClickedCommand_Execute, _ => !IsBusy);
 
@@ -53,15 +43,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             using (BusyDisposable())
             {
-                List<DownloadableApktool> items = await DownloadApktoolsListAsync();
-
-                if (items == null)
+                try
+                {
+                    List<DownloadableApktool> items = await DownloadApktoolsListAsync();
+                    ServerApktools.ReplaceRange(items);
+                }
+                catch (Exception)
                 {
                     MessBox.ShowDial(StringResources.CanNotRecieveApktoolsList, StringResources.ErrorLower);
-                    return;
                 }
-
-                _serverApktools.ReplaceRange(items);
             }
         }
 
@@ -115,18 +105,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 Progress.Value = 0;
 
-                await _client.DownloadFileTaskAsync(
+                await _webClient.DownloadFileTaskAsync(
                     new Uri(item.Link),
                     downloadingApktoolPath
                 );
 
                 item.Installed = InstallOptionsEnum.ToUninstall;
             }
-        }
-
-        private void ClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
-        {
-            Progress.Value = args.ProgressPercentage;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -151,16 +136,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private static async Task<List<DownloadableApktool>> DownloadApktoolsListAsync()
         {
-            string page;
-
-            try
-            {
-                page = await WebUtils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads", WebUtils.DefaultTimeout);
-            }
-            catch
-            {
-                return null;
-            }
+            string page = await WebUtils.DownloadStringAsync("https://bitbucket.org/iBotPeaches/apktool/downloads", WebUtils.DefaultTimeout);
 
             return await Task.Factory.StartNew(() =>
             {
