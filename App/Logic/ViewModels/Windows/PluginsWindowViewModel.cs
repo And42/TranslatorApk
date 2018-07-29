@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -60,19 +59,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private const string PluginsLink = "http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file=Plugins.xml";
 
-        private readonly ObservableRangeCollection<TableItem> _tableItems;
-        public ReadOnlyObservableCollection<TableItem> TableItems { get; }
-
-        public int ProgressMax { get; } = 100;
+        public ObservableRangeCollection<TableItem> TableItems { get; } = new ObservableRangeCollection<TableItem>();
 
         public IActionCommand<TableItem> ItemClickedCommand { get; }
 
         public PluginsWindowViewModel()
         {
-            _tableItems = new ObservableRangeCollection<TableItem>();
-
-            TableItems = new ReadOnlyObservableCollection<TableItem>(_tableItems);
-
             ItemClickedCommand = new ActionCommand<TableItem>(ItemClickedCommand_Execute, _ => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
@@ -122,7 +114,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return splugins;
                 });
 
-                _tableItems.ReplaceRange(plugins.Items);
+                TableItems.ReplaceRange(plugins.Items);
             }
         }
 

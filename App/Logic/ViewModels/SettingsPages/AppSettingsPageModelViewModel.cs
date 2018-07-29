@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using TranslatorApk.Logic.Classes;
@@ -14,18 +13,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class AppSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        private readonly ObservableRangeCollection<string> _themes;
-        private readonly ObservableRangeCollection<string> _apktoolVersions;
         private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
 
         public AppSettingsPageViewModel()
         {
-            _themes = new ObservableRangeCollection<string>();
-            _apktoolVersions = new ObservableRangeCollection<string>();
-
-            Themes = new ReadOnlyObservableCollection<string>(_themes);
-            ApktoolVersions = new ReadOnlyObservableCollection<string>(_apktoolVersions);
-
             RefreshData();
 
             _appSettings.PropertyChanged += SettingsOnPropertyChanged;
@@ -89,9 +80,9 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
             set => _appSettings.GridFontSize = value;
         }
 
-        public ReadOnlyObservableCollection<string> Themes { get; }
+        public ObservableRangeCollection<string> Themes { get; } = new ObservableRangeCollection<string>();
 
-        public ReadOnlyObservableCollection<string> ApktoolVersions { get; }
+        public ObservableRangeCollection<string> ApktoolVersions { get; } = new ObservableRangeCollection<string>();
 
         public string CurrentTheme
         {
@@ -124,14 +115,14 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             YesNoItems = new[] { StringResources.Yes, StringResources.No };
 
-            _themes.ReplaceRange(GlobalVariables.Themes.Select(theme => theme.localizedName));
+            Themes.ReplaceRange(GlobalVariables.Themes.Select(theme => theme.localizedName));
 
             LoadApktools();
         }
 
         private void LoadApktools()
         {
-            _apktoolVersions.ReplaceRange(
+            ApktoolVersions.ReplaceRange(
                 Directory.EnumerateFiles(GlobalVariables.PathToApktoolVersions)
                     .Select(Path.GetFileNameWithoutExtension)
                     .Select(s => s.Split('_'))
@@ -139,7 +130,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
                     .Select(split => split[1])
             );
 
-            _apktoolVersions.Add(StringResources.Catalog);
+            ApktoolVersions.Add(StringResources.Catalog);
 
             if (!ApktoolVersions.Contains(_appSettings.ApktoolVersion))
                 _appSettings.ApktoolVersion = ApktoolVersions[0];

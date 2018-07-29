@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -40,18 +39,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
         private readonly Window _window;
         
-        public ReadOnlyObservableCollection<FoundItem> Files { get; }
-        private readonly ObservableRangeCollection<FoundItem> _files;
-
-        public ReadOnlyObservableCollection<string> SearchAdds { get; }
-        private readonly ObservableRangeCollection<string> _searchAdds;
+        public ObservableRangeCollection<FoundItem> Files { get; } = new ObservableRangeCollection<FoundItem>();
+        public ObservableRangeCollection<string> SearchAdds { get; }
 
         public Setting<bool> OnlyFullWords { get; }
         public Setting<bool> MatchCase { get; }
 
-        public Property<string> TextToSearch { get; private set; }
-        public Property<int> SearchBoxIndex { get; private set; } 
-        public Property<FoundItem> SelectedFile { get; private set; }
+        public Property<int> SearchBoxIndex { get; } = new Property<int>(-1);
+        public Property<string> TextToSearch { get; } = new Property<string>();
+        public Property<FoundItem> SelectedFile { get; } = new Property<FoundItem>();
 
         public IActionCommand FindFilesCommand { get; }
         public IActionCommand LoadSelectedFileCommand { get; }
@@ -60,23 +56,17 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             _window = window ?? throw new ArgumentNullException(nameof(window));
 
-            _files = new ObservableRangeCollection<FoundItem>();
-            Files = new ReadOnlyObservableCollection<FoundItem>(_files);
-
-            _searchAdds = new ObservableRangeCollection<string>(
+            SearchAdds = new ObservableRangeCollection<string>(
                 _appSettings.FullSearchAdds ?? Enumerable.Empty<string>()
             );
-            SearchAdds = new ReadOnlyObservableCollection<string>(_searchAdds);
 
             OnlyFullWords = new Setting<bool>(s => s.OnlyFullWords, StringResources.OnlyFullWords);
             MatchCase = new Setting<bool>(s => s.MatchCase, StringResources.MatchCase);
 
-            BindProperty(() => TextToSearch);
-            BindProperty(() => SearchBoxIndex, -1);
-            BindProperty(() => SelectedFile);
-
             FindFilesCommand = new ActionCommand(FindFilesCommand_Execute, () => !IsBusy);
             LoadSelectedFileCommand = new ActionCommand(LoadSelectedFileCommand_Execute, () => !IsBusy && SelectedFile.Value != null);
+
+            SelectedFile.PropertyChanged += (sender, args) => LoadSelectedFileCommand.RaiseCanExecuteChanged();
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -160,12 +150,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                     if (filesToAdd.Count == 0)
                     {
-                        _files.Clear();
+                        Files.Clear();
                         MessBox.ShowDial(StringResources.TextNotFound);
                     }
                     else
                     {
-                        _files.ReplaceRange(filesToAdd);
+                        Files.ReplaceRange(filesToAdd);
                     }
                 },
                 ownerWindow: _window
@@ -174,8 +164,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private void AddToSearchAdds(string text)
         {
-            _searchAdds.Remove(text);
-            _searchAdds.Insert(0, text);
+            SearchAdds.Remove(text);
+            SearchAdds.Insert(0, text);
             SearchBoxIndex.Value = 0;
 
             if (_appSettings.FullSearchAdds == null)
@@ -188,7 +178,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             if (SearchAdds.Count > 20)
             {
-                _searchAdds.RemoveAt(20);
+                SearchAdds.RemoveAt(20);
                 adds.RemoveAt(20);
             }
 
@@ -222,9 +212,6 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 case nameof(IsBusy):
                     RaiseCommandsCanExecute();
                     break;
-                case nameof(SelectedFile):
-                    LoadSelectedFileCommand.RaiseCanExecuteChanged();
-                    break;
             }
         }
 
@@ -237,8 +224,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             UnsubscribeFromEvents();
 
-            _files.Clear();
-            _searchAdds.Clear();
+            Files.Clear();
+            SearchAdds.Clear();
         }
     }
 }

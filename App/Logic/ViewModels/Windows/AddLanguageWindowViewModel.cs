@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using MVVM_Tools.Code.Commands;
 using TranslatorApk.Logic.Classes;
@@ -38,13 +36,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         /// <summary>
         /// Список целевых языков
         /// </summary>
-        public ReadOnlyObservableCollection<LanguageViewModel> TargetLanguages { get; }
-        private readonly ObservableRangeCollection<LanguageViewModel> _targetLanguages;
+        public ObservableRangeCollection<LanguageViewModel> TargetLanguages { get; } = new ObservableRangeCollection<LanguageViewModel>();
 
         private string _currentProjectFolder;
 
-        public ICommand AddLanguageCommand => _addLanguageCommand;
-        private readonly ActionCommand _addLanguageCommand;
+        public IActionCommand AddLanguageCommand { get; }
 
         public LanguageViewModel NewLanguage
         {
@@ -55,10 +51,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public AddLanguageWindowViewModel()
         {
-            _targetLanguages = new ObservableRangeCollection<LanguageViewModel>();
-            TargetLanguages = new ReadOnlyObservableCollection<LanguageViewModel>(_targetLanguages);
-
-            _addLanguageCommand = new ActionCommand(AddLanguageCommand_Execute);
+            AddLanguageCommand = new ActionCommand(AddLanguageCommand_Execute);
         }
 
         private void AddLanguageCommand_Execute()
@@ -87,7 +80,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     File.Copy(src, Path.Combine(targetdir, file), true);
             }
 
-            _targetLanguages.Remove(NewLanguage);
+            TargetLanguages.Remove(NewLanguage);
 
             MessBox.ShowDial(StringResources.AllDone);
         }
@@ -142,7 +135,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return Tuple.Create(sourceLanguages, targetLanguages);
                 });
 
-                _targetLanguages.ReplaceRange(items.Item2);
+                TargetLanguages.ReplaceRange(items.Item2);
             }
         }
 

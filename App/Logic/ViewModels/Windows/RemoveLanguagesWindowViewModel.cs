@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -51,16 +50,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         /// <summary>
         /// Список исходных языков
         /// </summary>
-        public ReadOnlyObservableCollection<SourceLanguageModel> Languages { get; }
-        private readonly ObservableRangeCollection<SourceLanguageModel> _languages;
+        public ObservableRangeCollection<SourceLanguageModel> Languages { get; } = new ObservableRangeCollection<SourceLanguageModel>();
 
         public IActionCommand RemoveLanguagesCommand { get; }
 
         public RemoveLanguagesWindowViewModel()
         {
-            _languages = new ObservableRangeCollection<SourceLanguageModel>();
-            Languages = new ReadOnlyObservableCollection<SourceLanguageModel>(_languages);
-
             RemoveLanguagesCommand = new ActionCommand(RemoveLanguagesCommand_Execute, () => !IsBusy);
 
             PropertyChanged += OnPropertyChanged;
@@ -85,7 +80,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     }
                 });
 
-                _languages.RemoveRange(toDelete);
+                Languages.RemoveRange(toDelete);
 
                 MessBox.ShowDial(StringResources.AllDone);
             }
@@ -99,7 +94,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             using (BusyDisposable())
             {
                 List<SourceLanguageModel> languages = await GetLanguageFoldersAsync(CancellationToken.None);
-                _languages.ReplaceRange(languages);
+                Languages.ReplaceRange(languages);
             }
         }
 
