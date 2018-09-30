@@ -2,8 +2,10 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web;
 using Newtonsoft.Json;
 using TranslatorApk.Logic.OrganisationItems;
+using TranslatorApk.Logic.Utils;
 
 namespace TranslatorApk.Logic.WebServices
 {
@@ -41,9 +43,7 @@ namespace TranslatorApk.Logic.WebServices
 
         public static string Detect(string text)
         {
-            text = "query=" + text;
-
-            string resp = UploadString("http://fanyi.baidu.com/langdetect", text);
+            string resp = WebUtils.DownloadString("http://fanyi.baidu.com/langdetect?query=" + HttpUtility.UrlEncode(text), GlobalVariables.AppSettings.TranslationTimeout);
 
             var obj = new
             {
@@ -82,8 +82,8 @@ namespace TranslatorApk.Logic.WebServices
                 return string.Empty;
 
             using (responseStream)
-                using (var reader = new StreamReader(responseStream))
-                    return reader.ReadToEnd();
+            using (var reader = new StreamReader(responseStream))
+                return reader.ReadToEnd();
         }
     }
 }
