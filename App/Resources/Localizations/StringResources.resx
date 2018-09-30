@@ -585,4 +585,10 @@
   <data name="FixOnlineTranslationResults_Label" xml:space="preserve">
     <value>Исправлять ошибки онлайн перевода:</value>
   </data>
+  <data name="ExceptionOccured" xml:space="preserve">
+    <value>Обнаружена ошибка (\"{0}\"), текст скопирован в буфер. Пожалуйста, отправьте её разработчику</value>
+  </data>
+  <data name="UnhandledExceptionOccured" xml:space="preserve">
+    <value>Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена</value>
+  </data>
 </root>

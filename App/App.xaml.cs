@@ -22,7 +22,7 @@ namespace TranslatorApk
                 GlobalVariables.BugSnagClient.Notify(ex);
 
                 Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.ToString());
-                MessageBox.Show("Обнаружена непредвиденная ошибка, текст ошибки в буфере обмена");
+                MessageBox.Show(StringResources.UnhandledExceptionOccured);
             };
 
             DispatcherUnhandledException += (sender, args) =>
@@ -31,7 +31,7 @@ namespace TranslatorApk
                 GlobalVariables.BugSnagClient.Notify(args.Exception);
 
                 Clipboard.SetText($"Message: {args.Exception.Message}\nStackTrace: {args.Exception.StackTrace}");
-                MessageBox.Show($"Обнаружена ошибка (\"{args.Exception.Message}\"), текст скопирован в буфер. Пожалуйста, отправьте её разработчику");
+                MessageBox.Show(string.Format(StringResources.ExceptionOccured, args.Exception.Message));
 #if !DEBUG
                 args.Handled = true;
 #endif
