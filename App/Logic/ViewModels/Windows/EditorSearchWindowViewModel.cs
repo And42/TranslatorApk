@@ -50,8 +50,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
         }
 
-        public Property<string> TextToSearch { get; private set; }
-        public Property<int> SearchBoxIndex { get; private set; }
+        public Property<string> TextToSearch { get; }
+        public Property<int> SearchBoxIndex { get; }
 
         public IActionCommand FindAllCommand { get; }
         public IActionCommand FindNextCommand { get; }
@@ -67,8 +67,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 _appSettings.EditorSearchAdds ?? Enumerable.Empty<string>()
             );
 
-            BindProperty(() => TextToSearch);
-            BindProperty(() => SearchBoxIndex, -1);
+            TextToSearch = new Property<string>();
+            SearchBoxIndex = new Property<int>(-1);
 
             FindAllCommand = new ActionCommand(FindAllCommand_Execute, () => !IsBusy);
             FindNextCommand = new ActionCommand(FindNextCommand_Execute, () => !IsBusy);

@@ -18,7 +18,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
     {
         public ObservableRangeCollection<CheckableSetting> Items { get; }
 
-        public Property<CheckableSetting> SelectedItem { get; private set; }
+        public Property<CheckableSetting> SelectedItem { get; }
 
         public ICommand ChooseFileCommand { get; }
         public ICommand SaveChangesCommand { get; }
@@ -31,7 +31,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 GlobalVariables.AppSettings.XmlRules.Select(it => new CheckableSetting(it, true))
             );
 
-            BindProperty(() => SelectedItem);
+            SelectedItem = new Property<CheckableSetting>();
 
             ChooseFileCommand = new ActionCommand(ChooseFileCommand_Execute);
             SaveChangesCommand = new ActionCommand(SaveChangesCommand_Execute);
@@ -62,11 +62,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
             if (dialog.ShowDialog() == true)
             {
-                var xdoc = new XmlDocument();
+                var xDoc = new XmlDocument();
 
                 try
                 {
-                    xdoc.Load(dialog.FileName);
+                    xDoc.Load(dialog.FileName);
                 }
                 catch (XmlException ex)
                 {
@@ -76,7 +76,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     return;
                 }
 
-                var itms = Utils.CommonUtils.GetAllAttributes(xdoc.DocumentElement, Items.Select(it => it.Text));
+                var itms = Utils.CommonUtils.GetAllAttributes(xDoc.DocumentElement, Items.Select(it => it.Text));
 
                 for (int i = Items.Count; i < itms.Count; i++)
                     Items.Add(new CheckableSetting(itms[i]));

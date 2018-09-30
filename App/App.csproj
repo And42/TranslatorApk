@@ -226,7 +226,6 @@
     <Compile Include="Logic\Utils\AndroidFilesUtils.cs" />
     <Compile Include="Logic\Utils\CollectionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
-    <Compile Include="Logic\Utils\JsonUtils.cs" />
     <Compile Include="Logic\Utils\ReflectionUtils.cs" />
     <Compile Include="Logic\Utils\StringUtils.cs" />
     <Compile Include="Logic\Utils\ThemeUtils.cs" />
@@ -280,7 +279,6 @@
     <Compile Include="Logic\Classes\OneTranslationService.cs" />
     <Compile Include="Logic\PluginItems\PluginHost.cs" />
     <Compile Include="Logic\PluginItems\PluginPart.cs" />
-    <Compile Include="Logic\Classes\SerializableStringDictionary.cs" />
     <Compile Include="Logic\Classes\TransServiceHost.cs" />
     <Compile Include="Logic\Converters\DoubleToMBSizeConverter.cs" />
     <Compile Include="Logic\Converters\NullableToVisibilityConverter.cs" />

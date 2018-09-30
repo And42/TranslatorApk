@@ -24,22 +24,22 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     internal class ChangesDetectorWindowViewModel : ViewModelBase
     {
-        public Property<int> ProgressValue { get; private set; }
-        public Property<int> ProgressMax { get; private set; }
+        public Property<int> ProgressValue { get; }
+        public Property<int> ProgressMax { get; }
 
-        public Property<string> CreateFirstFolder { get; private set; }
-        public Property<string> CreateSecondFolder { get; private set; }
-        public Property<string> CreateResultFolder { get; private set; }
+        public Property<string> CreateFirstFolder { get; }
+        public Property<string> CreateSecondFolder { get; }
+        public Property<string> CreateResultFolder { get; }
 
-        public Property<string> TranslateFolder { get; private set; }
-        public Property<string> TranslateDictionaryFolder { get; private set; }
+        public Property<string> TranslateFolder { get; }
+        public Property<string> TranslateDictionaryFolder { get; }
 
-        public Property<string> CreateMoreFirstFolder { get; private set; }
-        public Property<string> CreateMoreSecondFolder { get; private set; }
-        public Property<string> CreateMoreResultFolder { get; private set; }
+        public Property<string> CreateMoreFirstFolder { get; }
+        public Property<string> CreateMoreSecondFolder { get; }
+        public Property<string> CreateMoreResultFolder { get; }
 
-        public Property<string> TranslateMoreFolder { get; private set; }
-        public Property<string> TranslateMoreDictionaryFolder { get; private set; }
+        public Property<string> TranslateMoreFolder { get; }
+        public Property<string> TranslateMoreDictionaryFolder { get; }
 
         public string LogText => _logText.ToString();
 
@@ -65,22 +65,22 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public ChangesDetectorWindowViewModel()
         {
-            BindProperty(() => ProgressValue);
-            BindProperty(() => ProgressMax);
+            ProgressValue = new Property<int>();
+            ProgressMax = new Property<int>();
 
-            BindProperty(() => CreateFirstFolder);
-            BindProperty(() => CreateSecondFolder);
-            BindProperty(() => CreateResultFolder);
+            CreateFirstFolder = new Property<string>();
+            CreateSecondFolder = new Property<string>();
+            CreateResultFolder = new Property<string>();
 
-            BindProperty(() => TranslateFolder);
-            BindProperty(() => TranslateDictionaryFolder);
+            TranslateFolder = new Property<string>();
+            TranslateDictionaryFolder = new Property<string>();
 
-            BindProperty(() => CreateMoreFirstFolder);
-            BindProperty(() => CreateMoreSecondFolder);
-            BindProperty(() => CreateMoreResultFolder);
+            CreateMoreFirstFolder = new Property<string>();
+            CreateMoreSecondFolder = new Property<string>();
+            CreateMoreResultFolder = new Property<string>();
 
-            BindProperty(() => TranslateMoreFolder);
-            BindProperty(() => TranslateMoreDictionaryFolder);
+            TranslateMoreFolder = new Property<string>();
+            TranslateMoreDictionaryFolder = new Property<string>();
 
             CreateChooseFirstCommand = new ActionCommand(CreateChooseFirstCommand_Execute, NotLoading);
             CreateChooseSecondCommand = new ActionCommand(CreateChooseSecondCommand_Execute, NotLoading);
@@ -354,7 +354,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                     .SelectSafe(file => new XmlFile(file))
                     .ToList();
 
-            secondXmlFiles.Sort((ffile, sfile) => string.Compare(ffile.FileName, sfile.FileName, StringComparison.Ordinal));
+            secondXmlFiles.Sort((fFile, sFile) => string.Compare(fFile.FileName, sFile.FileName, StringComparison.Ordinal));
 
             ProgressValue.Value = 0;
             ProgressMax.Value = firstXmlFiles.Count;
@@ -365,10 +365,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             LogInner("Comparing...");
 
             var comparison =
-                new ComparisonWrapper<XmlFile>((ffile, sfile) =>
+                new ComparisonWrapper<XmlFile>((fFile, sFile) =>
                     string.Compare(
-                        ffile.FileName.Substring(modifiedFolder.Length + 1),
-                        sfile.FileName.Substring(sourceFolder.Length + 1),
+                        fFile.FileName.Substring(modifiedFolder.Length + 1),
+                        sFile.FileName.Substring(sourceFolder.Length + 1),
                         StringComparison.Ordinal
                     )
                 );
@@ -476,11 +476,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             for (int i = 0; i < paths.Length; i++)
             {
                 ProgressValue.Value++;
-                string xmlfilePath = Path.Combine(fileFolder, paths[i]);
+                string xmlFilePath = Path.Combine(fileFolder, paths[i]);
 
-                LogInner("  -- " + xmlfilePath, false);
+                LogInner("  -- " + xmlFilePath, false);
 
-                if (!IOUtils.FileExists(xmlfilePath))
+                if (!IOUtils.FileExists(xmlFilePath))
                 {
                     LogInner(" - skipped");
 
@@ -498,9 +498,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
                 try
                 {
-                    var xmlfile = new XmlFile(xmlfilePath);
+                    var xmlFile = new XmlFile(xmlFilePath);
 
-                    xmlfile.TranslateWithDictionary(dict, true);
+                    xmlFile.TranslateWithDictionary(dict, true);
 
                     LogInner(" - translated");
                 }
@@ -785,12 +785,12 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             }
             else
             {
-                foreach (var str in first.SpecDetails)
+                foreach (var sourceString in first.SpecDetails)
                 {
-                    IOneString item = strings.FirstOrDefault(sstr => str.EqualsNavigations(sstr));
+                    IOneString item = strings.FirstOrDefault(targetString => sourceString.EqualsNavigations(targetString));
 
-                    if (item != null && str.OldText != item.OldText)
-                        result.Add(str.OldText, item.OldText);
+                    if (item != null && sourceString.OldText != item.OldText)
+                        result.Add(sourceString.OldText, item.OldText);
                 }
             }
 

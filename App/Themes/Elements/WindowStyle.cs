@@ -59,7 +59,11 @@ namespace TranslatorApk.Themes.Elements
             while (element != null)
             {
                 element = VisualTreeHelper.GetParent(element);
-                if (element is Window) { action(element as Window); break; }
+                if (element is Window window)
+                {
+                    action(window);
+                    break;
+                }
             }
         }
 
