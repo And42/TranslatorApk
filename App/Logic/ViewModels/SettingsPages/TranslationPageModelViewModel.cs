@@ -11,7 +11,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
     public class TranslationPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
 
         public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
 
@@ -78,10 +78,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(AppSettingsBase.TranslationTimeout):
+                case nameof(AppSettings.TranslationTimeout):
                     OnPropertyChanged(nameof(TranslationTimeout));
                     break;
-                case nameof(AppSettingsBase.FixOnlineTranslationResults):
+                case nameof(AppSettings.FixOnlineTranslationResults):
                     OnPropertyChanged(nameof(FixOnlineTranslationResultsIndex));
                     break;
             }

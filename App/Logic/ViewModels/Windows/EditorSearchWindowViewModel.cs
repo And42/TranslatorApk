@@ -24,7 +24,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
     {
         private const int SearchHistory = 20;
 
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
         private readonly Window _window;
 
         public ObservableRangeCollection<string> SearchAdds { get; }
@@ -255,21 +255,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 SearchAdds.Insert(0, text);
                 SearchBoxIndex.Value = 0;
 
-                var settings = _appSettings;
+                var editorSearchAdds = new List<string>(_appSettings.EditorSearchAdds ?? Enumerable.Empty<string>());
 
-                if (settings.EditorSearchAdds == null)
-                    settings.EditorSearchAdds = new List<string>();
-
-                settings.EditorSearchAdds.Remove(text);
-                settings.EditorSearchAdds.Insert(0, text);
+                editorSearchAdds.Remove(text);
+                editorSearchAdds.Insert(0, text);
 
                 if (SearchAdds.Count > SearchHistory)
                 {
                     SearchAdds.RemoveAt(SearchHistory);
-                    settings.EditorSearchAdds.RemoveAt(SearchHistory);
+                    editorSearchAdds.RemoveAt(SearchHistory);
                 }
 
-                settings.Save();
+                _appSettings.EditorSearchAdds = editorSearchAdds;
             });
         }
 
@@ -293,10 +290,10 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         {
             switch (args.PropertyName)
             {
-                case nameof(AppSettingsBase.EditorSOnlyFullWords):
+                case nameof(AppSettings.EditorSOnlyFullWords):
                     OnPropertyChanged(nameof(OnlyFullWords));
                     break;
-                case nameof(AppSettingsBase.EditorSMatchCase):
+                case nameof(AppSettings.EditorSMatchCase):
                     OnPropertyChanged(nameof(MatchCase));
                     break;
             }

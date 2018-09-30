@@ -35,7 +35,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         private static readonly string StartFormattedString = "..." + Path.DirectorySeparatorChar;
 
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
         private readonly Window _window;
         
@@ -168,10 +168,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             SearchAdds.Insert(0, text);
             SearchBoxIndex.Value = 0;
 
-            if (_appSettings.FullSearchAdds == null)
-                _appSettings.FullSearchAdds = new List<string>();
-
-            var adds = _appSettings.FullSearchAdds;
+            var adds = new List<string>(_appSettings.FullSearchAdds ?? Enumerable.Empty<string>());
 
             adds.Remove(text);
             adds.Insert(0, text);
@@ -182,7 +179,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 adds.RemoveAt(20);
             }
 
-            _appSettings.Save();
+            _appSettings.FullSearchAdds = adds;
         }
 
         private void LoadSelectedFileCommand_Execute()

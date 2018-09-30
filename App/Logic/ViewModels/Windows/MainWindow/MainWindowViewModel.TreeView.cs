@@ -426,7 +426,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             switch (args.PropertyName)
             {
-                case nameof(AppSettingsBase.TVFilterBoxUseRegex):
+                case nameof(AppSettings.TVFilterBoxUseRegex):
                     await FilterItems();
                     break;
             }

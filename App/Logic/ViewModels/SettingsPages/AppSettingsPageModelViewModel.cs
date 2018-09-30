@@ -13,7 +13,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class AppSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
 
         public AppSettingsPageViewModel()
         {
@@ -142,28 +142,28 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(AppSettingsBase.ApktoolVersion):
+                case nameof(AppSettings.ApktoolVersion):
                     OnPropertyChanged(nameof(CurrentApktoolVersion));
                     break;
-                case nameof(AppSettingsBase.Theme):
+                case nameof(AppSettings.Theme):
                     OnPropertyChanged(nameof(CurrentTheme));
                     break;
-                case nameof(AppSettingsBase.ShowPreviews):
+                case nameof(AppSettings.ShowPreviews):
                     OnPropertyChanged(nameof(ShowPreviewsIndex));
                     break;
-                case nameof(AppSettingsBase.TopMost):
+                case nameof(AppSettings.TopMost):
                     OnPropertyChanged(nameof(TopMostIndex));
                     break;
-                case nameof(AppSettingsBase.ShowNotifications):
+                case nameof(AppSettings.ShowNotifications):
                     OnPropertyChanged(nameof(ShowNotificationsIndex));
                     break;
-                case nameof(AppSettingsBase.AlternatingRows):
+                case nameof(AppSettings.AlternatingRows):
                     OnPropertyChanged(nameof(AlternateRowsIndex));
                     break;
-                case nameof(AppSettingsBase.OtherExtensions):
+                case nameof(AppSettings.OtherExtensions):
                     OnPropertyChanged(nameof(OtherFileExts));
                     break;
-                case nameof(AppSettingsBase.ImageExtensions):
+                case nameof(AppSettings.ImageExtensions):
                     OnPropertyChanged(nameof(ImageFileExts));
                     break;
             }

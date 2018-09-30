@@ -8,7 +8,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 {
     public class EditorSettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
 
         public EditorSettingsPageViewModel()
         {
@@ -42,10 +42,10 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
         {
             switch (args.PropertyName)
             {
-                case nameof(AppSettingsBase.AlternativeEditingKeys):
+                case nameof(AppSettings.AlternativeEditingKeys):
                     OnPropertyChanged(nameof(AlternativeEditingKeysIndex));
                     break;
-                case nameof(AppSettingsBase.SessionAutoTranslate):
+                case nameof(AppSettings.SessionAutoTranslate):
                     OnPropertyChanged(nameof(SessionAutoTranslateIndex));
                     break;
             }

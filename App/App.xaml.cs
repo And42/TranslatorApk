@@ -65,8 +65,6 @@ namespace TranslatorApk
 
             GlobalVariables.AppSettings.SourceDictionaries = GlobalVariables.SourceDictionaries.ToList();
             CommonUtils.UpdateSettingsApiKeys();
-
-            GlobalVariables.AppSettings.Save();
         }
     }
 }

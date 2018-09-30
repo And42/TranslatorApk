@@ -9,12 +9,12 @@ namespace TranslatorApk.Logic.Classes
 {
     public sealed class Setting<T> : BindableBase
     {
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
         private readonly PropertyInfo _property;
 
         private readonly bool _isReadOnly;
 
-        public Setting(Expression<Func<AppSettingsBase, T>> setting, string localizedName, bool isReadOnly = false)
+        public Setting(Expression<Func<AppSettings, T>> setting, string localizedName, bool isReadOnly = false)
         {
             LocalizedName = localizedName;
             _isReadOnly = isReadOnly;

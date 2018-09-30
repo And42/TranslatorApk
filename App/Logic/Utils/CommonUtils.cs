@@ -32,7 +32,7 @@ namespace TranslatorApk.Logic.Utils
     internal static class CommonUtils
     {
         private static readonly GlobalVariables GlobalVariables = GlobalVariables.Instance;
-        private static readonly AppSettingsBase AppSettings = GlobalVariables.AppSettings;
+        private static readonly AppSettings AppSettings = GlobalVariables.AppSettings;
 
         public static void LoadFilesToTreeView(Dispatcher dispatcher, string pathToFolder, FilesTreeViewNodeModel root, bool showEmptyFolders, CancellationToken cts = default, Action oneFileAdded = null)
         {
@@ -161,8 +161,12 @@ namespace TranslatorApk.Logic.Utils
         /// </summary>
         public static void UpdateSettingsApiKeys()
         {
+            var cloned = new Dictionary<Guid, string>(AppSettings.TranslatorServicesKeys);
+
             foreach (var service in TranslateService.OnlineTranslators)
-                AppSettings.TranslatorServicesKeys[service.Key] = service.Value.ApiKey;
+                cloned[service.Key] = service.Value.ApiKey;
+
+            AppSettings.TranslatorServicesKeys = cloned;
         }
 
         /// <summary>
@@ -253,12 +257,6 @@ namespace TranslatorApk.Logic.Utils
             TranslateService.ReloadItems();
 
             UpdateApiKeys();
-
-            AppSettings.Save();
-
-#if DEBUG
-            AppSettings.CheckAll();
-#endif
         }
 
         /// <summary>

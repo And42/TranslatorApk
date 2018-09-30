@@ -41,7 +41,7 @@ namespace TranslatorApk.Windows
     public partial class EditorWindow : IRaisePropertyChanged
     {
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
 
         public ICommand TranslateAllFilesCommand { get; }
         public ICommand SaveCommand { get; }

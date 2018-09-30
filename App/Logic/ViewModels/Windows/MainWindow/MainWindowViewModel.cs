@@ -20,7 +20,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private readonly Window _window;
 
-        private readonly AppSettingsBase _appSettings = GlobalVariables.AppSettings;
+        private readonly AppSettings _appSettings = GlobalVariables.AppSettings;
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
 
         private readonly StringBuilder _logTextBuilder = new StringBuilder();

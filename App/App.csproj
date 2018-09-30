@@ -97,6 +97,10 @@
     <Reference Include="Bugsnag, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bugsnag.2.1.0\lib\net40\Bugsnag.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
@@ -210,11 +214,8 @@
     <Compile Include="Logic\Classes\ShellIcon.cs" />
     <Compile Include="Logic\Classes\ViewModelBase.cs" />
     <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
-    <Compile Include="Logic\Classes\AppSettingsBase.cs" />
-    <Compile Include="Logic\Interfaces\ISettingsCheckable.cs" />
     <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
-    <Compile Include="Logic\JsonModels\AppSettingsJson.cs" />
-    <Compile Include="Logic\OrganisationItems\JsonSettingsContainer.cs" />
+    <Compile Include="Logic\OrganisationItems\AppSettings.cs" />
     <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
     <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
       <DependentUpon>BusyContainer.xaml</DependentUpon>
@@ -919,6 +920,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Libraries\AndroidHelper.dll" />
+    <None Include="Libraries\Castle.Core.dll" />
+    <None Include="Libraries\Castle.Core.xml" />
     <Content Include="Libraries\SettingsManager.dll" />
     <Resource Include="Libraries\SettingsManager.xml" />
     <Resource Include="Libraries\AndroidHelper.xml" />
