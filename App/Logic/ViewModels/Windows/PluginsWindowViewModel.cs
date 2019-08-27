@@ -57,7 +57,8 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             public List<TableItem> Items { get; set; }
         }
 
-        private const string PluginsLink = "http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file=Plugins.xml";
+        private const string PluginsServerDir = "https://pixelcurves.ams3.digitaloceanspaces.com/TranslatorApk/Plugins";
+        private const string PluginsLink = PluginsServerDir + "/Plugins.xml";
 
         public ObservableRangeCollection<TableItem> TableItems { get; } = new ObservableRangeCollection<TableItem>();
 
@@ -142,7 +143,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
             await Task.Factory.StartNew(() =>
             {
                 string zipPath = Path.Combine(GlobalVariables.PathToPlugins, $"{item.Title}.zip");
-                string arguments = $"\"download|http://things.pixelcurves.info/Pages/TranslatorApkPlugins.aspx?file={item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
+                string arguments = $"\"download|{PluginsServerDir}/{item.Link}.zip" + $"|{zipPath}\" \"unzip|{zipPath}|{GlobalVariables.PathToPlugins}\" \"delete file|{zipPath}\"";
 
                 if (CommonUtils.CheckRights())
                 {
