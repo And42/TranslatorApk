@@ -366,13 +366,9 @@ namespace TranslatorApk.Logic.Utils
             Task.Factory.StartNew(() =>
             {
                 string newVersion;
-
                 try
                 {
-                    newVersion = WebUtils.DownloadString(
-                        "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_version",
-                        WebUtils.DefaultTimeout
-                    );
+                    newVersion = WebUtils.DownloadString(WebUtils.ServerVersionLink, WebUtils.DefaultTimeout);
                 }
                 catch (Exception)
                 {
@@ -382,17 +378,7 @@ namespace TranslatorApk.Logic.Utils
                 if (CompareVersions(newVersion, GlobalVariables.ProgramVersion) != 1)
                     return;
 
-                string changesLink;
-
-                switch (Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower())
-                {
-                    case "en":
-                        changesLink = "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_changes&language=en"; break;
-                    default:
-                        changesLink = "http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_changes"; break;
-                }
-
-                string changes = WebUtils.DownloadString(changesLink, WebUtils.DefaultTimeout);
+                string changes = WebUtils.DownloadString(WebUtils.ServerChangesLink, WebUtils.DefaultTimeout);
 
                 Application.Current.Dispatcher.InvokeAction(() =>
                 {

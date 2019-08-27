@@ -28,7 +28,7 @@ namespace TranslatorApk.Windows
                 webClient.DownloadFileCompleted += client_DownloadFileCompleted;
                 webClient.Headers.Add("user-agent", GlobalVariables.MozillaAgent);
 
-                var address = new Uri("http://things.pixelcurves.info/Pages/Updates.aspx?cmd=trapk_download");
+                var address = new Uri(WebUtils.ServerLatestExeLink);
 
                 webClient.DownloadFileAsync(address, "NewVersion.update");
             }
