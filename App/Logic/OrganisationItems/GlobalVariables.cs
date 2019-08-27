@@ -10,6 +10,7 @@ using SettingsManager;
 using SettingsManager.ModelProcessors;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.PluginItems;
+using TranslatorApk.Logic.Utils;
 using TranslatorApk.Resources.Localizations;
 
 namespace TranslatorApk.Logic.OrganisationItems
@@ -59,8 +60,8 @@ namespace TranslatorApk.Logic.OrganisationItems
 
             Themes = new (string name, string localizedName)[]
             {
-                ("Light", StringResources.Theme_Light),
-                ("Dark",  StringResources.Theme_Dark)
+                (ThemeUtils.ThemeLight, StringResources.Theme_Light),
+                (ThemeUtils.ThemeDark,  StringResources.Theme_Dark)
             };
 
             SourceDictionaries = 
