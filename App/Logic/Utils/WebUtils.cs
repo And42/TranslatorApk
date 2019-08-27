@@ -29,6 +29,8 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="timeout">Время ожидания ответа от сервера</param>
         public static string DownloadString(string link, int timeout)
         {
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType) 3072; //SecurityProtocolType.Tls12
+
             var client = (HttpWebRequest)WebRequest.Create(link);
 
             client.UserAgent = GlobalVariables.MozillaAgent;
@@ -39,8 +41,8 @@ namespace TranslatorApk.Logic.Utils
             if (stream == null)
                 return string.Empty;
 
-            using (var strread = new StreamReader(stream))
-                return strread.ReadToEnd();
+            using (var reader = new StreamReader(stream))
+                return reader.ReadToEnd();
         }
     }
 }
