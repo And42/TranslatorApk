@@ -21,7 +21,7 @@ namespace TranslatorApk
                 Logger.Fatal(ex);
                 GlobalVariables.BugSnagClient.Notify(ex);
 
-                Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.ToString());
+                Clipboard.SetText("Message: " + (args.ExceptionObject as Exception)?.FlattenToString());
                 MessageBox.Show(StringResources.UnhandledExceptionOccured);
             };
 
@@ -30,8 +30,8 @@ namespace TranslatorApk
                 Logger.Error(args.Exception);
                 GlobalVariables.BugSnagClient.Notify(args.Exception);
 
-                Clipboard.SetText($"Message: {args.Exception.Message}\nStackTrace: {args.Exception.StackTrace}");
-                MessageBox.Show(string.Format(StringResources.ExceptionOccured, args.Exception.Message));
+                Clipboard.SetText(args.Exception.ToString());
+                MessageBox.Show(string.Format(StringResources.ExceptionOccured, args.Exception.FlattenToString()));
 #if !DEBUG
                 args.Handled = true;
 #endif

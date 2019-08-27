@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="Logic\Utils\AndroidFilesUtils.cs" />
     <Compile Include="Logic\Utils\CollectionUtils.cs" />
+    <Compile Include="Logic\Utils\ExceptionUtils.cs" />
     <Compile Include="Logic\Utils\IOUtils.cs" />
     <Compile Include="Logic\Utils\ReflectionUtils.cs" />
     <Compile Include="Logic\Utils\StringUtils.cs" />
