@@ -65,10 +65,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\AndroidHelper.dll</HintPath>
     </Reference>
-    <Reference Include="AndroidTranslator, Version=1.4.6591.38816, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\AndroidTranslator.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Castle.Core.dll</HintPath>
@@ -173,6 +169,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="And42.AndroidTranslator" Version="1.6.1.1" />
     <PackageReference Include="And42.SettingsManager" Version="1.1.4.1" />
     <PackageReference Include="Bugsnag" Version="3.1.0" />
     <PackageReference Include="Expression.Blend.Sdk.WPF" Version="1.0.1" />
