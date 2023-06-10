@@ -21,18 +21,12 @@ namespace TranslatorApk.Logic.OrganisationItems
 
         static GlobalVariables()
         {
-#if DEBUG
-            PathToExe = 
-                Path.Combine(
-                    Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) ?? string.Empty,
-                    "Release",
-                    Path.GetFileName(Assembly.GetExecutingAssembly().Location)
-                );
-#else
             PathToExe = Assembly.GetExecutingAssembly().Location;
+#if DEBUG
+            PathToStartFolder       = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Release", "net6.0-windows");
+#else
+            PathToStartFolder       = Path.GetDirectoryName(PathToExe);
 #endif
-
-            PathToStartFolder       = Path.GetDirectoryName(PathToExe) ?? string.Empty;
             PathToFiles             = Path.Combine(PathToStartFolder, "Files");
             PathToResources         = Path.Combine(PathToFiles, "Resources");
 
