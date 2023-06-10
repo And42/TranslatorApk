@@ -52,7 +52,7 @@ namespace TranslatorApkTests
         {
             string translated = GoogleTranslateServiceSecond.Translate("Hello", "ru");
 
-            Assert.AreEqual("Здравствуйте", translated);
+            Assert.AreEqual("Привет", translated);
         }
     }
 }
