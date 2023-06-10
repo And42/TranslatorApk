@@ -87,10 +87,6 @@
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Web" />
-    <Reference Include="TranslatorApkPluginLib, Version=1.1.6190.856, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\TranslatorApkPluginLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -171,6 +167,7 @@
   <ItemGroup>
     <PackageReference Include="And42.AndroidTranslator" Version="1.6.1.1" />
     <PackageReference Include="And42.SettingsManager" Version="1.1.4.1" />
+    <PackageReference Include="And42.TranslatorApkPluginLib" Version="1.1.0.1" />
     <PackageReference Include="Bugsnag" Version="3.1.0" />
     <PackageReference Include="Expression.Blend.Sdk.WPF" Version="1.0.1" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />

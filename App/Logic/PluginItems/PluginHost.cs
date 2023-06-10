@@ -5,13 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using NLog;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
 
 namespace TranslatorApk.Logic.PluginItems
 {
-    public class PluginHost : MarshalByRefObject
+    public class PluginHost
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
@@ -21,16 +22,16 @@ namespace TranslatorApk.Logic.PluginItems
         public ReadOnlyCollection<TransServiceHost> Translators { get; }
         private readonly List<TransServiceHost> _translators;
 
-        public AppDomain Domain { get; }
+        public AssemblyLoadContext LoadContext { get; }
 
         public string Name { get; private set; }
 
-        public PluginHost()
+        public PluginHost(AssemblyLoadContext loadContext)
         {
             Actions = (_actions = new List<ActionHost>()).AsReadOnly();
             Translators = (_translators = new List<TransServiceHost>()).AsReadOnly();
 
-            Domain = AppDomain.CurrentDomain;
+            LoadContext = loadContext;
         }
 
         public void Load(string name)
@@ -46,7 +47,7 @@ namespace TranslatorApk.Logic.PluginItems
                     {
                         try
                         {
-                            Assembly.LoadFrom(file);
+                            LoadContext.LoadFromAssemblyPath(file);
                         }
                         catch (Exception ex)
                         {
@@ -62,7 +63,7 @@ namespace TranslatorApk.Logic.PluginItems
 
             try
             {
-                plug = Assembly.LoadFrom(name);
+                plug = LoadContext.LoadFromAssemblyPath(name);
             }
             catch (Exception)
             {
@@ -96,11 +97,9 @@ namespace TranslatorApk.Logic.PluginItems
 
         private static object LoadService(Type type)
         {
-            var constructor = type.GetConstructor(new Type[0]);
+            var constructor = type.GetConstructor(Type.EmptyTypes);
 
-            return constructor?.Invoke(new object[0]);
+            return constructor?.Invoke(Array.Empty<object>());
         }
-
-        public override object InitializeLifetimeService() => null;
     }
 }

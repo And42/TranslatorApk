@@ -1,5 +1,4 @@
 ﻿G:\Programming\MyLang\Libs\AndroidHelper\AndroidHelper\bin\Release\AndroidHelper.dll
-G:\Programming\MyLang\MyProjects\TranslatorApk\TranslatorApkPluginLib\bin\Release\TranslatorApkPluginLib.dll
 only_dll
 C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.SfGrid.WPF.dll
 C:\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\precompiledassemblies\15.4.0.17\4.0\Syncfusion.Data.WPF.dll

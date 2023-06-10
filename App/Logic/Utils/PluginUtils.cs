@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Loader;
 using System.Windows;
 using TranslatorApk.Logic.Classes;
 using TranslatorApk.Logic.OrganisationItems;
@@ -24,17 +24,8 @@ namespace TranslatorApk.Logic.Utils
         /// <param name="path">Путь к файлу</param>
         public static void LoadPlugin(string path)
         {
-            AppDomain appDomain = 
-                AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(path) 
-                ?? throw new NullReferenceException("Path name is null"));
-
-            Type type = typeof(PluginHost);
-
-            var loader = (PluginHost)
-                appDomain.CreateInstanceAndUnwrap(
-                    type.Assembly.FullName,
-                    type.FullName ?? throw new NullReferenceException($"`{nameof(PluginHost)}.{nameof(type.FullName)}` is null")
-                );
+            var assemblyContext = new AssemblyLoadContext(name: Path.GetFileNameWithoutExtension(path), isCollectible: true);
+            var loader = new PluginHost(assemblyContext);
 
             loader.Load(path);
 
@@ -66,7 +57,7 @@ namespace TranslatorApk.Logic.Utils
 
             string pluginName = found.Name;
 
-            AppDomain.Unload(found.Domain);
+            found.LoadContext.Unload();
 
             GlobalVariables.Plugins.Remove(pluginName);
         }
