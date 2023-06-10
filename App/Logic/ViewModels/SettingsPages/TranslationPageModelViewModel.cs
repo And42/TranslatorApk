@@ -15,7 +15,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public string PageTitle { get; } = StringResources.TranslationSettings_Caption;
 
-        public Property<string[]> YesNoItems { get; }
+        public FieldProperty<string[]> YesNoItems { get; }
 
         public int FixOnlineTranslationResultsIndex
         {
@@ -45,7 +45,7 @@ namespace TranslatorApk.Logic.ViewModels.SettingsPages
 
         public TranslationPageViewModel()
         {
-            YesNoItems = new Property<string[]>();
+            YesNoItems = new FieldProperty<string[]>();
 
             RefreshData();
 

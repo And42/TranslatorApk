@@ -39,15 +39,15 @@ namespace TranslatorApk.Logic.ViewModels.Windows
         private readonly GlobalVariables _globalVariables = GlobalVariables.Instance;
         private readonly Window _window;
         
-        public ObservableRangeCollection<FoundItem> Files { get; } = new ObservableRangeCollection<FoundItem>();
+        public ObservableRangeCollection<FoundItem> Files { get; } = new();
         public ObservableRangeCollection<string> SearchAdds { get; }
 
         public Setting<bool> OnlyFullWords { get; }
         public Setting<bool> MatchCase { get; }
 
-        public Property<int> SearchBoxIndex { get; } = new Property<int>(-1);
-        public Property<string> TextToSearch { get; } = new Property<string>();
-        public Property<FoundItem> SelectedFile { get; } = new Property<FoundItem>();
+        public FieldProperty<int> SearchBoxIndex { get; } = new(-1);
+        public FieldProperty<string> TextToSearch { get; } = new();
+        public FieldProperty<FoundItem> SelectedFile { get; } = new();
 
         public IActionCommand FindFilesCommand { get; }
         public IActionCommand LoadSelectedFileCommand { get; }

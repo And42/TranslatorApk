@@ -69,18 +69,18 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
                 RefreshFilesList = Cont(StringResources.Refresh, vm.TV_RefreshFilesListCommand, "arrow_refresh.png", "Ctrl+R");
             }
 
-            private static CommandContainer Cont(string caption, ICommand command, string imageName, string gesture = null)
-                => new CommandContainer(caption, command, imageName, gesture);
+            private static CommandContainer Cont(string caption, ICommand command, string imageName, string gesture = null) =>
+                new(caption, command, imageName, gesture);
         }
 
         private CommandContainers _tvCommands;
         private CancellationTokenSource _filteringToken;
-        private readonly AsyncLock _filterLock = new AsyncLock();
+        private readonly AsyncLock _filterLock = new();
 
-        public Property<string> TV_FilterString { get; } = new Property<string>();
-        public Property<bool> TV_FilteringBoxIsVisible { get; } = new Property<bool>();
+        public FieldProperty<string> TV_FilterString { get; } = new();
+        public FieldProperty<bool> TV_FilteringBoxIsVisible { get; } = new();
 
-        public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new FilesTreeViewNodeModel();
+        public FilesTreeViewNodeModel FilesFilesTreeViewModel { get; } = new();
 
         public IActionCommand TV_OpenFilterBoxCommand { get; private set; }
         public IActionCommand TV_CloseFilterBoxCommand { get; private set; }
@@ -103,7 +103,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         private void InitTreeViewPart()
         {
-            ActionCommand ActCom(Action action) => new ActionCommand(action);
+            ActionCommand ActCom(Action action) => new(action);
             TVItemMenuCommand TVCom(Action<FilesTreeViewNodeModel> action) => new ActionCommand<FilesTreeViewNodeModel>(action);
 
             TV_OpenFilterBoxCommand = ActCom(TV_OpenFilterBoxCommand_Execute);
@@ -307,11 +307,11 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
             {
                 _tvCommands.OpenInExplorer,
                 _tvCommands.RefreshFilesList,
-                new CommandContainer(StringResources.Delete, TV_DeleteElementCommand, "folder_delete.png"),
+                new(StringResources.Delete, TV_DeleteElementCommand, "folder_delete.png"),
                 _tvCommands.AddNewLanguage,
                 _tvCommands.RemoveLanguages,
-                new CommandContainer(StringResources.Expand, TV_ExpandFolderCommand, "folders_explorer.png"),
-                new CommandContainer(StringResources.Collapse, TV_CollapseFolderCommand, "folders.png")
+                new(StringResources.Expand, TV_ExpandFolderCommand, "folders_explorer.png"),
+                new(StringResources.Collapse, TV_CollapseFolderCommand, "folders.png")
             };
 
             items.ForEach(it => AddMenuItem(builder, it, model));
@@ -321,13 +321,13 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
         {
             CommandContainer[] items =
             {
-                new CommandContainer(StringResources.Open, TV_OpenFileCommand, "open_source.png"),
-                new CommandContainer(StringResources.OpenWith, TV_OpenWithCommand, "open_share.png"),
-                new CommandContainer(StringResources.LoadWithTextStrings, TV_LoadAllInXmlCommand, "text.png"),
-                new CommandContainer(StringResources.Replace, TV_ReplaceFileCommand, "card_file.png"),
+                new(StringResources.Open, TV_OpenFileCommand, "open_source.png"),
+                new(StringResources.OpenWith, TV_OpenWithCommand, "open_share.png"),
+                new(StringResources.LoadWithTextStrings, TV_LoadAllInXmlCommand, "text.png"),
+                new(StringResources.Replace, TV_ReplaceFileCommand, "card_file.png"),
                 _tvCommands.OpenInExplorer,
                 _tvCommands.RefreshFilesList,
-                new CommandContainer(StringResources.Delete, TV_DeleteElementCommand, "page_delete.png"),
+                new(StringResources.Delete, TV_DeleteElementCommand, "page_delete.png"),
                 _tvCommands.AddNewLanguage,
                 _tvCommands.RemoveLanguages,
                 _tvCommands.Expand,

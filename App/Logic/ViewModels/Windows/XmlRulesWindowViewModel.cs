@@ -18,7 +18,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
     {
         public ObservableRangeCollection<CheckableSetting> Items { get; }
 
-        public Property<CheckableSetting> SelectedItem { get; }
+        public FieldProperty<CheckableSetting> SelectedItem { get; }
 
         public ICommand ChooseFileCommand { get; }
         public ICommand SaveChangesCommand { get; }
@@ -31,7 +31,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows
                 GlobalVariables.AppSettings.XmlRules.Select(it => new CheckableSetting(it, true))
             );
 
-            SelectedItem = new Property<CheckableSetting>();
+            SelectedItem = new FieldProperty<CheckableSetting>();
 
             ChooseFileCommand = new ActionCommand(ChooseFileCommand_Execute);
             SaveChangesCommand = new ActionCommand(SaveChangesCommand_Execute);

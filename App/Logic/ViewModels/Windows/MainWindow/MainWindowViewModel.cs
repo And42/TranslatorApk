@@ -30,7 +30,7 @@ namespace TranslatorApk.Logic.ViewModels.Windows.MainWindow
 
         public string LogBoxText => _logTextBuilder.ToString();
 
-        public Property<WindowState> MainWindowState { get; } = new Property<WindowState>();
+        public FieldProperty<WindowState> MainWindowState { get; } = new();
 
         public Apktools Apk;
 

@@ -24,22 +24,22 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 {
     internal class ChangesDetectorWindowViewModel : ViewModelBase
     {
-        public Property<int> ProgressValue { get; }
-        public Property<int> ProgressMax { get; }
+        public FieldProperty<int> ProgressValue { get; }
+        public FieldProperty<int> ProgressMax { get; }
 
-        public Property<string> CreateFirstFolder { get; }
-        public Property<string> CreateSecondFolder { get; }
-        public Property<string> CreateResultFolder { get; }
+        public FieldProperty<string> CreateFirstFolder { get; }
+        public FieldProperty<string> CreateSecondFolder { get; }
+        public FieldProperty<string> CreateResultFolder { get; }
 
-        public Property<string> TranslateFolder { get; }
-        public Property<string> TranslateDictionaryFolder { get; }
+        public FieldProperty<string> TranslateFolder { get; }
+        public FieldProperty<string> TranslateDictionaryFolder { get; }
 
-        public Property<string> CreateMoreFirstFolder { get; }
-        public Property<string> CreateMoreSecondFolder { get; }
-        public Property<string> CreateMoreResultFolder { get; }
+        public FieldProperty<string> CreateMoreFirstFolder { get; }
+        public FieldProperty<string> CreateMoreSecondFolder { get; }
+        public FieldProperty<string> CreateMoreResultFolder { get; }
 
-        public Property<string> TranslateMoreFolder { get; }
-        public Property<string> TranslateMoreDictionaryFolder { get; }
+        public FieldProperty<string> TranslateMoreFolder { get; }
+        public FieldProperty<string> TranslateMoreDictionaryFolder { get; }
 
         public string LogText => _logText.ToString();
 
@@ -65,22 +65,22 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public ChangesDetectorWindowViewModel()
         {
-            ProgressValue = new Property<int>();
-            ProgressMax = new Property<int>();
+            ProgressValue = new FieldProperty<int>();
+            ProgressMax = new FieldProperty<int>();
 
-            CreateFirstFolder = new Property<string>();
-            CreateSecondFolder = new Property<string>();
-            CreateResultFolder = new Property<string>();
+            CreateFirstFolder = new FieldProperty<string>();
+            CreateSecondFolder = new FieldProperty<string>();
+            CreateResultFolder = new FieldProperty<string>();
 
-            TranslateFolder = new Property<string>();
-            TranslateDictionaryFolder = new Property<string>();
+            TranslateFolder = new FieldProperty<string>();
+            TranslateDictionaryFolder = new FieldProperty<string>();
 
-            CreateMoreFirstFolder = new Property<string>();
-            CreateMoreSecondFolder = new Property<string>();
-            CreateMoreResultFolder = new Property<string>();
+            CreateMoreFirstFolder = new FieldProperty<string>();
+            CreateMoreSecondFolder = new FieldProperty<string>();
+            CreateMoreResultFolder = new FieldProperty<string>();
 
-            TranslateMoreFolder = new Property<string>();
-            TranslateMoreDictionaryFolder = new Property<string>();
+            TranslateMoreFolder = new FieldProperty<string>();
+            TranslateMoreDictionaryFolder = new FieldProperty<string>();
 
             CreateChooseFirstCommand = new ActionCommand(CreateChooseFirstCommand_Execute, NotLoading);
             CreateChooseSecondCommand = new ActionCommand(CreateChooseSecondCommand_Execute, NotLoading);

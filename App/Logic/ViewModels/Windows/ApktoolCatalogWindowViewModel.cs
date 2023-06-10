@@ -24,9 +24,9 @@ namespace TranslatorApk.Logic.ViewModels.Windows
 
         public ObservableRangeCollection<DownloadableApktool> ServerApktools { get; } = new ObservableRangeCollection<DownloadableApktool>();
 
-        public Property<int> Progress { get; } = new Property<int>();
-        public Property<int> ProgressMax { get; } = new Property<int>(100);
-        public Property<bool> ProgressBarIsVisible { get; } = new Property<bool>();
+        public FieldProperty<int> Progress { get; } = new();
+        public FieldProperty<int> ProgressMax { get; } = new(100);
+        public FieldProperty<bool> ProgressBarIsVisible { get; } = new();
 
         public IActionCommand<DownloadableApktool> ItemClickedCommand { get; }
 

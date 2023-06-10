@@ -17,7 +17,7 @@ namespace TranslatorApk.Logic.OrganisationItems
 {
     internal class GlobalVariables
     {
-        public static GlobalVariables Instance { get; } = new GlobalVariables();
+        public static GlobalVariables Instance { get; } = new();
 
         static GlobalVariables()
         {
@@ -73,17 +73,17 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Файл текущего проекта (.apk)
         /// </summary>
-        public Property<string> CurrentProjectFile { get; } = new Property<string>();
+        public FieldProperty<string> CurrentProjectFile { get; } = new();
 
         /// <summary>
         /// Папка текущего проекта
         /// </summary>
-        public Property<string> CurrentProjectFolder { get; } = new Property<string>();
+        public FieldProperty<string> CurrentProjectFolder { get; } = new();
 
         /// <summary>
         /// Текущий сервис перевода
         /// </summary>
-        public Property<OneTranslationService> CurrentTranslationService { get; } = new Property<OneTranslationService>();
+        public FieldProperty<OneTranslationService> CurrentTranslationService { get; } = new();
 
         private GlobalVariables()
         {
@@ -99,7 +99,7 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Словарь переводов сессии
         /// </summary>
-        public Dictionary<string, string> SessionDictionary { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> SessionDictionary { get; } = new();
 
         /// <summary>
         /// Путь к exe файлу
@@ -166,13 +166,13 @@ namespace TranslatorApk.Logic.OrganisationItems
         /// <summary>
         /// Словарь плагинов
         /// </summary>
-        public static readonly Dictionary<string, PluginHost> Plugins = new Dictionary<string, PluginHost>();
+        public static readonly Dictionary<string, PluginHost> Plugins = new();
 
         #endregion
 
         public static AppSettings AppSettings { get; }
 
-        public static Client BugSnagClient { get; } = new Client("6cefaf3c36c7e256621bdb6d09c4d599");
+        public static Client BugSnagClient { get; } = new("6cefaf3c36c7e256621bdb6d09c4d599");
 
         /// <summary>
         /// Путь к текущему apktool.jar

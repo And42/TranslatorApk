@@ -77,13 +77,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="MVVM_Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\MVVM_Tools.dll</HintPath>
-    </Reference>
-    <Reference Include="SettingsManager">
-      <HintPath>Libraries\SettingsManager.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4400.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Syncfusion.Data.WPF.dll</HintPath>
@@ -178,22 +171,20 @@
     <None Update="AdminScripter.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Libraries\AndroidHelper.dll" />
-    <Content Include="Libraries\SettingsManager.dll" />
-    <Resource Include="Libraries\SettingsManager.xml" />
-    <Resource Include="Libraries\AndroidHelper.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Bugsnag" Version="2.1.0" />
+    <PackageReference Include="And42.SettingsManager" Version="1.1.4.1" />
+    <PackageReference Include="Bugsnag" Version="3.1.0" />
     <PackageReference Include="Expression.Blend.Sdk.WPF" Version="1.0.1" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.4" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
     <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
     <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Nito.AsyncEx" Version="4.0.1" />
-    <PackageReference Include="NLog" Version="4.5.6" />
+    <PackageReference Include="MVVM_Tools" Version="1.6.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+    <PackageReference Include="NLog" Version="5.2.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
