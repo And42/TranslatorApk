@@ -1,31 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6310201-A545-4CD7-9872-462D21CC0B59}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TranslatorApk</RootNamespace>
     <AssemblyName>TranslatorApk</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
     <SupportedCultures>de;lt;ru;uk-UA;vi-VN</SupportedCultures>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName></SccProjectName>
+    <SccLocalPath></SccLocalPath>
+    <SccAuxPath></SccAuxPath>
+    <SccProvider></SccProvider>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -40,47 +24,38 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <FileVersion>1.5.2.0</FileVersion>
+    <NeutralLanguage>ru-RU</NeutralLanguage>
+    <Title>TranslatorApk</Title>
+    <Authors>Andrey Skobtsov</Authors>
+    <Description>Программа для перевода андроид приложений</Description>
+    <Copyright>Andrey Skobtsov</Copyright>
+    <PackageProjectUrl>https://github.com/And42/TranslatorApk</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/And42/TranslatorApk</RepositoryUrl>
+    <Company>Andrey Skobtsov</Company>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <LangVersion>latest</LangVersion>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;/F 10485760</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <LangVersion>latest</LangVersion>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>TranslatorApk.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>Resources\Icons\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -94,63 +69,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\AndroidTranslator.dll</HintPath>
     </Reference>
-    <Reference Include="Bugsnag, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bugsnag.2.1.0\lib\net40\Bugsnag.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.8.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.4\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Windows.Shell, Version=3.0.50506.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPF.Shell.Integration.Library.2.0\lib\net30\Microsoft.Windows.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MVVM_Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\MVVM_Tools.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net40\Nito.AsyncEx.dll</HintPath>
-    </Reference>
-    <Reference Include="Nito.AsyncEx.Concurrent, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net40\Nito.AsyncEx.Concurrent.dll</HintPath>
-    </Reference>
-    <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net40\Nito.AsyncEx.Enlightenment.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.6\lib\net40-client\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SettingsManager">
       <HintPath>Libraries\SettingsManager.dll</HintPath>
@@ -167,661 +96,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Syncfusion.Shared.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net" />
-    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="TranslatorApkPluginLib, Version=1.1.6190.856, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\TranslatorApkPluginLib.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Logic\AttachedProperties\Grid.cs" />
-    <Compile Include="Logic\Classes\ActionHost.cs" />
-    <Compile Include="Logic\Classes\ContextMenuBuilder.cs" />
-    <Compile Include="Logic\Classes\DownloadableApktool.cs" />
-    <Compile Include="Logic\Classes\LoadingProcessWindowInvoker.cs" />
-    <Compile Include="Logic\Classes\ObservableRangeCollection.cs" />
-    <Compile Include="Logic\Classes\PreviewWindowHandler.cs" />
-    <Compile Include="Logic\Classes\ShellIcon.cs" />
-    <Compile Include="Logic\Classes\ViewModelBase.cs" />
-    <Compile Include="Logic\Controls\ScrollableTextBox.cs" />
-    <Compile Include="Logic\Interfaces\IViewModelBase.cs" />
-    <Compile Include="Logic\OrganisationItems\AppSettings.cs" />
-    <Compile Include="Logic\OrganisationItems\LanguageCodesHelper.cs" />
-    <Compile Include="Logic\UserControls\BusyContainer.xaml.cs">
-      <DependentUpon>BusyContainer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Logic\UserControls\EditableTextBlock.xaml.cs">
-      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Logic\Utils\AndroidFilesUtils.cs" />
-    <Compile Include="Logic\Utils\CollectionUtils.cs" />
-    <Compile Include="Logic\Utils\ExceptionUtils.cs" />
-    <Compile Include="Logic\Utils\IOUtils.cs" />
-    <Compile Include="Logic\Utils\ReflectionUtils.cs" />
-    <Compile Include="Logic\Utils\StringUtils.cs" />
-    <Compile Include="Logic\Utils\ThemeUtils.cs" />
-    <Compile Include="Logic\Utils\TranslationUtils.cs" />
-    <Compile Include="Logic\Utils\WebUtils.cs" />
-    <Compile Include="Logic\ViewModels\SettingsPages\AppSettingsPageModelViewModel.cs" />
-    <Compile Include="Logic\ViewModels\SettingsPages\EditorSettingsPageViewModel.cs" />
-    <Compile Include="Logic\ViewModels\TreeViewModels\SettingsTreeViewNodeModel.cs" />
-    <Compile Include="Logic\ViewModels\TreeViewModels\TreeViewNodeModelBase.cs" />
-    <Compile Include="Logic\Converters\EditorWindowFileNameConverter.cs" />
-    <Compile Include="Logic\Converters\EmptyStringToVisibilityConverter.cs" />
-    <Compile Include="Logic\Converters\PercentageTextConverter.cs" />
-    <Compile Include="Logic\EventManagerLogic\EventManager.cs" />
-    <Compile Include="Logic\EventManagerLogic\PubSubEvent.cs" />
-    <Compile Include="Logic\EventManagerLogic\QueueEventManager.cs" />
-    <Compile Include="Logic\Events\EditStringEvent.cs" />
-    <Compile Include="Logic\Interfaces\ILoadingProcessWindowInvoker.cs" />
-    <Compile Include="Logic\Interfaces\IRaisePropertyChanged.cs" />
-    <Compile Include="Logic\Interfaces\SettingsPages\ISettingsPageModel.cs" />
-    <Compile Include="Logic\Events\AddEditableFilesEvent.cs" />
-    <Compile Include="Logic\Events\EditorScrollToFileAndSelectEvent.cs" />
-    <Compile Include="Logic\Events\EditorScrollToStringAndSelectEvent.cs" />
-    <Compile Include="Logic\Events\EditorWindowTranslateTextEvent.cs" />
-    <Compile Include="Logic\OrganisationItems\NotificationService.cs" />
-    <Compile Include="Logic\OrganisationItems\WindowManager.cs" />
-    <Compile Include="Logic\Utils\ImageUtils.cs" />
-    <Compile Include="Logic\Utils\PluginUtils.cs" />
-    <Compile Include="Logic\Utils\SfDataGridUtils.cs" />
-    <Compile Include="Logic\ViewModels\SettingsPages\SettingsViewModel.cs" />
-    <Compile Include="Logic\ViewModels\SettingsPages\TranslationPageModelViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\AboutProgramWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\EditorSearchWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.MainButtons.cs" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Functions.cs" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Menu.cs" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.TreeView.cs" />
-    <Compile Include="Logic\ViewModels\Windows\RemoveLanguagesWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\AddLanguageWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\ApktoolCatalogWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\ChangesDetectorWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\PluginsWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\SearchWindowViewModel.cs" />
-    <Compile Include="Logic\ViewModels\Windows\XmlRulesWindowViewModel.cs" />
-    <Compile Include="Logic\WebServices\BaiduTranslateService.cs" />
-    <Compile Include="Logic\Classes\CheckableSetting.cs" />
-    <Compile Include="Logic\Classes\ComparisonWrapper.cs" />
-    <Compile Include="Logic\Classes\GridSelectionControllerExt.cs" />
-    <Compile Include="Logic\Classes\InstallOptionsEnum.cs" />
-    <Compile Include="Logic\Classes\OneFoundItem.cs" />
-    <Compile Include="Logic\Classes\OneTranslationService.cs" />
-    <Compile Include="Logic\PluginItems\PluginHost.cs" />
-    <Compile Include="Logic\PluginItems\PluginPart.cs" />
-    <Compile Include="Logic\Classes\TransServiceHost.cs" />
-    <Compile Include="Logic\Converters\DoubleToMBSizeConverter.cs" />
-    <Compile Include="Logic\Converters\NullableToVisibilityConverter.cs" />
-    <Compile Include="Logic\Converters\PathModiferConverter.cs" />
-    <Compile Include="Logic\Converters\TranslateServiceToStringConverter.cs" />
-    <Compile Include="Logic\Converters\VisibilityToBoolConverter.cs" />
-    <Compile Include="Logic\Converters\WindowTitleConverter.cs" />
-    <Compile Include="Logic\Utils\CommonUtils.cs" />
-    <Compile Include="Logic\Classes\Options.cs" />
-    <Compile Include="Logic\Classes\Setting.cs" />
-    <Compile Include="Logic\WebServices\GoogleTranslateServiceSecond.cs" />
-    <Compile Include="Logic\WebServices\TranslateService.cs" />
-    <Compile Include="Logic\ViewModels\TreeViewModels\FilesTreeViewNodeModel.cs" />
-    <Compile Include="Logic\WebServices\GoogleTranslateService.cs" />
-    <Compile Include="Logic\WebServices\YandexTranslateService.cs" />
-    <Compile Include="Logic\OrganisationItems\GlobalResources.cs" />
-    <Compile Include="Logic\OrganisationItems\GlobalVariables.cs" />
-    <Compile Include="Logic\Interfaces\IHaveChildren.cs" />
-    <Compile Include="Logic\Converters\InstallTextConverter.cs" />
-    <Compile Include="Pages\Settings\AppSettingsPage.xaml.cs">
-      <DependentUpon>AppSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings\EditorSettingsPage.xaml.cs">
-      <DependentUpon>EditorSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings\TranslationSettingsPage.xaml.cs">
-      <DependentUpon>TranslationSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Files\FileResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Localizations\StringResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StringResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Themes\Elements\WindowStyle.cs" />
-    <Compile Include="Windows\AboutProgramWindow.xaml.cs">
-      <DependentUpon>AboutProgramWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\RemoveLanguagesWindow.xaml.cs">
-      <DependentUpon>RemoveLanguagesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\AddLanguageWindow.xaml.cs">
-      <DependentUpon>AddLanguageWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ApktoolCatalogWindow.xaml.cs">
-      <DependentUpon>ApktoolCatalogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ChangesDetectorWindow.xaml.cs">
-      <DependentUpon>ChangesDetectorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\DownloadWindow.xaml.cs">
-      <DependentUpon>DownloadWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\EditorSearchWindow.xaml.cs">
-      <DependentUpon>EditorSearchWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\LoadingProcessWindow.xaml.cs">
-      <DependentUpon>LoadingProcessWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MessBox.xaml.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Logic\Converters\StringToBoolConverter.cs" />
-    <Compile Include="Logic\Converters\StringToIntConverter.cs" />
-    <Compile Include="Windows\PluginsWindow.xaml.cs">
-      <DependentUpon>PluginsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\PreviewWindow.xaml.cs">
-      <DependentUpon>PreviewWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\SearchWindow.xaml.cs">
-      <DependentUpon>SearchWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\StringEditorWindow.xaml.cs">
-      <DependentUpon>StringEditorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\UpdateWindow.xaml.cs" />
-    <Compile Include="Windows\XmlRulesWindow.xaml.cs">
-      <DependentUpon>XmlRulesWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Logic\UserControls\BusyContainer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Logic\UserControls\EditableTextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings\AppSettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Settings\EditorSettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Settings\TranslationSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Dictionaries\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\ButtonResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\CheckBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\ComboBoxResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\ContextMenuResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\GridViewResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\ListBoxResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\ListViewResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\SettingsWindowResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\SfDataGridResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\TabItemResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\ToolTipResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\TreeViewItemResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\TreeViewResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\GridView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ListBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ContextMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ScrollViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\MenuItemResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\MenuResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\PasswordBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\ProgressBarResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\RadioButtonResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\ScrollBarResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\SliderResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\TextBlockResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\TextBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Dark\ThemeResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\TabControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\TabItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ToolTip.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\TreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ComboBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ContextMenuResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\GridViewResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\ListBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ListViewResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\SettingsWindowResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\SfDataGridResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\TabItemResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ToolTipResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\TreeViewItemResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\TreeViewResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark\WindowResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\Button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\TextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\ButtonResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\CheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\Menu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\MenuItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\MenuItemResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\MenuResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\PasswordBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\PasswordBoxResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ProgressBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ProgressBarResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\RadioButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\CheckBoxResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\RadioButtonResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\ScrollBarResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\Slider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\SliderResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\TextBlockResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\TextBoxResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Light\ThemeResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Elements\ThemeDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light\WindowResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Elements\WindowStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\AboutProgramWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\RemoveLanguagesWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\AddLanguageWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ApktoolCatalogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ChangesDetectorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\DownloadWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\EditorSearchWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\LoadingProcessWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MessBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\EditorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\LoadingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Windows\EditorWindow.xaml.cs">
-      <DependentUpon>EditorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\LoadingWindow.xaml.cs">
-      <DependentUpon>LoadingWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Windows\PluginsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\PreviewWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\SearchWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\SettingsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\StringEditorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\UpdateWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\XmlRulesWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Files\FileResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FileResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.de.resx" />
-    <EmbeddedResource Include="Resources\Localizations\StringResources.en-US.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.lt.resx" />
-    <EmbeddedResource Include="Resources\Localizations\StringResources.resx">
-      <SubType>Designer</SubType>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.uk-UA.resx" />
-    <EmbeddedResource Include="Resources\Localizations\StringResources.vi-VN.resx" />
-    <None Include="Libraries\zzz_refresh_references.ps1" />
-    <None Include="Libraries\zzz_refresh_references_pause.ps1" />
-    <Compile Include="Logic\ViewModels\Windows\MainWindow\MainWindowViewModel.Common.cs" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <AppDesigner Include="Properties\" />
-    <None Include="TranslatorApk.ruleset" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\app_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\arrow_refresh.png" />
@@ -883,71 +169,42 @@
     <Resource Include="Resources\Icons\bullet_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Libraries\zzz_dependencies.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Libraries\AlphaFS.dll" />
-    <None Include="Libraries\AlphaFS.xml" />
-    <None Include="Libraries\AndroidTranslator.dll" />
-    <None Include="Libraries\AndroidTranslator.xml" />
-    <None Include="Libraries\ICSharpCode.SharpZipLib.dll" />
-    <None Include="Libraries\ICSharpCode.SharpZipLib.xml" />
-    <None Include="Libraries\MVVM_Tools.dll" />
-    <None Include="Libraries\MVVM_Tools.xml" />
-    <None Include="Libraries\SharpCompress.dll" />
-    <None Include="Libraries\SmaliParser.dll" />
-    <None Include="Libraries\SmaliParser.xml" />
-    <None Include="Libraries\TranslatorApkPluginLib.dll" />
-    <None Include="Libraries\TranslatorApkPluginLib.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Libraries\Syncfusion.Data.WPF.dll" />
-    <None Include="Libraries\Syncfusion.Data.WPF.xml" />
-    <None Include="Libraries\Syncfusion.SfGrid.WPF.dll" />
-    <None Include="Libraries\Syncfusion.SfGrid.WPF.xml" />
-    <None Include="Libraries\Syncfusion.Shared.WPF.dll" />
-    <None Include="Libraries\Syncfusion.Shared.WPF.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Icons\search_field.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Files\language_iso_to_country_iso.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AdminScripter.exe">
+    <None Update="AdminScripter.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Libraries\AndroidHelper.dll" />
-    <None Include="Libraries\Castle.Core.dll" />
-    <None Include="Libraries\Castle.Core.xml" />
     <Content Include="Libraries\SettingsManager.dll" />
     <Resource Include="Libraries\SettingsManager.xml" />
     <Resource Include="Libraries\AndroidHelper.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-    <Error Condition="!Exists('..\packages\Resource.Embedder.1.2.5\build\Resource.Embedder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Resource.Embedder.1.2.5\build\Resource.Embedder.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.3.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.0.0\build\Costura.Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.3.1.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.1.3\build\Fody.targets'))" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="Bugsnag" Version="2.1.0" />
+    <PackageReference Include="Expression.Blend.Sdk.WPF" Version="1.0.1" />
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.4" />
+    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+    <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Nito.AsyncEx" Version="4.0.1" />
+    <PackageReference Include="NLog" Version="4.5.6" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
+    <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+    <PackageReference Include="WPF.Shell.Integration.Library" Version="2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources\Localizations\StringResources.be-BY.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tests" />
+  </ItemGroup>
+  <PropertyGroup />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Import Project="..\packages\Resource.Embedder.1.2.5\build\Resource.Embedder.targets" Condition="Exists('..\packages\Resource.Embedder.1.2.5\build\Resource.Embedder.targets')" />
-  <Import Project="..\packages\Costura.Fody.3.0.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.3.0.0\build\Costura.Fody.targets')" />
-  <Import Project="..\packages\Fody.3.1.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.1.3\build\Fody.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

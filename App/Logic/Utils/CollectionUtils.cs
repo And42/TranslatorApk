@@ -21,14 +21,6 @@ namespace TranslatorApk.Logic.Utils
             return Array.IndexOf(array, value) != -1;
         }
 
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
-        {
-            if (collection is HashSet<T> set)
-                return set;
-
-            return new HashSet<T>(collection);
-        }
-
         /// <summary>
         /// Добавляет в коллекцию непустой элемент
         /// </summary>
@@ -115,16 +107,6 @@ namespace TranslatorApk.Logic.Utils
 
             foreach (T item in collection)
                 action(item);
-        }
-
-        public static IEnumerable<T> DistinctBy<T, R>(this IEnumerable<T> collection, Func<T, R> selector)
-        {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            if (selector == null)
-                throw new ArgumentNullException(nameof(selector));
-
-            return collection.GroupBy(selector).Select(it => it.First());
         }
 
         public static R[] SelectArray<T, R>(this T[] collection, Converter<T, R> converter)
